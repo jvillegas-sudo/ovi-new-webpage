@@ -19,6 +19,8 @@ export function IndustrialHotspots({ scrollRef, hoverRef }: Props) {
   const meshes = useRef<(THREE.Mesh | null)[]>([]);
   const rings = useRef<(THREE.Mesh | null)[]>([]);
   const color = useMemo(() => new THREE.Color(), []);
+  const meshScale = useMemo(() => new THREE.Vector3(), []);
+  const ringScale = useMemo(() => new THREE.Vector3(), []);
 
   useFrame((_, delta) => {
     const activeIndex = getEnvironmentIndex(scrollRef.current);
@@ -32,14 +34,10 @@ export function IndustrialHotspots({ scrollRef, hoverRef }: Props) {
       const targetScale = emphasized ? 1 : 0.55;
       const targetOpacity = emphasized ? 0.95 : 0.35;
 
-      mesh.scale.lerp(
-        new THREE.Vector3(targetScale, targetScale, targetScale),
-        delta * 3.2,
-      );
-      ring.scale.lerp(
-        new THREE.Vector3(targetScale * 1.8, targetScale * 1.8, 1),
-        delta * 3,
-      );
+      meshScale.set(targetScale, targetScale, targetScale);
+      mesh.scale.lerp(meshScale, delta * 3.2);
+      ringScale.set(targetScale * 1.8, targetScale * 1.8, 1);
+      ring.scale.lerp(ringScale, delta * 3);
 
       const ringMaterial = ring.material as THREE.MeshBasicMaterial;
       ringMaterial.opacity = THREE.MathUtils.lerp(

@@ -48,6 +48,9 @@ export function IndustrialEnvironment({ scrollRef, mouseRef }: Props) {
   const workingSecondary = useMemo(() => new THREE.Color(), []);
   const nextColor = useMemo(() => new THREE.Color(), []);
   const scratchScale = useMemo(() => new THREE.Vector3(), []);
+  const ringScale = useMemo(() => new THREE.Vector3(), []);
+  const productScale = useMemo(() => new THREE.Vector3(), []);
+  const nextFloor = useMemo(() => new THREE.Color(), []);
 
   const architectureInstances = useMemo<InstanceDescriptor[]>(() => {
     return INDUSTRY_ENVIRONMENTS.flatMap((environment) => {
@@ -165,7 +168,7 @@ export function IndustrialEnvironment({ scrollRef, mouseRef }: Props) {
 
     if (floorRef.current) {
       const material = floorRef.current.material as THREE.MeshStandardMaterial;
-      material.color.lerp(new THREE.Color(current.palette.floor), delta * 2.5);
+      material.color.lerp(nextFloor.set(current.palette.floor), delta * 2.5);
       material.emissive.lerp(workingPrimary, delta * 1.4);
       material.emissiveIntensity = 0.18 + environmentProgress * 0.12;
     }
@@ -207,7 +210,8 @@ export function IndustrialEnvironment({ scrollRef, mouseRef }: Props) {
       if (ring) {
         const material = ring.material as THREE.MeshStandardMaterial;
         const targetScale = 0.85 + solutionProgress * 2.3;
-        ring.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 3);
+        ringScale.set(targetScale, targetScale, targetScale);
+        ring.scale.lerp(ringScale, delta * 3);
         material.emissive.set(environment.palette.primary);
         material.emissiveIntensity = 0.3 + solutionProgress * 2.2;
         material.opacity = 0.18 + solutionProgress * 0.5;
@@ -260,7 +264,8 @@ export function IndustrialEnvironment({ scrollRef, mouseRef }: Props) {
       );
       mesh.rotation.y += delta * (0.18 + index * 0.04);
       const targetScale = 0.001 + transitionProgress * (0.75 + index * 0.08);
-      mesh.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), delta * 2.8);
+      productScale.set(targetScale, targetScale, targetScale);
+      mesh.scale.lerp(productScale, delta * 2.8);
       material.opacity = THREE.MathUtils.lerp(
         material.opacity,
         transitionProgress * 0.85,

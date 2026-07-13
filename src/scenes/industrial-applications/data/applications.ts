@@ -305,5 +305,5 @@ export function getHeadline(progress: number): string {
     INDUSTRY_HEADLINES.length - 1,
     Math.floor(clamp01(progress) * INDUSTRY_HEADLINES.length),
   );
-  return INDUSTRY_HEADLINES[index] ?? INDUSTRY_HEADLINES[0];
+  return INDUSTRY_HEADLINES[index];
 }

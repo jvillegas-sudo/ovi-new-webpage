@@ -25,6 +25,8 @@ export function IndustrialParticleField({ count, scrollRef }: Props) {
   const material = useMemo(() => createIndustrialParticleMaterial(), []);
   const scratchA = useMemo(() => new THREE.Color(), []);
   const scratchB = useMemo(() => new THREE.Color(), []);
+  const nextPrimary = useMemo(() => new THREE.Color(), []);
+  const nextSecondary = useMemo(() => new THREE.Color(), []);
 
   useEffect(() => {
     return () => {
@@ -47,11 +49,11 @@ export function IndustrialParticleField({ count, scrollRef }: Props) {
     material.uniforms.uScroll.value = progress;
 
     scratchA.set(current.palette.primary).lerp(
-      new THREE.Color(next.palette.primary),
+      nextPrimary.set(next.palette.primary),
       localProgress,
     );
     scratchB.set(current.palette.secondary).lerp(
-      new THREE.Color(next.palette.secondary),
+      nextSecondary.set(next.palette.secondary),
       localProgress,
     );
 
