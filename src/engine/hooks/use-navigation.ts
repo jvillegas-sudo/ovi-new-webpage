@@ -7,18 +7,15 @@
 
 "use client";
 
-import { useCallback } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 import { useEngineStore } from "@/store/engine-store";
 
 export const useNavigation = () => {
   return useEngineStore(
-    useCallback(
-      (s) => ({
-        activeNavHref: s.activeNavHref,
-        currentScene: s.currentScene,
-      }),
-      [],
-    ),
+    useShallow((s) => ({
+      activeNavHref: s.activeNavHref,
+      currentScene: s.currentScene,
+    })),
   );
 };
