@@ -7,21 +7,18 @@
 
 "use client";
 
-import { useCallback } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 import type { SceneId } from "@/engine/types";
 import { useEngineStore } from "@/store/engine-store";
 
 export const useScene = () => {
   return useEngineStore(
-    useCallback(
-      (s) => ({
-        currentScene: s.currentScene as SceneId,
-        previousScene: s.previousScene as SceneId | null,
-        sceneProgress: s.sceneProgress,
-        isInitialized: s.isInitialized,
-      }),
-      [],
-    ),
+    useShallow((s) => ({
+      currentScene: s.currentScene as SceneId,
+      previousScene: s.previousScene as SceneId | null,
+      sceneProgress: s.sceneProgress,
+      isInitialized: s.isInitialized,
+    })),
   );
 };

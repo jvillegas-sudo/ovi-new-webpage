@@ -7,6 +7,7 @@
  * Without DOM registration, progress-based detection is used instead.
  */
 
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import type { EventBus } from "@/engine/events/event-bus";
@@ -25,6 +26,11 @@ export class SceneManager {
   init(eventBus: EventBus): void {
     this.eventBus = eventBus;
 
+    // Ensure ScrollTrigger is registered before any triggers are created.
+    // This is also called in registerElement() as a defensive guard because
+    // child useEffect hooks can call registerElement() before this init() runs.
+    gsap.registerPlugin(ScrollTrigger);
+
     // Drive scene detection from scroll:update events.
     this.unsubscribeScroll = eventBus.on("scroll:update", (scrollState) => {
       this.updateFromProgress(scrollState.progress);
@@ -39,6 +45,11 @@ export class SceneManager {
   registerElement(sceneId: SceneId, element: Element): void {
     const config = SCENES.find((s) => s.id === sceneId);
     if (!config) return;
+
+    // Guard: registerPlugin is idempotent — safe to call here because child
+    // useEffect hooks fire before StoryEngineProvider's useEffect (where
+    // engine.init() runs), so ScrollTrigger may not be registered yet.
+    gsap.registerPlugin(ScrollTrigger);
 
     // Remove existing trigger for this scene if any.
     this.unregisterElement(sceneId);
