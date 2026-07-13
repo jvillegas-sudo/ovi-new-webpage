@@ -17,6 +17,7 @@ export type SceneId =
   | "ovi-logo"
   | "technology"
   | "laboratory"
+  | "industrial-applications"
   | "biotechnology"
   | "products"
   | "industries"

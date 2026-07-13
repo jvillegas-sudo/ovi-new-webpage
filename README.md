@@ -33,6 +33,31 @@ Production-grade frontend foundation for OVI's cinematic digital platform.
 - `/src/store`: global client state slices.
 - `/src/assets`: static brand assets.
 
+## Sprint 007 — Industrial Applications Experience
+
+### What Was Added
+
+- A new `industrial-applications` scene module in `/src/scenes/industrial-applications`.
+- Eight continuously transforming industrial environments: hospital, hotel, food processing, manufacturing, mining, oil & gas, transportation, and smart city infrastructure.
+- A new story-engine scene registration so the laboratory now hands off into industrial applications before the future products reveal.
+- An accessible non-WebGL fallback with the same narrative order and KPI data.
+
+### Architecture Decisions
+
+1. **Single continuous corridor**: the experience uses one uninterrupted spatial spine instead of page-style scene swaps, so every industry feels like a transformation of the same world.
+2. **Data-driven environments**: industry content, KPI values, palettes, labels, and interaction copy live in `data/applications.ts`, making future tuning possible without rewriting scene logic.
+3. **SSR-safe WebGL boundary**: the canvas stays inside a dynamic client-only wrapper (`IndustrialCanvas.tsx`) to keep Next.js rendering safe.
+4. **Performance-first rendering**: the scene relies on instanced architecture meshes, shader-driven particles, adaptive DPR, and device-tier particle counts instead of heavy imported assets.
+5. **Accessible interaction model**: reduced-motion users receive a full fallback experience, screen readers get scene announcements from the shared engine, and keyboard users can jump between environments from the overlay rail.
+6. **Products handoff without building Products**: the scene ends with dissolving silhouettes that only prepare the transition for Sprint 008.
+
+### Extending The Experience
+
+- Update `INDUSTRY_ENVIRONMENTS` to add or retune industries, KPI values, hidden layers, and color systems.
+- Adjust camera timing in `components/IndustrialCameraRig.tsx` when changing corridor spacing or story rhythm.
+- Tune rendering budgets in `IndustrialCanvasInner.tsx` and `components/IndustrialParticleField.tsx` for new performance targets.
+- Refine the accessible fallback in `IndustrialApplicationsFallback.tsx` whenever scene content changes.
+
 ## Tooling Foundation
 
 - **ESLint**: `npm run lint`

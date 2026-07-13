@@ -11,7 +11,7 @@
 import type { SceneConfig } from "@/engine/types";
 
 /** Total number of scenes in the story (used to compute scroll ranges). */
-const SCENE_COUNT = 11;
+const SCENE_COUNT = 13;
 
 /**
  * Creates a normalised scroll range [start, end] for scene at index `i`.
@@ -92,11 +92,39 @@ export const SCENES: readonly SceneConfig[] = [
     navHref: "/technology",
   },
   {
-    id: "biotechnology",
+    id: "laboratory",
     index: 5,
-    label: "Scene 06 — Biotechnology",
+    label: "Scene 06 — Digital Laboratory",
     scrollStart: range(5)[0],
     scrollEnd: range(5)[1],
+    cameraState: {
+      position: [0, 1.5, 4],
+      target: [0, 0.4, 0],
+      fov: 48,
+    },
+    transition: "light-evolution",
+    navHref: "/technology",
+  },
+  {
+    id: "industrial-applications",
+    index: 6,
+    label: "Scene 07 — Industrial Applications",
+    scrollStart: range(6)[0],
+    scrollEnd: range(6)[1],
+    cameraState: {
+      position: [0, 2.4, 12],
+      target: [0, 0.5, 2],
+      fov: 48,
+    },
+    transition: "camera-travel",
+    navHref: "/industries",
+  },
+  {
+    id: "biotechnology",
+    index: 7,
+    label: "Scene 08 — Biotechnology",
+    scrollStart: range(7)[0],
+    scrollEnd: range(7)[1],
     cameraState: {
       position: [-2, 1, 6],
       target: [0, 0, 0],
@@ -107,10 +135,10 @@ export const SCENES: readonly SceneConfig[] = [
   },
   {
     id: "products",
-    index: 6,
-    label: "Scene 07 — Products",
-    scrollStart: range(6)[0],
-    scrollEnd: range(6)[1],
+    index: 8,
+    label: "Scene 09 — Products",
+    scrollStart: range(8)[0],
+    scrollEnd: range(8)[1],
     cameraState: {
       position: [0, -1, 7],
       target: [0, 0, 0],
@@ -121,10 +149,10 @@ export const SCENES: readonly SceneConfig[] = [
   },
   {
     id: "industries",
-    index: 7,
-    label: "Scene 08 — Industries",
-    scrollStart: range(7)[0],
-    scrollEnd: range(7)[1],
+    index: 9,
+    label: "Scene 10 — Industries",
+    scrollStart: range(9)[0],
+    scrollEnd: range(9)[1],
     cameraState: {
       position: [3, 0, 5],
       target: [0, 0, 0],
@@ -135,10 +163,10 @@ export const SCENES: readonly SceneConfig[] = [
   },
   {
     id: "impact-dashboard",
-    index: 8,
-    label: "Scene 09 — Impact Dashboard",
-    scrollStart: range(8)[0],
-    scrollEnd: range(8)[1],
+    index: 10,
+    label: "Scene 11 — Impact Dashboard",
+    scrollStart: range(10)[0],
+    scrollEnd: range(10)[1],
     cameraState: {
       position: [0, 2, 8],
       target: [0, 0, 0],
@@ -149,10 +177,10 @@ export const SCENES: readonly SceneConfig[] = [
   },
   {
     id: "ovi-os",
-    index: 9,
-    label: "Scene 10 — OVI OS",
-    scrollStart: range(9)[0],
-    scrollEnd: range(9)[1],
+    index: 11,
+    label: "Scene 12 — OVI OS",
+    scrollStart: range(11)[0],
+    scrollEnd: range(11)[1],
     cameraState: {
       position: [0, 0, 4],
       target: [0, 0, 0],
@@ -163,10 +191,10 @@ export const SCENES: readonly SceneConfig[] = [
   },
   {
     id: "contact",
-    index: 10,
-    label: "Scene 11 — Contact",
-    scrollStart: range(10)[0],
-    scrollEnd: range(10)[1],
+    index: 12,
+    label: "Scene 13 — Contact",
+    scrollStart: range(12)[0],
+    scrollEnd: range(12)[1],
     cameraState: {
       position: [0, -2, 6],
       target: [0, 0, 0],
