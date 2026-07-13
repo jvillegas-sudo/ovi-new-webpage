@@ -19,6 +19,8 @@ type Snapshot = {
   transitionProgress: number;
 };
 
+const PROGRESS_PRECISION = 2;
+
 type Props = {
   scrollRef: React.MutableRefObject<number>;
   hoverRef: React.MutableRefObject<number>;
@@ -85,12 +87,12 @@ export function IndustrialApplicationsOverlay({
       const progress = scrollRef.current;
       const activeIndex = getEnvironmentIndex(progress);
       const segmentProgress = Number(
-        getEnvironmentProgress(progress, activeIndex).toFixed(2),
+        getEnvironmentProgress(progress, activeIndex).toFixed(PROGRESS_PRECISION),
       );
       const hoveredIndex = hoverRef.current;
       const headline = getHeadline(progress);
       const transitionProgress = Number(
-        Math.min(1, Math.max(0, (progress - 0.88) / 0.12)).toFixed(2),
+        Math.min(1, Math.max(0, (progress - 0.88) / 0.12)).toFixed(PROGRESS_PRECISION),
       );
 
       setSnapshot((previous) => {

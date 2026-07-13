@@ -31,6 +31,7 @@ type InstanceDescriptor = {
 };
 
 const temporaryObject = new THREE.Object3D();
+const MAX_NORMALIZED_METRIC_VALUE = 50;
 
 export function IndustrialEnvironment({ scrollRef, mouseRef }: Props) {
   const architectureRef = useRef<THREE.InstancedMesh>(null);
@@ -241,7 +242,10 @@ export function IndustrialEnvironment({ scrollRef, mouseRef }: Props) {
           const mesh = child as THREE.Mesh;
           const bar = mesh.scale;
           const metric = environment.kpis[childIndex];
-          const normalized = Math.min(1, Number(metric?.value ?? 0) / 50);
+          const normalized = Math.min(
+            1,
+            Number(metric?.value ?? 0) / MAX_NORMALIZED_METRIC_VALUE,
+          );
           bar.x = THREE.MathUtils.lerp(bar.x, 0.35 + normalized * solutionProgress * 2.1, delta * 3.4);
         });
       }

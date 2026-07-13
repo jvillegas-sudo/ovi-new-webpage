@@ -281,10 +281,10 @@ export const PRODUCTS_TRANSITION = {
   caption: "Sprint 008 begins after this threshold.",
 } as const;
 
-export const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+export const clampToUnitRange = (value: number) => Math.min(1, Math.max(0, value));
 
 export function getEnvironmentIndex(progress: number): number {
-  const normalized = clamp01(progress);
+  const normalized = clampToUnitRange(progress);
   return Math.min(
     INDUSTRY_ENVIRONMENTS.length - 1,
     Math.floor(normalized * INDUSTRY_ENVIRONMENTS.length),
@@ -297,13 +297,13 @@ export function getEnvironmentProgress(
 ): number {
   const span = 1 / INDUSTRY_ENVIRONMENTS.length;
   const start = span * index;
-  return clamp01((clamp01(progress) - start) / span);
+  return clampToUnitRange((clampToUnitRange(progress) - start) / span);
 }
 
 export function getHeadline(progress: number): string {
   const index = Math.min(
     INDUSTRY_HEADLINES.length - 1,
-    Math.floor(clamp01(progress) * INDUSTRY_HEADLINES.length),
+    Math.floor(clampToUnitRange(progress) * INDUSTRY_HEADLINES.length),
   );
   return INDUSTRY_HEADLINES[index];
 }
