@@ -1,9 +1,11 @@
 import { Button, Container, Heading, Section, Text } from "@/components";
 import { services } from "@/features/services";
+import { TechnologyScene } from "@/scenes/technology";
 
 export default function HomePage() {
   return (
-    <Section className="service-section relative overflow-hidden py-24 md:py-32">
+    <>
+      <Section className="service-section relative overflow-hidden py-24 md:py-32">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="service-section-panel" />
         <div className="service-section-floor-glow" />
@@ -50,5 +52,9 @@ export default function HomePage() {
         </div>
       </Container>
     </Section>
+
+    {/* Sprint 005 — Technology Experience */}
+    <TechnologyScene />
+    </>
   );
 }
