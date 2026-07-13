@@ -1,7 +1,7 @@
 import { Button, Container, Heading, Section, Text } from "@/components";
 import { services } from "@/features/services";
 
-const HEXAGON_CLIP_PATH_CLASS = "[clip-path:polygon(25%_5%,75%_5%,100%_50%,75%_95%,25%_95%,0_50%)]";
+const HEXAGON_CLIP_PATH = "[clip-path:polygon(25%_5%,75%_5%,100%_50%,75%_95%,25%_95%,0_50%)]";
 const SECTION_PANEL_CLASS =
   "absolute left-[-18%] top-0 h-[28rem] w-[52rem] bg-[#24357f] [clip-path:polygon(0_0,100%_0,58%_100%,0_100%)] opacity-95";
 const HEXAGON_GLOW_CLASS = "absolute top-5 h-64 w-64 bg-[rgba(53,73,170,0.32)] blur-sm";
@@ -30,9 +30,9 @@ export default function HomePage() {
           {services.map((service) => (
             <article key={service.title} className="mx-auto flex w-full max-w-sm flex-col items-center text-center">
               <div className="relative mb-10 flex h-80 w-full items-center justify-center">
-                <div aria-hidden="true" className={`${HEXAGON_GLOW_CLASS} ${HEXAGON_CLIP_PATH_CLASS}`} />
-                <div aria-hidden="true" className={`${HEXAGON_HIGHLIGHT_CLASS} ${HEXAGON_CLIP_PATH_CLASS}`} />
-                <div aria-hidden="true" className={`${HEXAGON_BASE_CLASS} ${HEXAGON_CLIP_PATH_CLASS}`} />
+                <div aria-hidden="true" className={`${HEXAGON_GLOW_CLASS} ${HEXAGON_CLIP_PATH}`} />
+                <div aria-hidden="true" className={`${HEXAGON_HIGHLIGHT_CLASS} ${HEXAGON_CLIP_PATH}`} />
+                <div aria-hidden="true" className={`${HEXAGON_BASE_CLASS} ${HEXAGON_CLIP_PATH}`} />
                 <div aria-hidden="true" className={ORB_GLOW_CLASS} />
                 <div
                   aria-hidden="true"
@@ -46,9 +46,14 @@ export default function HomePage() {
               <Text className="mt-6 max-w-[19rem] text-lg leading-relaxed text-[#c8d1ff] md:max-w-[21rem]">
                 {service.description}
               </Text>
-              <Button type="button" variant="cta" size="xl" className="mt-10 min-w-52 font-extrabold uppercase tracking-wide">
+              <Button
+                type="button"
+                variant="cta"
+                size="xl"
+                aria-label={`Ver más sobre ${service.title}`}
+                className="mt-10 min-w-52 font-extrabold uppercase tracking-wide"
+              >
                 Ver más
-                <span className="sr-only"> sobre {service.title}</span>
               </Button>
             </article>
           ))}

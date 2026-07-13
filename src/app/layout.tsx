@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className="min-h-screen bg-bg-base text-text-primary antialiased">
         <AppProviders>
           <div className="flex min-h-screen flex-col">
