@@ -1,41 +1,34 @@
-/**
- * Debug Overlay
- *
- * A floating development panel that surfaces real-time engine state.
- * Rendered only in development builds — tree-shaken out in production.
- *
- * Toggle visibility: press the backtick key ( ` )
- *
- * Displays:
- *   FPS · Device Tier · Frame Budget · Current Scene · Scene Progress
- *   Scroll Y · Scroll Progress · Velocity · Direction
- *   Camera Position · Camera Target · FOV
- *   Transition State · Loaded Assets · Reduced Motion
- */
-
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 
+import { useStoryEngine } from "@/engine/hooks/use-story-engine";
+import { SCENES, SCENE_MAP } from "@/engine/scene/scene-config";
+import type { SceneId } from "@/engine/types";
 import { useEngineStore } from "@/store/engine-store";
 
 const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const DebugOverlay = () => {
-  const [visible, setVisible] = useState(false);
+  const engine = useStoryEngine();
+  const [panelOpen, setPanelOpen] = useState(true);
+  const [debugEnabled, setDebugEnabled] = useState(true);
+  const [performanceMode, setPerformanceMode] = useState(false);
 
   const state = useEngineStore(
     useCallback(
-      (s) => ({
-        currentScene: s.currentScene,
-        previousScene: s.previousScene,
-        sceneProgress: s.sceneProgress,
-        scroll: s.scroll,
-        camera: s.camera,
-        transition: s.transition,
-        animation: s.animation,
-        performance: s.performance,
-        isInitialized: s.isInitialized,
+      (store) => ({
+        currentScene: store.currentScene,
+        previousScene: store.previousScene,
+        sceneProgress: store.sceneProgress,
+        scroll: store.scroll,
+        camera: store.camera,
+        transition: store.transition,
+        animation: store.animation,
+        performance: store.performance,
+        isInitialized: store.isInitialized,
       }),
       [],
     ),
@@ -44,9 +37,9 @@ export const DebugOverlay = () => {
   useEffect(() => {
     if (!IS_DEV) return;
 
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "`") {
-        setVisible((v) => !v);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "`") {
+        setPanelOpen((value) => !value);
       }
     };
 
@@ -54,156 +47,224 @@ export const DebugOverlay = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  if (!IS_DEV || !visible) return null;
+  useEffect(() => {
+    if (!IS_DEV) return;
 
-  const { scroll, camera, transition, animation, performance } = state;
+    document.documentElement.dataset.performanceMode = performanceMode ? "true" : "false";
+
+    return () => {
+      delete document.documentElement.dataset.performanceMode;
+    };
+  }, [performanceMode]);
+
+  const currentSceneLabel = useMemo(
+    () => SCENE_MAP.get(state.currentScene)?.label ?? state.currentScene,
+    [state.currentScene],
+  );
+
+  const setReducedMotion = useCallback(
+    (enabled: boolean) => {
+      useEngineStore.setState((store) => ({
+        animation: { ...store.animation, reducedMotion: enabled },
+      }));
+      engine.emit("animation:reduced-motion-change", { reducedMotion: enabled });
+    },
+    [engine],
+  );
+
+  const restartAnimations = useCallback(() => {
+    gsap.globalTimeline.pause(0);
+    gsap.globalTimeline.play();
+    ScrollTrigger.refresh();
+    engine.interaction.navigateToScene(state.currentScene);
+
+    const config = SCENE_MAP.get(state.currentScene);
+    if (config) {
+      engine.transition.transition(state.previousScene, state.currentScene, config.transition);
+    }
+  }, [engine, state.currentScene, state.previousScene]);
+
+  if (!IS_DEV) return null;
 
   return (
-    <div
-      role="complementary"
-      aria-label="Debug overlay"
-      style={{
-        position: "fixed",
-        top: "1rem",
-        right: "1rem",
-        zIndex: 9999,
-        width: "260px",
-        background: "rgba(0, 0, 0, 0.88)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        borderRadius: "8px",
-        padding: "12px 14px",
-        fontFamily: "ui-monospace, monospace",
-        fontSize: "11px",
-        lineHeight: "1.6",
-        color: "#f4f8ff",
-        backdropFilter: "blur(8px)",
-        pointerEvents: "none",
-        userSelect: "none",
-      }}
-    >
-      <DebugRow label="ENGINE" value={state.isInitialized ? "READY" : "INIT…"} accent="#5affc0" />
+    <>
+      {debugEnabled ? (
+        <div className="pointer-events-none fixed left-4 top-20 z-[9998] hidden w-[min(22rem,calc(100vw-2rem))] rounded-3xl border border-white/10 bg-black/80 p-4 text-xs text-white shadow-2xl backdrop-blur-xl md:block">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-brand-secondary">
+              Developer Preview
+            </span>
+            <span className="rounded-full border border-white/10 px-2 py-1 text-[0.65rem] uppercase tracking-[0.2em] text-white/70">
+              {state.isInitialized ? "Ready" : "Booting"}
+            </span>
+          </div>
 
-      <Divider />
+          <div className="grid grid-cols-2 gap-2">
+            <MetricCard label="FPS" value={state.performance.fps} />
+            <MetricCard
+              label="Timeline"
+              value={`${Math.round(state.sceneProgress * 100)}%`}
+            />
+            <MetricCard label="Scene" value={currentSceneLabel} />
+            <MetricCard
+              label="Scroll"
+              value={`${Math.round(state.scroll.progress * 100)}%`}
+            />
+            <MetricCard
+              label="Camera"
+              value={state.camera.position.map((value) => value.toFixed(1)).join(", ")}
+            />
+            <MetricCard label="Assets" value={state.performance.loadedAssets} />
+          </div>
+        </div>
+      ) : null}
 
-      <DebugSection title="PERFORMANCE">
-        <DebugRow label="FPS" value={performance.fps} />
-        <DebugRow label="Tier" value={performance.deviceTier.toUpperCase()} />
-        <DebugRow label="Budget" value={`${performance.frameBudget.toFixed(2)} ms`} />
-        <DebugRow label="Assets" value={performance.loadedAssets} />
-      </DebugSection>
+      <div className="fixed bottom-4 right-4 z-[9999] flex w-[min(24rem,calc(100vw-2rem))] flex-col items-end gap-3">
+        {panelOpen ? (
+          <div className="w-full rounded-[1.75rem] border border-white/10 bg-black/85 p-4 text-white shadow-2xl backdrop-blur-xl">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-brand-primary">
+                  Developer Panel
+                </p>
+                <p className="mt-2 text-sm text-white/70">
+                  Local review controls for the current build.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPanelOpen(false)}
+                className="rounded-full border border-white/10 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/70 transition hover:border-brand-primary/40 hover:text-white"
+              >
+                Hide
+              </button>
+            </div>
 
-      <Divider />
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <MetricCard label="Active Scene" value={currentSceneLabel} />
+              <MetricCard label="FPS" value={state.performance.fps} />
+              <MetricCard
+                label="Camera Position"
+                value={state.camera.position.map((value) => value.toFixed(1)).join(", ")}
+              />
+              <MetricCard
+                label="Scroll Progress"
+                value={`${Math.round(state.scroll.progress * 100)}%`}
+              />
+              <MetricCard label="Loaded Assets" value={state.performance.loadedAssets} />
+              <MetricCard
+                label="Timeline Progress"
+                value={`${Math.round(state.sceneProgress * 100)}%`}
+              />
+            </div>
 
-      <DebugSection title="SCENE">
-        <DebugRow label="Current" value={state.currentScene} accent="#3dd2ff" />
-        <DebugRow label="Previous" value={state.previousScene ?? "—"} />
-        <DebugRow label="Progress" value={`${(state.sceneProgress * 100).toFixed(1)}%`} />
-      </DebugSection>
+            <div className="mt-4">
+              <label
+                htmlFor="developer-scene-select"
+                className="mb-2 block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/45"
+              >
+                Jump to scene
+              </label>
+              <select
+                id="developer-scene-select"
+                value={state.currentScene}
+                onChange={(event) =>
+                  engine.interaction.navigateToScene(event.target.value as SceneId)
+                }
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-brand-primary/50"
+              >
+                {SCENES.map((scene) => (
+                  <option key={scene.id} value={scene.id} className="bg-[#081018] text-white">
+                    {scene.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      <Divider />
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <ActionButton onClick={restartAnimations}>Restart Animations</ActionButton>
+              <ActionButton onClick={() => setDebugEnabled((value) => !value)}>
+                {debugEnabled ? "Hide Debug" : "Show Debug"}
+              </ActionButton>
+              <ActionButton
+                onClick={() => setReducedMotion(!state.animation.reducedMotion)}
+                active={state.animation.reducedMotion}
+              >
+                {state.animation.reducedMotion
+                  ? "Disable Reduced Motion"
+                  : "Enable Reduced Motion"}
+              </ActionButton>
+              <ActionButton
+                onClick={() => setPerformanceMode((value) => !value)}
+                active={performanceMode}
+              >
+                {performanceMode ? "Disable Performance Mode" : "Enable Performance Mode"}
+              </ActionButton>
+            </div>
 
-      <DebugSection title="SCROLL">
-        <DebugRow label="Y" value={`${scroll.y.toFixed(0)} px`} />
-        <DebugRow label="Progress" value={`${(scroll.progress * 100).toFixed(2)}%`} />
-        <DebugRow label="Velocity" value={scroll.velocity.toFixed(2)} />
-        <DebugRow label="Direction" value={scroll.direction} />
-      </DebugSection>
+            <div className="mt-4 grid gap-2 text-[0.7rem] text-white/60 sm:grid-cols-2">
+              <StatusLine label="Previous Scene" value={state.previousScene ?? "—"} />
+              <StatusLine
+                label="Transition"
+                value={
+                  state.transition.isTransitioning
+                    ? `${state.transition.type ?? "active"} · ${Math.round(state.transition.progress * 100)}%`
+                    : "Idle"
+                }
+              />
+            </div>
+          </div>
+        ) : null}
 
-      <Divider />
-
-      <DebugSection title="CAMERA">
-        <DebugRow
-          label="Position"
-          value={`[${camera.position.map((v) => v.toFixed(2)).join(", ")}]`}
-        />
-        <DebugRow
-          label="Target"
-          value={`[${camera.target.map((v) => v.toFixed(2)).join(", ")}]`}
-        />
-        <DebugRow label="FOV" value={`${camera.fov}°`} />
-      </DebugSection>
-
-      <Divider />
-
-      <DebugSection title="TRANSITION">
-        <DebugRow label="Active" value={transition.isTransitioning ? "YES" : "NO"} />
-        <DebugRow label="Type" value={transition.type ?? "—"} />
-        <DebugRow
-          label="Progress"
-          value={`${(transition.progress * 100).toFixed(1)}%`}
-        />
-      </DebugSection>
-
-      <Divider />
-
-      <DebugSection title="A11Y">
-        <DebugRow
-          label="Reduced Motion"
-          value={animation.reducedMotion ? "YES" : "NO"}
-          accent={animation.reducedMotion ? "#ffd166" : undefined}
-        />
-      </DebugSection>
-
-      <div
-        style={{
-          marginTop: "8px",
-          color: "rgba(255,255,255,0.3)",
-          fontSize: "10px",
-          textAlign: "center",
-        }}
-      >
-        Press ` to hide
+        <button
+          type="button"
+          onClick={() => setPanelOpen((value) => !value)}
+          className="rounded-full border border-white/10 bg-black/85 px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-white shadow-2xl backdrop-blur-xl transition hover:border-brand-primary/40 hover:text-brand-primary"
+        >
+          {panelOpen ? "Developer Preview" : "Open Developer Preview"}
+        </button>
       </div>
-    </div>
+    </>
   );
 };
 
-// ---------------------------------------------------------------------------
-// Sub-components
-// ---------------------------------------------------------------------------
-
-interface DebugRowProps {
-  label: string;
-  value: string | number;
-  accent?: string;
-}
-
-const DebugRow = ({ label, value, accent }: DebugRowProps) => (
-  <div style={{ display: "flex", justifyContent: "space-between", gap: "8px" }}>
-    <span style={{ color: "rgba(255,255,255,0.45)", flexShrink: 0 }}>{label}</span>
-    <span style={{ color: accent ?? "#f4f8ff", textAlign: "right", wordBreak: "break-all" }}>
-      {value}
-    </span>
+const MetricCard = ({ label, value }: { label: string; value: string | number }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
+    <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-white/45">
+      {label}
+    </p>
+    <p className="mt-2 text-sm font-semibold text-white">{value}</p>
   </div>
 );
 
-interface DebugSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-
-const DebugSection = ({ title, children }: DebugSectionProps) => (
-  <div>
-    <div
-      style={{
-        color: "rgba(255,255,255,0.3)",
-        fontSize: "9px",
-        letterSpacing: "0.1em",
-        textTransform: "uppercase",
-        marginBottom: "3px",
-      }}
-    >
-      {title}
-    </div>
+const ActionButton = ({
+  active,
+  children,
+  onClick,
+}: {
+  active?: boolean;
+  children: ReactNode;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={[
+      "rounded-2xl border px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em] transition",
+      active
+        ? "border-brand-secondary/60 bg-brand-secondary/10 text-white"
+        : "border-white/10 bg-white/5 text-white/80 hover:border-brand-primary/40 hover:text-white",
+    ].join(" ")}
+  >
     {children}
-  </div>
+  </button>
 );
 
-const Divider = () => (
-  <div
-    style={{
-      borderTop: "1px solid rgba(255,255,255,0.08)",
-      margin: "6px 0",
-    }}
-  />
+const StatusLine = ({ label, value }: { label: string; value: string }) => (
+  <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2">
+    <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-white/45">
+      {label}
+    </p>
+    <p className="mt-1 text-xs text-white/80">{value}</p>
+  </div>
 );

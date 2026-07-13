@@ -111,6 +111,7 @@ export function ProductsScene() {
 
   return (
     <section
+      id="products"
       ref={sectionRef}
       data-scene="products"
       aria-label="Interactive Product Ecosystem"

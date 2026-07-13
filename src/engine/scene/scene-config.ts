@@ -36,7 +36,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 45,
     },
     transition: "particle-morph",
-    navHref: "/",
+    navHref: "#solutions",
   },
   {
     id: "water-distortion",
@@ -89,7 +89,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 50,
     },
     transition: "camera-travel",
-    navHref: "/technology",
+    navHref: "#technology",
   },
   {
     id: "laboratory",
@@ -103,7 +103,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 48,
     },
     transition: "light-evolution",
-    navHref: "/technology",
+    navHref: "#technology",
   },
   {
     id: "industrial-applications",
@@ -117,7 +117,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 48,
     },
     transition: "camera-travel",
-    navHref: "/industries",
+    navHref: "#industries",
   },
   {
     id: "biotechnology",
@@ -131,7 +131,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 50,
     },
     transition: "volumetric-fog",
-    navHref: "/technology",
+    navHref: "#technology",
   },
   {
     id: "products",
@@ -145,7 +145,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 55,
     },
     transition: "particle-morph",
-    navHref: "/solutions",
+    navHref: "#solutions",
   },
   {
     id: "industries",
@@ -159,7 +159,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 48,
     },
     transition: "depth-transition",
-    navHref: "/industries",
+    navHref: "#industries",
   },
   {
     id: "impact-dashboard",
@@ -173,7 +173,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 52,
     },
     transition: "light-evolution",
-    navHref: "/company",
+    navHref: "#company",
   },
   {
     id: "ovi-os",
@@ -187,7 +187,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 40,
     },
     transition: "material-dissolve",
-    navHref: "/technology",
+    navHref: "#company",
   },
   {
     id: "contact",
@@ -201,7 +201,7 @@ export const SCENES: readonly SceneConfig[] = [
       fov: 45,
     },
     transition: "camera-travel",
-    navHref: "/contact",
+    navHref: "#contact",
   },
 ] as const;
 

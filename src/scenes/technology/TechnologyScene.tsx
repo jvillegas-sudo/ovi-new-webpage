@@ -52,6 +52,7 @@ export function TechnologyScene() {
 
   return (
     <section
+      id="technology"
       ref={sectionRef}
       data-scene="technology"
       aria-label="Technology Experience"

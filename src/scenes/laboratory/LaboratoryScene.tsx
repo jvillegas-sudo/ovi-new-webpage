@@ -55,6 +55,7 @@ export function LaboratoryScene() {
 
   return (
     <section
+      id="laboratory"
       ref={sectionRef}
       data-scene="laboratory"
       aria-label="Digital Laboratory Experience"

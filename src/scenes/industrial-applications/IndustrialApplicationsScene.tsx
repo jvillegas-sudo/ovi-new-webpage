@@ -44,6 +44,7 @@ export function IndustrialApplicationsScene() {
 
   return (
     <section
+      id="industries"
       ref={sectionRef}
       data-scene="industrial-applications"
       aria-label="Industrial Applications Experience"
