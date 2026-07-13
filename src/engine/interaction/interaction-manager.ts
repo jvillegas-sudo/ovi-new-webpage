@@ -13,9 +13,6 @@ import { SCENES } from "@/engine/scene/scene-config";
 import type { SceneId } from "@/engine/types";
 import { useEngineStore } from "@/store/engine-store";
 
-/** How far to scroll per keyboard press (px). */
-const KEYBOARD_SCROLL_AMOUNT = 600;
-
 export class InteractionManager {
   private eventBus!: EventBus;
   private scrollTo!: (target: number | string | HTMLElement) => void;
@@ -97,8 +94,6 @@ export class InteractionManager {
       document.documentElement.scrollHeight - window.innerHeight;
     const targetY = config.scrollStart * totalHeight;
     this.scrollTo(targetY);
-
-    void KEYBOARD_SCROLL_AMOUNT; // reserved for per-press scroll fallback
   }
 
   destroy(): void {
