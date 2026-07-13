@@ -15,7 +15,7 @@ export const Modal = ({ open, onClose, children }: ModalProps) => {
   }
 
   return (
-    <div className="fixed inset-0 z-modal flex items-center justify-center bg-black/60 p-4" role="dialog" aria-modal>
+    <div className="fixed inset-0 z-modal flex items-center justify-center bg-black/60 p-4" role="dialog" aria-modal={true}>
       <div className={cn("w-full max-w-lg rounded-2xl border border-white/15 bg-bg-elevated p-6")}>{children}</div>
       <button
         aria-label="Close modal"
