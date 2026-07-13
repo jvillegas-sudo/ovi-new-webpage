@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root,
+[data-theme="dark"] {
+  --bg-base: #070b13;
+  --bg-elevated: #0d1320;
+  --bg-glass: rgba(15, 20, 34, 0.55);
+  --text-primary: #f4f8ff;
+  --text-secondary: #b7c2d9;
+  --text-muted: #8392b4;
+  --brand-primary: #3dd2ff;
+  --brand-secondary: #5affc0;
+  --brand-accent: #7a8bff;
+  --radius-card: 1.25rem;
+}
+
+[data-theme="light"] {
+  --bg-base: #f5f8ff;
+  --bg-elevated: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --text-primary: #11172a;
+  --text-secondary: #2e3d62;
+  --text-muted: #51658f;
+  --brand-primary: #0d62ff;
+  --brand-secondary: #058a9f;
+  --brand-accent: #5a46ff;
+}
+
+@theme inline {
+  --color-bg-base: var(--bg-base);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-glass: var(--bg-glass);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-glass: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --z-nav: 40;
+  --z-modal: 80;
+  --z-cursor: 100;
+}
+
+* {
+  border-color: rgb(255 255 255 / 0.12);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(61, 210, 255, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 0%, rgba(122, 139, 255, 0.15), transparent 35%), var(--bg-base);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
+}
