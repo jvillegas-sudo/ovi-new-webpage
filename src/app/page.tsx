@@ -46,7 +46,13 @@ export default function HomePage() {
               <Text className="mt-6 max-w-[19rem] text-lg leading-10 text-[#c8d1ff] md:max-w-[21rem] md:leading-10">
                 {service.description}
               </Text>
-              <Button type="button" variant="cta" size="xl" className="mt-10 min-w-52 font-extrabold uppercase tracking-wide">
+              <Button
+                type="button"
+                variant="cta"
+                size="xl"
+                aria-label={`Ver más sobre ${service.title}`}
+                className="mt-10 min-w-52 font-extrabold uppercase tracking-wide"
+              >
                 Ver más
               </Button>
             </article>
