@@ -32,7 +32,10 @@ export function IndustrialHotspots({ scrollRef, hoverRef }: Props) {
       const targetScale = emphasized ? 1 : 0.55;
       const targetOpacity = emphasized ? 0.95 : 0.35;
 
-      mesh.scale.lerpScalar(targetScale, delta * 3.2);
+      mesh.scale.lerp(
+        new THREE.Vector3(targetScale, targetScale, targetScale),
+        delta * 3.2,
+      );
       ring.scale.lerp(
         new THREE.Vector3(targetScale * 1.8, targetScale * 1.8, 1),
         delta * 3,

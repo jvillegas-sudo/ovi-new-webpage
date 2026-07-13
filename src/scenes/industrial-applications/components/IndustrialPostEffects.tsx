@@ -24,7 +24,6 @@ export function IndustrialPostEffects() {
         radius={0.18}
         intensity={6}
         luminanceInfluence={0.25}
-        color="black"
       />
 
       <DepthOfField
