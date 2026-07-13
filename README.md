@@ -78,3 +78,29 @@ Copy `.env.example` to `.env.local` and set:
 
 - The foundation intentionally stops before building full page-level experiences.
 - Home-page storytelling modules and route-level product narratives should be implemented in the next iteration.
+
+## Sprint 008 — Interactive Product Ecosystem
+
+### What Was Added
+
+- A new `products` scene module in `/src/scenes/products`.
+- Eight interactive product nodes rendered as real 3D objects instead of static cards.
+- Progressive product information layers, intelligent hotspots, integrated AI guidance, animated relationships, and industry transition preparation.
+- An accessible reduced-motion fallback plus dedicated architecture and developer documentation in `/docs/products-ecosystem.md`.
+
+### Architecture Decisions
+
+1. **Scene parity with prior sprints**: Sprint 008 follows the same Story Engine scene contract as Technology, Laboratory, and Industrial Applications so the new experience plugs into scroll, navigation, accessibility, and performance management without special-case infrastructure.
+2. **Typed product graph**: all product content, industries, relationships, hotspots, AI prompts, and sustainability metrics live in `data/products.ts`, which keeps tuning work data-oriented and reduces visual logic duplication.
+3. **Procedural 3D silhouettes**: the initial production-ready release uses procedural objects instead of placeholder images or PDFs, preserving rotation, zoom, exploded views, and lighting response while avoiding asset-pipeline delays.
+4. **Integrated operational intelligence**: AI recommendations are embedded in the overlay as scenario-driven protocol output rather than a separate chatbot, which keeps the experience feeling native to the ecosystem.
+5. **Shared search and transition logic**: the same matching model powers Intelligent Search and the Sprint 009 industry handoff so products reorganize consistently whether the user types a job or chooses an industry.
+6. **Accessibility is a first-class experience**: reduced-motion users still receive the complete narrative, hotspot content, sustainability metrics, and AI guidance through semantic HTML instead of a degraded placeholder.
+7. **Performance-first rendering**: dynamic imports, adaptive DPR, GPU-rendered particles, procedural meshes, and lightweight relationship lines keep the scene rich without introducing heavyweight assets.
+
+### Extending The Experience
+
+- Add new products, relationships, hotspots, and AI prompt variations in `src/scenes/products/data/products.ts`.
+- Refine silhouettes and animation behavior inside `src/scenes/products/components/ProductsEcosystem.tsx` when final product geometry becomes available.
+- Adjust camera choreography in `src/scenes/products/components/ProductsCameraRig.tsx` if the ecosystem layout or scene height changes.
+- Keep `/docs/products-ecosystem.md` aligned whenever the interaction model, data contract, or extension guidance changes.

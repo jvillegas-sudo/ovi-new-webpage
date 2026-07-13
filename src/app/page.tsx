@@ -3,6 +3,7 @@ import { services } from "@/features/services";
 import { LaboratoryScene } from "@/scenes/laboratory";
 import { IndustrialApplicationsScene } from "@/scenes/industrial-applications";
 import { TechnologyScene } from "@/scenes/technology";
+import { ProductsScene } from "@/scenes/products";
 
 export default function HomePage() {
   return (
@@ -63,6 +64,9 @@ export default function HomePage() {
 
     {/* Sprint 007 — Industrial Applications Experience */}
     <IndustrialApplicationsScene />
+
+    {/* Sprint 008 — Interactive Product Ecosystem */}
+    <ProductsScene />
     </>
   );
 }
