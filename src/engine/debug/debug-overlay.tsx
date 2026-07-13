@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 import { useStoryEngine } from "@/engine/hooks/use-story-engine";
 import { SCENES, SCENE_MAP } from "@/engine/scene/scene-config";
@@ -18,20 +19,17 @@ export const DebugOverlay = () => {
   const [performanceMode, setPerformanceMode] = useState(false);
 
   const state = useEngineStore(
-    useCallback(
-      (store) => ({
-        currentScene: store.currentScene,
-        previousScene: store.previousScene,
-        sceneProgress: store.sceneProgress,
-        scroll: store.scroll,
-        camera: store.camera,
-        transition: store.transition,
-        animation: store.animation,
-        performance: store.performance,
-        isInitialized: store.isInitialized,
-      }),
-      [],
-    ),
+    useShallow((store) => ({
+      currentScene: store.currentScene,
+      previousScene: store.previousScene,
+      sceneProgress: store.sceneProgress,
+      scroll: store.scroll,
+      camera: store.camera,
+      transition: store.transition,
+      animation: store.animation,
+      performance: store.performance,
+      isInitialized: store.isInitialized,
+    })),
   );
 
   useEffect(() => {
