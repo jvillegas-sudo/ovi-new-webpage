@@ -1,7 +1,8 @@
 import Link from "next/link";
 
-import { siteConfig } from "@/config/site";
 import { Container } from "@/components/atoms/container";
+import { NavLinks } from "@/components/organisms/nav-links";
+import { siteConfig } from "@/config/site";
 
 export const Navbar = () => {
   return (
@@ -10,13 +11,12 @@ export const Navbar = () => {
         <Link href="/" className="text-sm font-semibold tracking-[0.24em] text-text-primary">
           OVI
         </Link>
-        <nav aria-label="Main navigation" className="hidden gap-6 md:flex">
-          {siteConfig.navigation.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm text-text-secondary hover:text-text-primary">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        {/*
+          NavLinks is a client component that subscribes to the engine's
+          active navigation href so the correct link is highlighted as the
+          user scrolls through scenes.
+        */}
+        <NavLinks items={siteConfig.navigation} />
       </Container>
     </header>
   );

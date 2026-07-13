@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/organisms/footer";
 import { Navbar } from "@/components/organisms/navbar";
 import { env } from "@/config/env";
+import { DebugOverlay } from "@/engine/debug/debug-overlay";
 import { AppProviders } from "@/providers/app-providers";
 
 import "@/app/globals.css";
@@ -31,6 +32,8 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
+          {/* Dev-only performance / state overlay — tree-shaken in production. */}
+          <DebugOverlay />
         </AppProviders>
       </body>
     </html>
