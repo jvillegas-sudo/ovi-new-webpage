@@ -60,6 +60,7 @@ Production-grade frontend foundation for OVI's cinematic digital platform.
 
 ## Tooling Foundation
 
+- **Node.js**: `20+` (recommended via `.nvmrc`)
 - **ESLint**: `npm run lint`
 - **Type Check**: `npm run typecheck`
 - **Build**: `npm run build`
