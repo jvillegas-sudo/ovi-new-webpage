@@ -6,5 +6,5 @@
 
 export { LaboratoryScene } from "@/scenes/laboratory/LaboratoryScene";
 export { LaboratoryFallback } from "@/scenes/laboratory/LaboratoryFallback";
-export type { Station } from "@/scenes/laboratory/data/stations";
+export type { Station, LabHeadline } from "@/scenes/laboratory/data/stations";
 export { STATIONS, LAB_HEADLINES } from "@/scenes/laboratory/data/stations";

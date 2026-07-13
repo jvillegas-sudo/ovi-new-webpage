@@ -114,12 +114,15 @@ export const STATIONS: Station[] = [
   },
 ];
 
-/** Cinematic headlines — shown one at a time as scroll advances. */
-export const LAB_HEADLINES: {
+/** Descriptor for a scroll-driven cinematic headline. */
+export interface LabHeadline {
   text: string;
   scrollStart: number;
   scrollEnd: number;
-}[] = [
+}
+
+/** Cinematic headlines — shown one at a time as scroll advances. */
+export const LAB_HEADLINES: LabHeadline[] = [
   { text: "Light becomes architecture.", scrollStart: 0.04, scrollEnd: 0.24 },
   { text: "Science made visible.", scrollStart: 0.24, scrollEnd: 0.46 },
   { text: "Research without limits.", scrollStart: 0.46, scrollEnd: 0.68 },
