@@ -10,7 +10,7 @@ const buttonVariants = cva(
       variant: {
         primary: "bg-brand-primary text-bg-base hover:bg-brand-secondary",
         ghost: "border border-white/20 bg-white/5 text-text-primary hover:bg-white/10",
-        cta: "border-0 bg-[linear-gradient(90deg,#4bb26d_0%,#1b2f7d_100%)] text-white shadow-[0_20px_40px_rgba(9,21,76,0.42)] hover:brightness-105",
+        cta: "border-0 bg-[linear-gradient(90deg,var(--brand-secondary)_0%,var(--brand-accent)_100%)] text-text-primary shadow-glass hover:brightness-105",
       },
       size: {
         sm: "h-9 px-4 text-sm",
