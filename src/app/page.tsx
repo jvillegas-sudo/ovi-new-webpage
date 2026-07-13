@@ -1,5 +1,6 @@
 import { Button, Container, Heading, Section, Text } from "@/components";
 import { services } from "@/features/services";
+import { LaboratoryScene } from "@/scenes/laboratory";
 import { TechnologyScene } from "@/scenes/technology";
 
 export default function HomePage() {
@@ -55,6 +56,9 @@ export default function HomePage() {
 
     {/* Sprint 005 — Technology Experience */}
     <TechnologyScene />
+
+    {/* Sprint 006 — Digital Laboratory Experience */}
+    <LaboratoryScene />
     </>
   );
 }

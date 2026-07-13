@@ -16,6 +16,7 @@ export type SceneId =
   | "particle-explosion"
   | "ovi-logo"
   | "technology"
+  | "laboratory"
   | "biotechnology"
   | "products"
   | "industries"
