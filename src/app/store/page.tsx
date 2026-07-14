@@ -27,7 +27,6 @@ import {
   TabsList,
   TabsTrigger,
   Text,
-  buttonVariants,
 } from "@components/ui";
 import { buildMetadata } from "@lib/metadata";
 import { cn } from "@utils/cn";
@@ -91,6 +90,18 @@ const experiencePillars = [
   },
 ] as const;
 
+const primaryLinkClasses =
+  "inline-flex items-center justify-center rounded-full bg-[var(--color-brand-primary)] px-7 py-3 text-base font-medium tracking-wide text-[var(--color-text-inverse)] transition-all duration-200 hover:brightness-110 hover:shadow-[var(--shadow-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
+
+const outlineLinkClasses =
+  "inline-flex items-center justify-center rounded-full border border-[var(--color-border-default)] bg-transparent px-7 py-3 text-base font-medium tracking-wide text-[var(--color-text-primary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
+
+const compactOutlineLinkClasses =
+  "inline-flex items-center justify-center rounded-full border border-[var(--color-border-default)] bg-transparent px-5 py-2 text-sm font-medium tracking-wide text-[var(--color-text-primary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
+
+const compactPrimaryLinkClasses =
+  "inline-flex items-center justify-center rounded-full bg-[var(--color-brand-primary)] px-5 py-2 text-sm font-medium tracking-wide text-[var(--color-text-inverse)] transition-all duration-200 hover:brightness-110 hover:shadow-[var(--shadow-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
+
 export default function StorePage() {
   return (
     <>
@@ -148,13 +159,10 @@ export default function StorePage() {
               </AnimateIn>
               <AnimateIn animation="slideUp" delay={0.24}>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <Link href="/ovi-ai" className={buttonVariants({ size: "lg", rounded: "full" })}>
+                  <Link href="/ovi-ai" className={primaryLinkClasses}>
                     Resolver un desafío
                   </Link>
-                  <Link
-                    href="/engineering"
-                    className={buttonVariants({ variant: "outline", size: "lg", rounded: "full" })}
-                  >
+                  <Link href="/engineering" className={outlineLinkClasses}>
                     Ver metodología OVI Engineering
                   </Link>
                 </div>
@@ -235,13 +243,7 @@ export default function StorePage() {
                       ))}
                     </div>
                   )}
-                  <Link
-                    href={entryPoint.href}
-                    className={cn(
-                      buttonVariants({ variant: "outline", size: "md" }),
-                      "mt-8 inline-flex rounded-full",
-                    )}
-                  >
+                  <Link href={entryPoint.href} className={cn(compactOutlineLinkClasses, "mt-8")}>
                     {entryPoint.cta}
                   </Link>
                 </Card>
@@ -376,10 +378,7 @@ export default function StorePage() {
                           </Text>
                           <Link
                             href={`/store/${product.slug}`}
-                            className={cn(
-                              buttonVariants({ variant: "outline", size: "sm" }),
-                              "mt-6 rounded-full",
-                            )}
+                            className={cn(compactOutlineLinkClasses, "mt-6")}
                           >
                             Ver especificación
                           </Link>
@@ -435,10 +434,7 @@ export default function StorePage() {
                         </Heading>
                         <Text className="mt-3 max-w-2xl">{category.description}</Text>
                       </div>
-                      <Link
-                        href="/ovi-ai"
-                        className={buttonVariants({ variant: "outline", rounded: "full" })}
-                      >
+                      <Link href="/ovi-ai" className={outlineLinkClasses}>
                         Consultar con OVI AI
                       </Link>
                     </div>
@@ -486,7 +482,7 @@ export default function StorePage() {
                           </div>
                           <Link
                             href={`/store/${product.slug}`}
-                            className={cn(buttonVariants({ size: "md", rounded: "full" }), "mt-6")}
+                            className={cn(compactPrimaryLinkClasses, "mt-6")}
                           >
                             Ver detalle técnico
                           </Link>
@@ -533,10 +529,7 @@ export default function StorePage() {
                 </div>
                 <Link
                   href={`/store/${product.slug}`}
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "mt-6 rounded-full",
-                  )}
+                  className={cn(compactOutlineLinkClasses, "mt-6")}
                 >
                   Abrir ficha
                 </Link>
@@ -596,16 +589,10 @@ export default function StorePage() {
                 datos y el journey de navegación.
               </Text>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  href="/solution-lab"
-                  className={buttonVariants({ size: "md", rounded: "full" })}
-                >
+                <Link href="/solution-lab" className={primaryLinkClasses}>
                   Ver este producto en Solution Lab
                 </Link>
-                <Link
-                  href="/ovi-ai"
-                  className={buttonVariants({ variant: "outline", size: "md", rounded: "full" })}
-                >
+                <Link href="/ovi-ai" className={outlineLinkClasses}>
                   Consultar con OVI AI
                 </Link>
               </div>

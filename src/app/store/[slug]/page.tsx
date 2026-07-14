@@ -10,7 +10,6 @@ import {
   Heading,
   Section,
   Text,
-  buttonVariants,
 } from "@components/ui";
 import { buildMetadata } from "@lib/metadata";
 import { cn } from "@utils/cn";
@@ -23,6 +22,15 @@ import {
 interface StoreProductPageProps {
   params: Promise<{ slug: string }>;
 }
+
+const primaryLinkClasses =
+  "inline-flex items-center justify-center rounded-full bg-[var(--color-brand-primary)] px-7 py-3 text-base font-medium tracking-wide text-[var(--color-text-inverse)] transition-all duration-200 hover:brightness-110 hover:shadow-[var(--shadow-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
+
+const outlineLinkClasses =
+  "inline-flex items-center justify-center rounded-full border border-[var(--color-border-default)] bg-transparent px-7 py-3 text-base font-medium tracking-wide text-[var(--color-text-primary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
+
+const compactOutlineLinkClasses =
+  "inline-flex items-center justify-center rounded-full border border-[var(--color-border-default)] bg-transparent px-5 py-2 text-sm font-medium tracking-wide text-[var(--color-text-primary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
 
 const specificationLabels = {
   purpose: "Purpose",
@@ -145,13 +153,10 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
               </AnimateIn>
               <AnimateIn animation="slideUp" delay={0.3}>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <Link href="/ovi-ai" className={buttonVariants({ size: "lg", rounded: "full" })}>
+                  <Link href="/ovi-ai" className={primaryLinkClasses}>
                     Consultar con OVI AI
                   </Link>
-                  <Link
-                    href="/solution-lab"
-                    className={buttonVariants({ variant: "outline", size: "lg", rounded: "full" })}
-                  >
+                  <Link href="/solution-lab" className={outlineLinkClasses}>
                     Ver este producto en un entorno real
                   </Link>
                 </div>
@@ -247,10 +252,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 Lleve esta especificación a OVI AI para validar industria, superficie, contaminación
                 y secuencia de aplicación antes de tomar una decisión.
               </Text>
-              <Link
-                href="/ovi-ai"
-                className={cn(buttonVariants({ size: "md", rounded: "full" }), "mt-6")}
-              >
+              <Link href="/ovi-ai" className={cn(primaryLinkClasses, "mt-6")}>
                 Consultar con OVI AI
               </Link>
             </Card>
@@ -266,13 +268,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 Entienda cómo este producto se integra con diagnóstico, diseño, implementación y
                 optimización dentro del marco OVI Engineering.
               </Text>
-              <Link
-                href="/engineering"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "md", rounded: "full" }),
-                  "mt-6",
-                )}
-              >
+              <Link href="/engineering" className={cn(outlineLinkClasses, "mt-6")}>
                 Ver metodología OVI Engineering
               </Link>
             </Card>
@@ -291,13 +287,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 Use Solution Lab para observar dónde y cómo este producto aparece dentro de un
                 entorno operativo y un diagnóstico preliminar.
               </Text>
-              <Link
-                href="/solution-lab"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "md", rounded: "full" }),
-                  "mt-6",
-                )}
-              >
+              <Link href="/solution-lab" className={cn(outlineLinkClasses, "mt-6")}>
                 Open Solution Lab
               </Link>
             </Card>
@@ -387,10 +377,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 <Text className="mt-3">{relatedProduct.summary}</Text>
                 <Link
                   href={`/store/${relatedProduct.slug}`}
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "mt-6 rounded-full",
-                  )}
+                  className={cn(compactOutlineLinkClasses, "mt-6")}
                 >
                   Ver especificación
                 </Link>
