@@ -9,7 +9,6 @@ import {
   Bot,
   MonitorSmartphone,
   Droplets,
-  Leaf,
   TrendingUp,
 } from "lucide-react";
 import {
@@ -46,7 +45,21 @@ const localizedContent = {
       ],
     },
   },
-  en: {},
+  en: {
+    // TODO: Activar cuando la localización EN sea aprobada oficialmente desde el contenido maestro en español.
+    hero: {
+      badge: "OVI — Cleaning Engineering",
+      title: "CLEANING ENGINEERING",
+      subtitle:
+        "We design intelligent solutions to solve cleaning, maintenance, and hygiene challenges through specialized products, services, technology, artificial intelligence, and OVI OS.",
+      story: [
+        "A single drop of water appears.",
+        "That drop transforms into operational energy.",
+        "Energy evolves into operational intelligence.",
+        "Intelligence turns into real industrial solutions.",
+      ],
+    },
+  },
 } as const;
 
 const content = localizedContent.es;
@@ -63,7 +76,8 @@ const sectors = [
     icon: Factory,
     color: "text-[var(--color-brand-primary)]",
     title: "Industria y Manufactura",
-    description: "Estandarización de limpieza técnica para continuidad operativa y control de calidad.",
+    description:
+      "Estandarización de limpieza técnica para continuidad operativa y control de calidad.",
   },
   {
     icon: MonitorSmartphone,
@@ -179,7 +193,7 @@ export default function HomePage() {
               {content.hero.subtitle}
             </Text>
           </AnimateIn>
-          <AnimateStagger className="mx-auto mt-8 max-w-4xl grid gap-4 md:grid-cols-2">
+          <AnimateStagger className="mx-auto mt-8 grid max-w-4xl gap-4 md:grid-cols-2">
             {content.hero.story.map((step) => (
               <Card key={step} variant="glass" padding="md" className="text-left">
                 <div className="flex items-start gap-3">
@@ -204,7 +218,7 @@ export default function HomePage() {
         </Container>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ChevronDown size={24} style={{ color: "var(--color-text-tertiary)" }} />
+          <ChevronDown size={24} className="text-[var(--color-text-tertiary)]" />
         </div>
       </Section>
 
@@ -388,11 +402,15 @@ export default function HomePage() {
                   <Text weight="medium">Vista previa premium de interacción</Text>
                 </div>
                 <textarea
-                  className="mt-4 h-28 w-full resize-none rounded-xl border border-[var(--color-border-default)] bg-[var(--color-surface-primary)] p-4 text-sm text-[var(--color-text-primary)] outline-none transition-colors placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-brand-primary)]"
+                  className="mt-4 h-28 w-full resize-none rounded-xl border border-[var(--color-border-default)] bg-[var(--color-surface-primary)] p-4 text-sm text-[var(--color-text-primary)] transition-colors outline-none placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-brand-primary)]"
                   placeholder="Ejemplo: Necesito limpiar una flota de buses con menor consumo de agua."
-                  readOnly
+                  disabled
                   aria-label="Vista previa de consulta para OVI AI"
                 />
+                <Text size="sm" className="mt-3">
+                  OVI AI estará disponible próximamente. Esta sección prepara la experiencia de
+                  interacción.
+                </Text>
               </div>
             </div>
           </AnimateIn>
@@ -408,8 +426,8 @@ export default function HomePage() {
                 Centro operativo inteligente para su gestión de limpieza
               </Heading>
               <Text size="lg" className="mt-6">
-                OVI OS centraliza información, indicadores operativos y recomendaciones
-                inteligentes para elevar el control, la trazabilidad y la toma de decisiones.
+                OVI OS centraliza información, indicadores operativos y recomendaciones inteligentes
+                para elevar el control, la trazabilidad y la toma de decisiones.
               </Text>
               <div className="mt-8">
                 <Link href="/technology">
