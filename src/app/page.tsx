@@ -1,5 +1,17 @@
 import Link from "next/link";
-import { ChevronDown, CheckCircle2, FlaskConical, Truck, Building2 } from "lucide-react";
+import {
+  ChevronDown,
+  CheckCircle2,
+  Cpu,
+  Factory,
+  Wrench,
+  Sparkles,
+  Bot,
+  MonitorSmartphone,
+  Droplets,
+  Leaf,
+  TrendingUp,
+} from "lucide-react";
 import {
   AnimateIn,
   AnimateStagger,
@@ -16,54 +28,102 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Inicio",
   description:
-    "OVI Ventures ofrece soluciones químicas biodegradables, limpieza industrial e infraestructura, y lavado de flota con buenas prácticas ambientales.",
+    "OVI — Ingeniería en Limpieza. Diseñamos soluciones inteligentes para resolver desafíos de limpieza, mantenimiento e higiene mediante productos especializados, servicios, tecnología, inteligencia artificial y OVI OS.",
 });
 
-const stats = [
-  { value: "3", label: "Líneas de Negocio" },
-  { value: "100%", label: "Fórmulas Biodegradables" },
-  { value: "Industrial", label: "Alcance Sectorial" },
-  { value: "Verde", label: "Compromiso Ambiental" },
+const localizedContent = {
+  es: {
+    hero: {
+      badge: "OVI — Ingeniería en Limpieza",
+      title: "INGENIERÍA EN LIMPIEZA",
+      subtitle:
+        "Diseñamos soluciones inteligentes para resolver desafíos de limpieza, mantenimiento e higiene mediante productos especializados, servicios, tecnología, inteligencia artificial y OVI OS.",
+      story: [
+        "Una gota de agua aparece.",
+        "Esa gota se transforma en energía operativa.",
+        "La energía evoluciona a inteligencia operacional.",
+        "La inteligencia se convierte en soluciones industriales reales.",
+      ],
+    },
+  },
+  en: {},
+} as const;
+
+const content = localizedContent.es;
+
+const identityStats = [
+  { value: "360°", label: "Integración operativa" },
+  { value: "IA + OVI OS", label: "Tecnología aplicada" },
+  { value: "Protocolos", label: "Ejecución estandarizada" },
+  { value: "Resultados", label: "Impacto medible" },
 ];
 
-const solutionCards = [
+const sectors = [
   {
-    icon: FlaskConical,
+    icon: Factory,
     color: "text-[var(--color-brand-primary)]",
-    title: "Soluciones Químicas Biodegradables",
-    description:
-      "Producción y comercialización de soluciones químicas biodegradables de alto rendimiento para la industria, formuladas para maximizar el desempeño minimizando el impacto ambiental.",
-    href: "/solutions",
+    title: "Industria y Manufactura",
+    description: "Estandarización de limpieza técnica para continuidad operativa y control de calidad.",
   },
   {
-    icon: Building2,
+    icon: MonitorSmartphone,
     color: "text-[var(--color-brand-accent)]",
-    title: "Limpieza Industrial e Infraestructura",
+    title: "Infraestructura y Operaciones",
     description:
-      "Limpieza industrial, de infraestructura, post obra gruesa y fina, e impermeabilización. Soluciones integrales para cada etapa constructiva y de mantenimiento.",
-    href: "/solutions",
+      "Gestión integral de higiene y mantenimiento para instalaciones críticas y de alto tránsito.",
   },
   {
-    icon: Truck,
+    icon: Cpu,
     color: "text-[var(--color-brand-secondary)]",
-    title: "Lavado de Flota Industrial",
+    title: "Flotas y Logística",
     description:
-      "Lavado especializado de flota industrial de transporte, incorporando buenas prácticas ambientales para el cuidado del vehículo y del entorno.",
-    href: "/solutions",
+      "Soluciones de limpieza inteligente para flotas con foco en productividad y sostenibilidad.",
   },
 ];
 
-const differentiators = [
-  "Productos 100% biodegradables y seguros",
-  "Procesos alineados con buenas prácticas ambientales",
-  "Cobertura industrial integral: desde fábricas hasta flotas",
-  "Equipo técnico especializado en limpieza industrial",
+const services = [
+  "Diagnóstico técnico de limpieza, mantenimiento e higiene",
+  "Diseño de protocolos operativos por tipo de instalación",
+  "Implementación en campo con control de desempeño",
+  "Capacitación y acompañamiento técnico continuo",
 ];
 
-const sustainabilityStats = [
-  { value: "100%", label: "Fórmulas biodegradables" },
-  { value: "Cero", label: "Residuos tóxicos" },
-  { value: "Verde", label: "Prácticas ambientales responsables" },
+const products = [
+  "Productos especializados para limpieza industrial de alto desempeño",
+  "Equipamiento y herramientas para operaciones críticas",
+  "Soluciones adaptadas por tipo de superficie, proceso y sector",
+  "Integración de producto + método + control de resultados",
+];
+
+const engineeringPillars = [
+  "Ingeniería aplicada para resolver problemas complejos de limpieza",
+  "Tecnología y datos para decisiones operativas inteligentes",
+  "Protocolos, productos y servicios diseñados como un solo sistema",
+  "Sostenibilidad con impacto medible en operación real",
+];
+
+const sustainabilityImpact = [
+  { value: "Ahorro de agua", label: "Reducción de consumo hídrico por operación" },
+  { value: "Optimización de procesos", label: "Menos reprocesos y mayor eficiencia" },
+  { value: "Reducción del consumo químico", label: "Uso técnico y controlado de insumos" },
+  { value: "Mayor productividad", label: "Más rendimiento operativo con menos recursos" },
+  { value: "Menor impacto ambiental", label: "Operación más limpia y responsable" },
+];
+
+const successCases = [
+  {
+    title: "Caso 01 — Operación industrial multi-sitio",
+    detail:
+      "Estandarización de protocolos y mejora de control operativo en múltiples instalaciones.",
+  },
+  {
+    title: "Caso 02 — Flota de transporte de alto uso",
+    detail: "Reducción de tiempos de limpieza y menor consumo de agua por unidad atendida.",
+  },
+  {
+    title: "Caso 03 — Infraestructura crítica",
+    detail: "Implementación de limpieza técnica con trazabilidad e indicadores por proceso.",
+  },
 ];
 
 export default function HomePage() {
@@ -106,30 +166,37 @@ export default function HomePage() {
         <Container className="relative z-10 py-28 text-center">
           <AnimateIn animation="slideUp">
             <Badge variant="brand" size="lg">
-              Limpieza Industrial &amp; Química Biodegradable
+              {content.hero.badge}
             </Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="6xl" gradient="brand" align="center" className="mt-6">
-              <span className="block">Limpieza Profesional.</span>
-              <span className="block">Sosteniblemente Hecha.</span>
+              {content.hero.title}
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl text-balance">
-              OVI Ventures desarrolla soluciones químicas biodegradables, servicios de limpieza
-              industrial e infraestructura, y lavado de flota industrial con buenas prácticas
-              ambientales para impulsar un sector productivo más limpio y responsable.
+              {content.hero.subtitle}
             </Text>
           </AnimateIn>
+          <AnimateStagger className="mx-auto mt-8 max-w-4xl grid gap-4 md:grid-cols-2">
+            {content.hero.story.map((step) => (
+              <Card key={step} variant="glass" padding="md" className="text-left">
+                <div className="flex items-start gap-3">
+                  <Droplets className="mt-1 h-5 w-5 text-[var(--color-brand-primary)]" />
+                  <Text>{step}</Text>
+                </div>
+              </Card>
+            ))}
+          </AnimateStagger>
           <AnimateIn animation="slideUp" delay={0.3}>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link href="/solutions">
-                <Button size="lg">Ver Servicios</Button>
+              <Link href="/contact">
+                <Button size="lg">Solicitar Diagnóstico</Button>
               </Link>
-              <Link href="/about">
+              <Link href="/solutions">
                 <Button variant="outline" size="lg">
-                  Conócenos
+                  Explorar Soluciones
                 </Button>
               </Link>
             </div>
@@ -144,7 +211,7 @@ export default function HomePage() {
       <Section background="elevated" padding="md">
         <Container>
           <AnimateStagger className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {stats.map((stat) => (
+            {identityStats.map((stat) => (
               <Card key={stat.label} variant="solid" padding="lg" className="text-center">
                 <Text as="p" size="xl" weight="bold" className="text-[var(--color-brand-primary)]">
                   {stat.value}
@@ -160,43 +227,21 @@ export default function HomePage() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <AnimateIn animation="slideUp">
-              <Badge variant="accent">Lo Que Hacemos</Badge>
+              <Badge variant="accent">Quiénes Somos</Badge>
             </AnimateIn>
             <AnimateIn animation="slideUp" delay={0.1}>
               <Heading as="h2" size="4xl" align="center" className="mt-4">
-                Tres Líneas de Negocio, Un Solo Compromiso
+                Integramos ingeniería, tecnología y operación para transformar la limpieza
               </Heading>
             </AnimateIn>
             <AnimateIn animation="slideUp" delay={0.2}>
               <Text size="lg" align="center" className="mt-4">
-                Desde la formulación química biodegradable hasta la limpieza de grandes
-                infraestructuras y flotas de transporte, ofrecemos soluciones integrales con impacto
-                ambiental positivo.
+                OVI integra ingeniería, tecnología, productos, servicios, protocolos, inteligencia
+                operacional y sostenibilidad para resolver desafíos complejos de limpieza,
+                mantenimiento e higiene con una visión integral y de largo plazo.
               </Text>
             </AnimateIn>
           </div>
-
-          <AnimateStagger className="mt-14 grid gap-6 lg:grid-cols-3">
-            {solutionCards.map((card) => {
-              const Icon = card.icon;
-
-              return (
-                <Card key={card.title} variant="glow" padding="lg" className="flex h-full flex-col">
-                  <Icon className={`h-12 w-12 ${card.color}`} />
-                  <Heading as="h3" size="lg" className="mt-6">
-                    {card.title}
-                  </Heading>
-                  <Text className="mt-4 flex-1">{card.description}</Text>
-                  <Link
-                    href={card.href}
-                    className="mt-8 inline-flex text-sm font-medium text-[var(--color-brand-primary)] transition-colors hover:text-white"
-                  >
-                    Conocer más →
-                  </Link>
-                </Card>
-              );
-            })}
-          </AnimateStagger>
         </Container>
       </Section>
 
@@ -204,22 +249,20 @@ export default function HomePage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <AnimateIn animation="slideRight">
-              <Badge variant="brand">¿Por Qué OVI?</Badge>
+              <Badge variant="brand">Ingeniería en Limpieza</Badge>
               <Heading as="h2" size="4xl" className="mt-4">
-                Soluciones diseñadas para el sector industrial y el cuidado del planeta
+                OVI no solo limpia. OVI diseña soluciones de ingeniería en limpieza.
               </Heading>
               <Text size="lg" className="mt-6">
-                Combinamos química verde, experiencia técnica y responsabilidad ambiental para
-                ofrecer servicios que no solo limpian mejor, sino que cuidan el entorno donde
-                operamos. Cada producto y proceso está pensado para reducir el impacto ecológico sin
-                sacrificar rendimiento.
+                Cada proyecto combina diagnóstico técnico, diseño operativo, protocolos, tecnología
+                e implementación en campo para generar resultados consistentes y medibles.
               </Text>
             </AnimateIn>
 
             <AnimateIn animation="slideLeft" delay={0.1}>
               <div className="glass rounded-2xl border border-[var(--color-border-default)] p-8">
                 <ul className="space-y-5">
-                  {differentiators.map((item) => (
+                  {engineeringPillars.map((item) => (
                     <li key={item} className="flex items-start gap-4">
                       <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--color-brand-accent)]" />
                       <Text textColor="primary" weight="medium">
@@ -234,6 +277,174 @@ export default function HomePage() {
         </Container>
       </Section>
 
+      <Section background="base">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <AnimateIn animation="slideUp">
+              <Badge variant="accent">Sectores</Badge>
+            </AnimateIn>
+            <AnimateIn animation="slideUp" delay={0.1}>
+              <Heading as="h2" size="4xl" align="center" className="mt-4">
+                Soluciones diseñadas para distintos entornos operativos
+              </Heading>
+            </AnimateIn>
+          </div>
+          <AnimateStagger className="mt-14 grid gap-6 lg:grid-cols-3">
+            {sectors.map((card) => {
+              const Icon = card.icon;
+
+              return (
+                <Card key={card.title} variant="glow" padding="lg" className="flex h-full flex-col">
+                  <Icon className={`h-12 w-12 ${card.color}`} />
+                  <Heading as="h3" size="lg" className="mt-6">
+                    {card.title}
+                  </Heading>
+                  <Text className="mt-4 flex-1">{card.description}</Text>
+                </Card>
+              );
+            })}
+          </AnimateStagger>
+        </Container>
+      </Section>
+
+      <Section background="surface">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <AnimateIn animation="slideUp">
+              <Badge variant="brand">Servicios</Badge>
+            </AnimateIn>
+            <AnimateIn animation="slideUp" delay={0.1}>
+              <Heading as="h2" size="4xl" align="center" className="mt-4">
+                Diseño, ejecución y mejora continua de su operación
+              </Heading>
+            </AnimateIn>
+          </div>
+          <AnimateStagger className="mt-12 grid gap-6 md:grid-cols-2">
+            {services.map((service) => (
+              <Card key={service} variant="glass" padding="lg" className="flex items-start gap-4">
+                <Wrench className="mt-1 h-5 w-5 text-[var(--color-brand-primary)]" />
+                <Text textColor="primary" weight="medium">
+                  {service}
+                </Text>
+              </Card>
+            ))}
+          </AnimateStagger>
+        </Container>
+      </Section>
+
+      <Section background="elevated">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <AnimateIn animation="slideUp">
+              <Badge variant="accent">Productos</Badge>
+            </AnimateIn>
+            <AnimateIn animation="slideUp" delay={0.1}>
+              <Heading as="h2" size="4xl" align="center" className="mt-4">
+                Tecnología de producto al servicio de la eficiencia operacional
+              </Heading>
+            </AnimateIn>
+          </div>
+          <AnimateStagger className="mt-12 grid gap-6 md:grid-cols-2">
+            {products.map((product) => (
+              <Card key={product} variant="solid" padding="lg">
+                <Text textColor="primary" weight="medium">
+                  {product}
+                </Text>
+              </Card>
+            ))}
+          </AnimateStagger>
+          <AnimateIn animation="slideUp" delay={0.2}>
+            <div className="mt-10 text-center">
+              <Link href="/products">
+                <Button size="lg">Explorar Soluciones</Button>
+              </Link>
+            </div>
+          </AnimateIn>
+        </Container>
+      </Section>
+
+      <Section background="base">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <AnimateIn animation="slideUp">
+              <Badge variant="brand">OVI AI</Badge>
+            </AnimateIn>
+            <AnimateIn animation="slideUp" delay={0.1}>
+              <Heading as="h2" size="4xl" align="center" className="mt-4">
+                Pregúntele a OVI AI
+              </Heading>
+            </AnimateIn>
+            <AnimateIn animation="slideUp" delay={0.2}>
+              <Text size="lg" align="center" className="mx-auto mt-4 max-w-2xl">
+                Describa su desafío y descubra la solución recomendada.
+              </Text>
+            </AnimateIn>
+          </div>
+          <AnimateIn animation="slideUp" delay={0.3}>
+            <div className="mx-auto mt-10 max-w-3xl">
+              <div className="glass rounded-2xl border border-[var(--color-border-default)] p-5">
+                <div className="flex items-center gap-3 border-b border-[var(--color-border-default)] pb-4">
+                  <Bot className="h-5 w-5 text-[var(--color-brand-primary)]" />
+                  <Text weight="medium">Vista previa premium de interacción</Text>
+                </div>
+                <textarea
+                  className="mt-4 h-28 w-full resize-none rounded-xl border border-[var(--color-border-default)] bg-[var(--color-surface-primary)] p-4 text-sm text-[var(--color-text-primary)] outline-none transition-colors placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-brand-primary)]"
+                  placeholder="Ejemplo: Necesito limpiar una flota de buses con menor consumo de agua."
+                  readOnly
+                  aria-label="Vista previa de consulta para OVI AI"
+                />
+              </div>
+            </div>
+          </AnimateIn>
+        </Container>
+      </Section>
+
+      <Section background="surface">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <AnimateIn animation="slideRight">
+              <Badge variant="accent">OVI OS</Badge>
+              <Heading as="h2" size="4xl" className="mt-4">
+                Centro operativo inteligente para su gestión de limpieza
+              </Heading>
+              <Text size="lg" className="mt-6">
+                OVI OS centraliza información, indicadores operativos y recomendaciones
+                inteligentes para elevar el control, la trazabilidad y la toma de decisiones.
+              </Text>
+              <div className="mt-8">
+                <Link href="/technology">
+                  <Button size="lg">Conocer OVI OS</Button>
+                </Link>
+              </div>
+            </AnimateIn>
+            <AnimateIn animation="slideLeft" delay={0.1}>
+              <Card variant="glow" padding="lg">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <TrendingUp className="h-5 w-5 text-[var(--color-brand-primary)]" />
+                    <Text textColor="primary" weight="medium">
+                      Indicadores operativos en una sola vista
+                    </Text>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="h-5 w-5 text-[var(--color-brand-accent)]" />
+                    <Text textColor="primary" weight="medium">
+                      Recomendaciones inteligentes basadas en operación real
+                    </Text>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Cpu className="h-5 w-5 text-[var(--color-brand-secondary)]" />
+                    <Text textColor="primary" weight="medium">
+                      Integración entre protocolos, servicios, productos y ejecución
+                    </Text>
+                  </div>
+                </div>
+              </Card>
+            </AnimateIn>
+          </div>
+        </Container>
+      </Section>
+
       <Section background="surface" className="border-t border-[rgba(0,255,133,0.4)]">
         <Container size="lg" className="text-center">
           <AnimateIn animation="slideUp">
@@ -241,21 +452,21 @@ export default function HomePage() {
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h2" size="4xl" align="center" className="mt-4">
-              Comprometidos con un Planeta más Limpio
+              Impacto medible para su operación y el entorno
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-4 max-w-3xl">
-              La sostenibilidad no es un complemento; está en el centro de todo lo que hacemos.
-              Diseñamos nuestros productos y procesos para generar el menor impacto posible en el
-              ecosistema, promoviendo buenas prácticas ambientales en cada proyecto.
+              Diseñamos soluciones que combinan productividad y responsabilidad ambiental con
+              resultados verificables en consumo de agua, uso químico, eficiencia operativa e
+              impacto ambiental.
             </Text>
           </AnimateIn>
 
-          <AnimateStagger className="mt-14 grid gap-6 md:grid-cols-3">
-            {sustainabilityStats.map((stat) => (
+          <AnimateStagger className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {sustainabilityImpact.map((stat) => (
               <Card key={stat.label} variant="glass" padding="lg" className="text-center">
-                <Text as="p" size="xl" weight="bold" className="text-[var(--color-brand-accent)]">
+                <Text as="p" size="lg" weight="bold" className="text-[var(--color-brand-accent)]">
                   {stat.value}
                 </Text>
                 <Text className="mt-3">{stat.label}</Text>
@@ -265,11 +476,34 @@ export default function HomePage() {
 
           <AnimateIn animation="slideUp" delay={0.3}>
             <div className="mt-10">
-              <Link href="/sustainability">
-                <Button size="lg">Ver Sostenibilidad</Button>
+              <Link href="/contact">
+                <Button size="lg">Solicitar Cotización</Button>
               </Link>
             </div>
           </AnimateIn>
+        </Container>
+      </Section>
+
+      <Section background="base">
+        <Container size="lg" className="text-center">
+          <AnimateIn animation="slideUp">
+            <Badge variant="brand">Casos de Éxito</Badge>
+          </AnimateIn>
+          <AnimateIn animation="slideUp" delay={0.1}>
+            <Heading as="h2" size="3xl" align="center">
+              Resultados reales en entornos de alta exigencia operativa
+            </Heading>
+          </AnimateIn>
+          <AnimateStagger className="mt-10 grid gap-6 md:grid-cols-3">
+            {successCases.map((item) => (
+              <Card key={item.title} variant="glass" padding="lg" className="text-left">
+                <Heading as="h3" size="md">
+                  {item.title}
+                </Heading>
+                <Text className="mt-3">{item.detail}</Text>
+              </Card>
+            ))}
+          </AnimateStagger>
         </Container>
       </Section>
 
@@ -277,23 +511,23 @@ export default function HomePage() {
         <Container size="lg" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              ¿Listo para transformar sus operaciones?
+              Contacto
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mx-auto mt-4 max-w-2xl">
-              Construyamos juntos un modelo operativo más limpio, eficiente y ambientalmente
-              responsable.
+              Conversemos sobre su operación y diseñemos la solución adecuada para sus desafíos de
+              limpieza, mantenimiento e higiene.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/contact">
-                <Button size="lg">Contáctenos</Button>
+                <Button size="lg">Solicitar Diagnóstico</Button>
               </Link>
-              <Link href="/solutions">
+              <Link href="/contact">
                 <Button variant="outline" size="lg">
-                  Ver Servicios
+                  Hablar con un Ingeniero
                 </Button>
               </Link>
             </div>
