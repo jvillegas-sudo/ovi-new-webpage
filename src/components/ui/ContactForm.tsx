@@ -7,24 +7,24 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button, Input, Select, Text, Textarea } from "@components/ui";
 
-const industryOptions = [
-  { label: "Food & Beverage", value: "food-beverage" },
-  { label: "Healthcare", value: "healthcare" },
-  { label: "Manufacturing & Industrial", value: "manufacturing-industrial" },
-  { label: "Oil & Gas", value: "oil-gas" },
-  { label: "Agriculture", value: "agriculture" },
-  { label: "Hospitality", value: "hospitality" },
-  { label: "Other", value: "other" },
+const sectorOptions = [
+  { label: "Manufactura e Industria", value: "manufactura-industria" },
+  { label: "Construcción y Obra", value: "construccion-obra" },
+  { label: "Transporte y Logística", value: "transporte-logistica" },
+  { label: "Infraestructura Pública", value: "infraestructura-publica" },
+  { label: "Salud y Saneamiento", value: "salud-saneamiento" },
+  { label: "Comercio e Inmobiliario", value: "comercio-inmobiliario" },
+  { label: "Otro", value: "otro" },
 ] as const;
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, "Please enter your full name."),
-  email: z.string().email("Please enter a valid email address."),
-  company: z.string().min(2, "Please enter your company name."),
-  industry: z.string().min(1, "Please select your industry."),
+  name: z.string().min(2, "Por favor ingrese su nombre completo."),
+  email: z.string().email("Por favor ingrese un correo electrónico válido."),
+  company: z.string().min(2, "Por favor ingrese el nombre de su empresa."),
+  industry: z.string().min(1, "Por favor seleccione su sector."),
   message: z
     .string()
-    .min(20, "Please provide at least 20 characters so we can understand your needs."),
+    .min(20, "Por favor escriba al menos 20 caracteres para que podamos entender su necesidad."),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -63,11 +63,11 @@ export function ContactForm() {
           <CheckCircle2 className="h-8 w-8 text-[var(--color-brand-accent)]" />
         </div>
         <Text as="p" size="xl" weight="semibold" textColor="primary" className="mt-6">
-          Message received
+          Mensaje recibido
         </Text>
         <Text className="mt-3">
-          Thank you for reaching out to OVI Ventures. Our team will review your inquiry and respond
-          with the right technical expert shortly.
+          Gracias por contactar a OVI Ventures. Nuestro equipo revisará su consulta y le responderá
+          con el especialista indicado a la brevedad posible.
         </Text>
         <button
           type="button"
@@ -77,7 +77,7 @@ export function ContactForm() {
           }}
           className="mt-6 text-sm font-medium text-[var(--color-brand-primary)] transition-colors hover:text-white"
         >
-          Send another message
+          Enviar otro mensaje
         </button>
       </div>
     );
@@ -87,16 +87,16 @@ export function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <div className="grid gap-5 md:grid-cols-2">
         <Input
-          label="Name"
-          placeholder="Your full name"
+          label="Nombre"
+          placeholder="Su nombre completo"
           autoComplete="name"
           error={errors.name?.message}
           {...register("name")}
         />
         <Input
-          label="Email"
+          label="Correo Electrónico"
           type="email"
-          placeholder="you@company.com"
+          placeholder="usted@empresa.com"
           autoComplete="email"
           error={errors.email?.message}
           {...register("email")}
@@ -105,16 +105,16 @@ export function ContactForm() {
 
       <div className="grid gap-5 md:grid-cols-2">
         <Input
-          label="Company"
-          placeholder="Company name"
+          label="Empresa"
+          placeholder="Nombre de la empresa"
           autoComplete="organization"
           error={errors.company?.message}
           {...register("company")}
         />
         <Select
-          label="Industry"
-          placeholder="Select an industry"
-          options={[...industryOptions]}
+          label="Sector"
+          placeholder="Seleccione un sector"
+          options={[...sectorOptions]}
           error={errors.industry?.message}
           defaultValue=""
           {...register("industry")}
@@ -122,8 +122,8 @@ export function ContactForm() {
       </div>
 
       <Textarea
-        label="Message"
-        placeholder="Tell us about your operational goals, technical challenges, or sustainability targets."
+        label="Mensaje"
+        placeholder="Cuéntenos sobre sus necesidades operativas, retos técnicos o prioridades ambientales."
         rows={6}
         autoResize
         error={errors.message?.message}
@@ -131,7 +131,7 @@ export function ContactForm() {
       />
 
       <Button type="submit" size="lg" loading={isSubmitting}>
-        Send Message
+        Enviar Mensaje
       </Button>
     </form>
   );

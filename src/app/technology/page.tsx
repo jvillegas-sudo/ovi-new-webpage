@@ -14,62 +14,60 @@ import {
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Technology",
+  title: "Metodología",
   description:
-    "Discover the OVI Ventures R&D process, core technologies, and quality standards behind our industrial biotechnology solutions.",
+    "Descubre el proceso de trabajo, las tecnologías y los estándares de calidad detrás de los servicios de limpieza y química biodegradable de OVI Ventures.",
 });
 
 const processSteps = [
   {
     number: "1",
-    title: "Research",
-    description:
-      "Deep scientific investigation of target processes and environmental requirements.",
+    title: "Diagnóstico",
+    description: "Evaluación técnica detallada de las necesidades y condiciones del entorno a intervenir.",
   },
   {
     number: "2",
-    title: "Development",
-    description:
-      "Formulating proprietary biological and chemical solutions in our R&D laboratories.",
+    title: "Formulación",
+    description: "Selección y preparación de soluciones químicas biodegradables apropiadas para cada caso.",
   },
   {
     number: "3",
-    title: "Testing",
-    description: "Rigorous multi-phase testing under real industrial conditions.",
+    title: "Ejecución",
+    description: "Aplicación del servicio con personal capacitado, equipos especializados y protocolos de seguridad.",
   },
   {
     number: "4",
-    title: "Deployment",
-    description: "Validated solutions delivered with full technical support and monitoring.",
+    title: "Verificación",
+    description: "Control de calidad post intervención y seguimiento para garantizar los resultados esperados.",
   },
 ];
 
 const technologies = [
   {
     icon: Microscope,
-    title: "Applied Microbiology",
+    title: "Química Biodegradable",
     description:
-      "We engineer microorganism-based systems that support remediation, treatment efficiency, and resilient biological performance in industrial settings.",
+      "Utilizamos formulaciones de química verde con alta biodegradabilidad, diseñadas para descomponer contaminantes eficientemente sin dejar residuos tóxicos en el ambiente.",
   },
   {
     icon: FlaskConical,
-    title: "Green Chemistry",
+    title: "Limpieza Técnica Industrial",
     description:
-      "Our formulations emphasize biodegradability, effective contaminant breakdown, and reduced environmental burden without compromising efficacy.",
+      "Aplicamos técnicas especializadas para cada entorno: plantas industriales, infraestructura civil, post obra y flotas de transporte, adaptando el proceso a las condiciones reales.",
   },
   {
     icon: Cog,
-    title: "Process Engineering",
+    title: "Buenas Prácticas Ambientales",
     description:
-      "We align chemistry, biology, and operational workflows to improve repeatability, efficiency, and real-world deployment outcomes.",
+      "Cada servicio incorpora criterios de gestión ambiental responsable: manejo adecuado del agua, clasificación de residuos y uso eficiente de los insumos.",
   },
 ];
 
 const qualityCommitments = [
-  "Pharmaceutical-grade development discipline",
-  "ISO-aligned documentation and validation practices",
-  "Performance testing under representative industrial conditions",
-  "Technical support through deployment and optimization",
+  "Personal técnico certificado y con experiencia en entornos industriales",
+  "Uso exclusivo de productos biodegradables y de bajo impacto ambiental",
+  "Protocolos de seguridad y salud ocupacional en cada intervención",
+  "Seguimiento y verificación de resultados al finalizar cada servicio",
 ];
 
 export default function TechnologyPage() {
@@ -82,17 +80,17 @@ export default function TechnologyPage() {
       >
         <Container className="py-24 text-center">
           <AnimateIn animation="slideUp">
-            <Badge variant="brand">R&amp;D Excellence</Badge>
+            <Badge variant="brand">Excelencia Operativa</Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="5xl" align="center" className="mt-4">
-              Innovation at the Molecular Level
+              Nuestra Metodología de Trabajo
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-              Our proprietary research process turns scientific insight into reliable industrial
-              solutions designed for measurable performance and long-term sustainability.
+              Nuestro proceso de trabajo convierte el conocimiento técnico y la química responsable
+              en soluciones industriales confiables, seguras y con impacto ambiental positivo.
             </Text>
           </AnimateIn>
         </Container>
@@ -102,7 +100,7 @@ export default function TechnologyPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              How We Develop Solutions
+              Cómo Trabajamos
             </Heading>
           </AnimateIn>
 
@@ -126,7 +124,7 @@ export default function TechnologyPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Core Technologies
+              Tecnologías y Enfoques
             </Heading>
           </AnimateIn>
 
@@ -159,17 +157,18 @@ export default function TechnologyPage() {
             <AnimateIn animation="slideRight">
               <Beaker className="h-14 w-14 text-[var(--color-brand-primary)]" />
               <Heading as="h2" size="4xl" className="mt-6">
-                Quality &amp; Compliance
+                Calidad y Responsabilidad
               </Heading>
               <Text size="lg" className="mt-6">
-                OVI Ventures develops solutions with a quality mindset shaped by laboratory rigor,
-                documentation discipline, and deployment accountability. Our systems are informed by
-                pharmaceutical-grade expectations and aligned with the needs of regulated and
-                high-performance industries.
+                OVI Ventures desarrolla sus servicios con un estándar de calidad definido por el
+                rigor técnico, la responsabilidad ambiental y el compromiso con los resultados.
+                Nuestros procesos están alineados con las mejores prácticas de la industria y con
+                los requerimientos de cada cliente.
               </Text>
               <Text className="mt-4">
-                From formulation through implementation, we prioritize traceability,
-                reproducibility, and evidence-based validation to support confident adoption.
+                Desde la formulación hasta la ejecución en campo, priorizamos la trazabilidad, la
+                reproducibilidad y la validación basada en evidencia para garantizar una adopción
+                segura y efectiva de cada servicio.
               </Text>
             </AnimateIn>
 
@@ -193,18 +192,19 @@ export default function TechnologyPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Explore Our Solutions
+              Explore Nuestros Servicios
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mt-4">
-              See how our technology translates into real industrial performance across sectors.
+              Vea cómo nuestra metodología se traduce en resultados industriales concretos en cada
+              sector que atendemos.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8">
               <Link href="/solutions">
-                <Button size="lg">View Solutions</Button>
+                <Button size="lg">Ver Servicios</Button>
               </Link>
             </div>
           </AnimateIn>

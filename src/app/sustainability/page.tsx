@@ -14,9 +14,9 @@ import {
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Sustainability",
+  title: "Sostenibilidad",
   description:
-    "See how OVI Ventures embeds sustainability into research, formulation design, and measurable industrial impact.",
+    "Descubre cómo OVI Ventures integra la sostenibilidad en sus productos, servicios y buenas prácticas ambientales en cada proyecto.",
 });
 
 const pillars = [
@@ -24,29 +24,30 @@ const pillars = [
     icon: Leaf,
     color: "text-[var(--color-brand-accent)]",
     title: "100% Biodegradable",
-    description: "All formulations are engineered to break down naturally without toxic residues.",
+    description:
+      "Todas nuestras formulaciones están diseñadas para degradarse naturalmente sin dejar residuos tóxicos en el suelo ni en el agua.",
   },
   {
     icon: Wind,
     color: "text-[var(--color-brand-primary)]",
-    title: "Carbon Conscious",
+    title: "Huella de Carbono Reducida",
     description:
-      "Reduced carbon footprint across the full product lifecycle through cleaner chemistry and smarter deployment.",
+      "Reducimos las emisiones de carbono a lo largo del ciclo de vida de nuestros productos mediante química más limpia y procesos más eficientes.",
   },
   {
     icon: RefreshCw,
     color: "text-[var(--color-brand-secondary)]",
-    title: "Circular Economy",
+    title: "Economía Circular",
     description:
-      "Waste streams converted to inputs, supporting a closed-loop industrial model wherever possible.",
+      "Transformamos residuos en recursos, promoviendo un modelo industrial de circuito cerrado donde sea posible, especialmente en el lavado de flota.",
   },
 ];
 
 const impactStats = [
-  { value: "90%+", label: "Reduction in CO2 compared to conventional alternatives" },
-  { value: "100%", label: "Biodegradable formula guarantee" },
-  { value: "0", label: "Toxic chemical byproducts" },
-  { value: "50+", label: "Industries using sustainable OVI solutions" },
+  { value: "100%", label: "Garantía de fórmulas biodegradables" },
+  { value: "Cero", label: "Subproductos químicos tóxicos" },
+  { value: "3", label: "Líneas de negocio con criterios ambientales integrados" },
+  { value: "Activo", label: "Compromiso ambiental en cada proyecto" },
 ];
 
 export default function SustainabilityPage() {
@@ -59,17 +60,18 @@ export default function SustainabilityPage() {
       >
         <Container className="py-24 text-center">
           <AnimateIn animation="slideUp">
-            <Badge variant="accent">Environmental Commitment</Badge>
+            <Badge variant="accent">Compromiso Ambiental</Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="5xl" gradient="bio" align="center" className="mt-4">
-              Science for a Sustainable Future
+              Ciencia para un Futuro Sostenible
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-              We design for the planet from the first research hypothesis to the final product
-              outcome, ensuring sustainability is integrated into every solution we build.
+              Diseñamos pensando en el planeta desde la primera formulación hasta el resultado
+              final, asegurando que la sostenibilidad esté integrada en cada solución que
+              desarrollamos.
             </Text>
           </AnimateIn>
         </Container>
@@ -80,17 +82,18 @@ export default function SustainabilityPage() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <AnimateIn animation="slideRight">
               <Heading as="h2" size="4xl">
-                Our Environmental Commitment
+                Nuestro Compromiso Ambiental
               </Heading>
               <Text size="lg" className="mt-6">
-                Sustainability at OVI Ventures begins long before a product reaches the field. We
-                integrate lifecycle thinking, safer chemistry, and biological innovation into our
-                R&amp;D process from day one so that environmental responsibility is embedded, not
-                retrofitted.
+                En OVI Ventures la sostenibilidad comienza mucho antes de que un producto llegue al
+                campo. Integramos pensamiento de ciclo de vida, química más segura e innovación en
+                nuestros procesos desde el inicio, para que la responsabilidad ambiental sea parte
+                esencial y no un añadido posterior.
               </Text>
               <Text className="mt-4">
-                That approach helps our partners reduce waste, lower emissions, and move away from
-                legacy formulations that create avoidable ecological costs.
+                Ese enfoque ayuda a nuestros clientes a reducir residuos, bajar emisiones y alejarse
+                de formulaciones tradicionales que generan costos ecológicos evitables. Las buenas
+                prácticas ambientales no son una opción: son parte del estándar de trabajo.
               </Text>
             </AnimateIn>
 
@@ -102,8 +105,8 @@ export default function SustainabilityPage() {
                   weight="semibold"
                   className="text-[var(--color-brand-accent)]"
                 >
-                  “Performance and sustainability should reinforce each other. That belief is at the
-                  core of every OVI formulation.”
+                  &ldquo;El rendimiento y la sostenibilidad deben reforzarse mutuamente. Esa
+                  convicción está en el centro de cada servicio y producto OVI.&rdquo;
                 </Text>
               </Card>
             </AnimateIn>
@@ -115,7 +118,7 @@ export default function SustainabilityPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Three Pillars of Sustainability
+              Tres Pilares de Sostenibilidad
             </Heading>
           </AnimateIn>
 
@@ -141,7 +144,7 @@ export default function SustainabilityPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Measurable Impact
+              Impacto Medible
             </Heading>
           </AnimateIn>
 
@@ -171,19 +174,19 @@ export default function SustainabilityPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Join the Sustainable Revolution
+              Únase a la Revolución Sostenible
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mt-4">
-              Partner with OVI Ventures to accelerate cleaner operations and more responsible
-              industrial growth.
+              Trabaje con OVI Ventures para acelerar operaciones más limpias y un crecimiento
+              industrial más responsable con el medio ambiente.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8">
               <Link href="/contact">
-                <Button size="lg">Get in Touch</Button>
+                <Button size="lg">Contáctenos</Button>
               </Link>
             </div>
           </AnimateIn>

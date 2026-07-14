@@ -4,9 +4,9 @@ import { ContactForm } from "@components/ui/ContactForm";
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Contact",
+  title: "Contacto",
   description:
-    "Contact OVI Ventures to discuss industrial biotechnology, cleaning technology, and custom formulation opportunities.",
+    "Contacte a OVI Ventures para hablar sobre limpieza industrial, soluciones químicas biodegradables y lavado de flota.",
 });
 
 export default function ContactPage() {
@@ -19,12 +19,12 @@ export default function ContactPage() {
       >
         <Container className="py-24 text-center">
           <Heading as="h1" size="5xl" align="center">
-            Get in Touch
+            Contáctenos
           </Heading>
           <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-            We work with organizations looking to improve industrial performance through
-            science-led, sustainable solutions. Tell us about your challenge and let&apos;s start a
-            conversation.
+            Trabajamos con organizaciones que buscan mejorar su desempeño operativo mediante
+            soluciones de limpieza sostenibles y eficientes. Cuéntenos su necesidad y empecemos a
+            construir juntos.
           </Text>
         </Container>
       </Section>
@@ -34,11 +34,11 @@ export default function ContactPage() {
           <div className="grid gap-8 lg:grid-cols-3 lg:items-start">
             <div className="lg:col-span-2">
               <Heading as="h2" size="3xl">
-                Send a Message
+                Envíenos un Mensaje
               </Heading>
               <Text className="mt-4 max-w-2xl">
-                Share your objectives, technical requirements, or sustainability priorities and our
-                team will connect you with the right specialist.
+                Comparta sus objetivos, requerimientos técnicos o prioridades ambientales y nuestro
+                equipo le conectará con el especialista adecuado.
               </Text>
               <div className="mt-8">
                 <ContactForm />
@@ -47,14 +47,14 @@ export default function ContactPage() {
 
             <Card variant="glass" padding="lg" className="lg:col-span-1">
               <Heading as="h2" size="lg">
-                Contact Information
+                Información de Contacto
               </Heading>
               <div className="mt-8 space-y-6">
                 <div className="flex items-start gap-4">
                   <Mail className="mt-1 h-5 w-5 text-[var(--color-brand-primary)]" />
                   <div>
                     <Text as="p" weight="semibold" textColor="primary">
-                      Email
+                      Correo Electrónico
                     </Text>
                     <a
                       href="mailto:info@oviventures.com"
@@ -77,25 +77,25 @@ export default function ContactPage() {
                       rel="noreferrer"
                       className="mt-1 inline-flex text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]"
                     >
-                      Connect on LinkedIn
+                      Conectar en LinkedIn
                     </a>
                   </div>
                 </div>
 
                 <div>
                   <Text as="p" weight="semibold" textColor="primary">
-                    Response Time
+                    Tiempo de Respuesta
                   </Text>
-                  <Text className="mt-2">We typically respond within 24 hours.</Text>
+                  <Text className="mt-2">Generalmente respondemos en menos de 24 horas.</Text>
                 </div>
 
                 <div>
                   <Text as="p" weight="semibold" textColor="primary">
-                    Global Reach
+                    Cobertura de Servicio
                   </Text>
                   <Text className="mt-2">
-                    OVI Ventures supports partners across international markets with solutions
-                    tailored to local operational and regulatory realities.
+                    OVI Ventures atiende clientes industriales y empresas de transporte que
+                    requieren soluciones de limpieza profesional con enfoque ambiental.
                   </Text>
                 </div>
               </div>

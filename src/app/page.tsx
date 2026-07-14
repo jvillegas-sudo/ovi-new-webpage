@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronDown, CheckCircle2, FlaskConical, Microscope, Settings2 } from "lucide-react";
+import { ChevronDown, CheckCircle2, FlaskConical, Truck, Building2 } from "lucide-react";
 import {
   AnimateIn,
   AnimateStagger,
@@ -14,56 +14,56 @@ import {
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Home",
+  title: "Inicio",
   description:
-    "OVI Ventures builds industrial biotechnology and cleaning technology solutions that raise performance while lowering environmental impact.",
+    "OVI Ventures ofrece soluciones químicas biodegradables, limpieza industrial e infraestructura, y lavado de flota con buenas prácticas ambientales.",
 });
 
 const stats = [
-  { value: "10+", label: "Years of R&D" },
-  { value: "50+", label: "Industrial Applications" },
-  { value: "100%", label: "Biodegradable Formulas" },
-  { value: "Global", label: "Industry Reach" },
+  { value: "3", label: "Líneas de Negocio" },
+  { value: "100%", label: "Fórmulas Biodegradables" },
+  { value: "Industrial", label: "Alcance Sectorial" },
+  { value: "Verde", label: "Compromiso Ambiental" },
 ];
 
 const solutionCards = [
   {
     icon: FlaskConical,
     color: "text-[var(--color-brand-primary)]",
-    title: "Industrial Cleaning",
+    title: "Soluciones Químicas Biodegradables",
     description:
-      "High-performance cleaning systems engineered for production lines, sensitive equipment, and demanding maintenance environments.",
+      "Producción y comercialización de soluciones químicas biodegradables de alto rendimiento para la industria, formuladas para maximizar el desempeño minimizando el impacto ambiental.",
     href: "/solutions",
   },
   {
-    icon: Microscope,
+    icon: Building2,
     color: "text-[var(--color-brand-accent)]",
-    title: "Biotechnology",
+    title: "Limpieza Industrial e Infraestructura",
     description:
-      "Applied microbiology and bioremediation technologies designed to improve process efficiency and environmental outcomes.",
-    href: "/technology",
+      "Limpieza industrial, de infraestructura, post obra gruesa y fina, e impermeabilización. Soluciones integrales para cada etapa constructiva y de mantenimiento.",
+    href: "/solutions",
   },
   {
-    icon: Settings2,
+    icon: Truck,
     color: "text-[var(--color-brand-secondary)]",
-    title: "Custom Formulations",
+    title: "Lavado de Flota Industrial",
     description:
-      "Tailored solution development for complex industrial contexts, regulatory demands, and sustainability objectives.",
-    href: "/products",
+      "Lavado especializado de flota industrial de transporte, incorporando buenas prácticas ambientales para el cuidado del vehículo y del entorno.",
+    href: "/solutions",
   },
 ];
 
-const sciencePoints = [
-  "Microorganism Engineering",
-  "Biodegradable Chemistry",
-  "Industrial-Grade Performance",
-  "Regulatory Compliance",
+const differentiators = [
+  "Productos 100% biodegradables y seguros",
+  "Procesos alineados con buenas prácticas ambientales",
+  "Cobertura industrial integral: desde fábricas hasta flotas",
+  "Equipo técnico especializado en limpieza industrial",
 ];
 
 const sustainabilityStats = [
-  { value: "90%+", label: "CO2 footprint reduction" },
-  { value: "100%", label: "Biodegradable formulas" },
-  { value: "Zero", label: "Toxic byproducts" },
+  { value: "100%", label: "Fórmulas biodegradables" },
+  { value: "Cero", label: "Residuos tóxicos" },
+  { value: "Verde", label: "Prácticas ambientales responsables" },
 ];
 
 export default function HomePage() {
@@ -106,30 +106,30 @@ export default function HomePage() {
         <Container className="relative z-10 py-28 text-center">
           <AnimateIn animation="slideUp">
             <Badge variant="brand" size="lg">
-              Industrial Biotechnology &amp; Cleaning Technology
+              Limpieza Industrial &amp; Química Biodegradable
             </Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="6xl" gradient="brand" align="center" className="mt-6">
-              <span className="block">Science-Driven.</span>
-              <span className="block">Sustainably Built.</span>
+              <span className="block">Limpieza Profesional.</span>
+              <span className="block">Sosteniblemente Hecha.</span>
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl text-balance">
-              OVI Ventures develops biotechnology and cleaning technologies that help industrial
-              operators achieve stronger performance, safer environments, and a more sustainable
-              operational footprint.
+              OVI Ventures desarrolla soluciones químicas biodegradables, servicios de limpieza
+              industrial e infraestructura, y lavado de flota industrial con buenas prácticas
+              ambientales para impulsar un sector productivo más limpio y responsable.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.3}>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/solutions">
-                <Button size="lg">Explore Solutions</Button>
+                <Button size="lg">Ver Servicios</Button>
               </Link>
               <Link href="/about">
                 <Button variant="outline" size="lg">
-                  Learn More
+                  Conócenos
                 </Button>
               </Link>
             </div>
@@ -160,17 +160,18 @@ export default function HomePage() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <AnimateIn animation="slideUp">
-              <Badge variant="accent">What We Do</Badge>
+              <Badge variant="accent">Lo Que Hacemos</Badge>
             </AnimateIn>
             <AnimateIn animation="slideUp" delay={0.1}>
               <Heading as="h2" size="4xl" align="center" className="mt-4">
-                Comprehensive Solutions for Every Industry
+                Tres Líneas de Negocio, Un Solo Compromiso
               </Heading>
             </AnimateIn>
             <AnimateIn animation="slideUp" delay={0.2}>
               <Text size="lg" align="center" className="mt-4">
-                From industrial cleaning performance to biotechnology innovation, we design
-                practical systems that deliver measurable operational and environmental value.
+                Desde la formulación química biodegradable hasta la limpieza de grandes
+                infraestructuras y flotas de transporte, ofrecemos soluciones integrales con impacto
+                ambiental positivo.
               </Text>
             </AnimateIn>
           </div>
@@ -190,7 +191,7 @@ export default function HomePage() {
                     href={card.href}
                     className="mt-8 inline-flex text-sm font-medium text-[var(--color-brand-primary)] transition-colors hover:text-white"
                   >
-                    Learn More →
+                    Conocer más →
                   </Link>
                 </Card>
               );
@@ -203,21 +204,22 @@ export default function HomePage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <AnimateIn animation="slideRight">
-              <Badge variant="brand">Powered by Science</Badge>
+              <Badge variant="brand">¿Por Qué OVI?</Badge>
               <Heading as="h2" size="4xl" className="mt-4">
-                Research-led development for real industrial conditions
+                Soluciones diseñadas para el sector industrial y el cuidado del planeta
               </Heading>
               <Text size="lg" className="mt-6">
-                Our R&amp;D approach combines applied microbiology, green chemistry, and performance
-                engineering. Every formulation is designed to solve a measurable challenge in
-                cleaning, treatment, remediation, or process optimization.
+                Combinamos química verde, experiencia técnica y responsabilidad ambiental para
+                ofrecer servicios que no solo limpian mejor, sino que cuidan el entorno donde
+                operamos. Cada producto y proceso está pensado para reducir el impacto ecológico sin
+                sacrificar rendimiento.
               </Text>
             </AnimateIn>
 
             <AnimateIn animation="slideLeft" delay={0.1}>
               <div className="glass rounded-2xl border border-[var(--color-border-default)] p-8">
                 <ul className="space-y-5">
-                  {sciencePoints.map((item) => (
+                  {differentiators.map((item) => (
                     <li key={item} className="flex items-start gap-4">
                       <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--color-brand-accent)]" />
                       <Text textColor="primary" weight="medium">
@@ -235,17 +237,18 @@ export default function HomePage() {
       <Section background="surface" className="border-t border-[rgba(0,255,133,0.4)]">
         <Container size="lg" className="text-center">
           <AnimateIn animation="slideUp">
-            <Badge variant="accent">Sustainability</Badge>
+            <Badge variant="accent">Sostenibilidad</Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h2" size="4xl" align="center" className="mt-4">
-              Committed to a Cleaner Planet
+              Comprometidos con un Planeta más Limpio
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-4 max-w-3xl">
-              Sustainability is not an afterthought in our process. It is built into the way we
-              design chemistry, engineer biology, and deliver industrial performance.
+              La sostenibilidad no es un complemento; está en el centro de todo lo que hacemos.
+              Diseñamos nuestros productos y procesos para generar el menor impacto posible en el
+              ecosistema, promoviendo buenas prácticas ambientales en cada proyecto.
             </Text>
           </AnimateIn>
 
@@ -263,7 +266,7 @@ export default function HomePage() {
           <AnimateIn animation="slideUp" delay={0.3}>
             <div className="mt-10">
               <Link href="/sustainability">
-                <Button size="lg">Explore Sustainability</Button>
+                <Button size="lg">Ver Sostenibilidad</Button>
               </Link>
             </div>
           </AnimateIn>
@@ -274,23 +277,23 @@ export default function HomePage() {
         <Container size="lg" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Ready to transform your operations?
+              ¿Listo para transformar sus operaciones?
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mx-auto mt-4 max-w-2xl">
-              Let&apos;s build a cleaner, more efficient operating model backed by science,
-              performance data, and sustainable thinking.
+              Construyamos juntos un modelo operativo más limpio, eficiente y ambientalmente
+              responsable.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/contact">
-                <Button size="lg">Get in Touch</Button>
+                <Button size="lg">Contáctenos</Button>
               </Link>
               <Link href="/solutions">
                 <Button variant="outline" size="lg">
-                  View Solutions
+                  Ver Servicios
                 </Button>
               </Link>
             </div>

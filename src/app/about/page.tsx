@@ -14,54 +14,57 @@ import {
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "About",
+  title: "Nosotros",
   description:
-    "Learn about OVI Ventures, our mission, our values, and the science-driven journey behind our sustainable industrial technologies.",
+    "Conoce OVI Ventures, nuestra misión, valores y el camino que nos llevó a ser referentes en limpieza industrial y soluciones químicas biodegradables.",
 });
 
 const values = [
   {
     icon: Shield,
-    title: "Uncompromising Quality",
+    title: "Calidad Garantizada",
     description:
-      "We develop every solution with rigorous scientific standards and performance validation. Reliability in demanding industrial settings is a non-negotiable part of our work.",
+      "Desarrollamos cada servicio y producto con estrictos estándares técnicos y validación de desempeño. La confiabilidad en entornos industriales exigentes es parte fundamental de nuestra propuesta.",
   },
   {
     icon: Leaf,
-    title: "Environmental Sustainability",
+    title: "Compromiso Ambiental",
     description:
-      "Our formulations are designed to reduce harmful residues, support biodegradability, and improve lifecycle impact. Sustainable performance is built into each development decision.",
+      "Nuestras formulaciones están diseñadas para reducir residuos nocivos, favorecer la biodegradabilidad y mejorar el impacto ambiental. Las buenas prácticas ecológicas guían cada decisión.",
   },
   {
     icon: FlaskConical,
-    title: "Scientific Innovation",
+    title: "Innovación Técnica",
     description:
-      "We combine biotechnology, chemistry, and applied research to solve complex operational problems. Innovation starts in the lab but is always shaped by real-world implementation.",
+      "Combinamos química verde, experiencia en limpieza industrial y procesos eficientes para resolver retos operativos complejos. La innovación nace en el laboratorio y se consolida en el campo.",
   },
   {
     icon: Users,
-    title: "Industry Partnership",
+    title: "Alianza con la Industria",
     description:
-      "We work closely with operators, engineers, and decision-makers to create practical outcomes. Long-term partnerships help us tailor solutions that fit each environment precisely.",
+      "Trabajamos de la mano con operadores, ingenieros y tomadores de decisión para crear resultados concretos. Las alianzas de largo plazo nos permiten ajustar soluciones a cada entorno.",
   },
 ];
 
 const milestones = [
   {
-    title: "Founded with a vision",
-    description: "Established to bridge biotechnology and industrial applications.",
+    title: "Nacimos con una visión",
+    description:
+      "Fundados para integrar química biodegradable con las necesidades reales de la industria y el transporte.",
   },
   {
-    title: "First product line",
-    description: "Launched biodegradable industrial cleaning formulations.",
+    title: "Primera línea de productos",
+    description: "Lanzamiento de soluciones químicas biodegradables para limpieza industrial.",
   },
   {
-    title: "Industrial expansion",
-    description: "Partnered with manufacturers across multiple sectors.",
+    title: "Expansión de servicios",
+    description:
+      "Ampliamos nuestra cobertura hacia limpieza de infraestructura, post obra y lavado de flota.",
   },
   {
-    title: "Global reach",
-    description: "Serving industries worldwide with science-driven solutions.",
+    title: "Impacto sectorial",
+    description:
+      "Apoyando a empresas e industrias con soluciones limpias, eficientes y ambientalmente responsables.",
   },
 ];
 
@@ -75,17 +78,18 @@ export default function AboutPage() {
       >
         <Container className="py-24 text-center">
           <AnimateIn animation="slideUp">
-            <Badge variant="brand">Our Story</Badge>
+            <Badge variant="brand">Nuestra Historia</Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="5xl" align="center" className="mt-4">
-              About OVI Ventures
+              Sobre OVI Ventures
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-              OVI Ventures was founded with a clear mission: to bring rigorous science, responsible
-              innovation, and sustainable thinking into the heart of industrial performance.
+              OVI Ventures nació con una misión clara: llevar ciencia responsable, innovación
+              sostenible y excelencia técnica al corazón de la limpieza industrial y la producción
+              de soluciones químicas biodegradables.
             </Text>
           </AnimateIn>
         </Container>
@@ -96,17 +100,18 @@ export default function AboutPage() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <AnimateIn animation="slideRight">
               <Heading as="h2" size="4xl">
-                Our Mission
+                Nuestra Misión
               </Heading>
               <Text size="lg" className="mt-6">
-                We create science-driven industrial solutions that raise operational standards while
-                reducing environmental burden. By integrating biotechnology, green chemistry, and
-                systems thinking, we help businesses modernize without compromising sustainability.
+                Creamos soluciones industriales de limpieza y química biodegradable que elevan los
+                estándares operativos reduciendo la huella ambiental. Integrando química verde,
+                procesos eficientes y buenas prácticas, ayudamos a las empresas a modernizarse sin
+                comprometer la sostenibilidad.
               </Text>
               <Text className="mt-4">
-                Our work is grounded in practical application. Every product and formulation is
-                designed to solve measurable problems across industrial cleaning, remediation,
-                process treatment, and advanced performance optimization.
+                Nuestro trabajo está anclado en la aplicación práctica. Cada producto y servicio
+                está diseñado para resolver problemas medibles en limpieza industrial, post obra,
+                impermeabilización y lavado de flota de transporte.
               </Text>
             </AnimateIn>
 
@@ -118,8 +123,8 @@ export default function AboutPage() {
                   weight="semibold"
                   className="text-[var(--color-brand-accent)]"
                 >
-                  “We believe the future of industry depends on solutions that are both highly
-                  effective and inherently responsible.”
+                  &ldquo;Creemos que el futuro de la industria depende de soluciones que sean
+                  altamente efectivas e inherentemente responsables con el medio ambiente.&rdquo;
                 </Text>
               </Card>
             </AnimateIn>
@@ -131,7 +136,7 @@ export default function AboutPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Our Core Values
+              Nuestros Valores
             </Heading>
           </AnimateIn>
 
@@ -157,7 +162,7 @@ export default function AboutPage() {
         <Container size="lg">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Our Journey
+              Nuestro Recorrido
             </Heading>
           </AnimateIn>
 
@@ -181,19 +186,19 @@ export default function AboutPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Partner with OVI Ventures
+              Trabaje con OVI Ventures
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mt-4">
-              Work with a team that understands the balance between technical performance,
-              operational reality, and environmental responsibility.
+              Cuente con un equipo que entiende el equilibrio entre desempeño técnico, realidad
+              operativa y responsabilidad ambiental.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8">
               <Link href="/contact">
-                <Button size="lg">Contact Us</Button>
+                <Button size="lg">Contáctenos</Button>
               </Link>
             </div>
           </AnimateIn>

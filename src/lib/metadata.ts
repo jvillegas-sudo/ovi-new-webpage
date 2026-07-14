@@ -61,7 +61,7 @@ export function buildMetadata(options: MetadataOptions = {}): Metadata {
           alt: fullTitle,
         },
       ],
-      locale: "en_US",
+      locale: "es_ES",
       type: "website",
     },
     twitter: {

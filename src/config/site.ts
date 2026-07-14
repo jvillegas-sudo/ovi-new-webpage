@@ -10,20 +10,20 @@
 
 export const siteConfig = {
   name: "OVI Ventures",
-  tagline: "Industrial Biotechnology & Cleaning Technology",
+  tagline: "Limpieza Industrial & Soluciones Químicas Biodegradables",
   description:
-    "OVI Ventures is a leader in industrial biotechnology and cleaning technology, delivering science-driven solutions for a cleaner, more sustainable world.",
+    "OVI Ventures es líder en limpieza industrial, producción de soluciones químicas biodegradables y lavado de flota, comprometidos con el medio ambiente y las buenas prácticas ambientales.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "https://oviventures.com",
   ogImage: "/og-image.jpg",
   keywords: [
-    "industrial biotechnology",
-    "cleaning technology",
-    "sustainable solutions",
+    "limpieza industrial",
+    "soluciones químicas biodegradables",
+    "lavado de flota",
     "OVI Ventures",
-    "bioclean",
-    "industrial cleaning",
-    "green chemistry",
-    "microbiological solutions",
+    "impermeabilización",
+    "post obra",
+    "limpieza de infraestructura",
+    "buenas prácticas ambientales",
   ],
 
   // ─── Contact ───────────────────────────────────────────────────────────────
@@ -44,16 +44,16 @@ export const siteConfig = {
   // ─── Navigation ────────────────────────────────────────────────────────────
   nav: {
     main: [
-      { label: "Home", href: "/" },
-      { label: "About", href: "/about" },
-      { label: "Solutions", href: "/solutions" },
-      { label: "Products", href: "/products" },
-      { label: "Technology", href: "/technology" },
-      { label: "Sustainability", href: "/sustainability" },
-      { label: "Contact", href: "/contact" },
+      { label: "Inicio", href: "/" },
+      { label: "Nosotros", href: "/about" },
+      { label: "Servicios", href: "/solutions" },
+      { label: "Productos", href: "/products" },
+      { label: "Metodología", href: "/technology" },
+      { label: "Sostenibilidad", href: "/sustainability" },
+      { label: "Contacto", href: "/contact" },
     ],
     cta: {
-      label: "Get in Touch",
+      label: "Contáctenos",
       href: "/contact",
     },
   },
@@ -62,36 +62,34 @@ export const siteConfig = {
   footer: {
     groups: [
       {
-        title: "Company",
+        title: "Empresa",
         links: [
-          { label: "About OVI", href: "/about" },
-          { label: "Technology", href: "/technology" },
-          { label: "Sustainability", href: "/sustainability" },
-          { label: "Careers", href: "/careers" },
+          { label: "Nosotros", href: "/about" },
+          { label: "Metodología", href: "/technology" },
+          { label: "Sostenibilidad", href: "/sustainability" },
         ],
       },
       {
-        title: "Solutions",
+        title: "Servicios",
         links: [
-          { label: "Industrial Cleaning", href: "/solutions/industrial-cleaning" },
-          { label: "Biotechnology", href: "/solutions/biotechnology" },
-          { label: "Custom Formulations", href: "/solutions/custom" },
+          { label: "Soluciones Químicas", href: "/solutions" },
+          { label: "Limpieza Industrial", href: "/solutions" },
+          { label: "Lavado de Flota", href: "/solutions" },
         ],
       },
       {
-        title: "Contact",
+        title: "Contacto",
         links: [
-          { label: "Get in Touch", href: "/contact" },
-          { label: "Support", href: "/support" },
-          { label: "Partners", href: "/partners" },
+          { label: "Contáctenos", href: "/contact" },
+          { label: "Productos", href: "/products" },
         ],
       },
     ],
     legal: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
+      { label: "Política de Privacidad", href: "/privacy" },
+      { label: "Términos de Servicio", href: "/terms" },
     ],
-    copyright: `© ${new Date().getFullYear()} OVI Ventures. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} OVI Ventures. Todos los derechos reservados.`,
   },
 } as const;
 

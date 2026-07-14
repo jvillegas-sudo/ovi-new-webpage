@@ -64,7 +64,7 @@ export function Navbar() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-lg focus:bg-[var(--color-brand-primary)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-black"
       >
-        Skip to main content
+        Ir al contenido principal
       </a>
 
       <motion.header
@@ -145,7 +145,7 @@ export function Navbar() {
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
                 aria-expanded={isMobileOpen}
                 aria-controls="mobile-menu"
-                aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+                aria-label={isMobileOpen ? "Cerrar menú" : "Abrir menú"}
               >
                 {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>

@@ -14,53 +14,53 @@ import {
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Products",
+  title: "Productos",
   description:
-    "Explore the OVI Ventures product portfolio across industrial cleaning, biotechnology, protective treatments, and custom solutions.",
+    "Explore el portafolio de productos OVI Ventures: soluciones químicas biodegradables, desengrasantes industriales, desinfectantes y más.",
 });
 
 const products = [
   {
     name: "OVI BioClean Pro",
-    badge: "Industrial Cleaning",
+    badge: "Limpieza Industrial",
     badgeVariant: "brand" as const,
     description:
-      "Advanced enzymatic formulation for heavy industrial degreasing and surface cleaning. Biodegradable and phosphate-free.",
+      "Formulación enzimática avanzada para desengrase industrial intensivo y limpieza de superficies. 100% biodegradable y libre de fosfatos.",
   },
   {
-    name: "OVI Industrial Degreaser",
-    badge: "Cleaning Technology",
+    name: "OVI Desengrasante Industrial",
+    badge: "Tecnología de Limpieza",
     badgeVariant: "default" as const,
     description:
-      "High-performance degreaser formulated for machinery, equipment, and production line maintenance.",
-  },
-  {
-    name: "OVI BioTreat",
-    badge: "Biotechnology",
-    badgeVariant: "accent" as const,
-    description:
-      "Microorganism-based treatment system for wastewater, effluent, and contaminated process streams.",
-  },
-  {
-    name: "OVI Surface Shield",
-    badge: "Protective",
-    badgeVariant: "brand" as const,
-    description:
-      "Long-lasting antimicrobial surface protection for food-grade, healthcare, and industrial environments.",
+      "Desengrasante de alto rendimiento formulado para maquinaria, equipos y mantenimiento de líneas de producción.",
   },
   {
     name: "OVI EcoDetox",
-    badge: "Bioremediation",
+    badge: "Química Verde",
     badgeVariant: "accent" as const,
     description:
-      "Soil and groundwater remediation using tailored microbial consortia for contaminated site restoration.",
+      "Solución biodegradable para el tratamiento y neutralización de contaminantes en superficies y sustratos industriales.",
   },
   {
-    name: "OVI Custom Blend",
-    badge: "Custom Solutions",
+    name: "OVI ImperShield",
+    badge: "Impermeabilización",
+    badgeVariant: "brand" as const,
+    description:
+      "Tratamiento impermeabilizante para superficies de concreto, ladrillo y mampostería en obras de construcción y edificaciones.",
+  },
+  {
+    name: "OVI FlotaClean",
+    badge: "Lavado de Flota",
+    badgeVariant: "accent" as const,
+    description:
+      "Producto especializado para el lavado de vehículos de carga y flota industrial, con criterios de buenas prácticas ambientales.",
+  },
+  {
+    name: "OVI Formulación Personalizada",
+    badge: "A la Medida",
     badgeVariant: "default" as const,
     description:
-      "Bespoke formulation service — we engineer products precisely matched to your operational requirements.",
+      "Servicio de formulación personalizada — desarrollamos productos específicamente adaptados a sus requerimientos operativos y ambientales.",
   },
 ];
 
@@ -74,17 +74,17 @@ export default function ProductsPage() {
       >
         <Container className="py-24 text-center">
           <AnimateIn animation="slideUp">
-            <Badge variant="brand">Product Portfolio</Badge>
+            <Badge variant="brand">Portafolio de Productos</Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="5xl" align="center" className="mt-4">
-              Our Product Range
+              Nuestros Productos
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-              Explore a portfolio engineered to deliver industrial performance, environmental
-              responsibility, and tailored operational value across multiple applications.
+              Explore un portafolio diseñado para brindar rendimiento industrial, responsabilidad
+              ambiental y valor operativo adaptado a múltiples aplicaciones.
             </Text>
           </AnimateIn>
         </Container>
@@ -94,7 +94,7 @@ export default function ProductsPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Engineered for Performance
+              Formulados para el Rendimiento
             </Heading>
           </AnimateIn>
 
@@ -116,7 +116,7 @@ export default function ProductsPage() {
                 <CardFooter className="justify-start">
                   <Link href="/contact">
                     <Button variant="outline" size="sm">
-                      Request Info
+                      Solicitar Información
                     </Button>
                   </Link>
                 </CardFooter>
@@ -130,19 +130,19 @@ export default function ProductsPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Need Something Specific?
+              ¿Necesita Algo Específico?
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mt-4">
-              Our bespoke formulation service helps you solve process-specific challenges with
-              products engineered around your exact requirements.
+              Nuestro servicio de formulación personalizada le ayuda a resolver retos específicos
+              de proceso con productos diseñados a la medida de sus requerimientos.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8">
               <Link href="/contact">
-                <Button size="lg">Contact Our Team</Button>
+                <Button size="lg">Contactar al Equipo</Button>
               </Link>
             </div>
           </AnimateIn>

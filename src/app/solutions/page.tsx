@@ -2,14 +2,12 @@ import Link from "next/link";
 import {
   Building2,
   CheckCircle2,
-  Factory,
   FlaskConical,
-  Fuel,
-  HeartPulse,
-  Microscope,
-  Settings2,
-  Sprout,
-  UtensilsCrossed,
+  Truck,
+  Droplets,
+  HardHat,
+  Factory,
+  ShieldCheck,
 } from "lucide-react";
 import {
   AnimateIn,
@@ -25,64 +23,65 @@ import {
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Solutions",
+  title: "Servicios",
   description:
-    "Explore OVI Ventures solutions across industrial cleaning, biotechnology, and custom formulation services for diverse industries.",
+    "Conoce los servicios de OVI Ventures: soluciones químicas biodegradables, limpieza industrial e infraestructura, y lavado de flota industrial.",
 });
 
-const cleaningBenefits = [
-  "Deep degreasing power for heavy-duty environments",
-  "Reduced residue and improved equipment uptime",
-  "Biodegradable chemistry for safer discharge profiles",
-  "Formulations adaptable to food-safe and industrial settings",
+const chimicaBeneficios = [
+  "Formulaciones biodegradables de alto rendimiento",
+  "Producción y comercialización a escala industrial",
+  "Compatibles con normativas ambientales vigentes",
+  "Adaptables a diferentes sectores productivos",
 ];
 
-const biotechBenefits = [
-  "Biological treatment for wastewater and effluent streams",
-  "Targeted remediation strategies for contaminated systems",
-  "Lower chemical dependence through microorganism-based performance",
-  "Continuous optimization for changing operating conditions",
+const limpiezaBeneficios = [
+  "Limpieza industrial profunda en plantas y fábricas",
+  "Mantenimiento de infraestructura civil y edificaciones",
+  "Post obra: limpieza gruesa, fina e impermeabilización",
+  "Equipos especializados con protocolos de seguridad",
 ];
 
-const customBenefits = [
-  "Tailored chemistry and biology matched to your process",
-  "Technical validation against operational performance goals",
-  "Scalable deployment from pilot runs to full operations",
-  "Documentation support for compliance and procurement teams",
+const flotaBeneficios = [
+  "Lavado especializado de vehículos industriales y de carga",
+  "Uso de productos biodegradables en cada proceso",
+  "Gestión responsable del agua y residuos generados",
+  "Implementación de buenas prácticas ambientales certificables",
 ];
 
-const industries = [
-  {
-    icon: UtensilsCrossed,
-    name: "Food & Beverage",
-    description:
-      "Hygiene-focused cleaning and surface protection for regulated production environments.",
-  },
-  {
-    icon: HeartPulse,
-    name: "Healthcare",
-    description: "High-standard sanitation and antimicrobial performance for critical spaces.",
-  },
+const sectores = [
   {
     icon: Factory,
-    name: "Manufacturing & Industrial",
-    description: "Heavy-duty cleaning, treatment, and process support for complex operations.",
+    name: "Manufactura e Industria",
+    description: "Limpieza profunda y mantenimiento de plantas y equipos industriales en operación.",
   },
   {
-    icon: Fuel,
-    name: "Oil & Gas",
-    description: "Targeted degreasing and remediation solutions for harsh industrial conditions.",
-  },
-  {
-    icon: Sprout,
-    name: "Agriculture",
+    icon: HardHat,
+    name: "Construcción y Obra",
     description:
-      "Biotechnology-led treatments supporting sustainable and resilient production systems.",
+      "Servicios de limpieza post obra gruesa, fina e impermeabilización de estructuras.",
+  },
+  {
+    icon: Truck,
+    name: "Transporte y Logística",
+    description:
+      "Lavado de flotas de camiones, buses y vehículos de carga con criterios ambientales.",
+  },
+  {
+    icon: Droplets,
+    name: "Infraestructura Pública",
+    description: "Limpieza y mantenimiento de infraestructura civil, vial y de servicios públicos.",
+  },
+  {
+    icon: ShieldCheck,
+    name: "Salud y Saneamiento",
+    description:
+      "Soluciones de higiene y desinfección para instalaciones de salud y espacios críticos.",
   },
   {
     icon: Building2,
-    name: "Hospitality",
-    description: "Safe, high-performance sanitation solutions for guest-facing environments.",
+    name: "Comercio e Inmobiliario",
+    description: "Limpieza integral de centros comerciales, oficinas y complejos corporativos.",
   },
 ];
 
@@ -96,17 +95,18 @@ export default function SolutionsPage() {
       >
         <Container className="py-24 text-center">
           <AnimateIn animation="slideUp">
-            <Badge variant="brand">Our Solutions</Badge>
+            <Badge variant="brand">Nuestros Servicios</Badge>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="5xl" align="center" className="mt-4">
-              Solutions for Every Industry
+              Soluciones para Cada Necesidad Industrial
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-              We combine scientific depth with industrial pragmatism to create technologies that
-              clean better, remediate smarter, and perform responsibly at scale.
+              Combinamos química biodegradable, experiencia en limpieza industrial y buenas
+              prácticas ambientales para ofrecer soluciones que marcan la diferencia en cada
+              proyecto.
             </Text>
           </AnimateIn>
         </Container>
@@ -118,22 +118,21 @@ export default function SolutionsPage() {
             <AnimateIn animation="slideRight">
               <FlaskConical className="h-16 w-16 text-[var(--color-brand-primary)]" />
               <Heading as="h2" size="4xl" className="mt-6">
-                Industrial Cleaning Solutions
+                Soluciones Químicas Biodegradables
               </Heading>
               <Text className="mt-6">
-                OVI Ventures formulates industrial cleaning systems for facilities that demand
-                performance, precision, and operational resilience. Our products are engineered to
-                remove stubborn contamination while protecting surfaces, equipment, and workflow
-                continuity.
+                OVI Ventures produce y comercializa soluciones químicas biodegradables de alto
+                rendimiento para la industria. Nuestros productos están formulados con materia prima
+                de calidad y diseñados para maximizar la eficacia en cada aplicación mientras
+                minimizan el impacto ambiental.
               </Text>
               <Text className="mt-4">
-                Whether applied in production environments, high-throughput maintenance cycles, or
-                hygiene-critical zones, our cleaning technologies are built to reduce manual burden
-                and improve consistency. Each formulation is created with sustainability in mind,
-                minimizing unnecessary residues and hazardous inputs.
+                Trabajamos con sectores productivos que requieren limpiadores, desengrasantes,
+                desinfectantes y productos de mantenimiento que cumplan con estándares industriales
+                sin comprometer el ecosistema.
               </Text>
               <div className="mt-8 space-y-4">
-                {cleaningBenefits.map((benefit) => (
+                {chimicaBeneficios.map((benefit) => (
                   <div key={benefit} className="flex items-start gap-3">
                     <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--color-brand-accent)]" />
                     <Text textColor="primary">{benefit}</Text>
@@ -150,23 +149,23 @@ export default function SolutionsPage() {
                   tracking="widest"
                   className="text-[var(--color-brand-primary)] uppercase"
                 >
-                  Key Benefits
+                  Ventajas Clave
                 </Text>
                 <div className="mt-8 space-y-6">
                   <div>
                     <Text as="p" size="xl" weight="bold" textColor="primary">
-                      Faster turnaround
+                      Alto rendimiento
                     </Text>
                     <Text className="mt-2">
-                      Shorter cleaning cycles with stronger process consistency.
+                      Formulaciones concentradas que optimizan el uso y reducen costos.
                     </Text>
                   </div>
                   <div>
                     <Text as="p" size="xl" weight="bold" textColor="primary">
-                      Lower impact chemistry
+                      Química responsable
                     </Text>
                     <Text className="mt-2">
-                      Designed to reduce harsh residues and support safer handling.
+                      Diseñadas para degradarse de forma natural sin residuos tóxicos.
                     </Text>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -174,13 +173,13 @@ export default function SolutionsPage() {
                       <Text as="p" weight="bold" className="text-[var(--color-brand-primary)]">
                         100%
                       </Text>
-                      <Text size="sm">Biodegradable formulation focus</Text>
+                      <Text size="sm">Fórmulas biodegradables</Text>
                     </div>
                     <div className="rounded-xl bg-[var(--glass-bg)] p-4">
                       <Text as="p" weight="bold" className="text-[var(--color-brand-primary)]">
-                        24/7
+                        Industrial
                       </Text>
-                      <Text size="sm">Designed for round-the-clock operations</Text>
+                      <Text size="sm">Capacidad productiva a escala</Text>
                     </div>
                   </div>
                 </div>
@@ -201,31 +200,31 @@ export default function SolutionsPage() {
                   tracking="widest"
                   className="text-[var(--color-brand-accent)] uppercase"
                 >
-                  Key Facts
+                  Cobertura de Servicio
                 </Text>
                 <div className="mt-8 space-y-6">
                   <div>
                     <Text as="p" size="xl" weight="bold" textColor="primary">
-                      Biological precision
+                      Limpieza integral
                     </Text>
                     <Text className="mt-2">
-                      Custom microbial systems tuned to real treatment challenges.
+                      Desde plantas industriales hasta edificaciones post construcción.
                     </Text>
                   </div>
                   <div>
                     <Text as="p" size="xl" weight="bold" textColor="primary">
-                      Environmental gain
+                      Impermeabilización
                     </Text>
                     <Text className="mt-2">
-                      Lower chemical intensity with measurable remediation value.
+                      Tratamientos técnicos para proteger estructuras a largo plazo.
                     </Text>
                   </div>
                   <div className="rounded-xl bg-[var(--glass-bg)] p-4">
                     <Text as="p" weight="bold" className="text-[var(--color-brand-accent)]">
-                      50+ applications
+                      Equipo especializado
                     </Text>
                     <Text size="sm">
-                      Adaptable to treatment, remediation, and industrial support workflows.
+                      Personal capacitado en seguridad industrial y técnicas de limpieza avanzadas.
                     </Text>
                   </div>
                 </div>
@@ -233,23 +232,22 @@ export default function SolutionsPage() {
             </AnimateIn>
 
             <AnimateIn animation="slideLeft" delay={0.1} className="lg:order-2">
-              <Microscope className="h-16 w-16 text-[var(--color-brand-accent)]" />
+              <Building2 className="h-16 w-16 text-[var(--color-brand-accent)]" />
               <Heading as="h2" size="4xl" className="mt-6">
-                Biotechnology &amp; Bioremediation
+                Limpieza Industrial e Infraestructura
               </Heading>
               <Text className="mt-6">
-                Our biotechnology platforms harness microorganism performance to improve process
-                treatment, environmental remediation, and system recovery. We focus on biologically
-                active solutions that work efficiently under industrial constraints.
+                Ofrecemos servicios profesionales de limpieza industrial, de infraestructura y post
+                obra. Nuestro equipo está capacitado para intervenir en entornos de alta exigencia,
+                asegurando resultados de calidad en cada etapa del proceso.
               </Text>
               <Text className="mt-4">
-                From wastewater treatment to contamination management, we develop targeted
-                biological systems that reduce dependency on aggressive conventional chemistry. The
-                result is a more balanced approach to operational efficiency and ecological
-                responsibility.
+                Desde la limpieza gruesa posterior a la construcción hasta la limpieza fina de
+                acabados y la impermeabilización de superficies, cubrimos todo el ciclo con
+                soluciones técnicas y ambientalmente responsables.
               </Text>
               <div className="mt-8 space-y-4">
-                {biotechBenefits.map((benefit) => (
+                {limpiezaBeneficios.map((benefit) => (
                   <div key={benefit} className="flex items-start gap-3">
                     <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--color-brand-accent)]" />
                     <Text textColor="primary">{benefit}</Text>
@@ -265,22 +263,23 @@ export default function SolutionsPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <AnimateIn animation="slideRight">
-              <Settings2 className="h-16 w-16 text-[var(--color-brand-secondary)]" />
+              <Truck className="h-16 w-16 text-[var(--color-brand-secondary)]" />
               <Heading as="h2" size="4xl" className="mt-6">
-                Custom Formulation Services
+                Lavado de Flota Industrial
               </Heading>
               <Text className="mt-6">
-                Some industrial challenges demand something more precise than an off-the-shelf
-                answer. Our custom formulation services combine technical discovery, laboratory
-                development, and practical implementation to create fit-for-purpose solutions.
+                Desarrollamos el lavado de flota industrial de transporte con un enfoque en buenas
+                prácticas ambientales. Nuestro proceso garantiza vehículos en óptimas condiciones
+                de higiene y presentación, mientras implementamos medidas responsables en el manejo
+                del agua y los residuos generados.
               </Text>
               <Text className="mt-4">
-                We collaborate with operations teams to understand process requirements, material
-                interactions, environmental constraints, and compliance expectations. That insight
-                guides tailored development that aligns with your exact operating priorities.
+                Trabajamos con empresas de transporte, logística y distribución que quieren
+                mantener su flota impecable sin generar un impacto ambiental negativo. Cada lavado
+                es una oportunidad de reforzar buenas prácticas.
               </Text>
               <div className="mt-8 space-y-4">
-                {customBenefits.map((benefit) => (
+                {flotaBeneficios.map((benefit) => (
                   <div key={benefit} className="flex items-start gap-3">
                     <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--color-brand-accent)]" />
                     <Text textColor="primary">{benefit}</Text>
@@ -297,14 +296,14 @@ export default function SolutionsPage() {
                   tracking="widest"
                   className="text-[var(--color-brand-secondary)] uppercase"
                 >
-                  Process Steps
+                  Nuestro Proceso
                 </Text>
                 <ol className="mt-8 space-y-6">
                   {[
-                    "Technical discovery and problem mapping",
-                    "Lab formulation and compatibility screening",
-                    "Pilot validation in real operating conditions",
-                    "Scale-up support with technical guidance",
+                    "Evaluación del estado y necesidades de la flota",
+                    "Prelavado y eliminación de suciedad pesada",
+                    "Aplicación de productos biodegradables especializados",
+                    "Enjuague y manejo responsable del agua residual",
                   ].map((step, index) => (
                     <li key={step} className="flex gap-4">
                       <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-[var(--glass-bg)] font-semibold text-[var(--color-brand-secondary)]">
@@ -324,21 +323,21 @@ export default function SolutionsPage() {
         <Container>
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="4xl" align="center">
-              Industries We Serve
+              Sectores que Atendemos
             </Heading>
           </AnimateIn>
 
           <AnimateStagger className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {industries.map((industry) => {
-              const Icon = industry.icon;
+            {sectores.map((sector) => {
+              const Icon = sector.icon;
 
               return (
-                <Card key={industry.name} variant="glass" padding="lg" className="h-full">
+                <Card key={sector.name} variant="glass" padding="lg" className="h-full">
                   <Icon className="h-10 w-10 text-[var(--color-brand-primary)]" />
                   <Heading as="h3" size="lg" className="mt-6">
-                    {industry.name}
+                    {sector.name}
                   </Heading>
-                  <Text className="mt-4">{industry.description}</Text>
+                  <Text className="mt-4">{sector.description}</Text>
                 </Card>
               );
             })}
@@ -350,19 +349,18 @@ export default function SolutionsPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Need a Custom Solution?
+              ¿Necesita una Solución Personalizada?
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mt-4">
-              Talk to our team about the technical, environmental, and operational demands of your
-              application.
+              Hable con nuestro equipo sobre sus requerimientos técnicos, ambientales y operativos.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8">
               <Link href="/contact">
-                <Button size="lg">Contact Us</Button>
+                <Button size="lg">Contáctenos</Button>
               </Link>
             </div>
           </AnimateIn>
