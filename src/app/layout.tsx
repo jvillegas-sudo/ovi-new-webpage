@@ -25,6 +25,7 @@ import { Footer } from "@components/layout/Footer";
 import { Cursor } from "@components/ui/Cursor";
 import { Loader } from "@components/ui/Loader";
 import { buildMetadata } from "@lib/metadata";
+import { OviAiCompanion } from "@features/ovi-ai/OviAiCompanion";
 
 // ─── Metadata ────────────────────────────────────────────────────────────────
 export const metadata: Metadata = buildMetadata();
@@ -36,11 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="es"
-      data-theme="dark"
-      suppressHydrationWarning
-    >
+    <html lang="es" data-theme="dark" suppressHydrationWarning>
       <body>
         <Providers>
           {/* Global UI layers */}
@@ -57,9 +54,11 @@ export default function RootLayout({
 
           {/* Footer */}
           <Footer />
+
+          {/* OVI AI — Holographic Companion (Experience Order 004) */}
+          <OviAiCompanion />
         </Providers>
       </body>
     </html>
   );
 }
-
