@@ -74,23 +74,51 @@ const sectors = [
   {
     icon: Factory,
     color: "text-[var(--color-brand-primary)]",
-    title: "Industria y Manufactura",
+    title: "Transporte y Flotas",
     description:
-      "Estandarización de limpieza técnica para continuidad operativa y control de calidad.",
-  },
-  {
-    icon: MonitorSmartphone,
-    color: "text-[var(--color-brand-accent)]",
-    title: "Infraestructura y Operaciones",
-    description:
-      "Gestión integral de higiene y mantenimiento para instalaciones críticas y de alto tránsito.",
+      "Limpieza técnica de flotas con reducción de tiempos de ciclo, menor consumo hídrico y trazabilidad operativa.",
   },
   {
     icon: Cpu,
     color: "text-[var(--color-brand-secondary)]",
-    title: "Flotas y Logística",
+    title: "Industria y Manufactura",
     description:
-      "Soluciones de limpieza inteligente para flotas con foco en productividad y sostenibilidad.",
+      "Estandarización de limpieza técnica para continuidad operativa y control de calidad en entornos industriales.",
+  },
+  {
+    icon: MonitorSmartphone,
+    color: "text-[var(--color-brand-accent)]",
+    title: "Institucional",
+    description:
+      "Protocolos de higiene y mantenimiento para instalaciones de alta densidad de uso y exigencia institucional.",
+  },
+  {
+    icon: Wrench,
+    color: "text-[var(--color-brand-primary)]",
+    title: "Hospitales y Salud",
+    description:
+      "Soluciones de limpieza crítica con validación técnica para entornos hospitalarios y de atención médica.",
+  },
+  {
+    icon: TrendingUp,
+    color: "text-[var(--color-brand-secondary)]",
+    title: "Energía e Infraestructura",
+    description:
+      "Gestión de limpieza para activos críticos de energía, con foco en seguridad operativa y continuidad.",
+  },
+  {
+    icon: Sparkles,
+    color: "text-[var(--color-brand-accent)]",
+    title: "Retail y Comercio",
+    description:
+      "Programas de higiene y presentación para espacios comerciales con alta rotación y exigencia visual.",
+  },
+  {
+    icon: CheckCircle2,
+    color: "text-[var(--color-brand-primary)]",
+    title: "Alimentos y Bebidas",
+    description:
+      "Protocolos HACCP-compatibles para plantas de alimentos con exigencias sanitarias de máximo nivel.",
   },
 ];
 
@@ -225,17 +253,19 @@ export default function HomePage() {
               </Heading>
             </AnimateIn>
           </div>
-          <AnimateStagger className="mt-14 grid gap-6 lg:grid-cols-3">
+          <AnimateStagger className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {sectors.map((card) => {
               const Icon = card.icon;
 
               return (
-                <Card key={card.title} variant="glow" padding="lg" className="flex h-full flex-col">
-                  <Icon className={`h-12 w-12 ${card.color}`} />
-                  <Heading as="h3" size="lg" className="mt-6">
+                <Card key={card.title} variant="glow" padding="md" className="flex h-full flex-col">
+                  <Icon className={`h-8 w-8 ${card.color}`} />
+                  <Heading as="h3" size="md" className="mt-4">
                     {card.title}
                   </Heading>
-                  <Text className="mt-4 flex-1">{card.description}</Text>
+                  <Text size="sm" className="mt-2 flex-1">
+                    {card.description}
+                  </Text>
                 </Card>
               );
             })}
@@ -417,7 +447,7 @@ export default function HomePage() {
           <AnimateIn animation="slideUp" delay={0.3}>
             <div className="mt-10">
               <Link href="/contact">
-                <Button size="lg">Solicitar Cotización</Button>
+                <Button size="lg">Explorar Soluciones</Button>
               </Link>
             </div>
           </AnimateIn>
@@ -463,7 +493,7 @@ export default function HomePage() {
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/contact">
-                <Button size="lg">Solicitar Diagnóstico</Button>
+                <Button size="lg">▶ Iniciar la Experiencia</Button>
               </Link>
               <Link href="/contact">
                 <Button variant="outline" size="lg">
