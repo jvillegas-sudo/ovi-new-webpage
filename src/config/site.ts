@@ -51,6 +51,7 @@ export const siteConfig = {
       { label: "Metodología", href: "/technology" },
       { label: "Sostenibilidad", href: "/sustainability" },
       { label: "OVI AI", href: "/ovi-ai" },
+      { label: "OVI OS", href: "/ovi-os" },
       { label: "Contacto", href: "/contact" },
     ],
     cta: {
