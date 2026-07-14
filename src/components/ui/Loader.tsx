@@ -10,6 +10,7 @@
  */
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import { useUIStore } from "@store/ui.store";
 import { cn } from "@utils/cn";
 
@@ -19,6 +20,32 @@ interface LoaderProps {
 
 export function Loader({ className }: LoaderProps) {
   const isLoading = useUIStore((s) => s.isLoading);
+  const setLoading = useUIStore((s) => s.setLoading);
+
+  useEffect(() => {
+    let didFinish = false;
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const finishLoading = () => {
+      if (didFinish) return;
+      didFinish = true;
+      hideTimer = window.setTimeout(() => setLoading(false), 250);
+    };
+
+    if (document.readyState === "complete") {
+      finishLoading();
+    } else {
+      window.addEventListener("load", finishLoading, { once: true });
+      fallbackTimer = window.setTimeout(finishLoading, 6000);
+    }
+
+    return () => {
+      window.removeEventListener("load", finishLoading);
+      if (hideTimer) window.clearTimeout(hideTimer);
+      if (fallbackTimer) window.clearTimeout(fallbackTimer);
+    };
+  }, [setLoading]);
 
   return (
     <AnimatePresence>
