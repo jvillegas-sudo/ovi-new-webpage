@@ -9,17 +9,18 @@
  */
 
 export const siteConfig = {
-  name: "OVI Ventures",
-  tagline: "Limpieza Industrial & Soluciones Químicas Biodegradables",
+  name: "OVI",
+  tagline: "Ingeniería en Limpieza",
   description:
-    "OVI Ventures es líder en limpieza industrial, producción de soluciones químicas biodegradables y lavado de flota, comprometidos con el medio ambiente y las buenas prácticas ambientales.",
+    "OVI — Ingeniería en Limpieza. Diseñamos soluciones inteligentes para resolver desafíos de limpieza, mantenimiento e higiene industrial mediante productos especializados, servicios, tecnología e inteligencia artificial.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "https://oviventures.com",
   ogImage: "/og-image.jpg",
   keywords: [
     "limpieza industrial",
     "soluciones químicas biodegradables",
     "lavado de flota",
-    "OVI Ventures",
+    "OVI",
+    "ingeniería en limpieza",
     "impermeabilización",
     "post obra",
     "limpieza de infraestructura",
@@ -94,7 +95,7 @@ export const siteConfig = {
       { label: "Política de Privacidad", href: "/privacy" },
       { label: "Términos de Servicio", href: "/terms" },
     ],
-    copyright: `© ${new Date().getFullYear()} OVI Ventures. Todos los derechos reservados.`,
+    copyright: `© ${new Date().getFullYear()} OVI — Ingeniería en Limpieza. Todos los derechos reservados.`,
   },
 } as const;
 

@@ -16,29 +16,33 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Metodología",
   description:
-    "Descubre el proceso de trabajo, las tecnologías y los estándares de calidad detrás de los servicios de limpieza y química biodegradable de OVI Ventures.",
+    "Descubre el proceso de trabajo, las tecnologías y los estándares de calidad detrás de los servicios de limpieza y química biodegradable de OVI — Ingeniería en Limpieza.",
 });
 
 const processSteps = [
   {
     number: "1",
     title: "Diagnóstico",
-    description: "Evaluación técnica detallada de las necesidades y condiciones del entorno a intervenir.",
+    description:
+      "Evaluación técnica detallada de las necesidades y condiciones del entorno a intervenir.",
   },
   {
     number: "2",
     title: "Formulación",
-    description: "Selección y preparación de soluciones químicas biodegradables apropiadas para cada caso.",
+    description:
+      "Selección y preparación de soluciones químicas biodegradables apropiadas para cada caso.",
   },
   {
     number: "3",
     title: "Ejecución",
-    description: "Aplicación del servicio con personal capacitado, equipos especializados y protocolos de seguridad.",
+    description:
+      "Aplicación del servicio con personal capacitado, equipos especializados y protocolos de seguridad.",
   },
   {
     number: "4",
     title: "Verificación",
-    description: "Control de calidad post intervención y seguimiento para garantizar los resultados esperados.",
+    description:
+      "Control de calidad post intervención y seguimiento para garantizar los resultados esperados.",
   },
 ];
 
@@ -160,10 +164,10 @@ export default function TechnologyPage() {
                 Calidad y Responsabilidad
               </Heading>
               <Text size="lg" className="mt-6">
-                OVI Ventures desarrolla sus servicios con un estándar de calidad definido por el
-                rigor técnico, la responsabilidad ambiental y el compromiso con los resultados.
-                Nuestros procesos están alineados con las mejores prácticas de la industria y con
-                los requerimientos de cada cliente.
+                OVI desarrolla sus servicios con un estándar de calidad definido por el rigor
+                técnico, la responsabilidad ambiental y el compromiso con los resultados. Nuestros
+                procesos están alineados con las mejores prácticas de la industria y con los
+                requerimientos de cada cliente.
               </Text>
               <Text className="mt-4">
                 Desde la formulación hasta la ejecución en campo, priorizamos la trazabilidad, la

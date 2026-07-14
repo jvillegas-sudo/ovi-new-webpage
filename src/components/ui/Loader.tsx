@@ -61,7 +61,7 @@ export function Loader({ className }: LoaderProps) {
             opacity: 0,
             transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
           }}
-          aria-label="Loading OVI Ventures"
+          aria-label="Cargando OVI — Ingeniería en Limpieza"
           role="status"
           aria-live="polite"
         >

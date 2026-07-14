@@ -37,7 +37,7 @@ const meta: Meta<typeof Text> = {
     size: "base",
     textColor: "secondary",
     children:
-      "OVI Ventures develops industrial biotechnology solutions for precision manufacturing. Our platforms accelerate compound discovery and scale production workflows.",
+      "OVI — Ingeniería en Limpieza. Diseñamos soluciones inteligentes para resolver desafíos de limpieza industrial mediante productos especializados, servicios, tecnología e inteligencia artificial.",
   },
 };
 
@@ -83,16 +83,16 @@ export const BodyParagraph: Story = {
         Our Mission
       </Text>
       <Text>
-        At OVI Ventures, we are building the infrastructure layer for the next generation of
-        industrial biotechnology. Our platforms compress discovery-to-production timelines from
-        years to months.
+        At OVI, somos el sistema operativo de la limpieza industrial. Integramos ingeniería,
+        tecnología, protocolos y datos para resolver desafíos complejos de limpieza, mantenimiento e
+        higiene con una visión de largo plazo.
       </Text>
       <Text>
-        With precision fermentation, AI-guided pathway design, and automated scale-up, OVI is
-        redefining what&apos;s possible at the intersection of biology and engineering.
+        Con productos especializados, OVI AI y OVI OS, OVI es la plataforma integral que conecta el
+        problema con la solución exacta.
       </Text>
       <Text size="sm" textColor="tertiary">
-        Founded 2019 · San Francisco, CA · ISO 9001 certified
+        OVI — Ingeniería en Limpieza · oviventures.com
       </Text>
     </div>
   ),

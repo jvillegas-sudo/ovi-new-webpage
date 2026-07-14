@@ -66,8 +66,8 @@ export function ContactForm() {
           Mensaje recibido
         </Text>
         <Text className="mt-3">
-          Gracias por contactar a OVI Ventures. Nuestro equipo revisará su consulta y le responderá
-          con el especialista indicado a la brevedad posible.
+          Gracias por contactar a OVI. Nuestro equipo revisará su consulta y le responderá con el
+          especialista indicado a la brevedad posible.
         </Text>
         <button
           type="button"

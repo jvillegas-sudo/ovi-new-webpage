@@ -62,14 +62,14 @@ export function Navbar() {
       {/* Skip to main content — accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-lg focus:bg-[var(--color-brand-primary)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-black"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-[var(--color-brand-primary)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-black"
       >
         Ir al contenido principal
       </a>
 
       <motion.header
         className={cn(
-          "fixed left-0 right-0 top-0 z-[var(--z-navbar)]",
+          "fixed top-0 right-0 left-0 z-[var(--z-navbar)]",
           "transition-all duration-300",
           isScrolled
             ? "border-b border-[var(--color-border-subtle)] bg-[rgba(5,5,8,0.85)] backdrop-blur-xl"
@@ -89,13 +89,13 @@ export function Navbar() {
             <Link
               href="/"
               className="group flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]"
-              aria-label={`${siteConfig.name} — Home`}
+              aria-label="OVI — Inicio"
             >
               <span className="text-xl font-black tracking-tighter text-[var(--color-brand-primary)] transition-all duration-200 group-hover:text-white">
                 OVI
               </span>
-              <span className="hidden text-sm font-medium text-[var(--color-text-secondary)] sm:block">
-                Ventures
+              <span className="hidden text-xs font-medium tracking-widest text-[var(--color-text-secondary)] sm:block">
+                — INGENIERÍA EN LIMPIEZA
               </span>
             </Link>
 
@@ -124,12 +124,7 @@ export function Navbar() {
 
             {/* Desktop CTA + Mobile Menu Toggle */}
             <div className="flex items-center gap-3">
-              <Button
-                variant="primary"
-                size="sm"
-                className="hidden lg:inline-flex"
-                rounded="full"
-              >
+              <Button variant="primary" size="sm" className="hidden lg:inline-flex" rounded="full">
                 <Link href={siteConfig.nav.cta.href}>{siteConfig.nav.cta.label}</Link>
               </Button>
 
@@ -170,7 +165,6 @@ export function Navbar() {
                   variants={staggerContainer(0.06)}
                   initial="hidden"
                   animate="visible"
-                 
                 >
                   {siteConfig.nav.main.map((link) => (
                     <motion.li key={link.href} variants={staggerItem}>

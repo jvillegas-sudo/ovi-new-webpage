@@ -25,7 +25,7 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Servicios",
   description:
-    "Conoce los servicios de OVI Ventures: soluciones químicas biodegradables, limpieza industrial e infraestructura, y lavado de flota industrial.",
+    "Conoce los servicios de OVI — Ingeniería en Limpieza: soluciones químicas biodegradables, limpieza industrial e infraestructura, y lavado de flota industrial.",
 });
 
 const chimicaBeneficios = [
@@ -53,7 +53,8 @@ const sectores = [
   {
     icon: Factory,
     name: "Manufactura e Industria",
-    description: "Limpieza profunda y mantenimiento de plantas y equipos industriales en operación.",
+    description:
+      "Limpieza profunda y mantenimiento de plantas y equipos industriales en operación.",
   },
   {
     icon: HardHat,
@@ -121,10 +122,10 @@ export default function SolutionsPage() {
                 Soluciones Químicas Biodegradables
               </Heading>
               <Text className="mt-6">
-                OVI Ventures produce y comercializa soluciones químicas biodegradables de alto
-                rendimiento para la industria. Nuestros productos están formulados con materia prima
-                de calidad y diseñados para maximizar la eficacia en cada aplicación mientras
-                minimizan el impacto ambiental.
+                OVI produce y comercializa soluciones químicas biodegradables de alto rendimiento
+                para la industria. Nuestros productos están formulados con materia prima de calidad
+                y diseñados para maximizar la eficacia en cada aplicación mientras minimizan el
+                impacto ambiental.
               </Text>
               <Text className="mt-4">
                 Trabajamos con sectores productivos que requieren limpiadores, desengrasantes,
@@ -269,14 +270,14 @@ export default function SolutionsPage() {
               </Heading>
               <Text className="mt-6">
                 Desarrollamos el lavado de flota industrial de transporte con un enfoque en buenas
-                prácticas ambientales. Nuestro proceso garantiza vehículos en óptimas condiciones
-                de higiene y presentación, mientras implementamos medidas responsables en el manejo
-                del agua y los residuos generados.
+                prácticas ambientales. Nuestro proceso garantiza vehículos en óptimas condiciones de
+                higiene y presentación, mientras implementamos medidas responsables en el manejo del
+                agua y los residuos generados.
               </Text>
               <Text className="mt-4">
-                Trabajamos con empresas de transporte, logística y distribución que quieren
-                mantener su flota impecable sin generar un impacto ambiental negativo. Cada lavado
-                es una oportunidad de reforzar buenas prácticas.
+                Trabajamos con empresas de transporte, logística y distribución que quieren mantener
+                su flota impecable sin generar un impacto ambiental negativo. Cada lavado es una
+                oportunidad de reforzar buenas prácticas.
               </Text>
               <div className="mt-8 space-y-4">
                 {flotaBeneficios.map((benefit) => (

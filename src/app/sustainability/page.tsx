@@ -16,7 +16,7 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Sostenibilidad",
   description:
-    "Descubre cómo OVI Ventures integra la sostenibilidad en sus productos, servicios y buenas prácticas ambientales en cada proyecto.",
+    "Descubre cómo OVI integra la sostenibilidad en sus productos, servicios y buenas prácticas ambientales en cada proyecto.",
 });
 
 const pillars = [
@@ -85,10 +85,10 @@ export default function SustainabilityPage() {
                 Nuestro Compromiso Ambiental
               </Heading>
               <Text size="lg" className="mt-6">
-                En OVI Ventures la sostenibilidad comienza mucho antes de que un producto llegue al
-                campo. Integramos pensamiento de ciclo de vida, química más segura e innovación en
-                nuestros procesos desde el inicio, para que la responsabilidad ambiental sea parte
-                esencial y no un añadido posterior.
+                En OVI la sostenibilidad comienza mucho antes de que un producto llegue al campo.
+                Integramos pensamiento de ciclo de vida, química más segura e innovación en nuestros
+                procesos desde el inicio, para que la responsabilidad ambiental sea parte esencial y
+                no un añadido posterior.
               </Text>
               <Text className="mt-4">
                 Ese enfoque ayuda a nuestros clientes a reducir residuos, bajar emisiones y alejarse
@@ -179,8 +179,8 @@ export default function SustainabilityPage() {
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text size="lg" align="center" className="mt-4">
-              Trabaje con OVI Ventures para acelerar operaciones más limpias y un crecimiento
-              industrial más responsable con el medio ambiente.
+              Trabaje con OVI para acelerar operaciones más limpias y un crecimiento industrial más
+              responsable con el medio ambiente.
             </Text>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>

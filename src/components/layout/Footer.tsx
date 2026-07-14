@@ -26,16 +26,12 @@ export function Footer() {
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-5">
             {/* Brand */}
             <div className="col-span-2 lg:col-span-2">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2"
-                aria-label={`${siteConfig.name} — Home`}
-              >
+              <Link href="/" className="inline-flex items-center gap-2" aria-label="OVI — Inicio">
                 <span className="text-xl font-black tracking-tighter text-[var(--color-brand-primary)]">
                   OVI
                 </span>
-                <span className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Ventures
+                <span className="text-xs font-medium tracking-widest text-[var(--color-text-secondary)]">
+                  — INGENIERÍA EN LIMPIEZA
                 </span>
               </Link>
 
@@ -72,7 +68,7 @@ export function Footer() {
             {/* Nav groups */}
             {siteConfig.footer.groups.map((group) => (
               <div key={group.title}>
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-[var(--color-text-tertiary)]">
+                <h3 className="mb-4 text-xs font-semibold tracking-widest text-[var(--color-text-tertiary)] uppercase">
                   {group.title}
                 </h3>
                 <ul className="flex flex-col gap-3">

@@ -6,7 +6,7 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Contacto",
   description:
-    "Contacte a OVI Ventures para hablar sobre limpieza industrial, soluciones químicas biodegradables y lavado de flota.",
+    "Contacte a OVI para hablar sobre limpieza industrial, soluciones químicas biodegradables y lavado de flota.",
 });
 
 export default function ContactPage() {
@@ -94,8 +94,8 @@ export default function ContactPage() {
                     Cobertura de Servicio
                   </Text>
                   <Text className="mt-2">
-                    OVI Ventures atiende clientes industriales y empresas de transporte que
-                    requieren soluciones de limpieza profesional con enfoque ambiental.
+                    OVI atiende clientes industriales y empresas de transporte que requieren
+                    soluciones de limpieza profesional con enfoque ambiental.
                   </Text>
                 </div>
               </div>

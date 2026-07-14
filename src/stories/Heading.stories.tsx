@@ -82,7 +82,7 @@ export const WeightScale: Story = {
     <div className="flex flex-col gap-4">
       {(["normal", "medium", "semibold", "bold", "extrabold", "black"] as const).map((weight) => (
         <Heading key={weight} as="h3" size="2xl" weight={weight}>
-          {weight} — OVI Ventures
+          {weight} — OVI
         </Heading>
       ))}
     </div>

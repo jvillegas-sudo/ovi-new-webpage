@@ -16,7 +16,7 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Nosotros",
   description:
-    "Conoce OVI Ventures, nuestra misión, valores y el camino que nos llevó a ser referentes en limpieza industrial y soluciones químicas biodegradables.",
+    "Conoce OVI — Ingeniería en Limpieza, nuestra misión, valores y el camino que nos llevó a ser referentes en limpieza industrial y soluciones químicas biodegradables.",
 });
 
 const values = [
@@ -82,14 +82,14 @@ export default function AboutPage() {
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Heading as="h1" size="5xl" align="center" className="mt-4">
-              Sobre OVI Ventures
+              Sobre OVI
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.2}>
             <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl">
-              OVI Ventures nació con una misión clara: llevar ciencia responsable, innovación
-              sostenible y excelencia técnica al corazón de la limpieza industrial y la producción
-              de soluciones químicas biodegradables.
+              OVI nació con una misión clara: llevar ciencia responsable, innovación sostenible y
+              excelencia técnica al corazón de la limpieza industrial y la producción de soluciones
+              químicas biodegradables.
             </Text>
           </AnimateIn>
         </Container>
@@ -186,7 +186,7 @@ export default function AboutPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Trabaje con OVI Ventures
+              Trabaje con OVI
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
