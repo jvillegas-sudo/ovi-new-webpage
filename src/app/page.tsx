@@ -21,6 +21,7 @@ import {
   Text,
 } from "@components/ui";
 import { HomeCinematicJourney } from "@features/home/HomeCinematicJourney";
+import { EngineeringJourneyExperience } from "@features/engineering-journey/EngineeringJourneyExperience";
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
@@ -171,6 +172,9 @@ export default function HomePage() {
   return (
     <>
       <HomeCinematicJourney hero={content.hero} />
+
+      {/* Experience Order 002 — The Engineering Journey */}
+      <EngineeringJourneyExperience />
 
       <Section background="elevated" padding="md">
         <Container>
