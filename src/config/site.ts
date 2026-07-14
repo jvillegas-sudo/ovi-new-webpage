@@ -50,6 +50,7 @@ export const siteConfig = {
       { label: "Productos", href: "/products" },
       { label: "Metodología", href: "/technology" },
       { label: "Sostenibilidad", href: "/sustainability" },
+      { label: "OVI AI", href: "/ovi-ai" },
       { label: "Contacto", href: "/contact" },
     ],
     cta: {
