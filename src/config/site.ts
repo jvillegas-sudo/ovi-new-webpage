@@ -48,6 +48,7 @@ export const siteConfig = {
       { label: "Nosotros", href: "/about" },
       { label: "Servicios", href: "/solutions" },
       { label: "Productos", href: "/products" },
+      { label: "Ingeniería", href: "/engineering" },
       { label: "Metodología", href: "/technology" },
       { label: "Sostenibilidad", href: "/sustainability" },
       { label: "OVI AI", href: "/ovi-ai" },
@@ -67,6 +68,7 @@ export const siteConfig = {
         title: "Empresa",
         links: [
           { label: "Nosotros", href: "/about" },
+          { label: "Ingeniería", href: "/engineering" },
           { label: "Metodología", href: "/technology" },
           { label: "Sostenibilidad", href: "/sustainability" },
         ],
