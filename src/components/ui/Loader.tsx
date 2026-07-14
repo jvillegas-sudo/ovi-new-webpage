@@ -24,8 +24,8 @@ export function Loader({ className }: LoaderProps) {
 
   useEffect(() => {
     let didFinish = false;
-    let hideTimer: ReturnType<typeof setTimeout> | undefined;
-    let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
+    let hideTimer: number | undefined;
+    let fallbackTimer: number | undefined;
 
     const finishLoading = () => {
       if (didFinish) return;
