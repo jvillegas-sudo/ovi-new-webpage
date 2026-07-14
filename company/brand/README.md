@@ -2,15 +2,18 @@
 
 ## Purpose
 
-Almacena todos los activos y lineamientos que definen la identidad visual y verbal de OVI. Este directorio es la fuente de verdad para cualquier expresión de la marca en la plataforma.
+Almacena todos los activos y lineamientos que definen la identidad visual y verbal de OVI. Este directorio es la fuente de verdad para presentar a la compañía como **OVI — Ingeniería en Limpieza** en toda la plataforma.
 
 ## Expected Files
 
 - `brand_guidelines.md` — Lineamientos oficiales de marca (tipografía, paleta de colores, tono de voz, logotipo).
+- `brand-pillars.md` — Pilares permanentes de marca que sostienen el posicionamiento estratégico.
+- `brand-promise.md` — Promesa de marca en revisión y control de versiones.
 - `logo/` — Archivos de logotipo en formatos SVG, PNG y WebP en distintas variantes (positivo, negativo, ícono).
 - `typography.md` — Familias tipográficas aprobadas, jerarquías y usos permitidos.
 - `color_palette.md` — Colores primarios, secundarios y de acento con valores HEX, RGB y CSS custom properties.
-- `tone_of_voice.md` — Guía de tono y voz: formal, técnico, cercano. Ejemplos aprobados y prohibidos.
+- `tone-of-voice.md` — Guía de tono y voz aprobada para toda comunicación de OVI.
+- `visual-language.md` — Metáforas visuales permitidas y prohibidas para futuras implementaciones.
 - `tagline.md` — Taglines oficiales, versiones en español e inglés, contextos de uso.
 
 ## How the Information Will Be Consumed
