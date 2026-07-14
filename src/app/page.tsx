@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ChevronDown,
   CheckCircle2,
   Cpu,
   Factory,
@@ -8,7 +7,6 @@ import {
   Sparkles,
   Bot,
   MonitorSmartphone,
-  Droplets,
   TrendingUp,
 } from "lucide-react";
 import {
@@ -22,6 +20,7 @@ import {
   Section,
   Text,
 } from "@components/ui";
+import { HomeCinematicJourney } from "@features/home/HomeCinematicJourney";
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
@@ -143,84 +142,7 @@ const successCases = [
 export default function HomePage() {
   return (
     <>
-      <Section
-        padding="none"
-        background="transparent"
-        className="relative flex min-h-screen items-center justify-center overflow-hidden"
-      >
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div
-            className="absolute top-[20%] left-[10%] h-[600px] w-[600px] animate-pulse rounded-full"
-            style={{
-              background: "radial-gradient(circle, rgba(0,196,255,0.3) 0%, transparent 70%)",
-              filter: "blur(80px)",
-              animationDuration: "4s",
-            }}
-          />
-          <div
-            className="absolute right-[15%] bottom-[25%] h-[420px] w-[420px] animate-pulse rounded-full"
-            style={{
-              background: "radial-gradient(circle, rgba(0,255,133,0.22) 0%, transparent 70%)",
-              filter: "blur(100px)",
-              animationDuration: "6s",
-              animationDelay: "2s",
-            }}
-          />
-          <div
-            className="absolute top-[12%] right-[25%] h-[320px] w-[320px] animate-pulse rounded-full"
-            style={{
-              background: "radial-gradient(circle, rgba(0,71,171,0.18) 0%, transparent 70%)",
-              filter: "blur(90px)",
-              animationDuration: "5s",
-              animationDelay: "1s",
-            }}
-          />
-        </div>
-
-        <Container className="relative z-10 py-28 text-center">
-          <AnimateIn animation="slideUp">
-            <Badge variant="brand" size="lg">
-              {content.hero.badge}
-            </Badge>
-          </AnimateIn>
-          <AnimateIn animation="slideUp" delay={0.1}>
-            <Heading as="h1" size="6xl" gradient="brand" align="center" className="mt-6">
-              {content.hero.title}
-            </Heading>
-          </AnimateIn>
-          <AnimateIn animation="slideUp" delay={0.2}>
-            <Text size="lg" align="center" className="mx-auto mt-6 max-w-3xl text-balance">
-              {content.hero.subtitle}
-            </Text>
-          </AnimateIn>
-          <AnimateStagger className="mx-auto mt-8 grid max-w-4xl gap-4 md:grid-cols-2">
-            {content.hero.story.map((step) => (
-              <Card key={step} variant="glass" padding="md" className="text-left">
-                <div className="flex items-start gap-3">
-                  <Droplets className="mt-1 h-5 w-5 text-[var(--color-brand-primary)]" />
-                  <Text>{step}</Text>
-                </div>
-              </Card>
-            ))}
-          </AnimateStagger>
-          <AnimateIn animation="slideUp" delay={0.3}>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link href="/contact">
-                <Button size="lg">Solicitar Diagnóstico</Button>
-              </Link>
-              <Link href="/solutions">
-                <Button variant="outline" size="lg">
-                  Explorar Soluciones
-                </Button>
-              </Link>
-            </div>
-          </AnimateIn>
-        </Container>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <ChevronDown size={24} className="text-[var(--color-text-tertiary)]" />
-        </div>
-      </Section>
+      <HomeCinematicJourney hero={content.hero} />
 
       <Section background="elevated" padding="md">
         <Container>
