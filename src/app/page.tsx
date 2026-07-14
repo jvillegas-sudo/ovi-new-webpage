@@ -369,8 +369,8 @@ export default function HomePage() {
           </AnimateStagger>
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-10 text-center">
-              <Link href="/products">
-                <Button size="lg">Explorar Soluciones</Button>
+              <Link href="/store">
+                <Button size="lg">Entrar a OVI Store</Button>
               </Link>
             </div>
           </AnimateIn>

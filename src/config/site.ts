@@ -47,7 +47,7 @@ export const siteConfig = {
       { label: "Inicio", href: "/" },
       { label: "Nosotros", href: "/about" },
       { label: "Servicios", href: "/solutions" },
-      { label: "Productos", href: "/products" },
+      { label: "OVI Store", href: "/store" },
       { label: "Ingeniería", href: "/engineering" },
       { label: "Metodología", href: "/technology" },
       { label: "Sostenibilidad", href: "/sustainability" },
@@ -86,7 +86,7 @@ export const siteConfig = {
         title: "Contacto",
         links: [
           { label: "Contáctenos", href: "/contact" },
-          { label: "Productos", href: "/products" },
+          { label: "OVI Store", href: "/store" },
         ],
       },
     ],
