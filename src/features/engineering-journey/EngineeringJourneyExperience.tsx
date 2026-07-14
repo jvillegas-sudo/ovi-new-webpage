@@ -173,8 +173,8 @@ const SOLUTION_STEPS = [
   { label: "Ingeniería", color: "var(--color-brand-primary)" },
   { label: "Protocolo", color: "var(--color-brand-accent)" },
   { label: "Producto OVI", color: "var(--color-brand-accent)" },
-  { label: "Servicio", color: "var(--color-brand-primary)" },
-  { label: "Resultado", color: "#FFD700" },
+  { label: "Servicio recomendado", color: "var(--color-brand-primary)" },
+  { label: "Resultado esperado", color: "#FFD700" },
 ] as const;
 
 // ─── Utility ─────────────────────────────────────────────────────────────────
@@ -560,6 +560,87 @@ function WaterCleaningEffect({ weight }: { weight: number }) {
   );
 }
 
+function FoamCleaningEffect({ weight }: { weight: number }) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const count = 380;
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      pos[i3] = (Math.random() - 0.5) * 5.2;
+      pos[i3 + 1] = -1.05 + Math.random() * 0.9;
+      pos[i3 + 2] = (Math.random() - 0.5) * 2.6;
+    }
+    return pos;
+  }, []);
+
+  useFrame(({ clock }) => {
+    if (!pointsRef.current) return;
+    pointsRef.current.position.y = Math.sin(clock.elapsedTime * 0.5) * 0.08;
+    pointsRef.current.rotation.y = clock.elapsedTime * 0.04;
+    (pointsRef.current.material as THREE.PointsMaterial).opacity = weight * 0.38;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial size={0.09} color="#E7F7FF" transparent opacity={0} depthWrite={false} />
+    </points>
+  );
+}
+
+function VaporCleaningEffect({ weight }: { weight: number }) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const count = 320;
+
+  const { positions, drift } = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const drift = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      positions[i3] = (Math.random() - 0.5) * 4.8;
+      positions[i3 + 1] = -0.8 + Math.random() * 2.4;
+      positions[i3 + 2] = (Math.random() - 0.5) * 2.4;
+      drift[i3] = (Math.random() - 0.5) * 0.0025;
+      drift[i3 + 1] = 0.004 + Math.random() * 0.006;
+      drift[i3 + 2] = (Math.random() - 0.5) * 0.0015;
+    }
+    return { positions, drift };
+  }, []);
+
+  useFrame((_, delta) => {
+    if (!pointsRef.current?.geometry.attributes.position) return;
+    const attr = pointsRef.current.geometry.attributes.position as THREE.BufferAttribute;
+    const dt = Math.min(delta * 60, 3);
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      positions[i3] += drift[i3] * dt;
+      positions[i3 + 1] += drift[i3 + 1] * dt;
+      positions[i3 + 2] += drift[i3 + 2] * dt;
+
+      if (positions[i3 + 1] > 2.1) {
+        positions[i3] = (Math.random() - 0.5) * 4.8;
+        positions[i3 + 1] = -0.8;
+        positions[i3 + 2] = (Math.random() - 0.5) * 2.4;
+      }
+    }
+    attr.needsUpdate = true;
+    (pointsRef.current.material as THREE.PointsMaterial).opacity = weight * 0.24;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial size={0.12} color="#BFEAFF" transparent opacity={0} depthWrite={false} />
+    </points>
+  );
+}
+
 // ─── Three.js: Ambient Particle Field ────────────────────────────────────────
 
 function AmbientParticles({ progress }: { progress: number }) {
@@ -635,8 +716,10 @@ function JourneyWorld({ progress }: { progress: number; sector: SectorDefinition
       {/* Holographic scan — scene 3 */}
       <HolographicScan weight={w3} />
 
-      {/* Water cleaning rain — scene 7 */}
+      {/* Water + foam + vapor cleaning — scene 7 */}
       <WaterCleaningEffect weight={w6} />
+      <FoamCleaningEffect weight={w6} />
+      <VaporCleaningEffect weight={w6} />
 
       {/* Dynamic scene lighting */}
       <pointLight position={[0, 3.5, 3]} intensity={w3 * 3.5} color="#00FF85" distance={14} />
