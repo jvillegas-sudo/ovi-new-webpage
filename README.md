@@ -75,6 +75,70 @@ Copy `.env.example` to `.env.local` and set:
 - `NEXT_PUBLIC_SITE_NAME`
 - `NEXT_PUBLIC_DEFAULT_THEME`
 
+Recommended values:
+
+- Local: `NEXT_PUBLIC_SITE_URL=http://localhost:3000`
+- Vercel Preview: `NEXT_PUBLIC_SITE_URL=https://<your-preview-url>`
+- Vercel Production: `NEXT_PUBLIC_SITE_URL=https://<your-domain>`
+- `NEXT_PUBLIC_SITE_NAME=OVI`
+- `NEXT_PUBLIC_DEFAULT_THEME=dark`
+
+## Deploying To Vercel
+
+### 1. Configure environment variables
+
+After importing the repository into Vercel:
+
+1. Open the Vercel project.
+2. Go to **Settings** → **Environment Variables**.
+3. Add:
+   - `NEXT_PUBLIC_SITE_URL`
+   - `NEXT_PUBLIC_SITE_NAME`
+   - `NEXT_PUBLIC_DEFAULT_THEME`
+4. Set the variables for:
+   - **Preview**
+   - **Production**
+   - optionally **Development**
+5. Use these values for the initial setup:
+   - Preview: `NEXT_PUBLIC_SITE_URL=https://<your-preview-url>`
+   - Production: `NEXT_PUBLIC_SITE_URL=https://<your-domain>`
+   - `NEXT_PUBLIC_SITE_NAME=OVI`
+   - `NEXT_PUBLIC_DEFAULT_THEME=dark`
+
+### 2. Choose what to deploy
+
+- **Preview deployment**: push a feature branch and let Vercel generate a preview URL for review.
+- **Production deployment**: merge the reviewed work into `main` and let Vercel deploy the production branch.
+
+### 3. Trigger the first deployment
+
+1. Open **Deployments** in Vercel.
+2. Trigger a deploy if one did not start automatically after connecting the repository or pushing a branch.
+3. Wait for the build to finish.
+4. Open the generated deployment URL.
+
+### 4. Verify the preview
+
+Check the generated deployment for:
+
+- successful home page load
+- no 500 errors
+- working navigation and anchor links
+- working scene scroll experience
+- correct styling on desktop and mobile
+
+### 5. Troubleshoot failed deployments
+
+If a deployment fails:
+
+1. Open **Deployments** in Vercel.
+2. Open the failed deployment.
+3. Inspect **Build Logs**.
+4. Compare the failure against local checks:
+   - `npm run lint`
+   - `npm run typecheck`
+   - `npm run build`
+
 ## Notes
 
 - The foundation intentionally stops before building full page-level experiences.
