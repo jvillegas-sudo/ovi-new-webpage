@@ -15,16 +15,21 @@ interface RealMediaPortalProps extends OviDnaBaseProps {
 }
 
 export function RealMediaPortal({ items, weight }: RealMediaPortalProps) {
-  const slots = useMemo(() => items.slice(0, 4), [items]);
+  const slots = useMemo(() => items.slice(0, 7), [items]);
+  const columns = 4;
 
   return (
-    <group position={[0, 0.2, -1.8]}>
+    <group position={[0, 0.1, -1.8]}>
       {slots.map((item, index) => {
-        const x = (index - (slots.length - 1) / 2) * 2.2;
+        const row = Math.floor(index / columns);
+        const indexInRow = index % columns;
+        const itemsInRow = Math.min(columns, slots.length - row * columns);
+        const x = (indexInRow - (itemsInRow - 1) / 2) * 2.2;
+        const y = row === 0 ? 0.74 : -0.74;
         const isOfficial = item.status === "official";
 
         return (
-          <group key={item.id} position={[x, 0, 0]}>
+          <group key={item.id} position={[x, y, 0]}>
             <mesh>
               <planeGeometry args={[1.8, 1.2]} />
               <meshStandardMaterial

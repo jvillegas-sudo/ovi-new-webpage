@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -27,10 +28,25 @@ import {
   WaterRippleSurface,
   WetIndustrialSurface,
 } from "@three/ovi-dna";
+import type { RealMediaItem } from "@three/ovi-dna";
 
 interface HomeCinematicJourneyProps {
   hero: HeroLocaleContent;
   locale?: HomeLocale;
+}
+
+function supportsWebGL(): boolean {
+  if (typeof window === "undefined") return true;
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(
+      canvas.getContext("webgl2") ||
+      canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl"),
+    );
+  } catch {
+    return false;
+  }
 }
 
 type FlatCinematicScene = { id: string; number: string; title: string; tagline: string };
@@ -191,25 +207,16 @@ function CinematicWorld({
   progress,
   reducedMotion,
   quality,
+  mediaItems,
 }: {
   progress: number;
   reducedMotion: boolean;
   quality: "high" | "medium" | "low";
+  mediaItems: readonly RealMediaItem[];
 }) {
   const scenes = buildFlatScenes("es");
   const total = scenes.length;
   const w = (index: number) => sceneWeight(progress, index, total);
-
-  const mediaItems = useMemo(
-    () =>
-      [
-        { id: "sector-transporte", title: "Lavado de flotas", kind: "foto", status: "pending" },
-        { id: "sector-industria", title: "Plantas industriales", kind: "video", status: "pending" },
-        { id: "sector-alimentos", title: "Plantas de alimentos", kind: "foto", status: "pending" },
-        { id: "sector-energia", title: "Paneles solares", kind: "video", status: "pending" },
-      ] as const,
-    [],
-  );
 
   return (
     <>
@@ -251,6 +258,7 @@ function CinematicWorld({
 export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourneyProps) {
   const journeyRef = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0);
+  const [hasWebGL, setHasWebGL] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
   const threePerformanceLevel = useUIStore((state) => state.threePerformanceLevel);
 
@@ -263,9 +271,73 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
     setProgress(Math.max(0, Math.min(1, value)));
   });
 
+  useEffect(() => {
+    setHasWebGL(supportsWebGL());
+  }, []);
+
   const scenes = useMemo(() => buildFlatScenes(locale), [locale]);
   const activeIndex = Math.min(scenes.length - 1, Math.floor(progress * scenes.length));
   const activeScene = scenes[activeIndex];
+  const mediaItems = useMemo(
+    () =>
+      [
+        { id: "sector-transporte", title: "Transporte", kind: "foto", status: "pending" },
+        { id: "sector-industria", title: "Industria", kind: "video", status: "pending" },
+        { id: "sector-alimentos", title: "Alimentos", kind: "foto", status: "pending" },
+        { id: "sector-institucional", title: "Institucional", kind: "foto", status: "pending" },
+        { id: "sector-energia", title: "Energía", kind: "video", status: "pending" },
+        { id: "sector-retail", title: "Retail", kind: "foto", status: "pending" },
+        {
+          id: "sector-infraestructura",
+          title: "Infraestructura",
+          kind: "video",
+          status: "pending",
+        },
+      ] as const,
+    [],
+  );
+
+  if (!hasWebGL) {
+    return (
+      <section className="relative min-h-screen bg-[#02060E]">
+        <Container className="relative z-10 flex min-h-screen flex-col items-center justify-center py-16 text-center">
+          <Badge variant="brand" size="lg">
+            {hero.badge}
+          </Badge>
+          <Heading as="h1" size="6xl" gradient="brand" align="center" className="mt-6">
+            {hero.title}
+          </Heading>
+          <Text size="lg" align="center" className="mx-auto mt-5 max-w-3xl text-balance">
+            {hero.subtitle}
+          </Text>
+          <Image
+            src="/brand/ovi-logo.svg"
+            alt="OVI"
+            width={320}
+            height={135}
+            className="mt-8 w-full max-w-[320px] object-contain opacity-90"
+            priority
+          />
+          <Text
+            size="sm"
+            align="center"
+            className="mx-auto mt-4 max-w-2xl text-[var(--color-text-secondary)]"
+          >
+            Tu dispositivo usa una versión optimizada sin WebGL para mantener la experiencia
+            accesible.
+          </Text>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button size="lg">Iniciar la Experiencia</Button>
+            <Link href="/descubre-tu-solucion">
+              <Button variant="outline" size="lg">
+                Resolver un desafío
+              </Button>
+            </Link>
+          </div>
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <section ref={journeyRef} className="relative h-[700vh]">
@@ -281,6 +353,7 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
               progress={progress}
               reducedMotion={prefersReducedMotion}
               quality={threePerformanceLevel}
+              mediaItems={mediaItems}
             />
             <SceneEnvironment preset="night" intensity={0.58} />
             {!prefersReducedMotion && <PostProcessing />}

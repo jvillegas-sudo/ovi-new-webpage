@@ -115,7 +115,7 @@ export const cinematicScenes: HomeCinematicScene[] = [
     number: "05",
     seoTitle: "Sectores",
     seoDescription:
-      "Portales de contenido oficial y pendiente para transporte, industria y energía.",
+      "Portales de contenido oficial y pendiente para transporte, industria, alimentos, institucional, energía, retail e infraestructura.",
     keywords: ["sectores", "contenido oficial", "portales"],
     images: [],
     icon: "grid-2x2",
@@ -125,7 +125,8 @@ export const cinematicScenes: HomeCinematicScene[] = [
     locales: {
       es: {
         title: "Escena B — Sectores",
-        tagline: "Portales técnicos integran evidencia visual real y pendientes de validación.",
+        tagline:
+          "Portales técnicos integran evidencia visual real para transporte, industria, alimentos, institucional, energía, retail e infraestructura.",
       },
       en: {
         title: "Scene B — Sectors",
