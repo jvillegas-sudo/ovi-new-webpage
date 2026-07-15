@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Card, Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui";
 import { cn } from "@utils/cn";
+import { JourneyContinuityPanel } from "./JourneyContinuityPanel";
 import {
   activityItems,
   authPillars,
@@ -848,6 +849,7 @@ export function OviOsPage() {
 
       <section className="relative py-[var(--section-padding-y)]">
         <div className="mx-auto max-w-[var(--content-width)] px-[var(--page-padding-x)]">
+          <JourneyContinuityPanel />
           <SectionHeading
             eyebrow="Dashboard principal"
             title="Vista unificada del ciclo de vida del servicio"

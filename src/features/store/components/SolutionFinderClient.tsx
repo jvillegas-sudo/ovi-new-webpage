@@ -35,6 +35,7 @@ import { generateResolvedRecommendation } from "@knowledge-engine";
 import type { OviDecisionInput, OviClientGoal } from "@knowledge-engine";
 import type { OviSector, OviContaminationType } from "@knowledge";
 import { useCartStore } from "@store/cart.store";
+import { useExperienceContextStore } from "@store/experience-context.store";
 
 // ─── Local button class helpers ───────────────────────────────────────────────
 
@@ -66,9 +67,21 @@ const CONTAMINATION_LEVEL_OPTIONS: Array<{
   label: string;
   hint: string;
 }> = [
-  { value: "leve", label: "Leve", hint: "Suciedad superficial, limpieza de mantenimiento regular." },
-  { value: "moderado", label: "Moderado", hint: "Acumulación visible, requiere acción correctiva." },
-  { value: "severo", label: "Severo", hint: "Incrustaciones o capas múltiples, limpieza profunda." },
+  {
+    value: "leve",
+    label: "Leve",
+    hint: "Suciedad superficial, limpieza de mantenimiento regular.",
+  },
+  {
+    value: "moderado",
+    label: "Moderado",
+    hint: "Acumulación visible, requiere acción correctiva.",
+  },
+  {
+    value: "severo",
+    label: "Severo",
+    hint: "Incrustaciones o capas múltiples, limpieza profunda.",
+  },
   { value: "crítico", label: "Crítico", hint: "Contaminación grave o riesgo sanitario activo." },
 ];
 
@@ -93,12 +106,17 @@ export interface SolutionFinderClientProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function SolutionFinderClient({
-  sectors,
-  contaminationTypes,
-}: SolutionFinderClientProps) {
-  const [currentStep, setCurrentStep] = useState<Step>("industria");
-  const [input, setInput] = useState<OviDecisionInput>({});
+export function SolutionFinderClient({ sectors, contaminationTypes }: SolutionFinderClientProps) {
+  const experienceCtx = useExperienceContextStore();
+
+  // Seed initial input from Experience Context (fallback: empty)
+  const [input, setInput] = useState<OviDecisionInput>(() => ({
+    industryId: experienceCtx.industryId ?? undefined,
+    contaminationId: experienceCtx.contaminationId ?? undefined,
+    contaminationLevel:
+      (experienceCtx.contaminationLevel as OviDecisionInput["contaminationLevel"]) ?? undefined,
+    clientGoal: (experienceCtx.clientGoal as OviClientGoal) ?? undefined,
+  }));
   const [recommendation, setRecommendation] = useState<ReturnType<
     typeof generateResolvedRecommendation
   > | null>(null);
@@ -106,14 +124,19 @@ export function SolutionFinderClient({
   const addItem = useCartStore((s) => s.addItem);
   const setMeta = useCartStore((s) => s.setMeta);
 
+  // Advance starting step when context already has industryId (came from Lab/AI)
+  const [currentStep, setCurrentStep] = useState<Step>(() => {
+    if (experienceCtx.industryId && experienceCtx.contaminationId) return "nivel";
+    if (experienceCtx.industryId) return "contaminacion";
+    return "industria";
+  });
+
   // Contamination types filtered to selected sector
-  const filteredContamination =
-    input.industryId
-      ? contaminationTypes.filter(
-          (c) =>
-            c.sectoresHabituales.includes(input.industryId!) && c.status !== "inactivo",
-        )
-      : contaminationTypes.filter((c) => c.status !== "inactivo");
+  const filteredContamination = input.industryId
+    ? contaminationTypes.filter(
+        (c) => c.sectoresHabituales.includes(input.industryId!) && c.status !== "inactivo",
+      )
+    : contaminationTypes.filter((c) => c.status !== "inactivo");
 
   const currentStepIndex = STEP_ORDER.indexOf(currentStep);
   const totalInputSteps = STEP_ORDER.length - 1; // exclude "resultado"
@@ -132,26 +155,20 @@ export function SolutionFinderClient({
 
   // ── Selection handlers ────────────────────────────────────────────────────
 
-  const selectIndustry = useCallback(
-    (sectorId: string) => {
-      setInput((prev) => ({ ...prev, industryId: sectorId, contaminationId: undefined }));
-      setCurrentStep("contaminacion");
-    },
-    [],
-  );
+  const selectIndustry = useCallback((sectorId: string) => {
+    setInput((prev) => ({ ...prev, industryId: sectorId, contaminationId: undefined }));
+    setCurrentStep("contaminacion");
+  }, []);
 
   const selectContamination = useCallback((contaminationId: string) => {
     setInput((prev) => ({ ...prev, contaminationId }));
     setCurrentStep("nivel");
   }, []);
 
-  const selectLevel = useCallback(
-    (level: OviDecisionInput["contaminationLevel"]) => {
-      setInput((prev) => ({ ...prev, contaminationLevel: level }));
-      setCurrentStep("objetivo");
-    },
-    [],
-  );
+  const selectLevel = useCallback((level: OviDecisionInput["contaminationLevel"]) => {
+    setInput((prev) => ({ ...prev, contaminationLevel: level }));
+    setCurrentStep("objetivo");
+  }, []);
 
   const selectGoal = useCallback(
     (goal: OviClientGoal | null) => {
@@ -163,8 +180,31 @@ export function SolutionFinderClient({
       const rec = generateResolvedRecommendation(newInput);
       setRecommendation(rec);
       setCurrentStep("resultado");
+
+      // Write result to Experience Context
+      experienceCtx.updateInput({
+        industryId: newInput.industryId,
+        contaminationId: newInput.contaminationId,
+        contaminationLevel: newInput.contaminationLevel ?? undefined,
+        clientGoal: newInput.clientGoal ?? undefined,
+      });
+      experienceCtx.setDiagnosis(
+        {
+          diagnosis: rec.diagnosis ?? null,
+          technicalJustification: rec.technicalJustification ?? null,
+          primaryProductId: rec.primaryProduct?.id ?? null,
+          primaryProductName: rec.primaryProduct?.nombre ?? null,
+          protocolId: rec.protocol?.codigo ?? null,
+          protocolName: rec.protocol?.nombre ?? null,
+          serviceId: rec.service?.id ?? null,
+          serviceName: rec.service?.nombre ?? null,
+          expectedBenefit: rec.expectedBenefit ?? null,
+        },
+        "store",
+        "contact",
+      );
     },
-    [input],
+    [input, experienceCtx],
   );
 
   const reset = useCallback(() => {
@@ -251,8 +291,8 @@ export function SolutionFinderClient({
             ¿En qué industria opera?
           </Heading>
           <Text size="lg" className="mt-3 max-w-2xl">
-            El contexto operacional determina los estándares, restricciones y protocolos
-            aplicables. Seleccione la industria que mejor describe su operación.
+            El contexto operacional determina los estándares, restricciones y protocolos aplicables.
+            Seleccione la industria que mejor describe su operación.
           </Text>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {sectors.map((sector) => (
@@ -461,10 +501,10 @@ export function SolutionFinderClient({
           <Card
             variant="glass"
             padding="lg"
-            className="border border-[var(--color-border-brand)] mb-8"
+            className="mb-8 border border-[var(--color-border-brand)]"
           >
             <div className="flex items-start gap-4">
-              <div className="rounded-2xl bg-[rgba(0,196,255,0.1)] p-3 shrink-0">
+              <div className="shrink-0 rounded-2xl bg-[rgba(0,196,255,0.1)] p-3">
                 <Target className="h-6 w-6 text-[var(--color-brand-primary)]" />
               </div>
               <div>
@@ -509,10 +549,7 @@ export function SolutionFinderClient({
                     <ShoppingBag className="h-4 w-4" />
                     Agregar al carrito
                   </button>
-                  <Link
-                    href={`/store/${recommendation.primaryProduct.id}`}
-                    className={outlineBtn}
-                  >
+                  <Link href={`/store/${recommendation.primaryProduct.id}`} className={outlineBtn}>
                     Ver ficha técnica
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -595,7 +632,7 @@ export function SolutionFinderClient({
                 <Text className="mt-3 flex-1">{recommendation.service.descripcion}</Text>
                 {recommendation.service.entregables.length > 0 && (
                   <div className="mt-4">
-                    <Text size="sm" textColor="tertiary" className="uppercase tracking-widest">
+                    <Text size="sm" textColor="tertiary" className="tracking-widest uppercase">
                       Entregables
                     </Text>
                     <ul className="mt-2 space-y-1">

@@ -29,7 +29,12 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-export function ContactForm() {
+export interface ContactFormPrefill {
+  industry?: string;
+  message?: string;
+}
+
+export function ContactForm({ prefill }: { prefill?: ContactFormPrefill }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const {
     register,
@@ -42,8 +47,8 @@ export function ContactForm() {
       name: "",
       email: "",
       company: "",
-      industry: "",
-      message: "",
+      industry: prefill?.industry ?? "",
+      message: prefill?.message ?? "",
     },
   });
 

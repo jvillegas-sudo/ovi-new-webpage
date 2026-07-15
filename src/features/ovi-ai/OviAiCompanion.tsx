@@ -42,6 +42,7 @@ import {
 import { cn } from "@utils/cn";
 import { useOviAiStore } from "@store/ovi-ai.store";
 import type { OviAiSession } from "@store/ovi-ai.store";
+import { useExperienceContextStore } from "@store/experience-context.store";
 import {
   OVI_GREETING,
   OVI_INTEGRATION_LINKS,
@@ -963,6 +964,8 @@ export function OviAiCompanion() {
     resetSession,
   } = useOviAiStore();
 
+  const experienceCtx = useExperienceContextStore();
+
   const [analysisStage, setAnalysisStage] = useState<string>(ANALYSIS_STAGES[0]);
   const panelRef = useRef<HTMLDivElement>(null);
   const hasInit = useRef(false);
@@ -996,6 +999,31 @@ export function OviAiCompanion() {
   useEffect(() => {
     if (!isOpen || hasInit.current || session.messages.length > 0) return;
     hasInit.current = true;
+
+    // Seed diagnostic context from Experience Context (e.g. set in OVI Lab)
+    const {
+      industryId,
+      assetType,
+      zone,
+      surfaceId,
+      contaminationId,
+      contaminationLevel,
+      clientGoal,
+    } = experienceCtx;
+    const seededContext: Partial<OviDecisionInput> = {};
+    if (industryId) seededContext.industryId = industryId;
+    if (assetType) seededContext.assetType = assetType;
+    if (zone) seededContext.zone = zone;
+    if (surfaceId) seededContext.surfaceId = surfaceId;
+    if (contaminationId) seededContext.contaminationId = contaminationId;
+    if (contaminationLevel)
+      seededContext.contaminationLevel =
+        contaminationLevel as OviDecisionInput["contaminationLevel"];
+    if (clientGoal) seededContext.clientGoal = clientGoal as OviDecisionInput["clientGoal"];
+
+    if (Object.keys(seededContext).length > 0) {
+      updateDiagnosticContext(seededContext);
+    }
 
     // Greeting message
     addMessage({
@@ -1033,6 +1061,37 @@ export function OviAiCompanion() {
         const recommendation = computeRecommendation(context);
         setRecommendation(recommendation);
         setAnalysisStage(ANALYSIS_STAGES[0]);
+
+        // Write recommendation to Experience Context
+        const product = recommendation.primaryProductId
+          ? getProduct(recommendation.primaryProductId)
+          : null;
+        const protocol = recommendation.protocolId ? getProtocol(recommendation.protocolId) : null;
+        const service = recommendation.serviceId ? getService(recommendation.serviceId) : null;
+        experienceCtx.updateInput({
+          industryId: context.industryId ?? undefined,
+          assetType: context.assetType ?? undefined,
+          zone: context.zone ?? undefined,
+          surfaceId: context.surfaceId ?? undefined,
+          contaminationId: context.contaminationId ?? undefined,
+          contaminationLevel: context.contaminationLevel ?? undefined,
+          clientGoal: context.clientGoal ?? undefined,
+        });
+        experienceCtx.setDiagnosis(
+          {
+            diagnosis: recommendation.diagnosis ?? null,
+            technicalJustification: recommendation.technicalJustification ?? null,
+            primaryProductId: recommendation.primaryProductId ?? null,
+            primaryProductName: product?.nombre ?? null,
+            protocolId: recommendation.protocolId ?? null,
+            protocolName: protocol ? `${protocol.codigo} — ${protocol.nombre}` : null,
+            serviceId: recommendation.serviceId ?? null,
+            serviceName: service?.nombre ?? null,
+            expectedBenefit: recommendation.expectedBenefit ?? null,
+          },
+          "ovi-ai",
+          "store/soluciones",
+        );
       }, 2800);
 
       return () => {
@@ -1040,7 +1099,7 @@ export function OviAiCompanion() {
         window.clearTimeout(timeout);
       };
     },
-    [setAnalysisState, setDiagnosticPhase, setRecommendation],
+    [setAnalysisState, setDiagnosticPhase, setRecommendation, experienceCtx],
   );
 
   // Handle quick-select option button click

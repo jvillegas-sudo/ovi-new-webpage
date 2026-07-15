@@ -1,6 +1,6 @@
 import { ExternalLink, Mail } from "lucide-react";
 import { Card, Container, Heading, Section, Text } from "@components/ui";
-import { ContactForm } from "@components/ui/ContactForm";
+import { ContactContextPrefill } from "@components/ui/ContactContextPrefill";
 import { buildMetadata } from "@lib/metadata";
 
 export const metadata = buildMetadata({
@@ -41,7 +41,7 @@ export default function ContactPage() {
                 equipo le conectará con el especialista adecuado.
               </Text>
               <div className="mt-8">
-                <ContactForm />
+                <ContactContextPrefill />
               </div>
             </div>
 

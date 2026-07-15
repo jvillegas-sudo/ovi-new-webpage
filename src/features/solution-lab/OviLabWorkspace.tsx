@@ -41,6 +41,7 @@ import { cn } from "@utils/cn";
 import { Heading, Text } from "@components/ui";
 import { decisionTree, generateResolvedRecommendation } from "@knowledge-engine";
 import type { OviDecisionInput, OviDecisionNode } from "@knowledge-engine";
+import { useExperienceContextStore } from "@store/experience-context.store";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -807,12 +808,20 @@ function LabResultPanel({
           <RotateCcw size={13} aria-hidden="true" />
           Nueva consulta
         </button>
-        <Link href="/contact">
-          <span className="inline-flex h-10 items-center gap-2 rounded-lg bg-[var(--color-brand-primary)] px-6 text-sm font-medium text-[var(--color-text-inverse)] transition-all duration-200 hover:shadow-[var(--shadow-glow-primary)] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]">
-            Hablar con un Ingeniero OVI
-            <ArrowRight size={13} aria-hidden="true" />
-          </span>
-        </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <Link href="/store/soluciones">
+            <span className="inline-flex h-10 items-center gap-2 rounded-lg border border-[var(--color-border-default)] px-5 text-sm font-medium text-[var(--color-text-secondary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]">
+              Ver soluciones
+              <ArrowRight size={13} aria-hidden="true" />
+            </span>
+          </Link>
+          <Link href="/contact">
+            <span className="inline-flex h-10 items-center gap-2 rounded-lg bg-[var(--color-brand-primary)] px-6 text-sm font-medium text-[var(--color-text-inverse)] transition-all duration-200 hover:shadow-[var(--shadow-glow-primary)] hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]">
+              Hablar con un Ingeniero OVI
+              <ArrowRight size={13} aria-hidden="true" />
+            </span>
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -823,6 +832,8 @@ function LabResultPanel({
 export function OviLabWorkspace() {
   const prefersReducedMotion = useReducedMotion();
   const variants = prefersReducedMotion ? reducedPanelVariants : panelVariants;
+
+  const { updateInput, setDiagnosis } = useExperienceContextStore();
 
   const [currentStepIndex, setCurrentStepIndex] = React.useState(0);
   const [state, setState] = React.useState<LabState>({
@@ -843,10 +854,11 @@ export function OviLabWorkspace() {
     const nodeId = LAB_STEP_NODES[currentStepIndex];
     const meta = STEP_META[nodeId];
 
-    setState((prev) => ({
-      ...prev,
-      [meta.field]: value,
-    }));
+    const updated = { [meta.field]: value } as Partial<LabState>;
+    setState((prev) => ({ ...prev, ...updated }));
+
+    // Write input step to shared Experience Context
+    updateInput({ [meta.field]: value });
 
     setCompletedSteps((prev) => new Set([...prev, nodeId]));
     setCurrentStepIndex((prev) => prev + 1);
@@ -878,6 +890,28 @@ export function OviLabWorkspace() {
     contaminationId: state.contaminationId ?? undefined,
     clientGoal: state.clientGoal as OviDecisionInput["clientGoal"],
   };
+
+  // Persist result to context when result panel becomes visible
+  React.useEffect(() => {
+    if (!isResult) return;
+    const result = generateResolvedRecommendation(decisionInput);
+    setDiagnosis(
+      {
+        diagnosis: result.diagnosis ?? null,
+        technicalJustification: result.technicalJustification ?? null,
+        primaryProductId: result.primaryProduct?.id ?? null,
+        primaryProductName: result.primaryProduct?.nombre ?? null,
+        protocolId: result.protocol?.codigo ?? null,
+        protocolName: result.protocol?.nombre ?? null,
+        serviceId: result.service?.id ?? null,
+        serviceName: result.service?.nombre ?? null,
+        expectedBenefit: result.expectedBenefit ?? null,
+      },
+      "lab",
+      "ovi-ai",
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isResult]);
 
   return (
     <div
