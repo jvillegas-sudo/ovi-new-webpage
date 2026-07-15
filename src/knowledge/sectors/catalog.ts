@@ -29,7 +29,7 @@ export const sectors: OviSector[] = [
     id: "industria",
     nombre: "Industria",
     descripcion:
-      "Plantas de manufactura, metalmecánica, automotriz, petrolera, procesamiento de alimentos y operaciones industriales. OVI diseña protocolos de desengrase con OVI Biodex y OVI JP 35 para remover grasas minerales e industriales con trazabilidad completa y cumplimiento normativo.",
+      "Plantas de manufactura, metalmecánica, automotriz, petrolera, procesamiento de alimentos y operaciones industriales. OVI diseña protocolos de desengrase con OVI Desengrasante Industrial (Ultradegreaser) y OVI JP 35 para remover grasas minerales e industriales con trazabilidad completa y cumplimiento normativo.",
     desafios: [
       "Remover grasa pesada y residuos adheridos sin detener producción",
       "Asegurar compatibilidad con superficies y equipos de proceso",
@@ -83,7 +83,7 @@ export const sectors: OviSector[] = [
     id: "institucional",
     nombre: "Institucional",
     descripcion:
-      "Hospitales, universidades, colegios, edificios corporativos, centros comerciales e instalaciones de alto tráfico. OVI diseña programas de mantenimiento preventivo con OVI Ecoseal y OVI Ecoshine para mantener pisos, cristales y superficies impecables con mínimo impacto en la experiencia del usuario.",
+      "Hospitales, universidades, colegios, edificios corporativos, centros comerciales e instalaciones de alto tráfico. OVI diseña programas de mantenimiento preventivo con OVI Ecoseal y OVI Ecoshine para mantener pisos con desinfección y aroma, y superficies impecables con mínimo impacto en la experiencia del usuario.",
     desafios: [
       "Estandarizar limpieza en múltiples superficies y zonas",
       "Mantener imagen y estándares con alto volumen de personas",
@@ -120,7 +120,7 @@ export const sectors: OviSector[] = [
     id: "alimentos",
     nombre: "Alimentos",
     descripcion:
-      "Plantas de procesamiento, cocinas industriales y operaciones de producción alimentaria con estrictos requerimientos de inocuidad y cumplimiento normativo. OVI aplica protocolos HACCP con OVI Biodex y OVI Precision Foam Kit para garantizar la seguridad en superficies de contacto directo.",
+      "Plantas de procesamiento, cocinas industriales y operaciones de producción alimentaria con estrictos requerimientos de inocuidad y cumplimiento normativo. OVI aplica protocolos HACCP con OVI Desengrasante Industrial (Ultradegreaser) y OVI Precision Foam Kit para garantizar la seguridad en superficies de contacto directo.",
     desafios: [
       "Eliminar biofilm y residuos orgánicos en superficies de contacto",
       "Cumplir protocolos HACCP y BPM en cada ciclo",

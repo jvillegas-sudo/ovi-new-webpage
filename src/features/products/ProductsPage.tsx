@@ -109,16 +109,16 @@ const CATEGORIES: ProductCategory[] = [
 const PRODUCTS: Product[] = [
   {
     id: "bioclean-pro",
-    name: "OVI Biodex",
+    name: "OVI Desengrasante Industrial",
     category: "quimicos",
-    badge: "Desengrase Industrial",
+    badge: "Ultradegreaser",
     summary:
-      "Desengrasante de alto poder para suciedad industrial severa. Alcalino, hidrosoluble y biodegradable con agentes penetrantes e inhibidores de corrosión. Formulado para industria pesada, automotriz, petrolera y construcción.",
+      "Desengrasante industrial de alto poder 99% biodegradable. Su base de cáscara de naranja lo convierte en el Ultradegreaser: máxima eficacia contra grasa severa con mínimo impacto ambiental. Formulado para industria pesada, automotriz, petrolera y construcción.",
     highlights: [
-      "Formulación biodegradable — seguro para el ambiente y operadores",
+      "99% biodegradable — base de cáscara de naranja, seguro para el ambiente y operadores",
+      "Ultradegreaser: alto poder de desengrase en suciedad industrial severa",
       "Inhibidores de corrosión que protegen metales durante la limpieza",
       "Sin solventes agresivos ni clorados",
-      "Alta eficacia en grasa pesada, aceites minerales y residuos de proceso",
     ],
     applications: ["Industria pesada", "Automotriz", "Sector petrolero", "Construcción"],
     storeSlug: "ovi-biodex",
@@ -147,13 +147,13 @@ const PRODUCTS: Product[] = [
     id: "ecodetox",
     name: "OVI Ecoshine",
     category: "quimicos",
-    badge: "Limpieza Ecológica",
+    badge: "Pisos con Desinfección",
     summary:
-      "Limpiador ecológico multiusos de pH neutro para cristales, espejos y superficies vitrificadas. Deja superficies completamente transparentes sin velos ni residuos. No requiere enjuague.",
+      "Limpiador de pisos con triple acción: limpieza profunda, desinfección efectiva y aroma duradero. Formulado para mantenimiento diario en instalaciones institucionales, comerciales e industriales.",
     highlights: [
-      "pH neutro (7–8) — seguro para superficies delicadas",
-      "Sin velos ni residuos sobre cristales y espejos",
-      "No requiere enjuague ni aclarado posterior",
+      "Triple acción: limpieza profunda, desinfección y aroma duradero",
+      "Elimina bacterias y microorganismos en pisos de alto tráfico",
+      "Fragancia fresca que mejora el ambiente del espacio",
       "Formulación ecológica con bajo impacto ambiental",
     ],
     applications: ["Institucional", "Hospitalario", "Oficinas corporativas"],

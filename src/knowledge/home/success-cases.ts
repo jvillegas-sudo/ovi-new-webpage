@@ -77,7 +77,7 @@ export const successCases: HomeSuccessCase[] = [
     slug: "caso-planta-industrial-manufactura",
     seoTitle: "Caso: Planta Industrial de Manufactura — OVI Ingeniería en Limpieza",
     seoDescription:
-      "Limpieza técnica de planta manufacturera con OVI Biodex y protocolo HACCP para líneas de producción.",
+      "Limpieza técnica de planta manufacturera con OVI Desengrasante Industrial y protocolo HACCP para líneas de producción.",
     keywords: ["planta industrial", "manufactura", "HACCP", "limpieza industrial"],
     images: [],
     icon: "factory",
@@ -88,12 +88,12 @@ export const successCases: HomeSuccessCase[] = [
       es: {
         title: "Planta industrial de manufactura",
         detail:
-          "Implementación de protocolo de desengrase con OVI Biodex en maquinaria y líneas de producción. Documentación de cada intervención con trazabilidad completa y cumplimiento de normativa de inocuidad.",
+          "Implementación de protocolo de desengrase con OVI Desengrasante Industrial en maquinaria y líneas de producción. Documentación de cada intervención con trazabilidad completa y cumplimiento de normativa de inocuidad.",
       },
       en: {
         title: "Industrial manufacturing plant",
         detail:
-          "OVI Biodex degreasing protocol implemented on machinery and production lines. Full traceability documentation and food safety compliance achieved.",
+          "OVI Desengrasante Industrial (Ultradegreaser) degreasing protocol implemented on machinery and production lines. Full traceability documentation and food safety compliance achieved.",
       },
     },
   },

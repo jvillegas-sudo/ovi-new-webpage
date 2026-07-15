@@ -178,14 +178,14 @@ export const storeCategories: StoreCategory[] = [
 export const storeProducts: StoreProduct[] = [
   {
     slug: "ovi-biodex",
-    name: "OVI Biodex",
+    name: "OVI Desengrasante Industrial",
     category: "quimicos",
     categoryLabel: "Químicos",
-    badge: "Desengrase industrial",
+    badge: "Ultradegreaser",
     summary:
-      "Desengrasante de alto poder para suciedad industrial severa. Alcalino, hidrosoluble y biodegradable con agentes penetrantes e inhibidores de corrosión.",
+      "Desengrasante industrial de alto poder 99% biodegradable. Su base de cáscara de naranja lo convierte en el Ultradegreaser: máxima eficacia contra grasa severa con mínimo impacto ambiental.",
     purpose:
-      "Remover grasa pesada, aceites minerales y residuos industriales en maquinaria, equipos y activos de flota cuando la operación exige profundidad técnica sin comprometer la seguridad ambiental.",
+      "Remover grasa pesada, aceites minerales y residuos industriales en maquinaria, equipos y activos de flota con la potencia de un Ultradegreaser 99% biodegradable — base de cáscara de naranja — sin comprometer la seguridad ambiental.",
     industries: ["Industria", "Transporte", "Energía", "Construcción"],
     recommendedSurfaces: [
       "Acero inoxidable",
@@ -208,7 +208,7 @@ export const storeProducts: StoreProduct[] = [
       "Validar compatibilidad con aluminio sensible. Realizar prueba en área controlada antes de escalar.",
     ],
     environmentalBenefits: [
-      "Formulación biodegradable que reduce la carga contaminante del efluente.",
+      "99% biodegradable — base de cáscara de naranja con mínimo impacto ambiental.",
       "Sin solventes clorados — menor impacto en tratamiento de aguas residuales.",
     ],
     compatibleEquipment: [
@@ -233,7 +233,7 @@ export const storeProducts: StoreProduct[] = [
       "OVI Flota Rinse Arch",
     ],
     aiRecommendation:
-      "Recomendar cuando la operación requiera remover grasa pesada o aceites minerales sin comprometer la seguridad del operador ni el cumplimiento ambiental.",
+      "Recomendar cuando la operación requiera remover grasa pesada o aceites minerales con un Ultradegreaser 99% biodegradable sin comprometer la seguridad del operador ni el cumplimiento ambiental.",
     challengeStatement:
       "Ideal cuando la suciedad es severa y recurrente — parte del proceso productivo, no una excepción.",
     solutionLabScene: "Planta de manufactura, taller mecánico y línea de mantenimiento de flota.",

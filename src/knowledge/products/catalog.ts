@@ -21,16 +21,16 @@ export const products: OviProduct[] = [
   // ── Químicos ────────────────────────────────────────────────────────────────
   {
     id: "ovi-biodex",
-    nombre: "OVI Biodex",
+    nombre: "OVI Desengrasante Industrial",
     categoria: "quimicos",
     resumen:
-      "Desengrasante de alto poder para suciedad industrial severa. Alcalino, hidrosoluble y biodegradable con agentes penetrantes e inhibidores de corrosión.",
+      "Desengrasante industrial de alto poder 99% biodegradable. Su base de cáscara de naranja lo convierte en el Ultradegreaser: máxima eficacia contra grasa severa con mínimo impacto ambiental.",
     descripcion:
-      "Desengrasante de alto poder formulado para industria pesada, automotriz, petrolera y construcción. Base acuosa sin solventes agresivos, con agentes penetrantes, emulsificantes e inhibidores de corrosión que protegen los metales durante la limpieza. Acción profunda sobre grasas minerales, aceites industriales y residuos de proceso con mínima carga química.",
+      "Desengrasante industrial de alto poder formulado con base de cáscara de naranja, 99% biodegradable. Conocido como Ultradegreaser, es la solución definitiva para industria pesada, automotriz, petrolera y construcción. Sin solventes agresivos, con agentes penetrantes, emulsificantes e inhibidores de corrosión que protegen los metales durante la limpieza. Acción profunda sobre grasas minerales, aceites industriales y residuos de proceso. No confundir con OVI JP 35, producto diferente especializado en grasas minerales ligeras.",
     beneficios: [
-      "Formulación biodegradable: seguro para el ambiente y para los operadores",
+      "99% biodegradable — base de cáscara de naranja, seguro para el ambiente y los operadores",
+      "Ultradegreaser: alto poder de desengrase en suciedad industrial severa",
       "Protege metales contra corrosión durante el proceso de limpieza",
-      "Alta eficacia en suciedad severa con dilución controlada",
       "Sin solventes agresivos ni clorados",
     ],
     aplicaciones: ["Industria pesada", "Automotriz", "Sector petrolero", "Construcción", "Metalmecánica"],
@@ -146,21 +146,21 @@ export const products: OviProduct[] = [
     nombre: "OVI Ecoshine",
     categoria: "quimicos",
     resumen:
-      "Limpiador ecológico multiusos para cristales, superficies esmaltadas y vitrificadas. Deja superficies transparentes sin velos ni residuos.",
+      "Limpiador de pisos con desinfección y aroma. Limpieza profunda, acción bactericida y fragancia duradera en pisos institucionales e industriales.",
     descripcion:
-      "Limpiador, desinfectante y multiusos ecológico de pH neutro (7–8) formulado para cristales, espejos y superficies vitrificadas o esmaltadas. Deja los cristales completamente transparentes sin dejar velos ni residuos. Respetuoso con el medio ambiente, con impacto reducido en agua y aire.",
+      "Solución de limpieza de pisos con triple acción: limpieza profunda, desinfección efectiva y aroma agradable duradero. Formulado para mantenimiento diario de pisos institucionales, comerciales e industriales. Elimina bacterias y microorganismos mientras deja una fragancia fresca en el ambiente. Seguro para superficies selladas, cerámicas y vinílicas.",
     beneficios: [
-      "pH neutro — seguro para superficies delicadas y para el operador",
-      "Sin residuos ni velos sobre cristales y espejos",
-      "No requiere enjuague ni aclarado posterior",
+      "Triple acción: limpieza profunda, desinfección y aroma duradero",
+      "Elimina bacterias y microorganismos en pisos de alto tráfico",
+      "Fragancia fresca que mejora el ambiente del espacio",
       "Formulación ecológica con bajo impacto ambiental",
     ],
-    aplicaciones: ["Cristales y vitrinas", "Espejos", "Superficies vitrificadas", "Oficinas e instituciones"],
-    tiposSuciedad: ["residuos-quimicos", "residuos-organicos"],
-    superficiesCompatibles: ["ceramica", "vidrio", "acero-inoxidable", "pvc"],
+    aplicaciones: ["Pisos institucionales", "Pasillos y áreas comunes", "Centros educativos y hospitalarios", "Instalaciones comerciales"],
+    tiposSuciedad: ["residuos-organicos", "polvo-industrial", "biofilm"],
+    superficiesCompatibles: ["ceramica", "pisos-sellados", "concreto-sellado", "pvc"],
     industrias: ["institucional", "hospitales", "retail"],
-    dilucion: "Listo para uso. Se puede diluir ligeramente según la superficie.",
-    modoUso: "Aplicar directamente y secar con paño de microfibra. No necesita enjuague.",
+    dilucion: "Diluir según el nivel de suciedad y el protocolo OVI definido para la instalación.",
+    modoUso: "Aplicar con mopa o equipo de limpieza de pisos. Dejar actuar y secar al ambiente.",
     equipoRecomendado: ["aplicador-microfibra-tecnica"],
     serviciosRelacionados: ["diseno-protocolo", "mantenimiento-preventivo"],
     impactoAmbiental: [
@@ -170,7 +170,7 @@ export const products: OviProduct[] = [
     informacionSeguridad: ["Producto de bajo riesgo. Consultar ficha de seguridad para detalles de almacenamiento."],
     imagenes: [],
     productosRelacionados: ["ovi-ecoseal", "ovi-dose-control-cart"],
-    status: "en-revision",
+    status: "activo",
   },
   {
     id: "ovi-eco-wax",
