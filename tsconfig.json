@@ -41,7 +41,9 @@
       "@store/*": ["./src/store/*"],
       "@assets/*": ["./src/assets/*"],
       "@knowledge": ["./src/knowledge/index.ts"],
-      "@knowledge/*": ["./src/knowledge/*"]
+      "@knowledge/*": ["./src/knowledge/*"],
+      "@knowledge-engine": ["./src/knowledge-engine/index.ts"],
+      "@knowledge-engine/*": ["./src/knowledge-engine/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
