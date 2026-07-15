@@ -11,7 +11,7 @@ import {
   Text,
 } from "@components/ui";
 import { buildMetadata } from "@lib/metadata";
-import { SolutionLabWorkspace } from "@features/solution-lab/SolutionLabWorkspace";
+import { OviLabWorkspace } from "@features/solution-lab/OviLabWorkspace";
 
 export const metadata = buildMetadata({
   title: "OVI Laboratorio de Soluciones",
@@ -242,7 +242,7 @@ export default function SolutionLabPage() {
           </AnimateIn>
 
           <AnimateIn animation="scaleIn" delay={0.1} threshold={0.05}>
-            <SolutionLabWorkspace />
+            <OviLabWorkspace />
           </AnimateIn>
         </Container>
       </Section>
