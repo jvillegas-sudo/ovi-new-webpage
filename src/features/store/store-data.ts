@@ -81,7 +81,7 @@ export const storeIndustries: StoreIndustry[] = [
       "Reducir tiempos de ciclo, consumo de agua y variabilidad en operaciones de lavado técnico de flota.",
     description:
       "Recomendaciones para patios, terminales y centros logísticos que necesitan continuidad operativa sin sacrificar imagen ni sostenibilidad.",
-    featuredProductSlugs: ["ovi-bioclean-pro", "ovi-flota-rinse-arch", "ovi-dose-control-cart"],
+    featuredProductSlugs: ["ovi-biodex", "ovi-flota-rinse-arch", "ovi-dose-control-cart"],
     protocols: [
       "Protocolo P-001 · Lavado exterior de bajo consumo",
       "Protocolo P-003 · Control de calidad por ciclo",
@@ -96,7 +96,7 @@ export const storeIndustries: StoreIndustry[] = [
     description:
       "Aplicable a hospitales, universidades, edificios corporativos y centros comerciales donde la experiencia del usuario depende de la disciplina operacional.",
     featuredProductSlugs: [
-      "ovi-surface-guard-x9",
+      "ovi-ecoseal",
       "ovi-precision-foam-kit",
       "ovi-dose-control-cart",
     ],
@@ -117,7 +117,7 @@ export const storeIndustries: StoreIndustry[] = [
       "Atender grasa pesada, residuos adheridos y superficies de proceso sin detener la productividad.",
     description:
       "Pensado para plantas de alimentos, manufactura, metalmecánica y operaciones que requieren desempeño técnico, trazabilidad y compatibilidad con normativas internas.",
-    featuredProductSlugs: ["ovi-bioclean-pro", "ovi-surface-guard-x9", "ovi-precision-foam-kit"],
+    featuredProductSlugs: ["ovi-biodex", "ovi-ecoseal", "ovi-precision-foam-kit"],
     protocols: [
       "Protocolo P-010 · Limpieza CIP de superficies de contacto",
       "Protocolo P-011 · Desengrase de campanas y ductos",
@@ -135,7 +135,7 @@ export const storeIndustries: StoreIndustry[] = [
       "Mantener activos expuestos a aceites, partículas y agentes climáticos con intervención segura y controlada.",
     description:
       "Soluciones para generación, transmisión y mantenimiento industrial donde cada aplicación debe equilibrar seguridad, disponibilidad y protección de infraestructura.",
-    featuredProductSlugs: ["ovi-surface-guard-x9", "ovi-flota-rinse-arch", "ovi-dose-control-cart"],
+    featuredProductSlugs: ["ovi-ecoseal", "ovi-flota-rinse-arch", "ovi-dose-control-cart"],
     protocols: [
       "Protocolo E-004 · Limpieza de activos energéticos en operación controlada",
       "Protocolo E-007 · Protección y mantenimiento preventivo de superficies críticas",
@@ -177,16 +177,16 @@ export const storeCategories: StoreCategory[] = [
 
 export const storeProducts: StoreProduct[] = [
   {
-    slug: "ovi-bioclean-pro",
-    name: "OVI BioClean Pro",
+    slug: "ovi-biodex",
+    name: "OVI Biodex",
     category: "quimicos",
     categoryLabel: "Químicos",
     badge: "Desengrase industrial",
     summary:
-      "Formulación concentrada para remoción de grasa pesada y suciedad adherida en activos críticos de operación.",
+      "Desengrasante de alto poder para suciedad industrial severa. Alcalino, hidrosoluble y biodegradable con agentes penetrantes e inhibidores de corrosión.",
     purpose:
-      "Resolver acumulaciones de grasa, aceites y residuos industriales cuando el protocolo exige limpieza profunda con menor carga química.",
-    industries: ["Industria", "Transporte", "Energía"],
+      "Remover grasa pesada, aceites minerales y residuos industriales en maquinaria, equipos y activos de flota cuando la operación exige profundidad técnica sin comprometer la seguridad ambiental.",
+    industries: ["Industria", "Transporte", "Energía", "Construcción"],
     recommendedSurfaces: [
       "Acero inoxidable",
       "Concreto sellado",
@@ -195,21 +195,21 @@ export const storeProducts: StoreProduct[] = [
     ],
     contaminationTypes: [
       "Grasa pesada",
-      "Aceite hidráulico",
-      "Suciedad carbonizada",
-      "Película industrial",
+      "Aceite hidráulico y mineral",
+      "Carbonilla y residuos de proceso",
+      "Suciedad incrustada industrial",
     ],
     applicationMethod:
-      "Aplicación por espuma controlada, aspersión de baja presión o lavado manual asistido según el protocolo definido por ingeniería.",
+      "Aspersión a presión, espuma controlada o lavado manual asistido según el protocolo OVI definido para el tipo de activo.",
     dilution:
-      "Dilución operativa sugerida 1:8 a 1:20 según carga contaminante, temperatura y tiempo de contacto.",
+      "Dilución según protocolo OVI para el contaminante y la superficie. Validar con equipo técnico antes de escalar.",
     safetyInformation: [
       "Usar guantes resistentes a químicos, gafas de seguridad y protección facial en aplicaciones presurizadas.",
-      "Validar compatibilidad con aluminio sensible y realizar prueba en área controlada antes de escalar.",
+      "Validar compatibilidad con aluminio sensible. Realizar prueba en área controlada antes de escalar.",
     ],
     environmentalBenefits: [
-      "Formulación biodegradable orientada a reducir la carga contaminante del efluente.",
-      "Alta dilución para disminuir consumo total por ciclo y transporte de insumos.",
+      "Formulación biodegradable que reduce la carga contaminante del efluente.",
+      "Sin solventes clorados — menor impacto en tratamiento de aguas residuales.",
     ],
     compatibleEquipment: [
       "OVI Flota Rinse Arch",
@@ -219,23 +219,24 @@ export const storeProducts: StoreProduct[] = [
     relatedProtocols: [
       "Protocolo P-010 · Limpieza CIP de superficies de contacto",
       "Protocolo P-011 · Desengrase de campanas y ductos",
+      "Protocolo P-001 · Lavado exterior de bajo consumo",
     ],
     recommendedServices: [
       "Diagnóstico técnico de suciedad y proceso",
-      "Implementación de protocolo de desengrase",
-      "Capacitación operativa para dosificación",
+      "Implementación supervisada de protocolo",
+      "Capacitación operativa para dosificación correcta",
     ],
-    relatedProducts: ["ovi-precision-foam-kit", "ovi-dose-control-cart", "ovi-surface-guard-x9"],
+    relatedProducts: ["ovi-precision-foam-kit", "ovi-dose-control-cart", "ovi-ecoseal"],
     relatedEquipment: [
       "Lanza de espuma técnica",
-      "Sistema de dosificación móvil",
-      "Arco de enjuague de alto caudal",
+      "OVI Dose Control Cart",
+      "OVI Flota Rinse Arch",
     ],
     aiRecommendation:
-      "Úselo cuando la operación requiera limpiar más rápido sin sobredosificar producto ni comprometer el cumplimiento ambiental.",
+      "Recomendar cuando la operación requiera remover grasa pesada o aceites minerales sin comprometer la seguridad del operador ni el cumplimiento ambiental.",
     challengeStatement:
-      "Ideal cuando la suciedad es parte del proceso productivo y no una excepción operacional.",
-    solutionLabScene: "Planta de manufactura y línea de mantenimiento de flota.",
+      "Ideal cuando la suciedad es severa y recurrente — parte del proceso productivo, no una excepción.",
+    solutionLabScene: "Planta de manufactura, taller mecánico y línea de mantenimiento de flota.",
   },
   {
     slug: "ovi-flota-rinse-arch",
@@ -282,7 +283,7 @@ export const storeProducts: StoreProduct[] = [
       "Optimización hídrica y de tiempos de ciclo",
       "Puesta en marcha de equipos de lavado",
     ],
-    relatedProducts: ["ovi-bioclean-pro", "ovi-dose-control-cart", "ovi-precision-foam-kit"],
+    relatedProducts: ["ovi-biodex", "ovi-dose-control-cart", "ovi-precision-foam-kit"],
     relatedEquipment: [
       "Bomba de refuerzo",
       "Boquillas de cobertura uniforme",
@@ -343,7 +344,7 @@ export const storeProducts: StoreProduct[] = [
       "Diseño de protocolo por superficie",
       "Validación de cobertura y tiempos de contacto",
     ],
-    relatedProducts: ["ovi-bioclean-pro", "ovi-surface-guard-x9", "ovi-dose-control-cart"],
+    relatedProducts: ["ovi-biodex", "ovi-ecoseal", "ovi-dose-control-cart"],
     relatedEquipment: [
       "Compresor de baja presión",
       "Mangueras de conexión rápida",
@@ -396,7 +397,7 @@ export const storeProducts: StoreProduct[] = [
       "Implementación de trazabilidad de consumos",
       "Capacitación de seguridad y manejo de insumos",
     ],
-    relatedProducts: ["ovi-bioclean-pro", "ovi-precision-foam-kit", "ovi-flota-rinse-arch"],
+    relatedProducts: ["ovi-biodex", "ovi-precision-foam-kit", "ovi-flota-rinse-arch"],
     relatedEquipment: [
       "Bidones certificados",
       "Etiquetado operacional",
@@ -408,66 +409,62 @@ export const storeProducts: StoreProduct[] = [
     solutionLabScene: "Cuarto técnico, patio operativo y estación de soporte de limpieza.",
   },
   {
-    slug: "ovi-surface-guard-x9",
-    name: "OVI Surface Guard X9",
+    slug: "ovi-ecoseal",
+    name: "OVI Ecoseal",
     category: "quimicos",
     categoryLabel: "Químicos",
-    badge: "Protección de superficies",
+    badge: "Sellador de pisos",
     summary:
-      "Tratamiento para mantenimiento preventivo y control de recontaminación en superficies expuestas a uso intensivo.",
+      "Sellador para pisos institucionales e industriales. Crea capa protectora que facilita la limpieza diaria y prolonga la vida útil de las superficies.",
     purpose:
-      "Extender el desempeño visual y funcional de superficies sometidas a tráfico, humedad o ciclos frecuentes de limpieza.",
-    industries: ["Institucional", "Energía", "Industria"],
+      "Proteger pisos después de la limpieza técnica, extendiendo el ciclo de mantenimiento y reduciendo re-intervenciones correctivas.",
+    industries: ["Institucional", "Retail", "Industria"],
     recommendedSurfaces: [
       "Pisos sellados",
-      "Paneles exteriores",
-      "Superficies lavables",
-      "Equipos con acabado protector",
+      "Cerámica y superficies vitrificadas",
+      "Concreto sellado",
+      "Instalaciones de alto tráfico",
     ],
     contaminationTypes: [
-      "Recontaminación superficial",
-      "Marcas de tráfico",
-      "Partículas finas",
-      "Humedad ambiental",
+      "Recontaminación por tráfico",
+      "Humedad y manchas",
+      "Desgaste superficial",
     ],
     applicationMethod:
-      "Aplicación posterior a limpieza técnica como capa funcional de mantenimiento preventivo según frecuencia diseñada por ingeniería.",
+      "Aplicar sobre superficie completamente limpia y seca con aplicador de microfibra o mopa. Seguir tiempos de curado del protocolo OVI.",
     dilution:
-      "Listo para uso o dilución ligera 1:1 según superficie y nivel de protección deseado.",
+      "Listo para uso. Aplicar sobre superficie limpia y seca para adherencia óptima.",
     safetyInformation: [
-      "Aplicar sobre superficie completamente limpia y seca para asegurar adherencia controlada.",
-      "Mantener ventilación y restringir tránsito hasta completar el tiempo de curado operacional.",
+      "Aplicar sobre superficie completamente limpia y seca para asegurar adherencia óptima.",
+      "Mantener ventilación y restringir tránsito hasta completar el tiempo de curado.",
     ],
     environmentalBenefits: [
-      "Reduce frecuencia de limpiezas correctivas al facilitar mantenimiento preventivo.",
-      "Disminuye consumo acumulado de agua y químicos por re intervención.",
+      "Reduce la frecuencia de limpiezas correctivas, disminuyendo consumo de agua e insumos.",
+      "Extiende el ciclo de intervención — menos residuos de proceso.",
     ],
     compatibleEquipment: [
       "Aplicador de microfibra técnica",
-      "OVI Precision Foam Kit",
       "Pulverizador de baja presión",
     ],
     relatedProtocols: [
+      "Protocolo F-002 · Mantenimiento preventivo de pisos",
       "Protocolo F-003 · Restauración y protección anual",
-      "Protocolo E-007 · Protección y mantenimiento preventivo de superficies críticas",
     ],
     recommendedServices: [
-      "Diseño de mantenimiento preventivo",
-      "Protección de superficies críticas",
-      "Auditoría de ciclo de vida de activos",
+      "Diseño de programa de mantenimiento preventivo",
+      "Capacitación operativa para aplicación correcta",
     ],
-    relatedProducts: ["ovi-precision-foam-kit", "ovi-bioclean-pro", "ovi-dose-control-cart"],
+    relatedProducts: ["ovi-precision-foam-kit", "ovi-biodex", "ovi-dose-control-cart"],
     relatedEquipment: [
       "Aplicador de microfibra técnica",
       "Pulverizador de baja presión",
-      "Medidor de brillo y acabado",
     ],
     aiRecommendation:
-      "Recomendado cuando el objetivo no es solo limpiar hoy, sino controlar la velocidad de recontaminación durante la operación.",
+      "Recomendar al cierre del ciclo de limpieza para proteger la superficie tratada y reducir el costo de re-intervención.",
     challengeStatement:
-      "Funciona como cierre del sistema: limpieza, protección y menor costo de mantenimiento a lo largo del tiempo.",
+      "Cierre del sistema: protege la superficie después de limpiarla y extiende el ciclo de mantenimiento preventivo.",
     solutionLabScene:
-      "Pasillos institucionales, áreas técnicas y superficies exteriores expuestas.",
+      "Pasillos institucionales, áreas de alto tráfico y pisos de instalaciones hospitalarias.",
   },
 ];
 

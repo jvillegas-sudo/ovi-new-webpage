@@ -18,7 +18,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo estándar para lavado exterior de flota vehicular con optimización del consumo hídrico. Diseñado para patios y terminales con operación continua.",
     sectores: ["transporte"],
-    productosRequeridos: ["ovi-bioclean-pro"],
+    productosRequeridos: ["ovi-biodex"],
     equiposRequeridos: ["ovi-flota-rinse-arch", "ovi-dose-control-cart"],
     tiposSuciedad: ["lodo", "polvo-industrial", "grasa-pesada"],
     superficiesCompatibles: ["pintura-automotriz", "vidrio", "plastico-tecnico"],
@@ -51,7 +51,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo de limpieza in-situ para superficies de contacto directo con alimentos o productos. Compatible con normativas HACCP.",
     sectores: ["industria", "alimentos"],
-    productosRequeridos: ["ovi-bioclean-pro"],
+    productosRequeridos: ["ovi-biodex"],
     equiposRequeridos: ["ovi-precision-foam-kit", "ovi-dose-control-cart"],
     tiposSuciedad: ["residuos-organicos", "biofilm", "grasa-pesada"],
     superficiesCompatibles: ["acero-inoxidable", "plastico-tecnico"],
@@ -67,7 +67,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo para remoción de grasa acumulada en sistemas de extracción de aire, campanas industriales y ductos de cocinas.",
     sectores: ["industria", "alimentos", "institucional"],
-    productosRequeridos: ["ovi-bioclean-pro"],
+    productosRequeridos: ["ovi-biodex"],
     equiposRequeridos: ["ovi-precision-foam-kit"],
     tiposSuciedad: ["grasa-pesada", "residuos-organicos", "carbonilla"],
     superficiesCompatibles: ["acero-inoxidable", "pintura-industrial"],
@@ -84,7 +84,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo diferenciado para áreas de alto riesgo biológico en hospitales y centros de salud. Incluye clasificación de zonas y agentes biocidas.",
     sectores: ["hospitales", "institucional"],
-    productosRequeridos: ["ovi-surface-guard-x9"],
+    productosRequeridos: ["ovi-ecoseal"],
     equiposRequeridos: ["ovi-precision-foam-kit", "ovi-dose-control-cart"],
     tiposSuciedad: ["biofilm", "residuos-organicos", "residuos-quimicos"],
     superficiesCompatibles: ["acero-inoxidable", "ceramica", "pvc"],
@@ -133,7 +133,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Intervención de limpieza profunda para pisos de alto tráfico. Restauración de acabado y remoción de suciedad incrustada.",
     sectores: ["institucional", "retail", "industria"],
-    productosRequeridos: ["ovi-bioclean-pro"],
+    productosRequeridos: ["ovi-biodex"],
     equiposRequeridos: [],
     tiposSuciedad: ["polvo-industrial", "recontaminacion-superficial", "residuos-organicos"],
     superficiesCompatibles: ["concreto-sellado", "ceramica", "pisos-sellados"],
@@ -149,7 +149,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo de limpieza de bajo impacto para mantenimiento diario de pisos y superficies en instalaciones de alto tráfico.",
     sectores: ["institucional", "retail", "hospitales"],
-    productosRequeridos: ["ovi-surface-guard-x9"],
+    productosRequeridos: ["ovi-ecoseal"],
     equiposRequeridos: [],
     tiposSuciedad: ["polvo-industrial", "recontaminacion-superficial"],
     superficiesCompatibles: ["ceramica", "concreto-sellado", "pisos-sellados"],
@@ -165,7 +165,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Ciclo anual de restauración completa de pisos con aplicación de protector de larga duración.",
     sectores: ["institucional", "retail"],
-    productosRequeridos: ["ovi-surface-guard-x9"],
+    productosRequeridos: ["ovi-ecoseal"],
     equiposRequeridos: [],
     tiposSuciedad: ["recontaminacion-superficial"],
     superficiesCompatibles: ["pisos-sellados", "concreto-sellado", "ceramica"],
@@ -182,7 +182,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo para limpieza de equipos eléctricos y mecánicos en plantas de energía con operación parcial o controlada.",
     sectores: ["energia"],
-    productosRequeridos: ["ovi-bioclean-pro"],
+    productosRequeridos: ["ovi-biodex"],
     equiposRequeridos: ["ovi-flota-rinse-arch"],
     tiposSuciedad: ["aceite", "polvo-industrial", "carbonilla"],
     superficiesCompatibles: ["acero-inoxidable", "pintura-industrial", "aluminio"],
@@ -198,7 +198,7 @@ export const protocols: OviProtocol[] = [
     descripcion:
       "Protocolo de aplicación de protectores en superficies expuestas a intemperie, corrosión y contaminantes industriales.",
     sectores: ["energia"],
-    productosRequeridos: ["ovi-surface-guard-x9"],
+    productosRequeridos: ["ovi-ecoseal"],
     equiposRequeridos: [],
     tiposSuciedad: ["oxido", "polvo-industrial", "recontaminacion-superficial"],
     superficiesCompatibles: ["acero-inoxidable", "pintura-industrial", "aluminio"],

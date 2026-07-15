@@ -17,9 +17,9 @@
 import type { OviCompatibilityEntry, OviMatrixQuery, OviMatrixResult } from "../types";
 
 export const compatibilityMatrix: OviCompatibilityEntry[] = [
-  // ── OVI BioClean Pro ─────────────────────────────────────────────────────────
+  // ── OVI Biodex ─────────────────────────────────────────────────────────
   {
-    productId: "ovi-bioclean-pro",
+    productId: "ovi-biodex",
     contaminationIds: ["grasa-pesada", "aceite", "carbonilla", "residuos-organicos"],
     surfaceIds: ["acero-inoxidable", "concreto-sellado", "pintura-industrial"],
     industryIds: ["industria", "transporte", "energia", "alimentos"],
@@ -29,9 +29,9 @@ export const compatibilityMatrix: OviCompatibilityEntry[] = [
     compatibilityScore: 95,
   },
 
-  // ── OVI Surface Guard X9 ─────────────────────────────────────────────────────
+  // ── OVI Ecoseal ─────────────────────────────────────────────────────
   {
-    productId: "ovi-surface-guard-x9",
+    productId: "ovi-ecoseal",
     contaminationIds: ["recontaminacion-superficial", "polvo-industrial"],
     surfaceIds: ["pisos-sellados", "concreto-sellado", "acero-inoxidable"],
     industryIds: ["institucional", "energia", "industria", "retail"],
@@ -41,9 +41,9 @@ export const compatibilityMatrix: OviCompatibilityEntry[] = [
     compatibilityScore: 82,
   },
 
-  // ── OVI Desengrasante Industrial ─────────────────────────────────────────────
+  // ── OVI JP 35 ─────────────────────────────────────────────
   {
-    productId: "ovi-desengrasante-industrial",
+    productId: "ovi-jp35",
     contaminationIds: ["grasa-pesada", "aceite", "residuos-quimicos"],
     surfaceIds: ["acero-inoxidable", "pintura-industrial"],
     industryIds: ["industria", "energia", "transporte"],
@@ -53,9 +53,9 @@ export const compatibilityMatrix: OviCompatibilityEntry[] = [
     compatibilityScore: 88,
   },
 
-  // ── OVI EcoDetox ─────────────────────────────────────────────────────────────
+  // ── OVI Ecoshine ─────────────────────────────────────────────────────────────
   {
-    productId: "ovi-ecodetox",
+    productId: "ovi-ecoshine",
     contaminationIds: ["residuos-quimicos", "residuos-organicos"],
     surfaceIds: ["ceramica", "acero-inoxidable", "pvc"],
     industryIds: ["institucional", "hospitales"],
@@ -65,9 +65,9 @@ export const compatibilityMatrix: OviCompatibilityEntry[] = [
     compatibilityScore: 72,
   },
 
-  // ── OVI ImperShield ──────────────────────────────────────────────────────────
+  // ── OVI Eco Wax ──────────────────────────────────────────────────────────
   {
-    productId: "ovi-impershield",
+    productId: "ovi-eco-wax",
     contaminationIds: [],
     surfaceIds: ["concreto", "concreto-sellado"],
     industryIds: ["institucional", "energia"],
@@ -77,9 +77,9 @@ export const compatibilityMatrix: OviCompatibilityEntry[] = [
     compatibilityScore: 78,
   },
 
-  // ── OVI FlotaClean ───────────────────────────────────────────────────────────
+  // ── OVI Solwash ───────────────────────────────────────────────────────────
   {
-    productId: "ovi-flotaclean",
+    productId: "ovi-solwash",
     contaminationIds: ["grasa-pesada", "carbonilla", "lodo", "polvo-industrial"],
     surfaceIds: ["pintura-automotriz", "aluminio", "plastico-tecnico"],
     industryIds: ["transporte"],

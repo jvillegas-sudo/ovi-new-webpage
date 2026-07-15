@@ -15,7 +15,7 @@ export const equipment: OviEquipment[] = [
     categoria: "sistema-lavado",
     descripcion:
       "Sistema de enjuague para flota y activos de gran volumen con cobertura repetible y reducción de tiempos muertos. Instalación en punto fijo o semimóvil.",
-    productosCompatibles: ["ovi-bioclean-pro", "ovi-dose-control-cart"],
+    productosCompatibles: ["ovi-biodex", "ovi-dose-control-cart"],
     protocolosCompatibles: ["protocolo-p-001", "protocolo-e-004"],
     especificaciones: [
       "Instalación fija o semimóvil",
@@ -32,9 +32,9 @@ export const equipment: OviEquipment[] = [
     descripcion:
       "Estación móvil de dosificación y preparación de soluciones para asegurar mezcla consistente, trazabilidad y seguridad operacional.",
     productosCompatibles: [
-      "ovi-bioclean-pro",
+      "ovi-biodex",
       "ovi-precision-foam-kit",
-      "ovi-surface-guard-x9",
+      "ovi-ecoseal",
     ],
     protocolosCompatibles: ["protocolo-p-003", "protocolo-g-003"],
     especificaciones: [
@@ -51,7 +51,7 @@ export const equipment: OviEquipment[] = [
     categoria: "espuma",
     descripcion:
       "Kit de espumado técnico para controlar cobertura, tiempo de contacto y visibilidad del protocolo sobre superficies complejas.",
-    productosCompatibles: ["ovi-bioclean-pro", "ovi-surface-guard-x9"],
+    productosCompatibles: ["ovi-biodex", "ovi-ecoseal"],
     protocolosCompatibles: ["protocolo-h-001", "protocolo-f-002", "protocolo-p-010"],
     especificaciones: [
       "Acopla a líneas de baja presión o sistemas móviles",
@@ -66,7 +66,7 @@ export const equipment: OviEquipment[] = [
     categoria: "espuma",
     descripcion:
       "Lanza de aplicación de espuma manual para trabajos de precisión en equipos verticales y superficies de difícil acceso.",
-    productosCompatibles: ["ovi-bioclean-pro"],
+    productosCompatibles: ["ovi-biodex"],
     protocolosCompatibles: ["protocolo-p-011"],
     especificaciones: [
       "Regulación de densidad de espuma",
@@ -80,7 +80,7 @@ export const equipment: OviEquipment[] = [
     categoria: "accesorio",
     descripcion:
       "Sistema de aplicación de microfibra para tratamientos de protección y mantenimiento preventivo de superficies sensibles.",
-    productosCompatibles: ["ovi-surface-guard-x9"],
+    productosCompatibles: ["ovi-ecoseal"],
     protocolosCompatibles: ["protocolo-f-002", "protocolo-f-003", "protocolo-e-007"],
     especificaciones: [
       "Aplicación sin equipos especiales",
@@ -93,7 +93,7 @@ export const equipment: OviEquipment[] = [
     nombre: "Pulverizador de baja presión",
     categoria: "accesorio",
     descripcion: "Equipo portátil de aspersión para aplicaciones de protectores y mantenimiento.",
-    productosCompatibles: ["ovi-surface-guard-x9"],
+    productosCompatibles: ["ovi-ecoseal"],
     protocolosCompatibles: ["protocolo-f-002"],
     especificaciones: [
       "Operación manual o motorizada",

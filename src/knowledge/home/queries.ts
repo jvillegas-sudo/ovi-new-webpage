@@ -80,8 +80,8 @@ export function getHomeServices(): HomeDisplayService[] {
 
 /** Featured product IDs for the home page highlights */
 const FEATURED_PRODUCT_IDS = [
-  "ovi-bioclean-pro",
-  "ovi-surface-guard-x9",
+  "ovi-biodex",
+  "ovi-ecoseal",
   "ovi-precision-foam-kit",
   "ovi-dose-control-cart",
 ];

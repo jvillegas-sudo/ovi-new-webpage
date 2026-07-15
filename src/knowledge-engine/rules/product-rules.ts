@@ -14,9 +14,9 @@
 import type { OviProductRule } from "../types";
 
 export const productRules: OviProductRule[] = [
-  // ── OVI BioClean Pro ────────────────────────────────────────────────────────
+  // ── OVI Biodex ────────────────────────────────────────────────────────
   {
-    productId: "ovi-bioclean-pro",
+    productId: "ovi-biodex",
     priority: 95,
     recommendIf: [
       {
@@ -117,9 +117,9 @@ export const productRules: OviProductRule[] = [
     ],
   },
 
-  // ── OVI Surface Guard X9 ────────────────────────────────────────────────────
+  // ── OVI Ecoseal ────────────────────────────────────────────────────
   {
-    productId: "ovi-surface-guard-x9",
+    productId: "ovi-ecoseal",
     priority: 80,
     recommendIf: [
       {
@@ -211,9 +211,9 @@ export const productRules: OviProductRule[] = [
     ],
   },
 
-  // ── OVI Desengrasante Industrial ────────────────────────────────────────────
+  // ── OVI JP 35 ────────────────────────────────────────────
   {
-    productId: "ovi-desengrasante-industrial",
+    productId: "ovi-jp35",
     priority: 85,
     recommendIf: [
       {
@@ -271,9 +271,9 @@ export const productRules: OviProductRule[] = [
     ],
   },
 
-  // ── OVI EcoDetox ────────────────────────────────────────────────────────────
+  // ── OVI Ecoshine ────────────────────────────────────────────────────────────
   {
-    productId: "ovi-ecodetox",
+    productId: "ovi-ecoshine",
     priority: 70,
     recommendIf: [
       {
@@ -337,9 +337,9 @@ export const productRules: OviProductRule[] = [
     ],
   },
 
-  // ── OVI ImperShield ─────────────────────────────────────────────────────────
+  // ── OVI Eco Wax ─────────────────────────────────────────────────────────
   {
-    productId: "ovi-impershield",
+    productId: "ovi-eco-wax",
     priority: 65,
     recommendIf: [
       {
@@ -405,9 +405,9 @@ export const productRules: OviProductRule[] = [
     ],
   },
 
-  // ── OVI FlotaClean ──────────────────────────────────────────────────────────
+  // ── OVI Solwash ──────────────────────────────────────────────────────────
   {
-    productId: "ovi-flotaclean",
+    productId: "ovi-solwash",
     priority: 88,
     recommendIf: [
       {

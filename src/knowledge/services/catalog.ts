@@ -30,7 +30,7 @@ export const services: OviService[] = [
       "Gestión inadecuada de efluentes",
     ],
     equiposNecesarios: ["ovi-flota-rinse-arch", "ovi-dose-control-cart"],
-    productosAsociados: ["ovi-bioclean-pro"],
+    productosAsociados: ["ovi-biodex"],
     protocolosAsociados: ["protocolo-p-001", "protocolo-p-003"],
     galeria: [],
     entregables: [
@@ -61,7 +61,7 @@ export const services: OviService[] = [
       "Incumplimiento de normativas de inocuidad",
     ],
     equiposNecesarios: ["ovi-precision-foam-kit", "ovi-dose-control-cart"],
-    productosAsociados: ["ovi-bioclean-pro", "ovi-surface-guard-x9"],
+    productosAsociados: ["ovi-biodex", "ovi-ecoseal"],
     protocolosAsociados: ["protocolo-p-010", "protocolo-p-011", "protocolo-g-003"],
     galeria: [],
     entregables: [
@@ -120,7 +120,7 @@ export const services: OviService[] = [
       "Costos crecientes de agua en operaciones de lavado",
     ],
     equiposNecesarios: ["ovi-flota-rinse-arch", "ovi-dose-control-cart"],
-    productosAsociados: ["ovi-bioclean-pro"],
+    productosAsociados: ["ovi-biodex"],
     protocolosAsociados: ["protocolo-p-001"],
     galeria: [],
     entregables: [
@@ -236,7 +236,7 @@ export const services: OviService[] = [
       "Recontaminación rápida que genera reprocesos frecuentes",
     ],
     equiposNecesarios: ["aplicador-microfibra-tecnica"],
-    productosAsociados: ["ovi-surface-guard-x9"],
+    productosAsociados: ["ovi-ecoseal"],
     protocolosAsociados: ["protocolo-f-002", "protocolo-f-003", "protocolo-e-007"],
     galeria: [],
     entregables: [

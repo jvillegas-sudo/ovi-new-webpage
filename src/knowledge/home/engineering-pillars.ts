@@ -26,8 +26,8 @@ export const homeEngineering: HomeEngineeringSection = {
   slug: "home-engineering",
   seoTitle: "Ingeniería en Limpieza — OVI",
   seoDescription:
-    "OVI no solo limpia. Diseñamos soluciones de ingeniería en limpieza con diagnóstico técnico, protocolos y tecnología.",
-  keywords: ["ingeniería en limpieza", "diagnóstico técnico", "protocolos operativos"],
+    "OVI no solo limpia. Con más de 18 años de experiencia, diseñamos soluciones de ingeniería en limpieza con diagnóstico técnico, protocolos y tecnología.",
+  keywords: ["ingeniería en limpieza", "diagnóstico técnico", "protocolos operativos", "18 años"],
   images: [],
   icon: "wrench",
   order: 3,
@@ -37,23 +37,23 @@ export const homeEngineering: HomeEngineeringSection = {
     es: {
       badge: "Ingeniería en Limpieza",
       heading: "OVI no solo limpia. OVI diseña soluciones de ingeniería en limpieza.",
-      body: "Cada proyecto combina diagnóstico técnico, diseño operativo, protocolos, tecnología e implementación en campo para generar resultados consistentes y medibles.",
+      body: "Con más de 18 años de experiencia en operaciones reales, cada proyecto combina diagnóstico técnico, diseño operativo, protocolos, tecnología e implementación en campo para generar resultados consistentes y medibles.",
       pillars: [
-        { text: "Ingeniería aplicada para resolver problemas complejos de limpieza" },
-        { text: "Tecnología y datos para decisiones operativas inteligentes" },
-        { text: "Protocolos, productos y servicios diseñados como un solo sistema" },
-        { text: "Sostenibilidad con impacto medible en operación real" },
+        { text: "Más de 18 años resolviendo problemas complejos de limpieza industrial" },
+        { text: "Capacidad para atender flotas de más de 7,000 vehículos pesados por mes" },
+        { text: "Protocolos, productos y servicios diseñados como un solo sistema integrado" },
+        { text: "Sostenibilidad con impacto medible: agua, químicos y eficiencia operativa" },
       ],
     },
     en: {
       badge: "Cleaning Engineering",
       heading: "OVI doesn't just clean. OVI designs cleaning engineering solutions.",
-      body: "Every project combines technical diagnostics, operational design, protocols, technology, and field implementation to generate consistent and measurable results.",
+      body: "With over 18 years of experience in real operations, every project combines technical diagnostics, operational design, protocols, technology, and field implementation to generate consistent and measurable results.",
       pillars: [
-        { text: "Applied engineering to solve complex cleaning problems" },
-        { text: "Technology and data for intelligent operational decisions" },
-        { text: "Protocols, products, and services designed as one system" },
-        { text: "Sustainability with measurable impact on real operations" },
+        { text: "Over 18 years solving complex industrial cleaning problems" },
+        { text: "Capacity to service fleets of over 7,000 heavy vehicles per month" },
+        { text: "Protocols, products, and services designed as one integrated system" },
+        { text: "Sustainability with measurable impact: water, chemicals, and operational efficiency" },
       ],
     },
   },
@@ -73,8 +73,8 @@ export const homeAbout: HomeAboutSection = {
   slug: "home-about",
   seoTitle: "Quiénes Somos — OVI Ingeniería en Limpieza",
   seoDescription:
-    "OVI integra ingeniería, tecnología, productos, servicios y protocolos para resolver desafíos complejos de limpieza.",
-  keywords: ["OVI", "quiénes somos", "ingeniería en limpieza"],
+    "OVI lleva más de 18 años integrando ingeniería, tecnología, productos, servicios y protocolos para resolver desafíos complejos de limpieza.",
+  keywords: ["OVI", "quiénes somos", "ingeniería en limpieza", "18 años"],
   images: [],
   icon: "info",
   order: 2,
@@ -83,13 +83,13 @@ export const homeAbout: HomeAboutSection = {
   locales: {
     es: {
       badge: "Quiénes Somos",
-      heading: "Integramos ingeniería, tecnología y operación para transformar la limpieza",
-      body: "OVI integra ingeniería, tecnología, productos, servicios, protocolos, inteligencia operacional y sostenibilidad para resolver desafíos complejos de limpieza, mantenimiento e higiene con una visión integral y de largo plazo.",
+      heading: "Más de 18 años transformando la operación de nuestros aliados",
+      body: "OVI integra ingeniería, tecnología, productos, servicios, protocolos e inteligencia operacional para resolver desafíos complejos de limpieza, mantenimiento e higiene. Trabajamos en la industria pesada, transporte, alimentos, institucional y energía con una visión de largo plazo y compromiso de resultados.",
     },
     en: {
       badge: "Who We Are",
-      heading: "We integrate engineering, technology, and operations to transform cleaning",
-      body: "OVI integrates engineering, technology, products, services, protocols, operational intelligence, and sustainability to solve complex cleaning, maintenance, and hygiene challenges with a comprehensive, long-term vision.",
+      heading: "Over 18 years transforming the operations of our partners",
+      body: "OVI integrates engineering, technology, products, services, protocols, and operational intelligence to solve complex cleaning, maintenance, and hygiene challenges. We operate in heavy industry, transport, food, institutional, and energy sectors with a long-term vision and commitment to results.",
     },
   },
 } as const;

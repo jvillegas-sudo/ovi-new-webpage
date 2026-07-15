@@ -50,57 +50,59 @@ export const successCasesSectionMeta: HomeSuccessCasesSection = {
 
 export const successCases: HomeSuccessCase[] = [
   {
-    slug: "caso-operacion-industrial-multi-sitio",
-    seoTitle: "Caso 01 — Operación industrial multi-sitio",
+    slug: "caso-flota-transporte-pesado",
+    seoTitle: "Caso: Flota de Transporte Pesado — OVI Ingeniería en Limpieza",
     seoDescription:
-      "Estandarización de protocolos y mejora de control operativo en múltiples instalaciones.",
-    keywords: ["industria", "multi-sitio", "estandarización", "protocolos"],
+      "Reducción del tiempo de ciclo de lavado y menor consumo de agua por unidad en operación de flota pesada.",
+    keywords: ["flota pesada", "transporte", "lavado de vehículos", "consumo de agua"],
     images: [],
-    icon: "factory",
+    icon: "truck",
     order: 1,
     status: "active",
     featured: true,
     locales: {
       es: {
-        title: "Caso 01 — Operación industrial multi-sitio",
+        title: "Flota de transporte pesado",
         detail:
-          "Estandarización de protocolos y mejora de control operativo en múltiples instalaciones.",
+          "Protocolo de lavado OVI Solwash implementado en patio con capacidad para atender más de 7,000 unidades por mes. Reducción del tiempo de ciclo por unidad y estandarización del consumo de agua entre operadores.",
       },
       en: {
-        title: "Case 01 — Multi-site industrial operation",
+        title: "Heavy transport fleet",
         detail:
-          "Protocol standardization and improved operational control across multiple facilities.",
+          "OVI Solwash washing protocol implemented in yard with capacity to serve over 7,000 units per month. Reduced cycle time per unit and standardized water consumption across operators.",
       },
     },
   },
   {
-    slug: "caso-flota-transporte-alto-uso",
-    seoTitle: "Caso 02 — Flota de transporte de alto uso",
+    slug: "caso-planta-industrial-manufactura",
+    seoTitle: "Caso: Planta Industrial de Manufactura — OVI Ingeniería en Limpieza",
     seoDescription:
-      "Reducción de tiempos de limpieza y menor consumo de agua por unidad atendida.",
-    keywords: ["flota", "transporte", "consumo hídrico", "tiempo de ciclo"],
+      "Limpieza técnica de planta manufacturera con OVI Biodex y protocolo HACCP para líneas de producción.",
+    keywords: ["planta industrial", "manufactura", "HACCP", "limpieza industrial"],
     images: [],
-    icon: "truck",
+    icon: "factory",
     order: 2,
     status: "active",
     featured: true,
     locales: {
       es: {
-        title: "Caso 02 — Flota de transporte de alto uso",
-        detail: "Reducción de tiempos de limpieza y menor consumo de agua por unidad atendida.",
+        title: "Planta industrial de manufactura",
+        detail:
+          "Implementación de protocolo de desengrase con OVI Biodex en maquinaria y líneas de producción. Documentación de cada intervención con trazabilidad completa y cumplimiento de normativa de inocuidad.",
       },
       en: {
-        title: "Case 02 — High-use transport fleet",
-        detail: "Reduced cleaning times and lower water consumption per serviced unit.",
+        title: "Industrial manufacturing plant",
+        detail:
+          "OVI Biodex degreasing protocol implemented on machinery and production lines. Full traceability documentation and food safety compliance achieved.",
       },
     },
   },
   {
-    slug: "caso-infraestructura-critica",
-    seoTitle: "Caso 03 — Infraestructura crítica",
+    slug: "caso-instalacion-institucional",
+    seoTitle: "Caso: Instalación Institucional — OVI Ingeniería en Limpieza",
     seoDescription:
-      "Implementación de limpieza técnica con trazabilidad e indicadores por proceso.",
-    keywords: ["infraestructura crítica", "trazabilidad", "indicadores", "limpieza técnica"],
+      "Mantenimiento preventivo de pisos y superficies en instalación institucional de alto tráfico con OVI Ecoseal.",
+    keywords: ["institucional", "mantenimiento preventivo", "pisos", "alto tráfico"],
     images: [],
     icon: "building-2",
     order: 3,
@@ -108,12 +110,14 @@ export const successCases: HomeSuccessCase[] = [
     featured: true,
     locales: {
       es: {
-        title: "Caso 03 — Infraestructura crítica",
-        detail: "Implementación de limpieza técnica con trazabilidad e indicadores por proceso.",
+        title: "Instalación institucional de alto tráfico",
+        detail:
+          "Programa de mantenimiento preventivo con OVI Ecoseal en instalación de alto tráfico. Reducción de la frecuencia de limpiezas correctivas y extensión del ciclo de mantenimiento con menor consumo de insumos.",
       },
       en: {
-        title: "Case 03 — Critical infrastructure",
-        detail: "Technical cleaning implementation with traceability and per-process indicators.",
+        title: "High-traffic institutional facility",
+        detail:
+          "Preventive maintenance program with OVI Ecoseal at high-traffic facility. Reduced corrective cleaning frequency and extended maintenance cycle with lower product consumption.",
       },
     },
   },
