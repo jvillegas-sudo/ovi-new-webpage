@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { cn } from "@utils/cn";
 import { useOviAiStore } from "@store/ovi-ai.store";
+import type { OviAiSession } from "@store/ovi-ai.store";
 import {
   OVI_GREETING,
   OVI_INTEGRATION_LINKS,
@@ -685,7 +686,7 @@ function HolographicPanel({
   onSubmitText,
   onGenerateDiagnostic,
 }: {
-  session: ReturnType<typeof useOviAiStore>["session"];
+  session: OviAiSession;
   analysisState: "idle" | "analyzing" | "done";
   analysisStage: string;
   onClose: () => void;

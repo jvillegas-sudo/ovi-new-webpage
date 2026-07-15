@@ -7,6 +7,7 @@
  * Renders sector cards sourced from the Knowledge Base + display config.
  */
 
+import type React from "react";
 import {
   Factory,
   Cpu,
@@ -21,7 +22,7 @@ import { AnimateStagger, Card, Heading, Text } from "@components/ui";
 import type { HomeDisplaySector, HomeLocale } from "@knowledge/home";
 import type { SectorDisplayConfig } from "@knowledge/home";
 
-type LucideIcon = (props: LucideProps) => JSX.Element;
+type LucideIcon = React.FC<LucideProps>;
 
 const ICON_MAP: Record<SectorDisplayConfig["iconName"], LucideIcon> = {
   Factory: Factory as LucideIcon,

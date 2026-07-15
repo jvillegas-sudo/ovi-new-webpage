@@ -5,6 +5,13 @@
  * Exports the rule engine and product rule evaluator.
  */
 
+import type {
+  OviRuleCondition,
+  OviProductRule,
+  OviDecisionInput,
+  OviRuleEvaluationResult,
+} from "../types";
+
 export { productRules, getProductRule, getRuleProductIds } from "./product-rules";
 
 export type { OviProductRule, OviRuleCondition, OviRuleEvaluationResult } from "../types";
@@ -15,10 +22,7 @@ export type { OviProductRule, OviRuleCondition, OviRuleEvaluationResult } from "
  * @param condition  The rule condition to evaluate
  * @param fieldValue The current value of the field being tested
  */
-export function evaluateCondition(
-  condition: import("../types").OviRuleCondition,
-  fieldValue: unknown,
-): boolean {
+export function evaluateCondition(condition: OviRuleCondition, fieldValue: unknown): boolean {
   const { operator, value } = condition;
 
   switch (operator) {
@@ -60,11 +64,11 @@ export function evaluateCondition(
  * Returns a structured result with matched conditions and computed score.
  */
 export function evaluateProductRule(
-  rule: import("../types").OviProductRule,
-  input: import("../types").OviDecisionInput,
-): import("../types").OviRuleEvaluationResult {
-  const matchedRecommendConditions: import("../types").OviRuleCondition[] = [];
-  const matchedExclusionConditions: import("../types").OviRuleCondition[] = [];
+  rule: OviProductRule,
+  input: OviDecisionInput,
+): OviRuleEvaluationResult {
+  const matchedRecommendConditions: OviRuleCondition[] = [];
+  const matchedExclusionConditions: OviRuleCondition[] = [];
 
   // Check recommendation conditions (ANY match = qualifies)
   for (const condition of rule.recommendIf) {
