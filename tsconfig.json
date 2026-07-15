@@ -39,7 +39,9 @@
       "@animations/*": ["./src/animations/*"],
       "@three/*": ["./src/three/*"],
       "@store/*": ["./src/store/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@knowledge": ["./src/knowledge/index.ts"],
+      "@knowledge/*": ["./src/knowledge/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

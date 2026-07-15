@@ -1,0 +1,23 @@
+/**
+ * OVI Knowledge Base — Services
+ */
+
+import { services } from "./catalog";
+
+export { services } from "./catalog";
+
+export function getService(id: string) {
+  return services.find((s) => s.id === id);
+}
+
+export function getServicesBySector(sectorId: string) {
+  return services.filter((s) => s.sectores.includes(sectorId));
+}
+
+export function getServicesByProduct(productId: string) {
+  return services.filter((s) => s.productosAsociados.includes(productId));
+}
+
+export function getServicesByProtocol(protocolId: string) {
+  return services.filter((s) => s.protocolosAsociados.includes(protocolId));
+}
