@@ -443,7 +443,7 @@ function ReportReadout({ report, onReset }: { report: SimulatedReport; onReset: 
           CONTINUAR EN OVI
         </p>
         <div className="flex flex-wrap gap-1.5">
-          {["OVI Lab", "OVI Store", "OVI OS"].map((label) => (
+          {["OVI Laboratorio", "OVI Catálogo", "OVI OS"].map((label) => (
             <span
               key={label}
               className="rounded-full border border-[rgba(255,255,255,0.1)] px-2.5 py-0.5"

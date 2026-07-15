@@ -3,7 +3,7 @@
  *
  * OVI brand palette built on a dark-first philosophy.
  * Primary identity: deep navy/black with electric cyan accents.
- * This mirrors the brand of industrial biotechnology — precise, clean, futuristic.
+ * This mirrors the OVI engineering brand — precise, clean, and technical.
  *
  * Usage:
  *   import { colors } from '@config/tokens/colors'

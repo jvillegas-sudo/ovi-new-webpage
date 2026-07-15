@@ -61,11 +61,11 @@ export const Glass: Story = {
           New Feature
         </Badge>
         <Heading as="h3" size="lg">
-          Biotech Platform
+          Plataforma OVI
         </Heading>
       </CardHeader>
       <CardContent>
-        <Text>AI-powered pipeline acceleration for industrial biotechnology workflows.</Text>
+        <Text>AI-powered recommendations for industrial cleaning workflows.</Text>
       </CardContent>
       <CardFooter>
         <Text size="sm" textColor="tertiary">

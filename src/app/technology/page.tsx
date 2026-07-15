@@ -196,7 +196,7 @@ export default function TechnologyPage() {
         <Container size="md" className="text-center">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Explore Nuestros Servicios
+              Conozca Nuestros Servicios
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>

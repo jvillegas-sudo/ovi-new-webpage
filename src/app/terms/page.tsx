@@ -52,11 +52,10 @@ export default function TermsPage() {
                   1. Aceptación de los Términos
                 </Heading>
                 <Text textColor="secondary">
-                  Al acceder y utilizar el sitio web oviventures.com (&quot;Sitio&quot;), usted
-                  acepta estar vinculado por estos Términos de Servicio. Si no está de acuerdo con
-                  alguna parte de estos términos, le pedimos que no utilice el Sitio. El uso
-                  continuado del Sitio constituye aceptación de las versiones vigentes de estos
-                  términos.
+                  Al acceder y utilizar el sitio web ovi.com (&quot;Sitio&quot;), usted acepta estar
+                  vinculado por estos Términos de Servicio. Si no está de acuerdo con alguna parte
+                  de estos términos, le pedimos que no utilice el Sitio. El uso continuado del Sitio
+                  constituye aceptación de las versiones vigentes de estos términos.
                 </Text>
               </article>
 
@@ -68,8 +67,8 @@ export default function TermsPage() {
                   OVI Ingeniería en Limpieza ofrece a través de este Sitio información sobre sus
                   productos, servicios, metodología y plataformas tecnológicas para soluciones de
                   Ingeniería en Limpieza de uso industrial, institucional y de flota. El Sitio
-                  incluye herramientas interactivas de diagnóstico (OVI AI, Solution Lab) con fines
-                  informativos y de orientación técnica.
+                  incluye herramientas interactivas de diagnóstico (OVI AI, OVI Laboratorio de
+                  Soluciones) con fines informativos y de orientación técnica.
                 </Text>
               </article>
 
@@ -122,11 +121,12 @@ export default function TermsPage() {
                   5. Herramientas de Diagnóstico y Recomendaciones
                 </Heading>
                 <Text textColor="secondary">
-                  Las herramientas interactivas del Sitio (OVI AI, Solution Lab, OVI OS) generan
-                  análisis y recomendaciones con fines exclusivamente informativos y orientativos.
-                  Estos resultados no constituyen asesoría técnica vinculante ni reemplazan la
-                  evaluación de un especialista OVI in situ. OVI no se responsabiliza por decisiones
-                  operativas tomadas con base únicamente en los resultados de estas herramientas.
+                  Las herramientas interactivas del Sitio (OVI AI, OVI Laboratorio de Soluciones,
+                  OVI OS) generan análisis y recomendaciones con fines exclusivamente informativos y
+                  orientativos. Estos resultados no constituyen asesoría técnica vinculante ni
+                  reemplazan la evaluación de un especialista OVI in situ. OVI no se responsabiliza
+                  por decisiones operativas tomadas con base únicamente en los resultados de estas
+                  herramientas.
                 </Text>
               </article>
 
@@ -186,10 +186,10 @@ export default function TermsPage() {
                 <Text textColor="secondary">
                   Para cualquier consulta relacionada con estos Términos, puede contactarnos en{" "}
                   <Link
-                    href="mailto:legal@oviventures.com"
+                    href="mailto:legal@ovi.com"
                     className="text-[var(--color-brand-primary)] transition-colors hover:underline"
                   >
-                    legal@oviventures.com
+                    legal@ovi.com
                   </Link>{" "}
                   o a través de nuestra página de{" "}
                   <Link

@@ -552,7 +552,7 @@ function ProductCard({ product }: ProductCardProps) {
               }}
             >
               <Package className="h-3.5 w-3.5" aria-hidden="true" />
-              Ver en OVI Store
+              Ver en OVI Catálogo Técnico
               <ChevronRight className="h-3 w-3" aria-hidden="true" />
             </Link>
           ) : (
@@ -846,20 +846,20 @@ export function ProductsPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <IntegrationCard
               icon={Package}
-              title="OVI Store"
+              title="OVI Catálogo Técnico"
               description="Explore el catálogo técnico completo con especificaciones detalladas, recomendaciones por industria y guías de aplicación."
               href="/store"
-              cta="Ir al Store"
+              cta="Ir al catálogo"
               color="var(--color-brand-primary)"
               bg="rgba(0,196,255,0.06)"
               border="rgba(0,196,255,0.2)"
             />
             <IntegrationCard
               icon={FlaskConical}
-              title="Solution Lab"
+              title="OVI Laboratorio de Soluciones"
               description="Diseñe un protocolo de limpieza paso a paso con los productos OVI correctos para su operación específica."
               href="/solution-lab"
-              cta="Ir al Lab"
+              cta="Ir al laboratorio"
               color="var(--color-brand-accent)"
               bg="rgba(0,255,133,0.05)"
               border="rgba(0,255,133,0.18)"
@@ -934,7 +934,7 @@ export function ProductsPage() {
                 href="/solution-lab"
                 className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border-default)] px-7 py-3 text-base font-medium text-[var(--color-text-primary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)]"
               >
-                Diseñar solución en el Lab
+                Diseñar solución en el laboratorio
               </Link>
             </div>
           </motion.div>

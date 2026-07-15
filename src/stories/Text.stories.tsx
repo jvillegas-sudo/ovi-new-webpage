@@ -54,7 +54,7 @@ export const SizeScale: Story = {
           <span className="w-8 shrink-0 font-mono text-xs text-[var(--color-text-tertiary)]">
             {size}
           </span>
-          <Text size={size}>Precision industrial biotechnology at scale.</Text>
+          <Text size={size}>Ingeniería en limpieza industrial a escala.</Text>
         </div>
       ))}
     </div>
@@ -92,7 +92,7 @@ export const BodyParagraph: Story = {
         problema con la solución exacta.
       </Text>
       <Text size="sm" textColor="tertiary">
-        OVI — Ingeniería en Limpieza · oviventures.com
+        OVI — Ingeniería en Limpieza · ovi.com
       </Text>
     </div>
   ),

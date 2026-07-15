@@ -50,7 +50,7 @@ export const InContext: Story = {
         label="Industry"
         placeholder="Select industry…"
         options={[
-          { label: "Biotechnology", value: "biotech" },
+          { label: "Industrial Cleaning", value: "cleaning" },
           { label: "Pharmaceuticals", value: "pharma" },
           { label: "Chemical Manufacturing", value: "chem" },
           { label: "Agriculture", value: "ag" },

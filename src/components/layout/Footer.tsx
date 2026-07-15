@@ -47,7 +47,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex size-9 items-center justify-center rounded-lg border border-[var(--color-border-subtle)] text-[var(--color-text-tertiary)] transition-all duration-200 hover:border-[var(--color-border-default)] hover:text-[var(--color-text-primary)]"
-                    aria-label="OVI on LinkedIn"
+                    aria-label="OVI en LinkedIn"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

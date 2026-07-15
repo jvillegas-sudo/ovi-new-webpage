@@ -1344,7 +1344,7 @@ function ResultsPanel({
             >
               <Link href={`/solution-lab?mission=${mission.id}`}>
                 <button className="flex items-center gap-2 rounded-full border border-[rgba(0,196,255,0.2)] bg-[rgba(0,196,255,0.06)] px-4 py-2 font-mono text-[10px] tracking-widest text-[var(--color-brand-primary)] uppercase transition-all duration-200 hover:border-[rgba(0,196,255,0.5)] hover:bg-[rgba(0,196,255,0.12)]">
-                  <span>OVI Lab</span>
+                  <span>OVI Laboratorio</span>
                   <ExternalLink size={10} />
                 </button>
               </Link>
@@ -1407,7 +1407,7 @@ function MissionJourney({
     <section
       ref={containerRef}
       className="relative h-[800vh]"
-      aria-label={`OVI Missions — ${mission.title}`}
+      aria-label={`OVI Misiones — ${mission.title}`}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Three.js Canvas */}

@@ -27,7 +27,7 @@ import { buildMetadata } from "@lib/metadata";
 export const metadata = buildMetadata({
   title: "Inicio",
   description:
-    "OVI — Ingeniería en Limpieza. Diseñamos soluciones inteligentes para resolver desafíos de limpieza, mantenimiento e higiene mediante productos especializados, servicios, tecnología, inteligencia artificial y OVI OS.",
+    "OVI — Ingeniería en Limpieza. Diseñamos soluciones integrales para resolver desafíos de limpieza, mantenimiento e higiene mediante diagnóstico técnico, protocolos especializados, servicios y tecnología aplicada.",
 });
 
 const localizedContent = {
@@ -36,7 +36,7 @@ const localizedContent = {
       badge: "OVI — Ingeniería en Limpieza",
       title: "INGENIERÍA EN LIMPIEZA",
       subtitle:
-        "Diseñamos soluciones inteligentes para resolver desafíos de limpieza, mantenimiento e higiene mediante productos especializados, servicios, tecnología, inteligencia artificial y OVI OS.",
+        "Diseñamos soluciones integrales para resolver desafíos de limpieza, mantenimiento e higiene mediante diagnóstico técnico, protocolos especializados, servicios y tecnología aplicada.",
       story: [
         "Una gota de agua aparece.",
         "Esa gota se transforma en energía operativa.",
@@ -131,10 +131,10 @@ const services = [
 ];
 
 const products = [
-  "Productos especializados para limpieza industrial de alto desempeño",
-  "Equipamiento y herramientas para operaciones críticas",
-  "Soluciones adaptadas por tipo de superficie, proceso y sector",
-  "Integración de producto + método + control de resultados",
+  "Productos especializados definidos como resultado del diagnóstico técnico",
+  "Equipamiento y herramientas seleccionados según protocolo y nivel de riesgo",
+  "Soluciones adaptadas por tipo de superficie, proceso, sector y objetivo operativo",
+  "Integración de producto + método + control de resultados para continuidad operativa",
 ];
 
 const engineeringPillars = [
@@ -310,7 +310,7 @@ export default function HomePage() {
             </AnimateIn>
             <AnimateIn animation="slideUp" delay={0.1}>
               <Heading as="h2" size="4xl" align="center" className="mt-4">
-                Tecnología de producto al servicio de la eficiencia operacional
+                El producto correcto aparece después del diagnóstico correcto
               </Heading>
             </AnimateIn>
           </div>
@@ -326,7 +326,7 @@ export default function HomePage() {
           <AnimateIn animation="slideUp" delay={0.2}>
             <div className="mt-10 text-center">
               <Link href="/store">
-                <Button size="lg">Entrar a OVI Store</Button>
+                <Button size="lg">Ir al catálogo técnico</Button>
               </Link>
             </div>
           </AnimateIn>

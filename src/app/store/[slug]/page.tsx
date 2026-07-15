@@ -33,15 +33,15 @@ const compactOutlineLinkClasses =
   "inline-flex items-center justify-center rounded-full border border-[var(--color-border-default)] bg-transparent px-5 py-2 text-sm font-medium tracking-wide text-[var(--color-text-primary)] transition-all duration-200 hover:border-[var(--color-brand-primary)] hover:text-[var(--color-brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
 
 const specificationLabels = {
-  purpose: "Purpose",
-  industries: "Industries",
-  recommendedSurfaces: "Recommended Surfaces",
-  contaminationTypes: "Type of Contamination",
-  applicationMethod: "Application Method",
-  dilution: "Dilution",
-  safetyInformation: "Safety Information",
-  environmentalBenefits: "Environmental Benefits",
-  compatibleEquipment: "Compatible Equipment",
+  purpose: "Propósito",
+  industries: "Industrias",
+  recommendedSurfaces: "Superficies recomendadas",
+  contaminationTypes: "Tipo de contaminación",
+  applicationMethod: "Método de aplicación",
+  dilution: "Dilución",
+  safetyInformation: "Información de seguridad",
+  environmentalBenefits: "Beneficios ambientales",
+  compatibleEquipment: "Equipos compatibles",
 } as const;
 
 export function generateStaticParams() {
@@ -54,22 +54,22 @@ export async function generateMetadata({ params }: StoreProductPageProps) {
 
   if (!product) {
     return buildMetadata({
-      title: "OVI Store",
-      description: "Especificación técnica no encontrada dentro de OVI Store.",
+      title: "OVI Catálogo Técnico",
+      description: "Especificación técnica no encontrada dentro de OVI Catálogo Técnico.",
       canonical: "/store",
       noIndex: true,
     });
   }
 
   return buildMetadata({
-    title: `${product.name} · OVI Store`,
+    title: `${product.name} · OVI Catálogo Técnico`,
     description: product.summary,
     canonical: `/store/${product.slug}`,
     keywords: [
       product.name,
       product.categoryLabel,
       ...product.industries,
-      "OVI Store",
+      "OVI Catálogo Técnico",
       "ingeniería en limpieza",
     ],
   });
@@ -124,7 +124,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
               className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              Volver a OVI Store
+              Volver a OVI Catálogo Técnico
             </Link>
           </AnimateIn>
 
@@ -166,7 +166,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
             <AnimateIn animation="scaleIn" delay={0.18}>
               <Card variant="glass" padding="lg">
                 <Text size="sm" tracking="widest" textColor="brand" className="uppercase">
-                  Engineering Context
+                  Contexto de ingeniería
                 </Text>
                 <Heading as="h2" size="xl" className="mt-4">
                   Este producto hace parte de una solución de Ingeniería en Limpieza.
@@ -178,7 +178,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 <div className="mt-8 grid gap-4 sm:grid-cols-2">
                   <div className="rounded-2xl border border-[var(--color-border-default)] p-4">
                     <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
-                      Solution Lab scene
+                      Escena en OVI Laboratorio de Soluciones
                     </Text>
                     <Text size="sm" className="mt-2">
                       {product.solutionLabScene}
@@ -186,7 +186,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                   </div>
                   <div className="rounded-2xl border border-[var(--color-border-default)] p-4">
                     <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
-                      Related AI recommendation
+                      Recomendación relacionada de OVI AI
                     </Text>
                     <Text size="sm" className="mt-2">
                       {product.aiRecommendation}
@@ -245,7 +245,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
               <div className="flex items-center gap-3">
                 <Bot className="h-5 w-5 text-[var(--color-brand-primary)]" aria-hidden="true" />
                 <Heading as="h2" size="lg">
-                  No está seguro si este es el producto adecuado?
+                  ¿No está seguro de que este sea el producto adecuado?
                 </Heading>
               </div>
               <Text className="mt-4">
@@ -261,15 +261,15 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
               <div className="flex items-center gap-3">
                 <Layers3 className="h-5 w-5 text-[var(--color-brand-accent)]" aria-hidden="true" />
                 <Heading as="h2" size="lg">
-                  Ver metodología OVI Engineering
+                  Ver método OVI
                 </Heading>
               </div>
               <Text className="mt-4">
                 Entienda cómo este producto se integra con diagnóstico, diseño, implementación y
-                optimización dentro del marco OVI Engineering.
+                optimización dentro del marco del Método OVI.
               </Text>
               <Link href="/engineering" className={cn(outlineLinkClasses, "mt-6")}>
-                Ver metodología OVI Engineering
+                Ver método OVI
               </Link>
             </Card>
 
@@ -284,11 +284,11 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 </Heading>
               </div>
               <Text className="mt-4">
-                Use Solution Lab para observar dónde y cómo este producto aparece dentro de un
-                entorno operativo y un diagnóstico preliminar.
+                Use OVI Laboratorio de Soluciones para observar dónde y cómo este producto aparece
+                dentro de un entorno operativo y un diagnóstico preliminar.
               </Text>
               <Link href="/solution-lab" className={cn(outlineLinkClasses, "mt-6")}>
-                Open Solution Lab
+                Abrir OVI Laboratorio de Soluciones
               </Link>
             </Card>
           </div>
@@ -311,7 +311,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
                 aria-hidden="true"
               />
               <Heading as="h3" size="lg" className="mt-5">
-                Related Protocol
+                Protocolo relacionado
               </Heading>
               <ul className="mt-4 space-y-2">
                 {product.relatedProtocols.map((protocol) => (
@@ -324,7 +324,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
             <Card variant="solid" padding="lg" className="h-full">
               <Boxes className="h-5 w-5 text-[var(--color-brand-primary)]" aria-hidden="true" />
               <Heading as="h3" size="lg" className="mt-5">
-                Related Equipment
+                Equipos relacionados
               </Heading>
               <ul className="mt-4 space-y-2">
                 {product.relatedEquipment.map((equipment) => (
@@ -337,7 +337,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
             <Card variant="solid" padding="lg" className="h-full">
               <Wrench className="h-5 w-5 text-[var(--color-brand-primary)]" aria-hidden="true" />
               <Heading as="h3" size="lg" className="mt-5">
-                Related Service
+                Servicio relacionado
               </Heading>
               <ul className="mt-4 space-y-2">
                 {product.recommendedServices.map((service) => (
@@ -350,7 +350,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
             <Card variant="solid" padding="lg" className="h-full">
               <Bot className="h-5 w-5 text-[var(--color-brand-primary)]" aria-hidden="true" />
               <Heading as="h3" size="lg" className="mt-5">
-                Related AI Recommendation
+                Recomendación relacionada de OVI AI
               </Heading>
               <Text className="mt-4">{product.aiRecommendation}</Text>
             </Card>
@@ -361,7 +361,7 @@ export default async function StoreProductPage({ params }: StoreProductPageProps
       <Section background="elevated">
         <Container>
           <AnimateIn animation="slideUp">
-            <Badge variant="default">Related Products</Badge>
+            <Badge variant="default">Productos relacionados</Badge>
             <Heading as="h2" size="3xl" className="mt-4">
               Recomendaciones complementarias para completar la solución
             </Heading>

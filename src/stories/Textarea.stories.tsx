@@ -35,7 +35,7 @@ export const Default: Story = {};
 export const WithLabel: Story = {
   args: {
     label: "Project description",
-    hint: "Briefly describe your biotech application.",
+    hint: "Briefly describe your cleaning operation challenge.",
     rows: 4,
   },
 };

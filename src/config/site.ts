@@ -5,15 +5,15 @@
  * This is the single source of truth for metadata, navigation,
  * contact details, and other site-wide constants.
  *
- * Source: www.oviventures.com
+ * Source: www.ovi.com
  */
 
 export const siteConfig = {
   name: "OVI",
   tagline: "Ingeniería en Limpieza",
   description:
-    "OVI — Ingeniería en Limpieza. Diseñamos soluciones inteligentes para resolver desafíos de limpieza, mantenimiento e higiene industrial mediante productos especializados, servicios, tecnología e inteligencia artificial.",
-  url: process.env.NEXT_PUBLIC_APP_URL ?? "https://oviventures.com",
+    "OVI — Ingeniería en Limpieza. Diseñamos soluciones integrales para resolver desafíos de limpieza, mantenimiento e higiene industrial mediante diagnóstico técnico, protocolos especializados, servicios y tecnología aplicada.",
+  url: process.env.NEXT_PUBLIC_APP_URL ?? "https://ovi.com",
   ogImage: "/og-image.jpg",
   keywords: [
     "limpieza industrial",
@@ -29,14 +29,14 @@ export const siteConfig = {
 
   // ─── Contact ───────────────────────────────────────────────────────────────
   contact: {
-    email: "info@oviventures.com",
+    email: "info@ovi.com",
     phone: "",
     address: "",
   },
 
   // ─── Social ────────────────────────────────────────────────────────────────
   social: {
-    linkedin: "https://www.linkedin.com/company/oviventures",
+    linkedin: "https://www.linkedin.com/company/ovi",
     instagram: "",
     twitter: "",
     youtube: "",
@@ -48,12 +48,12 @@ export const siteConfig = {
       { label: "Inicio", href: "/" },
       { label: "Nosotros", href: "/about" },
       { label: "Servicios", href: "/solutions" },
-      { label: "OVI Store", href: "/store" },
+      { label: "OVI Catálogo", href: "/store" },
       { label: "Ingeniería", href: "/engineering" },
       { label: "Metodología", href: "/technology" },
       { label: "Sostenibilidad", href: "/sustainability" },
-      { label: "OVI Missions", href: "/missions" },
-      { label: "Solution Lab", href: "/solution-lab" },
+      { label: "OVI Misiones", href: "/missions" },
+      { label: "OVI Laboratorio", href: "/solution-lab" },
       { label: "OVI AI", href: "/ovi-ai" },
       { label: "OVI OS", href: "/ovi-os" },
       { label: "Contacto", href: "/contact" },
@@ -87,8 +87,8 @@ export const siteConfig = {
       {
         title: "Experiencias",
         links: [
-          { label: "OVI Missions", href: "/missions" },
-          { label: "Solution Lab", href: "/solution-lab" },
+          { label: "OVI Misiones", href: "/missions" },
+          { label: "OVI Laboratorio", href: "/solution-lab" },
           { label: "OVI AI", href: "/ovi-ai" },
           { label: "OVI OS", href: "/ovi-os" },
         ],
@@ -97,7 +97,7 @@ export const siteConfig = {
         title: "Contacto",
         links: [
           { label: "Contáctenos", href: "/contact" },
-          { label: "OVI Store", href: "/store" },
+          { label: "OVI Catálogo", href: "/store" },
         ],
       },
     ],

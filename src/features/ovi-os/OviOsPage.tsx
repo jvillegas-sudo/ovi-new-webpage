@@ -1387,7 +1387,7 @@ function OviStoreSection() {
   return (
     <section
       className="relative overflow-hidden py-[var(--section-padding-y)]"
-      aria-label="OVI Store — Integración Conceptual"
+      aria-label="OVI Catálogo Técnico — Integración conceptual"
     >
       <div
         aria-hidden="true"
@@ -1412,14 +1412,14 @@ function OviStoreSection() {
             }}
           >
             <Star className="h-3 w-3" aria-hidden="true" />
-            OVI Store — Próximamente
+            OVI Catálogo Técnico — Próximamente
           </span>
           <h2 className="font-display text-4xl font-bold text-[var(--color-text-primary)] md:text-5xl">
             Recomendaciones Inteligentes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[var(--color-text-secondary)]">
-            OVI OS conectará directamente con OVI Store para recomendar productos, equipos y
-            protocolos personalizados según su operación.
+            OVI OS conectará directamente con OVI Catálogo Técnico para recomendar productos,
+            equipos y protocolos personalizados según su operación.
           </p>
         </motion.div>
 

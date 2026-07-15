@@ -57,10 +57,10 @@ export default function ContactPage() {
                       Correo Electrónico
                     </Text>
                     <a
-                      href="mailto:info@oviventures.com"
+                      href="mailto:info@ovi.com"
                       className="mt-1 inline-flex text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]"
                     >
-                      info@oviventures.com
+                      info@ovi.com
                     </a>
                   </div>
                 </div>
@@ -72,7 +72,7 @@ export default function ContactPage() {
                       LinkedIn
                     </Text>
                     <a
-                      href="https://www.linkedin.com/company/oviventures"
+                      href="https://www.linkedin.com/company/ovi"
                       target="_blank"
                       rel="noreferrer"
                       className="mt-1 inline-flex text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-brand-primary)]"

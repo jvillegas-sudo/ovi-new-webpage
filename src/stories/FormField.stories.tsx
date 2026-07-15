@@ -82,14 +82,14 @@ export const CompleteForm: StoryObj = {
 
       <FormGroup title="Organisation" description="Tell us about your company.">
         <FormField label="Company name" htmlFor="company" required>
-          <Input id="company" placeholder="BioTech Corp" />
+          <Input id="company" placeholder="OVI Corp" />
         </FormField>
         <FormField label="Industry" htmlFor="industry">
           <Select
             id="industry"
             placeholder="Select industry…"
             options={[
-              { label: "Biotechnology", value: "biotech" },
+              { label: "Industrial Cleaning", value: "cleaning" },
               { label: "Pharmaceuticals", value: "pharma" },
               { label: "Chemical Manufacturing", value: "chem" },
             ]}

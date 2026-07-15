@@ -12,7 +12,7 @@
  *     items={[
  *       { label: "Home", href: "/" },
  *       { label: "Products", href: "/products" },
- *       { label: "Biotech Platform" },
+ *       { label: "Plataforma OVI" },
  *     ]}
  *   />
  */

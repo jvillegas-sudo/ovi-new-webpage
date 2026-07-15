@@ -14,12 +14,12 @@ import { buildMetadata } from "@lib/metadata";
 import { SolutionLabWorkspace } from "@features/solution-lab/SolutionLabWorkspace";
 
 export const metadata = buildMetadata({
-  title: "OVI Solution Lab",
+  title: "OVI Laboratorio de Soluciones",
   description:
-    "OVI Solution Lab — Centro Digital de Operaciones. Explore entornos operativos reales, identifique desafíos de ingeniería en limpieza y descubra la solución OVI diseñada para su operación.",
+    "OVI Laboratorio de Soluciones — Centro digital de operaciones. Explore entornos operativos reales, identifique desafíos de ingeniería en limpieza y descubra la solución OVI diseñada para su operación.",
   canonical: "/solution-lab",
   keywords: [
-    "OVI Solution Lab",
+    "OVI Laboratorio de Soluciones",
     "simulador de ingeniería",
     "centro de operaciones digital",
     "ingeniería en limpieza",
@@ -49,7 +49,7 @@ const pillars = [
     borderColor: "rgba(0,255,133,0.2)",
     title: "Analice",
     description:
-      "Seleccione el activo, el área específica y el tipo de contaminación. OVI Solution Lab identifica las variables técnicas críticas de su operación.",
+      "Seleccione el activo, el área específica y el tipo de contaminación. OVI Laboratorio de Soluciones identifica las variables técnicas críticas de su operación.",
   },
   {
     icon: FlaskConical,
@@ -87,7 +87,7 @@ const steps = [
     step: "04",
     title: "Reciba el diagnóstico de ingeniería",
     description:
-      "OVI Solution Lab genera un panel preliminar con protocolo, productos, equipamiento, diluciones y próximos pasos recomendados.",
+      "OVI Laboratorio de Soluciones genera un panel preliminar con protocolo, productos, equipamiento, diluciones y próximos pasos recomendados.",
   },
 ] as const;
 
@@ -153,20 +153,20 @@ export default function SolutionLabPage() {
 
           <AnimateIn animation="slideUp" delay={0.08}>
             <Heading as="h1" size="6xl" gradient="brand" align="center" className="mt-6">
-              OVI SOLUTION LAB
+              OVI LABORATORIO DE SOLUCIONES
             </Heading>
           </AnimateIn>
 
           <AnimateIn animation="slideUp" delay={0.16}>
             <div className="mt-4 flex flex-col items-center gap-1">
               <p className="text-[clamp(2.5rem,4vw+1.5rem,3.5rem)] leading-tight font-normal tracking-tight text-[var(--color-text-secondary)]">
-                Explore.
+                Explorar.
               </p>
               <p className="text-[clamp(2.5rem,4vw+1.5rem,3.5rem)] leading-tight font-normal tracking-tight text-[var(--color-text-secondary)]">
-                Analice.
+                Analizar.
               </p>
               <p className="text-[clamp(2.5rem,4vw+1.5rem,3.5rem)] leading-tight font-normal tracking-tight text-[var(--color-brand-primary)]">
-                Resuelva.
+                Resolver.
               </p>
             </div>
           </AnimateIn>
@@ -252,13 +252,13 @@ export default function SolutionLabPage() {
         <Container size="md">
           <AnimateIn animation="slideUp">
             <Heading as="h2" size="3xl" align="center">
-              Cómo funciona OVI Solution Lab
+              Cómo funciona OVI Laboratorio de Soluciones
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.1}>
             <Text align="center" className="mx-auto mt-4 max-w-2xl">
               Un simulador de ingeniería diseñado para explorar entornos operativos reales y
-              descubrir las soluciones de limpieza más adecuadas para cada desafío.
+              descubrir las soluciones de limpieza más adecuadas para cada desafío técnico.
             </Text>
           </AnimateIn>
 

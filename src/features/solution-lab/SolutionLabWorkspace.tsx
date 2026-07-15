@@ -1286,8 +1286,8 @@ function EngineeringResultPanel({
           Protocolo de Ingeniería
         </Heading>
         <Text align="center" className="mx-auto mt-3 max-w-lg">
-          Panel de diagnóstico preliminar generado por OVI Solution Lab. Todas las recomendaciones
-          son de carácter demostrativo.
+          Panel de diagnóstico preliminar generado por OVI Laboratorio de Soluciones. Todas las
+          recomendaciones son de carácter demostrativo.
         </Text>
       </div>
 
@@ -1306,7 +1306,7 @@ function EngineeringResultPanel({
           <div className="flex items-center gap-3">
             <Wrench size={16} className={sector.color} aria-hidden="true" />
             <span className="text-sm font-bold text-[var(--color-text-primary)]">
-              OVI SOLUTION LAB — Diagnóstico Preliminar
+              OVI LABORATORIO DE SOLUCIONES — Diagnóstico Preliminar
             </span>
           </div>
           <span className="rounded-full bg-[rgba(255,165,0,0.2)] px-3 py-1 text-xs font-bold tracking-widest text-[var(--color-brand-warning)] uppercase">
@@ -1405,11 +1405,13 @@ function EngineeringResultPanel({
             <ShoppingCart size={18} className="text-[var(--color-brand-accent)]" />
           </div>
           <div className="flex-1">
-            <p className="mb-1 text-sm font-bold text-[var(--color-brand-accent)]">OVI Store</p>
+            <p className="mb-1 text-sm font-bold text-[var(--color-brand-accent)]">
+              OVI Catálogo Técnico
+            </p>
             <p className="text-sm text-[var(--color-text-secondary)]">
               Los productos y equipos recomendados en este diagnóstico estarán disponibles en OVI
-              Store para adquisición directa. Integración futura — sin implementación de comercio
-              electrónico en esta versión.
+              Catálogo Técnico para consulta técnica. Integración futura — sin implementación de
+              comercio electrónico en esta versión.
             </p>
             <p className="mt-2 inline-block rounded-full border border-[rgba(0,255,133,0.3)] px-3 py-0.5 text-[10px] font-semibold tracking-widest text-[var(--color-brand-accent)] uppercase">
               Próximamente
@@ -1490,7 +1492,7 @@ export function SolutionLabWorkspace() {
     <div
       className="overflow-hidden rounded-3xl border border-[var(--color-border-subtle)] bg-[var(--color-bg-surface)]"
       role="main"
-      aria-label="OVI Solution Lab — Simulador de Ingeniería en Limpieza"
+      aria-label="OVI Laboratorio de Soluciones — Simulador de Ingeniería en Limpieza"
     >
       {/* Top bar */}
       <div className="flex items-center justify-between border-b border-[var(--color-border-subtle)] bg-[var(--color-bg-elevated)] px-6 py-4">
@@ -1501,7 +1503,7 @@ export function SolutionLabWorkspace() {
             <div className="h-3 w-3 rounded-full bg-[rgba(255,255,255,0.1)]" />
           </div>
           <span className="text-xs font-semibold tracking-widest text-[var(--color-text-tertiary)] uppercase">
-            OVI SOLUTION LAB — Digital Operations Center
+            OVI LABORATORIO DE SOLUCIONES — Centro digital de operaciones
           </span>
         </div>
         <div

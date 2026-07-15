@@ -55,7 +55,7 @@ export const storeEntryPoints: StoreEntryPoint[] = [
     description:
       "Comience desde el problema operacional y deje que OVI AI conecte protocolo, producto, equipo y servicio.",
     href: "/ovi-ai",
-    cta: "Launch OVI AI",
+    cta: "Iniciar con OVI AI",
   },
   {
     title: "Explorar por Industria",
@@ -477,9 +477,9 @@ export const futureIntegrations = [
   "Medusa",
   "ERP",
   "OVI OS",
-  "Inventory",
-  "Payments",
-  "Logistics",
+  "Inventario",
+  "Pagos",
+  "Logística",
 ] as const;
 
 export function getStoreProduct(slug: string) {

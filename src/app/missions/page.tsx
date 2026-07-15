@@ -2,12 +2,12 @@ import { buildMetadata } from "@lib/metadata";
 import { MissionsControlCenter } from "@features/missions/MissionsControlCenter";
 
 export const metadata = buildMetadata({
-  title: "OVI Missions",
+  title: "OVI Misiones",
   description:
-    "OVI Missions — Explora operaciones reales resueltas por OVI. Cada misión es una experiencia inmersiva que demuestra cómo OVI transforma activos industriales contaminados en resultados impecables.",
+    "OVI Misiones — Explore operaciones reales resueltas por OVI. Cada misión es una experiencia inmersiva que demuestra cómo OVI transforma activos industriales contaminados en resultados medibles.",
   canonical: "/missions",
   keywords: [
-    "OVI Missions",
+    "OVI Misiones",
     "casos de éxito",
     "experiencia inmersiva",
     "limpieza industrial",

@@ -77,7 +77,7 @@ const cinematicScenes = [
     id: "scene-ecosystem",
     number: "05",
     title: "Ecosistema OVI",
-    tagline: "OVI AI · OVI OS · OVI Lab · OVI Store. Un solo universo integrado.",
+    tagline: "OVI AI · OVI OS · OVI Laboratorio · OVI Catálogo. Un solo universo integrado.",
   },
 ] as const;
 

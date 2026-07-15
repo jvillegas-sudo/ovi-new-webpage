@@ -83,7 +83,7 @@ export function Navbar() {
         <Container>
           <nav
             className="flex h-16 items-center justify-between md:h-20"
-            aria-label="Main navigation"
+            aria-label="Navegación principal"
           >
             {/* Logo */}
             <Link

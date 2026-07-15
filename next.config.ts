@@ -19,11 +19,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "oviventures.com",
+        hostname: "ovi.com",
       },
       {
         protocol: "https",
-        hostname: "www.oviventures.com",
+        hostname: "www.ovi.com",
       },
     ],
   },
@@ -31,11 +31,7 @@ const nextConfig: NextConfig = {
   // Experimental features for performance
   experimental: {
     // Optimize package imports for tree-shaking
-    optimizePackageImports: [
-      "lucide-react",
-      "@react-three/drei",
-      "framer-motion",
-    ],
+    optimizePackageImports: ["lucide-react", "@react-three/drei", "framer-motion"],
   },
 
   // Webpack customization for Three.js and GLSL shaders

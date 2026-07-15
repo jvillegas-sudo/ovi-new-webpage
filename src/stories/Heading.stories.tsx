@@ -43,7 +43,7 @@ const meta: Meta<typeof Heading> = {
     gradient: "none",
     align: "left",
     weight: "bold",
-    children: "Industrial Biotechnology",
+    children: "Ingeniería en Limpieza Industrial",
   },
 };
 
@@ -69,7 +69,7 @@ export const TypeScale: Story = {
             {size}
           </span>
           <Heading as="h2" size={size}>
-            {size} — The Future of Biotech
+            {size} — Futuro de la Ingeniería en Limpieza
           </Heading>
         </div>
       ))}
@@ -93,7 +93,7 @@ export const HeroDisplay: Story = {
   render: () => (
     <div className="flex max-w-2xl flex-col gap-2">
       <Heading as="h1" size="6xl" gradient="brand" weight="black">
-        The Future of Industrial Biotech
+        El futuro de la Ingeniería en Limpieza Industrial
       </Heading>
       <Heading as="h2" size="2xl" weight="normal" className="text-[var(--color-text-secondary)]">
         Precision engineering for the next decade of production.

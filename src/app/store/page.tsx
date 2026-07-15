@@ -43,18 +43,18 @@ import {
 } from "@features/store/store-data";
 
 export const metadata = buildMetadata({
-  title: "OVI Store",
+  title: "OVI Catálogo Técnico",
   description:
-    "OVI Store — Soluciones profesionales para Ingeniería en Limpieza. Una experiencia de recomendación técnica donde cada producto forma parte de una solución diseñada por ingenieros OVI.",
+    "OVI Catálogo Técnico — Soluciones profesionales para Ingeniería en Limpieza. Una experiencia de recomendación técnica donde cada producto forma parte de una solución diseñada por ingenieros OVI.",
   canonical: "/store",
   keywords: [
-    "OVI Store",
+    "OVI Catálogo Técnico",
     "ingeniería en limpieza",
     "productos recomendados",
     "soluciones profesionales",
-    "store experience",
+    "catálogo técnico",
     "OVI AI",
-    "Solution Lab",
+    "OVI Laboratorio de Soluciones",
   ],
 });
 
@@ -81,7 +81,7 @@ const experiencePillars = [
   {
     title: "Conexión con ingeniería",
     description:
-      "OVI AI, OVI Engineering y Solution Lab acompañan cada decisión antes de cualquier compra.",
+      "OVI AI, Método OVI y OVI Laboratorio de Soluciones acompañan cada decisión antes de cualquier compra.",
   },
   {
     title: "Arquitectura preparada",
@@ -143,7 +143,7 @@ export default function StorePage() {
             <div>
               <AnimateIn animation="slideUp">
                 <Badge variant="brand" size="lg">
-                  OVI STORE
+                  OVI CATÁLOGO
                 </Badge>
               </AnimateIn>
               <AnimateIn animation="slideUp" delay={0.08}>
@@ -163,7 +163,7 @@ export default function StorePage() {
                     Resolver un desafío
                   </Link>
                   <Link href="/engineering" className={outlineLinkClasses}>
-                    Ver metodología OVI Engineering
+                    Ver método OVI
                   </Link>
                 </div>
               </AnimateIn>
@@ -173,7 +173,7 @@ export default function StorePage() {
               {experiencePillars.map((pillar) => (
                 <Card key={pillar.title} variant="glass" padding="lg" className="glass-hover">
                   <Text size="sm" tracking="widest" textColor="brand" className="uppercase">
-                    Premium UX
+                    Experiencia OVI
                   </Text>
                   <Heading as="h2" size="lg" className="mt-3">
                     {pillar.title}
@@ -189,15 +189,15 @@ export default function StorePage() {
       <Section background="surface" id="shopping-philosophy">
         <Container>
           <AnimateIn animation="slideUp">
-            <Badge variant="accent">Shopping Philosophy</Badge>
+            <Badge variant="accent">Filosofía de recomendación</Badge>
             <Heading as="h2" size="3xl" className="mt-4 max-w-3xl">
               Nunca preguntamos qué desea comprar. Preguntamos qué desafío desea resolver.
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.08}>
             <Text size="lg" className="mt-5 max-w-3xl">
-              OVI Store es la etapa final de una recomendación de ingeniería. Estas tres rutas de
-              entrada organizan la experiencia sin convertirla en un ecommerce tradicional.
+              OVI Catálogo Técnico es la etapa final de una recomendación de ingeniería. Estas tres
+              rutas de entrada organizan la experiencia sin convertirla en un ecommerce tradicional.
             </Text>
           </AnimateIn>
 
@@ -264,7 +264,7 @@ export default function StorePage() {
           <AnimateIn animation="slideUp" delay={0.08}>
             <Text size="lg" className="mt-5 max-w-3xl">
               Cada industria traduce un reto diferente en protocolos, productos, equipos y servicios
-              coordinados por OVI Engineering.
+              coordinados por el Método OVI.
             </Text>
           </AnimateIn>
 
@@ -521,7 +521,7 @@ export default function StorePage() {
                 <Text className="mt-3">{product.summary}</Text>
                 <div className="mt-6 border-t border-[var(--color-border-subtle)] pt-4">
                   <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
-                    OVI AI insight
+                    Diagnóstico OVI AI
                   </Text>
                   <Text size="sm" className="mt-2">
                     {product.aiRecommendation}
@@ -549,8 +549,8 @@ export default function StorePage() {
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.08}>
             <Text size="lg" className="mt-5 max-w-3xl">
-              La interfaz actual es UX only, pero la arquitectura del ecosistema contempla
-              plataformas de comercio, operación, inventario y pagos para fases futuras.
+              La interfaz actual prioriza la experiencia, pero la arquitectura del ecosistema
+              contempla plataformas de comercio, operación, inventario y pagos para fases futuras.
             </Text>
           </AnimateIn>
 
@@ -563,7 +563,7 @@ export default function StorePage() {
                     className="rounded-2xl border border-[var(--color-border-default)] bg-[rgba(255,255,255,0.03)] px-4 py-5"
                   >
                     <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
-                      Future
+                      Futuro
                     </Text>
                     <Heading as="h3" size="md" className="mt-2">
                       {integration}
@@ -577,7 +577,7 @@ export default function StorePage() {
               <div className="flex items-center gap-3">
                 <Leaf className="h-5 w-5 text-[var(--color-brand-accent)]" aria-hidden="true" />
                 <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
-                  OVI Store Ecosystem
+                  Ecosistema OVI
                 </Text>
               </div>
               <Heading as="h3" size="xl" className="mt-5">
@@ -590,7 +590,7 @@ export default function StorePage() {
               </Text>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link href="/solution-lab" className={primaryLinkClasses}>
-                  Ver este producto en Solution Lab
+                  Ver este producto en OVI Laboratorio de Soluciones
                 </Link>
                 <Link href="/ovi-ai" className={outlineLinkClasses}>
                   Consultar con OVI AI

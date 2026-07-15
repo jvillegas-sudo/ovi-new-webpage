@@ -54,13 +54,13 @@ export default function PrivacyPage() {
                 <Text textColor="secondary">
                   OVI Ingeniería en Limpieza (&quot;OVI&quot;, &quot;nosotros&quot;,
                   &quot;nuestro&quot;) es el responsable del tratamiento de los datos personales
-                  recopilados a través de este sitio web (oviventures.com). Para cualquier consulta
-                  sobre privacidad, puede contactarnos en:{" "}
+                  recopilados a través de este sitio web (ovi.com). Para cualquier consulta sobre
+                  privacidad, puede contactarnos en:{" "}
                   <Link
-                    href="mailto:privacidad@oviventures.com"
+                    href="mailto:privacidad@ovi.com"
                     className="text-[var(--color-brand-primary)] transition-colors hover:underline"
                   >
-                    privacidad@oviventures.com
+                    privacidad@ovi.com
                   </Link>
                   .
                 </Text>
@@ -155,10 +155,10 @@ export default function PrivacyPage() {
                   tratamiento de sus datos, así como el derecho a la portabilidad de datos. Para
                   ejercer cualquiera de estos derechos, contáctenos en{" "}
                   <Link
-                    href="mailto:privacidad@oviventures.com"
+                    href="mailto:privacidad@ovi.com"
                     className="text-[var(--color-brand-primary)] transition-colors hover:underline"
                   >
-                    privacidad@oviventures.com
+                    privacidad@ovi.com
                   </Link>{" "}
                   indicando su solicitud. Responderemos en un plazo máximo de 30 días hábiles.
                 </Text>
@@ -203,10 +203,10 @@ export default function PrivacyPage() {
                 <Text textColor="secondary" size="sm">
                   Si tiene preguntas sobre esta política, puede contactarnos en{" "}
                   <Link
-                    href="mailto:privacidad@oviventures.com"
+                    href="mailto:privacidad@ovi.com"
                     className="text-[var(--color-brand-primary)] transition-colors hover:underline"
                   >
-                    privacidad@oviventures.com
+                    privacidad@ovi.com
                   </Link>{" "}
                   o visitar nuestra página de{" "}
                   <Link

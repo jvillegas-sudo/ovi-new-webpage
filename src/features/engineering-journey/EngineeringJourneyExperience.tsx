@@ -1029,7 +1029,7 @@ function TransformationResult({ visible, sector }: { visible: boolean; sector: S
             transition={{ delay: 0.8 }}
             className="mt-6 flex items-center justify-center gap-3"
           >
-            {["OVI Lab", "OVI AI", "OVI Store", "OVI OS"].map((label) => (
+            {["OVI Laboratorio", "OVI AI", "OVI Catálogo", "OVI OS"].map((label) => (
               <div
                 key={label}
                 className="rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(0,0,0,0.4)] px-3 py-1 backdrop-blur-sm"
@@ -1081,7 +1081,7 @@ export function EngineeringJourneyExperience() {
     <section
       ref={containerRef}
       className="relative h-[700vh]"
-      aria-label="OVI Engineering Journey — Experience Order 002"
+      aria-label="Recorrido de Ingeniería OVI — Orden de Experiencia 002"
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Three.js Canvas */}

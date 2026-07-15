@@ -9,7 +9,7 @@
  *
  * @example
  *   <Heading as="h2" size="3xl">Our Solutions</Heading>
- *   <Heading as="h1" size="7xl" gradient="brand">Industrial Biotech</Heading>
+ *   <Heading as="h1" size="7xl" gradient="brand">Ingeniería en Limpieza</Heading>
  */
 
 import * as React from "react";
@@ -60,8 +60,7 @@ const headingVariants = cva(
 );
 
 export interface HeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement>,
-    VariantProps<typeof headingVariants> {
+  extends React.HTMLAttributes<HTMLHeadingElement>, VariantProps<typeof headingVariants> {
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 

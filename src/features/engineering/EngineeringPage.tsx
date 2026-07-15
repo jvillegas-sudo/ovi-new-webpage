@@ -1038,7 +1038,7 @@ export function EngineeringPage() {
                 className="mt-4 text-3xl font-black md:text-5xl"
                 style={{ color: "var(--color-text-primary)" }}
               >
-                El Método OVI Engineering
+                El Método OVI
               </h2>
               <p
                 className="mx-auto mt-4 max-w-2xl text-base"
@@ -1063,7 +1063,7 @@ export function EngineeringPage() {
               }}
             />
 
-            <div className="space-y-4" role="list" aria-label="Fases del método OVI Engineering">
+            <div className="space-y-4" role="list" aria-label="Fases del Método OVI">
               {PHASES.map((phase, index) => (
                 <div key={phase.id} role="listitem">
                   <PhaseCard
@@ -1298,8 +1298,8 @@ export function EngineeringPage() {
                 className="mt-4 text-base leading-relaxed"
                 style={{ color: "var(--color-text-secondary)" }}
               >
-                Cada fase del Método OVI Engineering queda registrada, trazada y disponible para
-                análisis histórico, auditorías y reportes de cliente.
+                Cada fase del Método OVI queda registrada, trazada y disponible para análisis
+                histórico, auditorías y reportes de cliente.
               </p>
 
               <div className="mt-8 space-y-3">
