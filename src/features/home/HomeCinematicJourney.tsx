@@ -37,49 +37,29 @@ import { Badge, Button, Container, Heading, Text } from "@components/ui";
 import { PostProcessing } from "@three/components/PostProcessing";
 import { SceneEnvironment } from "@three/components/SceneEnvironment";
 import { ThreeCanvas } from "@three/components/ThreeCanvas";
+import { cinematicScenes as kbCinematicScenes } from "@knowledge/home/cinematic-scenes";
+import type { HeroLocaleContent, HomeLocale } from "@knowledge/home";
 
 interface HomeCinematicJourneyProps {
-  hero: {
-    badge: string;
-    title: string;
-    subtitle: string;
-  };
+  hero: HeroLocaleContent;
+  locale?: HomeLocale;
 }
 
-// ─── Scene definitions ────────────────────────────────────────────────────────
+// ─── Scene definitions (sourced from Knowledge Base) ─────────────────────────
 
-const cinematicScenes = [
-  {
-    id: "scene-water",
-    number: "01",
-    title: "Nacimiento OVI",
-    tagline: "Una gota cae. La onda genera energía. Las partículas forman el universo.",
-  },
-  {
-    id: "scene-logo",
-    number: "02",
-    title: "El Logo",
-    tagline: "La energía se organiza. OVI nace desde el agua y la luz.",
-  },
-  {
-    id: "scene-industrial",
-    number: "03",
-    title: "Ingeniería en Limpieza",
-    tagline: "Activos industriales. Vapor. Acero inoxidable. Superficies impecables.",
-  },
-  {
-    id: "scene-ai",
-    number: "04",
-    title: "OVI AI",
-    tagline: "Un ingeniero virtual. Siempre disponible. Presente en todo el universo.",
-  },
-  {
-    id: "scene-ecosystem",
-    number: "05",
-    title: "Ecosistema OVI",
-    tagline: "OVI AI · OVI OS · OVI Laboratorio · OVI Catálogo. Un solo universo integrado.",
-  },
-] as const;
+/** Flat scene shape used by Three.js scene router — derived from KB for the active locale */
+type FlatCinematicScene = { id: string; number: string; title: string; tagline: string };
+
+function buildFlatScenes(locale: HomeLocale): FlatCinematicScene[] {
+  return kbCinematicScenes.map((scene) => ({
+    id: scene.sceneId,
+    number: scene.number,
+    title: scene.locales[locale].title,
+    tagline: scene.locales[locale].tagline,
+  }));
+}
+
+const cinematicScenes = buildFlatScenes("es");
 
 function sceneWeight(progress: number, index: number, total: number): number {
   const distance = Math.abs(progress * (total - 1) - index);
@@ -719,7 +699,7 @@ function CinematicWorld({ progress }: { progress: number }) {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function HomeCinematicJourney({ hero }: HomeCinematicJourneyProps) {
+export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourneyProps) {
   const journeyRef = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0);
   const { scrollYProgress } = useScroll({
@@ -731,12 +711,14 @@ export function HomeCinematicJourney({ hero }: HomeCinematicJourneyProps) {
     setProgress(Math.max(0, Math.min(1, v)));
   });
 
+  const scenes = useMemo(() => buildFlatScenes(locale), [locale]);
+
   const activeIndex = Math.min(
-    cinematicScenes.length - 1,
-    Math.floor(progress * cinematicScenes.length),
+    scenes.length - 1,
+    Math.floor(progress * scenes.length),
   );
 
-  const activeScene = cinematicScenes[activeIndex];
+  const activeScene = scenes[activeIndex];
 
   return (
     <section ref={journeyRef} className="relative h-[500vh]">
@@ -758,7 +740,7 @@ export function HomeCinematicJourney({ hero }: HomeCinematicJourneyProps) {
 
         {/* Scene indicator — left vertical rail */}
         <div className="absolute top-1/2 left-6 z-20 flex -translate-y-1/2 flex-col items-center gap-3">
-          {cinematicScenes.map((scene, i) => {
+          {scenes.map((scene, i) => {
             const isActive = i === activeIndex;
             return (
               <div key={scene.id} className="flex items-center gap-2.5">
