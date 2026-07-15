@@ -15,8 +15,8 @@ interface OviLogoRevealProps extends OviDnaBaseProps {
  * The outer ring breathes at a different phase creating a living, layered glow.
  */
 export function OviLogoReveal({ weight, reducedMotion = false }: OviLogoRevealProps) {
-  const innerHaloRef = useRef<THREE.Mesh>(null);
-  const outerHaloRef = useRef<THREE.Mesh>(null);
+  const innerAuraRef = useRef<THREE.Mesh>(null);
+  const outerAuraRef = useRef<THREE.Mesh>(null);
   const lightPoolRef = useRef<THREE.Mesh>(null);
   const logoRef = useRef<THREE.Mesh>(null);
 
@@ -24,21 +24,21 @@ export function OviLogoReveal({ weight, reducedMotion = false }: OviLogoRevealPr
     const motion = reducedMotion ? 0.15 : 1;
     const t = clock.elapsedTime * motion;
 
-    if (innerHaloRef.current) {
-      innerHaloRef.current.rotation.z += 0.003 * motion;
-      const mat = innerHaloRef.current.material as THREE.MeshStandardMaterial;
+    if (innerAuraRef.current) {
+      innerAuraRef.current.scale.setScalar(1 + Math.sin(t * 0.9) * 0.03);
+      const mat = innerAuraRef.current.material as THREE.MeshStandardMaterial;
       mat.opacity = weight * (0.14 + Math.sin(t * 1.2) * 0.06);
     }
 
-    if (outerHaloRef.current) {
-      outerHaloRef.current.rotation.z -= 0.0018 * motion;
-      const mat = outerHaloRef.current.material as THREE.MeshStandardMaterial;
-      mat.opacity = weight * (0.06 + Math.sin(t * 0.8 + 1.1) * 0.03);
+    if (outerAuraRef.current) {
+      outerAuraRef.current.scale.setScalar(1 + Math.sin(t * 0.55 + 1.1) * 0.04);
+      const mat = outerAuraRef.current.material as THREE.MeshStandardMaterial;
+      mat.opacity = weight * (0.05 + Math.sin(t * 0.8 + 1.1) * 0.025);
     }
 
     if (lightPoolRef.current) {
       const mat = lightPoolRef.current.material as THREE.MeshStandardMaterial;
-      mat.opacity = weight * (0.09 + Math.sin(t * 0.55) * 0.03);
+      mat.opacity = weight * (0.08 + Math.sin(t * 0.55) * 0.025);
     }
 
     if (logoRef.current) {
@@ -50,37 +50,36 @@ export function OviLogoReveal({ weight, reducedMotion = false }: OviLogoRevealPr
 
   return (
     <group position={[0, 0.3, 0]}>
-      {/* Inner halo ring — tighter, brighter */}
-      <mesh ref={innerHaloRef} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[2.1, 0.014, 16, 160]} />
+      <mesh ref={outerAuraRef} position={[0, 0.15, -0.14]}>
+        <circleGeometry args={[2.9, 72]} />
         <meshStandardMaterial
-          color="#63d8ff"
-          emissive="#2baee0"
-          emissiveIntensity={2.0}
-          transparent
-          opacity={0}
-        />
-      </mesh>
-
-      {/* Outer halo ring — wider, softer, counter-rotating */}
-      <mesh ref={outerHaloRef} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[3.2, 0.008, 12, 180]} />
-        <meshStandardMaterial
-          color="#a8e8ff"
-          emissive="#1a8ab5"
+          color="#dff9ff"
+          emissive="#5bcfff"
           emissiveIntensity={1.4}
           transparent
           opacity={0}
+          depthWrite={false}
         />
       </mesh>
 
-      {/* Soft light pool on the floor — diffuse illumination beneath the logo */}
+      <mesh ref={innerAuraRef} position={[0, 0.22, -0.08]}>
+        <circleGeometry args={[1.95, 72]} />
+        <meshStandardMaterial
+          color="#f4ffff"
+          emissive="#7be0ff"
+          emissiveIntensity={1.8}
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
+      </mesh>
+
       <mesh ref={lightPoolRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.6, 0]}>
-        <circleGeometry args={[2.4, 48]} />
+        <circleGeometry args={[2.6, 48]} />
         <meshStandardMaterial
           color="#29b5e8"
           emissive="#29b5e8"
-          emissiveIntensity={1.6}
+          emissiveIntensity={1.45}
           transparent
           opacity={0}
           depthWrite={false}

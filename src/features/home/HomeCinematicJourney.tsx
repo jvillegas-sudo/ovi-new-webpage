@@ -130,34 +130,55 @@ function CameraController({
 
 function CinematicLighting({ progress }: { progress: number }) {
   const keyLightRef = useRef<THREE.SpotLight>(null);
+  const floorLightRef = useRef<THREE.PointLight>(null);
+  const hazeLightRef = useRef<THREE.PointLight>(null);
 
   useFrame(() => {
-    if (!keyLightRef.current) return;
-    keyLightRef.current.intensity = 3.2 + progress * 2.2;
-    keyLightRef.current.color.set(progress > 0.35 ? "#5cd4ff" : "#38b8f0");
+    const introPhase = Math.min(progress / 0.42, 1);
+
+    if (keyLightRef.current) {
+      keyLightRef.current.intensity = 2.8 + introPhase * 2.6;
+      keyLightRef.current.color.set(introPhase > 0.55 ? "#c8f3ff" : "#49cfff");
+    }
+
+    if (floorLightRef.current) {
+      floorLightRef.current.intensity = 0.25 + introPhase * 0.95;
+      floorLightRef.current.color.set(introPhase > 0.7 ? "#7ee8ff" : "#29b5e8");
+    }
+
+    if (hazeLightRef.current) {
+      hazeLightRef.current.intensity = 0.6 + introPhase * 0.9;
+    }
   });
 
   return (
     <>
       <spotLight
         ref={keyLightRef}
-        position={[0, 10, 3]}
-        angle={0.32}
+        position={[0, 10, 2]}
+        angle={0.28}
         penumbra={0.95}
-        intensity={3.2}
-        color="#38b8f0"
+        intensity={2.8}
+        color="#49cfff"
         castShadow={false}
       />
-      {/* Deep ambient fill — heavier blue for industrial depth */}
-      <pointLight position={[0, -1.5, 0]} intensity={1.1} color="#0d2e4e" distance={14} />
-      {/* Left edge — OVI cyan */}
-      <pointLight position={[5, 2.8, -2]} intensity={1.6} color="#00c4ff" distance={20} />
-      {/* Right edge — bio-green accent */}
-      <pointLight position={[-4, 2.4, -2]} intensity={1.3} color="#00ff85" distance={18} />
-      {/* Deep background fill */}
-      <pointLight position={[0, 1.8, -10]} intensity={1.4} color="#ffffff" distance={26} />
-      {/* Floor shimmer — wet surface */}
-      <pointLight position={[0, -1.0, -2.5]} intensity={0.7} color="#29b5e8" distance={8} />
+      <pointLight position={[0, -1.5, 0]} intensity={0.85} color="#0d2e4e" distance={14} />
+      <pointLight position={[4.5, 2.8, -2]} intensity={1.45} color="#00c4ff" distance={20} />
+      <pointLight position={[-3.8, 2.2, -1.5]} intensity={0.9} color="#d8fbff" distance={18} />
+      <pointLight
+        ref={hazeLightRef}
+        position={[0, 1.2, -8]}
+        intensity={0.6}
+        color="#ffffff"
+        distance={24}
+      />
+      <pointLight
+        ref={floorLightRef}
+        position={[0, -0.95, -2.5]}
+        intensity={0.25}
+        color="#29b5e8"
+        distance={9}
+      />
     </>
   );
 }
@@ -354,7 +375,7 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
             forcePerformance={prefersReducedMotion ? "low" : undefined}
           >
             <color attach="background" args={["#02060E"]} />
-            <fog attach="fog" args={["#02060E", 7, 26]} />
+            <fog attach="fog" args={["#02060E", 6, 22]} />
             <CinematicWorld
               progress={progress}
               reducedMotion={prefersReducedMotion}
@@ -366,7 +387,7 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
           </ThreeCanvas>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,196,255,0.12),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(0,255,133,0.08),transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,196,255,0.18),transparent_46%),radial-gradient(circle_at_center,rgba(163,239,255,0.08),transparent_42%),radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.06),transparent_52%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,14,0.35)_0%,transparent_25%,transparent_75%,rgba(2,6,14,0.55)_100%)]" />
 
         <div className="absolute top-1/2 left-6 z-20 flex -translate-y-1/2 flex-col items-center gap-3">

@@ -24,16 +24,20 @@ export function PrecisionWaterDrop({
     const speed = reducedMotion ? 0.08 : 0.3;
     const cycle = (clock.elapsedTime * speed) % 1;
     ref.current.position.y = startY + (endY - startY) * cycle;
-    ref.current.scale.y = 1.08 - cycle * 0.16;
+    ref.current.scale.setScalar(1);
+    ref.current.scale.x = 0.72 + Math.sin(cycle * Math.PI) * 0.08;
+    ref.current.scale.z = 0.72 + Math.sin(cycle * Math.PI) * 0.08;
+    ref.current.scale.y = 1.36 - Math.sin(cycle * Math.PI) * 0.12;
+    ref.current.rotation.z = Math.sin(clock.elapsedTime * speed * 2.2) * 0.08;
 
     const material = ref.current.material as THREE.MeshPhysicalMaterial;
-    material.opacity = Math.max(0, weight * intensity * (1 - cycle * 0.5));
+    material.opacity = Math.max(0, weight * intensity * (0.7 + (1 - cycle) * 0.3));
   });
 
   return (
     <mesh ref={ref} position={[0, startY, 0]}>
-      <sphereGeometry args={[0.12, 32, 32]} />
-      <LiquidGlassMaterial opacity={weight * intensity} color="#a6ecff" emissive="#0f4770" />
+      <sphereGeometry args={[0.16, 48, 48]} />
+      <LiquidGlassMaterial opacity={weight * intensity} color="#d3f7ff" emissive="#10547f" />
     </mesh>
   );
 }
