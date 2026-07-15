@@ -1,0 +1,62 @@
+{
+  "id": "PHOTO-001",
+  "resourceType": "photo",
+  "title": {
+    "es": "Lavado de paneles solares en planta industrial",
+    "en": "Solar panel cleaning at industrial plant"
+  },
+  "description": {
+    "es": "Fotografía del proceso de limpieza y desengrase técnico sobre estructura de paneles solares con protocolo OVI.",
+    "en": "Photograph of the cleaning and degreasing process on solar panel structures using the OVI protocol."
+  },
+  "category": ["Fotografía", "Caso de Éxito"],
+  "subcategory": ["Limpieza Industrial", "Energía Solar"],
+  "sector": ["Energía", "Industria"],
+  "industry": ["Energía Solar", "Mantenimiento Industrial"],
+  "services": ["Limpieza Locativa e Industrial"],
+  "products": ["PROD-003", "PROD-007"],
+  "asset": "photo",
+  "soilType": ["Polvo industrial", "Grasa ligera"],
+  "result": ["Mejora visual", "Recuperación de superficie", "Mayor eficiencia operativa"],
+  "client": "Cliente industrial confidencial",
+  "location": {
+    "country": "Colombia",
+    "city": "Bogotá",
+    "site": "Planta energética"
+  },
+  "language": ["es", "en"],
+  "date": "2026-07-15",
+  "author": "Equipo OVI",
+  "source": "Biblioteca interna OVI",
+  "status": "ACTIVO",
+  "priority": "ALTA",
+  "qualityLevel": "A",
+  "usageAllowed": "COMMERCIAL",
+  "tags": [
+    "Camión recolector",
+    "Lavado",
+    "Flota",
+    "Industria",
+    "Grasa",
+    "Desengrase",
+    "OVI",
+    "Ingeniería en Limpieza",
+    "Paneles solares",
+    "Limpieza industrial"
+  ],
+  "contentScore": {
+    "visualQuality": 5,
+    "storyValue": 4,
+    "commercialValue": 5,
+    "technicalValue": 4,
+    "dnaOvi": 5,
+    "total": 23
+  },
+  "relations": {
+    "relatedProducts": ["PROD-003", "PROD-007", "PROD-004"],
+    "relatedServices": ["SERV-002", "SERV-005"],
+    "relatedCases": ["CASE-002"],
+    "relatedSectors": ["Energía", "Industria"],
+    "relatedDocuments": ["BROCH-001", "TECH-001"]
+  }
+}
