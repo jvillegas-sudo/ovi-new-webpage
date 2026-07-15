@@ -4,14 +4,14 @@ import { OviOsPage } from "@features/ovi-os/OviOsPage";
 export const metadata = buildMetadata({
   title: "OVI OS",
   description:
-    "OVI OS — La plataforma inteligente para gestionar soluciones de Ingeniería en Limpieza. Centralice operaciones, analice indicadores y optimice procesos con inteligencia artificial.",
+    "OVI OS — Portal privado para clientes de OVI con dashboard, proyectos, servicios, diagnósticos, documentación, soporte e integración con OVI Core, OVI AI, OVI Lab y OVI Catálogo Técnico.",
   canonical: "/ovi-os",
   keywords: [
     "OVI OS",
-    "plataforma operacional limpieza",
+    "portal privado de clientes",
     "gestión de proyectos limpieza industrial",
-    "analítica operacional",
-    "protocolos de limpieza",
+    "dashboard de servicios y diagnósticos",
+    "documentación técnica industrial",
     "OVI Ingeniería en Limpieza",
     "misión de control operacional",
   ],
