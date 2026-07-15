@@ -1,0 +1,23 @@
+{
+  "id": "CASE-001-IMG-01",
+  "name": "Flota Transporte Pesado - Toma Principal",
+  "title": "Lavado de flota pesada en operación industrial",
+  "description": "Descripción oficial del recurso.",
+  "category": "cases",
+  "sector": "Transporte",
+  "service": "Lavado y Desinfección de Vehículos",
+  "product": "PROD-004",
+  "client": "Cliente oficial OVI",
+  "case": "CASE-001",
+  "asset": "image",
+  "language": "es",
+  "priority": "ALTA",
+  "qualityScore": 5,
+  "commercialScore": 5,
+  "dnaOviScore": 5,
+  "date": "2026-07-15",
+  "source": "Instagram oficial OVI",
+  "sourceType": "instagram-oficial-ovi",
+  "copyright": "© OVI — Ingeniería en Limpieza",
+  "status": "ACTIVO"
+}
