@@ -7,6 +7,7 @@ import {
   Cpu,
   Factory,
   Leaf,
+  Search,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
@@ -31,16 +32,11 @@ import {
 import { buildMetadata } from "@lib/metadata";
 import { cn } from "@utils/cn";
 import {
-  futureIntegrations,
+  getStoreSectorOverviews,
   getStoreProductsByCategory,
-  getStoreProductsBySlugs,
-  storeCategories,
-  storeEntryPoints,
-  storeIndustries,
-  storeProducts,
-  type StoreCategorySlug,
-  type StoreIndustrySlug,
-} from "@features/store/store-data";
+  getFeaturedStoreProducts,
+} from "@features/store/store-engine";
+import type { OviProductCategory } from "@knowledge";
 
 export const metadata = buildMetadata({
   title: "OVI Catálogo Técnico",
@@ -58,19 +54,82 @@ export const metadata = buildMetadata({
   ],
 });
 
-const industryIcons: Record<StoreIndustrySlug, typeof Truck> = {
+// ─── UI config (presentation-layer only — no product data hardcoded) ──────────
+
+const SECTOR_ICON_MAP: Record<string, typeof Truck> = {
   transporte: Truck,
   institucional: Building2,
+  hospitales: Building2,
   industria: Factory,
   energia: Cpu,
+  retail: ShoppingBag,
+  alimentos: Leaf,
 };
 
-const categoryIcons: Record<StoreCategorySlug, typeof Boxes> = {
-  quimicos: Waves,
-  equipos: ShoppingBag,
-  accesorios: Sparkles,
-  herramientas: Wrench,
+const CATEGORY_CONFIG: Record<
+  OviProductCategory,
+  { label: string; description: string; icon: typeof Waves }
+> = {
+  quimicos: {
+    label: "Químicos",
+    description:
+      "Formulaciones de alto desempeño para remoción de contaminantes industriales. Cada química fue diseñada para un perfil de suciedad específico.",
+    icon: Waves,
+  },
+  equipos: {
+    label: "Equipos",
+    description:
+      "Sistemas de dosificación, lavado y aplicación que garantizan reproducibilidad de protocolo y eficiencia hídrica.",
+    icon: ShoppingBag,
+  },
+  accesorios: {
+    label: "Accesorios",
+    description:
+      "Elementos complementarios para completar el sistema de limpieza: boquillas, lanzas, adaptadores y kits de espuma.",
+    icon: Sparkles,
+  },
+  herramientas: {
+    label: "Herramientas",
+    description:
+      "Instrumentos de medición, control y validación que permiten auditar la calidad del proceso de limpieza.",
+    icon: Wrench,
+  },
 };
+
+const CATEGORY_ORDER: OviProductCategory[] = ["quimicos", "equipos", "accesorios", "herramientas"];
+
+const entryPoints = [
+  {
+    title: "Encontrar mi solución",
+    description:
+      "Inicia desde el problema operacional. El motor de recomendaciones OVI conecta industria, activo, contaminante y objetivo para presentar la solución completa.",
+    href: "/store/soluciones",
+    cta: "Iniciar diagnóstico",
+    badge: "Recomendado",
+    badgeVariant: "brand" as const,
+    icon: Search,
+  },
+  {
+    title: "Consultar con OVI AI",
+    description:
+      "El asistente de ingeniería OVI te guía paso a paso: industria, activo, zona, material, tipo de suciedad y restricciones para recomendarte la solución precisa.",
+    href: "/ovi-ai",
+    cta: "Iniciar con OVI AI",
+    badge: "IA Técnica",
+    badgeVariant: "accent" as const,
+    icon: Bot,
+  },
+  {
+    title: "Explorar por industria o categoría",
+    description:
+      "Navega el catálogo técnico organizado por sector operativo o tipo de producto, siempre vinculado a protocolos y servicios OVI.",
+    href: "#store-industries",
+    cta: "Explorar catálogo",
+    badge: "Catálogo",
+    badgeVariant: "default" as const,
+    icon: Boxes,
+  },
+] as const;
 
 const experiencePillars = [
   {
@@ -90,6 +149,18 @@ const experiencePillars = [
   },
 ] as const;
 
+const futureIntegrationLabels = [
+  "Shopify",
+  "WooCommerce",
+  "Medusa",
+  "ERP",
+  "OVI OS",
+  "Inventario",
+  "Multi-moneda",
+];
+
+// ─── Button classes ───────────────────────────────────────────────────────────
+
 const primaryLinkClasses =
   "inline-flex items-center justify-center rounded-full bg-[var(--color-brand-primary)] px-7 py-3 text-base font-medium tracking-wide text-[var(--color-text-inverse)] transition-all duration-200 hover:brightness-110 hover:shadow-[var(--shadow-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
 
@@ -102,9 +173,15 @@ const compactOutlineLinkClasses =
 const compactPrimaryLinkClasses =
   "inline-flex items-center justify-center rounded-full bg-[var(--color-brand-primary)] px-5 py-2 text-sm font-medium tracking-wide text-[var(--color-text-inverse)] transition-all duration-200 hover:brightness-110 hover:shadow-[var(--shadow-glow-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-primary)] active:scale-[0.98]";
 
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
 export default function StorePage() {
+  const sectorOverviews = getStoreSectorOverviews();
+  const featuredProducts = getFeaturedStoreProducts(3);
+
   return (
     <>
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section
         padding="none"
         background="transparent"
@@ -159,11 +236,12 @@ export default function StorePage() {
               </AnimateIn>
               <AnimateIn animation="slideUp" delay={0.24}>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <Link href="/ovi-ai" className={primaryLinkClasses}>
-                    Resolver un desafío
+                  <Link href="/store/soluciones" className={primaryLinkClasses}>
+                    <Search className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Encontrar mi solución
                   </Link>
                   <Link href="/engineering" className={outlineLinkClasses}>
-                    Ver método OVI
+                    Ver Método OVI
                   </Link>
                 </div>
               </AnimateIn>
@@ -186,6 +264,7 @@ export default function StorePage() {
         </Container>
       </Section>
 
+      {/* ── Philosophy / Entry Points ─────────────────────────────────────── */}
       <Section background="surface" id="shopping-philosophy">
         <Container>
           <AnimateIn animation="slideUp">
@@ -196,55 +275,29 @@ export default function StorePage() {
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.08}>
             <Text size="lg" className="mt-5 max-w-3xl">
-              OVI Catálogo Técnico es la etapa final de una recomendación de ingeniería. Estas tres
-              rutas de entrada organizan la experiencia sin convertirla en un ecommerce tradicional.
+              OVI Catálogo Técnico es la etapa final de una recomendación de ingeniería. Estas rutas
+              de entrada organizan la experiencia sin convertirla en un ecommerce tradicional.
             </Text>
           </AnimateIn>
 
           <AnimateStagger className="mt-12 grid gap-6 lg:grid-cols-3">
-            {storeEntryPoints.map((entryPoint, index) => {
-              const Icon = index === 0 ? Bot : index === 1 ? Building2 : Boxes;
+            {entryPoints.map((ep) => {
+              const Icon = ep.icon;
               return (
-                <Card key={entryPoint.title} variant="glass" padding="lg" className="h-full">
+                <Card key={ep.title} variant="glass" padding="lg" className="h-full">
                   <div className="flex items-center justify-between gap-4">
-                    <Badge variant={index === 0 ? "brand" : index === 1 ? "accent" : "default"}>
-                      Opción {index + 1}
-                    </Badge>
+                    <Badge variant={ep.badgeVariant}>{ep.badge}</Badge>
                     <Icon
                       className="h-5 w-5 text-[var(--color-brand-primary)]"
                       aria-hidden="true"
                     />
                   </div>
                   <Heading as="h3" size="lg" className="mt-6">
-                    {entryPoint.title}
+                    {ep.title}
                   </Heading>
-                  <Text className="mt-4">{entryPoint.description}</Text>
-                  {index === 1 && (
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {storeIndustries.map((industry) => (
-                        <span
-                          key={industry.slug}
-                          className="rounded-full border border-[var(--color-border-default)] px-3 py-1 text-sm text-[var(--color-text-secondary)]"
-                        >
-                          {industry.label}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {index === 2 && (
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {storeCategories.map((category) => (
-                        <span
-                          key={category.slug}
-                          className="rounded-full border border-[var(--color-border-default)] px-3 py-1 text-sm text-[var(--color-text-secondary)]"
-                        >
-                          {category.label}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <Link href={entryPoint.href} className={cn(compactOutlineLinkClasses, "mt-8")}>
-                    {entryPoint.cta}
+                  <Text className="mt-4">{ep.description}</Text>
+                  <Link href={ep.href} className={cn(compactOutlineLinkClasses, "mt-8")}>
+                    {ep.cta}
                   </Link>
                 </Card>
               );
@@ -253,6 +306,7 @@ export default function StorePage() {
         </Container>
       </Section>
 
+      {/* ── Industries ────────────────────────────────────────────────────── */}
       <Section background="base" id="store-industries">
         <Container>
           <AnimateIn animation="slideUp">
@@ -268,171 +322,192 @@ export default function StorePage() {
             </Text>
           </AnimateIn>
 
-          <Tabs defaultValue={storeIndustries[0].slug} variant="pills" className="mt-10 gap-8">
-            <TabsList className="flex flex-wrap gap-2 bg-transparent p-0">
-              {storeIndustries.map((industry) => {
-                const Icon = industryIcons[industry.slug];
+          {sectorOverviews.length > 0 && (
+            <Tabs defaultValue={sectorOverviews[0].id} variant="pills" className="mt-10 gap-8">
+              <TabsList className="flex flex-wrap gap-2 bg-transparent p-0">
+                {sectorOverviews.map((sector) => {
+                  const Icon = SECTOR_ICON_MAP[sector.id] ?? Factory;
+                  return (
+                    <TabsTrigger key={sector.id} value={sector.id} className="rounded-full">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                      {sector.nombre}
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+
+              {sectorOverviews.map((sector) => {
+                const Icon = SECTOR_ICON_MAP[sector.id] ?? Factory;
                 return (
-                  <TabsTrigger key={industry.slug} value={industry.slug} className="rounded-full">
-                    <Icon className="h-4 w-4" aria-hidden="true" />
-                    {industry.label}
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-
-            {storeIndustries.map((industry) => {
-              const products = getStoreProductsBySlugs(industry.featuredProductSlugs);
-              const Icon = industryIcons[industry.slug];
-
-              return (
-                <TabsContent key={industry.slug} value={industry.slug}>
-                  <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-                    <Card variant="glass" padding="lg" className="h-full">
-                      <div className="flex items-center gap-3">
-                        <div className="rounded-2xl border border-[var(--color-border-brand)] bg-[rgba(0,196,255,0.08)] p-3">
-                          <Icon
-                            className="h-6 w-6 text-[var(--color-brand-primary)]"
-                            aria-hidden="true"
-                          />
-                        </div>
-                        <div>
-                          <Text size="sm" tracking="widest" textColor="brand" className="uppercase">
-                            {industry.label}
-                          </Text>
-                          <Heading as="h3" size="xl" className="mt-1">
-                            {industry.challenge}
-                          </Heading>
-                        </div>
-                      </div>
-                      <Text className="mt-6">{industry.description}</Text>
-
-                      <div className="mt-8 space-y-6">
-                        <div>
-                          <Text
-                            size="sm"
-                            tracking="widest"
-                            textColor="tertiary"
-                            className="uppercase"
-                          >
-                            Protocolos relacionados
-                          </Text>
-                          <ul className="mt-3 space-y-2">
-                            {industry.protocols.map((protocol) => (
-                              <li
-                                key={protocol}
-                                className="flex gap-3 text-sm text-[var(--color-text-secondary)]"
-                              >
-                                <ShieldCheck
-                                  className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-brand-accent)]"
-                                  aria-hidden="true"
-                                />
-                                <span>{protocol}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <Text
-                            size="sm"
-                            tracking="widest"
-                            textColor="tertiary"
-                            className="uppercase"
-                          >
-                            Servicios recomendados
-                          </Text>
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            {industry.services.map((service) => (
-                              <span
-                                key={service}
-                                className="rounded-full border border-[var(--color-border-default)] px-3 py-1 text-sm text-[var(--color-text-secondary)]"
-                              >
-                                {service}
-                              </span>
-                            ))}
+                  <TabsContent key={sector.id} value={sector.id}>
+                    <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+                      <Card variant="glass" padding="lg" className="h-full">
+                        <div className="flex items-center gap-3">
+                          <div className="rounded-2xl border border-[var(--color-border-brand)] bg-[rgba(0,196,255,0.08)] p-3">
+                            <Icon
+                              className="h-6 w-6 text-[var(--color-brand-primary)]"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div>
+                            <Text
+                              size="sm"
+                              tracking="widest"
+                              textColor="brand"
+                              className="uppercase"
+                            >
+                              {sector.nombre}
+                            </Text>
+                            <Heading as="h3" size="xl" className="mt-1">
+                              {sector.desafios[0] ?? sector.nombre}
+                            </Heading>
                           </div>
                         </div>
-                      </div>
-                    </Card>
+                        <Text className="mt-6">{sector.descripcion}</Text>
 
-                    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                      {products.map((product) => (
-                        <Card
-                          key={product.slug}
-                          variant="solid"
-                          padding="lg"
-                          className="flex h-full flex-col"
+                        <div className="mt-8 space-y-6">
+                          {sector.protocols.length > 0 && (
+                            <div>
+                              <Text
+                                size="sm"
+                                tracking="widest"
+                                textColor="tertiary"
+                                className="uppercase"
+                              >
+                                Protocolos relacionados
+                              </Text>
+                              <ul className="mt-3 space-y-2">
+                                {sector.protocols.slice(0, 3).map((protocol) => (
+                                  <li
+                                    key={protocol.id}
+                                    className="flex gap-3 text-sm text-[var(--color-text-secondary)]"
+                                  >
+                                    <ShieldCheck
+                                      className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-brand-accent)]"
+                                      aria-hidden="true"
+                                    />
+                                    <span>
+                                      {protocol.codigo} · {protocol.nombre}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          {sector.services.length > 0 && (
+                            <div>
+                              <Text
+                                size="sm"
+                                tracking="widest"
+                                textColor="tertiary"
+                                className="uppercase"
+                              >
+                                Servicios recomendados
+                              </Text>
+                              <div className="mt-3 flex flex-wrap gap-2">
+                                {sector.services.slice(0, 4).map((service) => (
+                                  <span
+                                    key={service.id}
+                                    className="rounded-full border border-[var(--color-border-default)] px-3 py-1 text-sm text-[var(--color-text-secondary)]"
+                                  >
+                                    {service.nombre}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <Link
+                          href={`/store/soluciones?industria=${sector.id}`}
+                          className={cn(compactOutlineLinkClasses, "mt-8")}
                         >
-                          <Badge variant="brand" className="w-fit">
-                            {product.categoryLabel}
-                          </Badge>
-                          <Heading as="h3" size="lg" className="mt-5">
-                            {product.name}
-                          </Heading>
-                          <Text className="mt-3 flex-1">{product.summary}</Text>
-                          <Text
-                            size="sm"
-                            className="mt-4 border-t border-[var(--color-border-subtle)] pt-4"
+                          Encontrar solución para {sector.nombre}
+                        </Link>
+                      </Card>
+
+                      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                        {sector.products.slice(0, 6).map((product) => (
+                          <Card
+                            key={product.id}
+                            variant="solid"
+                            padding="lg"
+                            className="flex h-full flex-col"
                           >
-                            {product.challengeStatement}
-                          </Text>
-                          <Link
-                            href={`/store/${product.slug}`}
-                            className={cn(compactOutlineLinkClasses, "mt-6")}
-                          >
-                            Ver especificación
-                          </Link>
-                        </Card>
-                      ))}
+                            <Badge variant="brand" className="w-fit">
+                              {CATEGORY_CONFIG[product.categoria]?.label ?? product.categoria}
+                            </Badge>
+                            <Heading as="h3" size="lg" className="mt-5">
+                              {product.nombre}
+                            </Heading>
+                            <Text className="mt-3 flex-1">{product.resumen}</Text>
+                            <Text
+                              size="sm"
+                              className="mt-4 border-t border-[var(--color-border-subtle)] pt-4"
+                            >
+                              {product.recomendacionAI ?? product.aplicaciones[0] ?? ""}
+                            </Text>
+                            <Link
+                              href={`/store/${product.id}`}
+                              className={cn(compactOutlineLinkClasses, "mt-6")}
+                            >
+                              Ver especificación
+                            </Link>
+                          </Card>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </TabsContent>
-              );
-            })}
-          </Tabs>
+                  </TabsContent>
+                );
+              })}
+            </Tabs>
+          )}
         </Container>
       </Section>
 
+      {/* ── Products by Category ──────────────────────────────────────────── */}
       <Section background="surface" id="store-products">
         <Container>
           <AnimateIn animation="slideUp">
-            <Badge variant="accent">Explorar por Producto</Badge>
+            <Badge variant="accent">Explorar por Categoría</Badge>
             <Heading as="h2" size="3xl" className="mt-4">
               Productos, equipos y accesorios como sistema de solución
             </Heading>
           </AnimateIn>
           <AnimateIn animation="slideUp" delay={0.08}>
             <Text size="lg" className="mt-5 max-w-3xl">
-              La navegación por producto mantiene el mismo enfoque técnico: propósito, aplicación,
+              La navegación por categoría mantiene el enfoque técnico: propósito, aplicación,
               compatibilidades y relación directa con protocolos y servicios.
             </Text>
           </AnimateIn>
 
-          <Tabs defaultValue={storeCategories[0].slug} variant="boxed" className="mt-10 gap-8">
+          <Tabs defaultValue={CATEGORY_ORDER[0]} variant="boxed" className="mt-10 gap-8">
             <TabsList className="flex flex-wrap gap-2 bg-transparent p-0">
-              {storeCategories.map((category) => {
-                const Icon = categoryIcons[category.slug];
-                const count = getStoreProductsByCategory(category.slug).length;
+              {CATEGORY_ORDER.map((category) => {
+                const cfg = CATEGORY_CONFIG[category];
+                const Icon = cfg.icon;
+                const count = getStoreProductsByCategory(category).length;
                 return (
-                  <TabsTrigger key={category.slug} value={category.slug} badge={count}>
+                  <TabsTrigger key={category} value={category} badge={count}>
                     <Icon className="h-4 w-4" aria-hidden="true" />
-                    {category.label}
+                    {cfg.label}
                   </TabsTrigger>
                 );
               })}
             </TabsList>
 
-            {storeCategories.map((category) => {
-              const products = getStoreProductsByCategory(category.slug);
+            {CATEGORY_ORDER.map((category) => {
+              const cfg = CATEGORY_CONFIG[category];
+              const products = getStoreProductsByCategory(category);
               return (
-                <TabsContent key={category.slug} value={category.slug}>
+                <TabsContent key={category} value={category}>
                   <Card variant="glass" padding="lg">
                     <div className="flex flex-col gap-4 border-b border-[var(--color-border-subtle)] pb-6 md:flex-row md:items-end md:justify-between">
                       <div>
                         <Heading as="h3" size="xl">
-                          {category.label}
+                          {cfg.label}
                         </Heading>
-                        <Text className="mt-3 max-w-2xl">{category.description}</Text>
+                        <Text className="mt-3 max-w-2xl">{cfg.description}</Text>
                       </div>
                       <Link href="/ovi-ai" className={outlineLinkClasses}>
                         Consultar con OVI AI
@@ -442,33 +517,33 @@ export default function StorePage() {
                     <div className="mt-8 grid gap-5 lg:grid-cols-2">
                       {products.map((product) => (
                         <Card
-                          key={product.slug}
+                          key={product.id}
                           variant="solid"
                           padding="lg"
                           className="flex h-full flex-col"
                         >
                           <div className="flex flex-wrap items-center gap-3">
-                            <Badge variant="default">{product.badge}</Badge>
+                            <Badge variant="default">{cfg.label}</Badge>
                             <Text
                               size="sm"
                               tracking="widest"
                               textColor="tertiary"
                               className="uppercase"
                             >
-                              {product.categoryLabel}
+                              {product.categoria}
                             </Text>
                           </div>
                           <Heading as="h3" size="lg" className="mt-5">
-                            {product.name}
+                            {product.nombre}
                           </Heading>
-                          <Text className="mt-3 flex-1">{product.purpose}</Text>
+                          <Text className="mt-3 flex-1">{product.resumen}</Text>
                           <div className="mt-6 grid gap-3 text-sm text-[var(--color-text-secondary)] md:grid-cols-2">
                             <div>
                               <Text as="span" size="sm" textColor="primary" weight="semibold">
                                 Aplicación
                               </Text>
                               <Text as="p" size="sm" className="mt-1">
-                                {product.applicationMethod}
+                                {product.modoUso}
                               </Text>
                             </div>
                             <div>
@@ -476,12 +551,12 @@ export default function StorePage() {
                                 Dilución
                               </Text>
                               <Text as="p" size="sm" className="mt-1">
-                                {product.dilution}
+                                {product.dilucion}
                               </Text>
                             </div>
                           </div>
                           <Link
-                            href={`/store/${product.slug}`}
+                            href={`/store/${product.id}`}
                             className={cn(compactPrimaryLinkClasses, "mt-6")}
                           >
                             Ver detalle técnico
@@ -497,6 +572,7 @@ export default function StorePage() {
         </Container>
       </Section>
 
+      {/* ── Featured / Recommended ────────────────────────────────────────── */}
       <Section background="base">
         <Container>
           <AnimateIn animation="slideUp">
@@ -506,31 +582,32 @@ export default function StorePage() {
             </Heading>
           </AnimateIn>
           <AnimateStagger className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {storeProducts.slice(0, 3).map((product) => (
-              <Card key={product.slug} variant="glass" padding="lg" className="h-full">
+            {featuredProducts.map((product) => (
+              <Card key={product.id} variant="glass" padding="lg" className="h-full">
                 <div className="flex items-center justify-between gap-4">
-                  <Badge variant="accent">{product.badge}</Badge>
+                  <Badge variant="accent">
+                    {CATEGORY_CONFIG[product.categoria]?.label ?? product.categoria}
+                  </Badge>
                   <ArrowRight
                     className="h-4 w-4 text-[var(--color-brand-primary)]"
                     aria-hidden="true"
                   />
                 </div>
                 <Heading as="h3" size="lg" className="mt-5">
-                  {product.name}
+                  {product.nombre}
                 </Heading>
-                <Text className="mt-3">{product.summary}</Text>
-                <div className="mt-6 border-t border-[var(--color-border-subtle)] pt-4">
-                  <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
-                    Diagnóstico OVI AI
-                  </Text>
-                  <Text size="sm" className="mt-2">
-                    {product.aiRecommendation}
-                  </Text>
-                </div>
-                <Link
-                  href={`/store/${product.slug}`}
-                  className={cn(compactOutlineLinkClasses, "mt-6")}
-                >
+                <Text className="mt-3">{product.resumen}</Text>
+                {product.recomendacionAI && (
+                  <div className="mt-6 border-t border-[var(--color-border-subtle)] pt-4">
+                    <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
+                      Diagnóstico OVI AI
+                    </Text>
+                    <Text size="sm" className="mt-2">
+                      {product.recomendacionAI}
+                    </Text>
+                  </div>
+                )}
+                <Link href={`/store/${product.id}`} className={cn(compactOutlineLinkClasses, "mt-6")}>
                   Abrir ficha
                 </Link>
               </Card>
@@ -539,6 +616,7 @@ export default function StorePage() {
         </Container>
       </Section>
 
+      {/* ── Future Integrations ───────────────────────────────────────────── */}
       <Section background="elevated">
         <Container>
           <AnimateIn animation="slideUp">
@@ -557,16 +635,16 @@ export default function StorePage() {
           <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
             <Card variant="glass" padding="lg">
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                {futureIntegrations.map((integration) => (
+                {futureIntegrationLabels.map((label) => (
                   <div
-                    key={integration}
+                    key={label}
                     className="rounded-2xl border border-[var(--color-border-default)] bg-[rgba(255,255,255,0.03)] px-4 py-5"
                   >
                     <Text size="sm" tracking="widest" textColor="tertiary" className="uppercase">
                       Futuro
                     </Text>
                     <Heading as="h3" size="md" className="mt-2">
-                      {integration}
+                      {label}
                     </Heading>
                   </div>
                 ))}
@@ -589,8 +667,8 @@ export default function StorePage() {
                 datos y el journey de navegación.
               </Text>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/solution-lab" className={primaryLinkClasses}>
-                  Ver este producto en OVI Laboratorio de Soluciones
+                <Link href="/store/soluciones" className={primaryLinkClasses}>
+                  Encontrar mi solución
                 </Link>
                 <Link href="/ovi-ai" className={outlineLinkClasses}>
                   Consultar con OVI AI

@@ -70,6 +70,6 @@
     "prettier-plugin-tailwindcss": "^0.8.0",
     "storybook": "^8.6.17",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "5.8.2"
   }
 }
