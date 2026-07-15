@@ -67,7 +67,7 @@ import { useOviAnalyticsStore } from "@store/ovi-analytics.store";
 
 // ─── Icon resolver ────────────────────────────────────────────────────────────
 
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   CheckCircle,
   Target,
   Clock,
@@ -95,7 +95,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 function DynamicIcon({ name, className }: { name: string; className?: string }) {
   const Icon = ICON_MAP[name] ?? Zap;
-  return <Icon className={className} />;
+  return <Icon className={className ?? ""} />;
 }
 
 // ─── Tone helpers ─────────────────────────────────────────────────────────────
@@ -238,7 +238,8 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
     Completado: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
-    "En proceso": "bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] border-[var(--color-brand-primary)]/20",
+    "En proceso":
+      "bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] border-[var(--color-brand-primary)]/20",
     Pendiente: "bg-white/5 text-[var(--color-text-secondary)] border-white/10",
     Reprogramado: "bg-amber-400/10 text-amber-400 border-amber-400/20",
     "Al día": "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
@@ -249,8 +250,19 @@ function StatusBadge({ status }: { status: string }) {
     active: "bg-emerald-400/10 text-emerald-400",
   };
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium", map[status] ?? "bg-white/5 text-white/50 border-white/10")}>
-      {status === "connected" ? "Conectado" : status === "planned" ? "Planificado" : status === "active" ? "Activo" : status}
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium",
+        map[status] ?? "border-white/10 bg-white/5 text-white/50",
+      )}
+    >
+      {status === "connected"
+        ? "Conectado"
+        : status === "planned"
+          ? "Planificado"
+          : status === "active"
+            ? "Activo"
+            : status}
     </span>
   );
 }
@@ -270,15 +282,24 @@ function TabDashboard() {
         {executiveKpis.map((kpi) => (
           <Card key={kpi.id} className={cn("glass border p-5", toneBorderClasses(kpi.tone))}>
             <div className="flex items-start justify-between gap-3">
-              <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", toneBgClasses(kpi.tone))}>
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-lg",
+                  toneBgClasses(kpi.tone),
+                )}
+              >
                 <DynamicIcon name={kpi.icon} className={cn("h-5 w-5", toneClasses(kpi.tone))} />
               </div>
               <TrendBadge trend={kpi.trend} change={kpi.change} />
             </div>
             <div className="mt-4">
               <div className="flex items-baseline gap-1.5">
-                <span className={cn("text-3xl font-black", toneClasses(kpi.tone))}>{kpi.value}</span>
-                {kpi.unit && <span className="text-sm text-[var(--color-text-secondary)]">{kpi.unit}</span>}
+                <span className={cn("text-3xl font-black", toneClasses(kpi.tone))}>
+                  {kpi.value}
+                </span>
+                {kpi.unit && (
+                  <span className="text-sm text-[var(--color-text-secondary)]">{kpi.unit}</span>
+                )}
               </div>
               <p className="mt-1 text-sm font-medium text-white">{kpi.label}</p>
               <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{kpi.description}</p>
@@ -326,15 +347,26 @@ function TabOperativos() {
 
       {/* Services table */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Servicios recientes
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10">
-                {["Código", "Cliente", "Servicio", "Estado", "Fecha", "Duración", "Cumplimiento"].map((h) => (
-                  <th key={h} className="pb-3 pr-4 text-left text-xs font-medium text-[var(--color-text-secondary)]">
+                {[
+                  "Código",
+                  "Cliente",
+                  "Servicio",
+                  "Estado",
+                  "Fecha",
+                  "Duración",
+                  "Cumplimiento",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    className="pr-4 pb-3 text-left text-xs font-medium text-[var(--color-text-secondary)]"
+                  >
                     {h}
                   </th>
                 ))}
@@ -343,17 +375,26 @@ function TabOperativos() {
             <tbody className="divide-y divide-white/5">
               {serviceRecords.map((rec) => (
                 <tr key={rec.code} className="group transition-colors hover:bg-white/3">
-                  <td className="py-3 pr-4 font-mono text-xs text-[var(--color-brand-primary)]">{rec.code}</td>
+                  <td className="py-3 pr-4 font-mono text-xs text-[var(--color-brand-primary)]">
+                    {rec.code}
+                  </td>
                   <td className="py-3 pr-4 text-white">{rec.client}</td>
                   <td className="py-3 pr-4 text-[var(--color-text-secondary)]">{rec.service}</td>
                   <td className="py-3 pr-4">
                     <StatusBadge status={rec.status} />
                   </td>
-                  <td className="py-3 pr-4 text-[var(--color-text-secondary)]">{rec.executionDate}</td>
+                  <td className="py-3 pr-4 text-[var(--color-text-secondary)]">
+                    {rec.executionDate}
+                  </td>
                   <td className="py-3 pr-4 text-[var(--color-text-secondary)]">{rec.duration}</td>
                   <td className="py-3 pr-4">
                     {rec.complianceScore > 0 ? (
-                      <span className={cn("font-bold", rec.complianceScore >= 95 ? "text-emerald-400" : "text-amber-400")}>
+                      <span
+                        className={cn(
+                          "font-bold",
+                          rec.complianceScore >= 95 ? "text-emerald-400" : "text-amber-400",
+                        )}
+                      >
                         {rec.complianceScore}%
                       </span>
                     ) : (
@@ -369,7 +410,7 @@ function TabOperativos() {
 
       {/* Asset registry */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Activos atendidos
         </h3>
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -378,7 +419,9 @@ function TabOperativos() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-medium text-white">{asset.name}</p>
-                  <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">{asset.client} · {asset.type}</p>
+                  <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
+                    {asset.client} · {asset.type}
+                  </p>
                 </div>
                 <StatusBadge status={asset.status} />
               </div>
@@ -386,7 +429,12 @@ function TabOperativos() {
                 <span>{asset.servicesCount} servicios</span>
                 <span>Último: {asset.lastService}</span>
                 <span>Próximo: {asset.nextService}</span>
-                <span>Índice de recursos: <span className={cn("font-bold", toneClasses(asset.tone))}>{asset.resourceIndex}</span></span>
+                <span>
+                  Índice de recursos:{" "}
+                  <span className={cn("font-bold", toneClasses(asset.tone))}>
+                    {asset.resourceIndex}
+                  </span>
+                </span>
               </div>
             </Card>
           ))}
@@ -411,14 +459,23 @@ function TabAmbientales() {
         {environmentalKpis.map((kpi) => (
           <Card key={kpi.id} className={cn("glass border p-5", toneBorderClasses(kpi.tone))}>
             <div className="flex items-center gap-3">
-              <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", toneBgClasses(kpi.tone))}>
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-lg",
+                  toneBgClasses(kpi.tone),
+                )}
+              >
                 <Leaf className={cn("h-5 w-5", toneClasses(kpi.tone))} />
               </div>
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-xs text-[var(--color-text-secondary)]">{kpi.label}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className={cn("text-2xl font-black", toneClasses(kpi.tone))}>{kpi.value}</span>
-                  {kpi.unit && <span className="text-xs text-[var(--color-text-secondary)]">{kpi.unit}</span>}
+                  <span className={cn("text-2xl font-black", toneClasses(kpi.tone))}>
+                    {kpi.value}
+                  </span>
+                  {kpi.unit && (
+                    <span className="text-xs text-[var(--color-text-secondary)]">{kpi.unit}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -433,15 +490,25 @@ function TabAmbientales() {
 
       {/* Product sustainability table */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Perfil de sostenibilidad por producto
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10">
-                {["Producto", "Categoría", "Biodegradable", "Etiqueta Eco", "Uso (kg)", "CO₂ equiv."].map((h) => (
-                  <th key={h} className="pb-3 pr-4 text-left text-xs font-medium text-[var(--color-text-secondary)]">
+                {[
+                  "Producto",
+                  "Categoría",
+                  "Biodegradable",
+                  "Etiqueta Eco",
+                  "Uso (kg)",
+                  "CO₂ equiv.",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    className="pr-4 pb-3 text-left text-xs font-medium text-[var(--color-text-secondary)]"
+                  >
                     {h}
                   </th>
                 ))}
@@ -449,24 +516,36 @@ function TabAmbientales() {
             </thead>
             <tbody className="divide-y divide-white/5">
               {productSustainabilityRecords.map((p) => (
-                <tr key={p.name} className="hover:bg-white/3 transition-colors">
+                <tr key={p.name} className="transition-colors hover:bg-white/3">
                   <td className="py-3 pr-4 font-medium text-white">{p.name}</td>
                   <td className="py-3 pr-4 text-[var(--color-text-secondary)]">{p.category}</td>
                   <td className="py-3 pr-4">
-                    <span className={cn("font-medium", p.biodegradable ? "text-emerald-400" : "text-[var(--color-text-secondary)]")}>
+                    <span
+                      className={cn(
+                        "font-medium",
+                        p.biodegradable ? "text-emerald-400" : "text-[var(--color-text-secondary)]",
+                      )}
+                    >
                       {p.biodegradable ? "Sí" : "No"}
                     </span>
                   </td>
                   <td className="py-3 pr-4">
                     {p.ecoLabel ? (
-                      <span className="rounded-full bg-emerald-400/10 px-2 py-0.5 text-xs text-emerald-400">{p.ecoLabel}</span>
+                      <span className="rounded-full bg-emerald-400/10 px-2 py-0.5 text-xs text-emerald-400">
+                        {p.ecoLabel}
+                      </span>
                     ) : (
                       <span className="text-[var(--color-text-secondary)]">—</span>
                     )}
                   </td>
                   <td className="py-3 pr-4 text-[var(--color-text-secondary)]">{p.usageKg}</td>
                   <td className="py-3 pr-4">
-                    <span className={cn("font-medium", p.co2Equiv === "Bajo" ? "text-emerald-400" : "text-amber-400")}>
+                    <span
+                      className={cn(
+                        "font-medium",
+                        p.co2Equiv === "Bajo" ? "text-emerald-400" : "text-amber-400",
+                      )}
+                    >
                       {p.co2Equiv}
                     </span>
                   </td>
@@ -494,7 +573,12 @@ function TabEconomicos() {
         {economicKpis.map((kpi) => (
           <Card key={kpi.id} className={cn("glass border p-5", toneBorderClasses(kpi.tone))}>
             <div className="flex items-start justify-between gap-3">
-              <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", toneBgClasses(kpi.tone))}>
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-lg",
+                  toneBgClasses(kpi.tone),
+                )}
+              >
                 <TrendingUp className={cn("h-5 w-5", toneClasses(kpi.tone))} />
               </div>
               <TrendBadge trend={kpi.trend} change={kpi.change} />
@@ -515,8 +599,8 @@ function TabEconomicos() {
           <div>
             <p className="font-medium text-white">Preparado para OVI AI</p>
             <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-              En próximas versiones, OVI AI generará análisis económicos detallados por cliente e industria,
-              identificando oportunidades de ahorro y optimización de costos operativos.
+              En próximas versiones, OVI AI generará análisis económicos detallados por cliente e
+              industria, identificando oportunidades de ahorro y optimización de costos operativos.
             </p>
           </div>
         </div>
@@ -531,7 +615,10 @@ function TrendBar({ value, max, color }: { value: number; max: number; color: st
   const pct = Math.round((value / max) * 100);
   return (
     <div className="h-2 w-full overflow-hidden rounded-full bg-white/5">
-      <div className={cn("h-full rounded-full transition-all duration-500", color)} style={{ width: `${pct}%` }} />
+      <div
+        className={cn("h-full rounded-full transition-all duration-500", color)}
+        style={{ width: `${pct}%` }}
+      />
     </div>
   );
 }
@@ -546,51 +633,76 @@ function TabTendencias() {
 
       {/* Services + compliance trend */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Servicios ejecutados y cumplimiento del plan
         </h3>
         <div className="space-y-3">
           {trendData.map((pt) => (
-            <div key={pt.period} className="grid grid-cols-[5rem_1fr_4rem_1fr_4rem] items-center gap-3">
+            <div
+              key={pt.period}
+              className="grid grid-cols-[5rem_1fr_4rem_1fr_4rem] items-center gap-3"
+            >
               <span className="text-xs text-[var(--color-text-secondary)]">{pt.period}</span>
               <TrendBar value={pt.services} max={30} color="bg-[var(--color-brand-primary)]" />
-              <span className="text-right text-xs font-medium text-[var(--color-brand-primary)]">{pt.services}</span>
+              <span className="text-right text-xs font-medium text-[var(--color-brand-primary)]">
+                {pt.services}
+              </span>
               <TrendBar value={pt.compliance} max={100} color="bg-[var(--color-brand-accent)]" />
-              <span className="text-right text-xs font-medium text-[var(--color-brand-accent)]">{pt.compliance}%</span>
+              <span className="text-right text-xs font-medium text-[var(--color-brand-accent)]">
+                {pt.compliance}%
+              </span>
             </div>
           ))}
         </div>
         <div className="mt-3 flex gap-6 text-xs text-[var(--color-text-secondary)]">
-          <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[var(--color-brand-primary)]" /> Servicios</span>
-          <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[var(--color-brand-accent)]" /> Cumplimiento (%)</span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-[var(--color-brand-primary)]" /> Servicios
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-[var(--color-brand-accent)]" /> Cumplimiento
+            (%)
+          </span>
         </div>
       </div>
 
       {/* Water + chemical trend */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Consumo de agua y productos químicos
         </h3>
         <div className="space-y-3">
           {trendData.map((pt) => (
-            <div key={pt.period} className="grid grid-cols-[5rem_1fr_5rem_1fr_4rem] items-center gap-3">
+            <div
+              key={pt.period}
+              className="grid grid-cols-[5rem_1fr_5rem_1fr_4rem] items-center gap-3"
+            >
               <span className="text-xs text-[var(--color-text-secondary)]">{pt.period}</span>
-              <TrendBar value={pt.waterUsage} max={9500} color="bg-[var(--color-brand-primary)]/60" />
-              <span className="text-right text-xs text-[var(--color-text-secondary)]">{pt.waterUsage.toLocaleString()} L</span>
+              <TrendBar
+                value={pt.waterUsage}
+                max={9500}
+                color="bg-[var(--color-brand-primary)]/60"
+              />
+              <span className="text-right text-xs text-[var(--color-text-secondary)]">
+                {pt.waterUsage.toLocaleString()} L
+              </span>
               <TrendBar value={pt.chemUsage} max={260} color="bg-emerald-400/60" />
               <span className="text-right text-xs text-emerald-400">{pt.chemUsage} kg</span>
             </div>
           ))}
         </div>
         <div className="mt-3 flex gap-6 text-xs text-[var(--color-text-secondary)]">
-          <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[var(--color-brand-primary)]/60" /> Agua (L)</span>
-          <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-400/60" /> Productos (kg)</span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-[var(--color-brand-primary)]/60" /> Agua (L)
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-emerald-400/60" /> Productos (kg)
+          </span>
         </div>
       </div>
 
       {/* Satisfaction trend */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Satisfacción del cliente
         </h3>
         <div className="space-y-3">
@@ -598,7 +710,9 @@ function TabTendencias() {
             <div key={pt.period} className="grid grid-cols-[5rem_1fr_4rem] items-center gap-3">
               <span className="text-xs text-[var(--color-text-secondary)]">{pt.period}</span>
               <TrendBar value={pt.satisfaction} max={5} color="bg-amber-400/70" />
-              <span className="text-right text-xs font-medium text-amber-400">{pt.satisfaction.toFixed(1)}</span>
+              <span className="text-right text-xs font-medium text-amber-400">
+                {pt.satisfaction.toFixed(1)}
+              </span>
             </div>
           ))}
         </div>
@@ -641,16 +755,27 @@ function TabComparativos() {
 
       {/* Comparative table */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
-          {comparativeDimensions.find((d) => d.id === activeDimension)?.description ?? "Resultados comparativos"}
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
+          {comparativeDimensions.find((d) => d.id === activeDimension)?.description ??
+            "Resultados comparativos"}
         </h3>
-        {(activeDimension === "client" || activeDimension === "service") ? (
+        {activeDimension === "client" || activeDimension === "service" ? (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/10">
-                  {["Nombre", "Servicios", "Cumplimiento", "Satisfacción", "Agua (L)", "Tendencia"].map((h) => (
-                    <th key={h} className="pb-3 pr-4 text-left text-xs font-medium text-[var(--color-text-secondary)]">
+                  {[
+                    "Nombre",
+                    "Servicios",
+                    "Cumplimiento",
+                    "Satisfacción",
+                    "Agua (L)",
+                    "Tendencia",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="pr-4 pb-3 text-left text-xs font-medium text-[var(--color-text-secondary)]"
+                    >
                       {h}
                     </th>
                   ))}
@@ -658,18 +783,28 @@ function TabComparativos() {
               </thead>
               <tbody className="divide-y divide-white/5">
                 {records.map((rec) => (
-                  <tr key={rec.name} className="hover:bg-white/3 transition-colors">
+                  <tr key={rec.name} className="transition-colors hover:bg-white/3">
                     <td className="py-3 pr-4 font-medium text-white">{rec.name}</td>
                     <td className="py-3 pr-4 text-[var(--color-brand-primary)]">{rec.services}</td>
                     <td className="py-3 pr-4">
-                      <span className={cn("font-medium", rec.compliance >= 95 ? "text-emerald-400" : "text-amber-400")}>
+                      <span
+                        className={cn(
+                          "font-medium",
+                          rec.compliance >= 95 ? "text-emerald-400" : "text-amber-400",
+                        )}
+                      >
                         {rec.compliance}%
                       </span>
                     </td>
                     <td className="py-3 pr-4 text-amber-400">{rec.satisfaction.toFixed(1)}</td>
-                    <td className="py-3 pr-4 text-[var(--color-text-secondary)]">{rec.waterUsage.toLocaleString()}</td>
+                    <td className="py-3 pr-4 text-[var(--color-text-secondary)]">
+                      {rec.waterUsage.toLocaleString()}
+                    </td>
                     <td className="py-3 pr-4">
-                      <TrendBadge trend={rec.trend} change={rec.trend === "up" ? "↑" : rec.trend === "down" ? "↓" : "→"} />
+                      <TrendBadge
+                        trend={rec.trend}
+                        change={rec.trend === "up" ? "↑" : rec.trend === "down" ? "↓" : "→"}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -679,7 +814,11 @@ function TabComparativos() {
         ) : (
           <Card className="glass border border-white/10 p-8 text-center">
             <p className="text-[var(--color-text-secondary)]">
-              Dimensión <span className="text-white font-medium">{comparativeDimensions.find((d) => d.id === activeDimension)?.label}</span> — datos disponibles en próxima versión con integración completa a OVI OS y OVI Field.
+              Dimensión{" "}
+              <span className="font-medium text-white">
+                {comparativeDimensions.find((d) => d.id === activeDimension)?.label}
+              </span>{" "}
+              — datos disponibles en próxima versión con integración completa a OVI OS y OVI Field.
             </p>
           </Card>
         )}
@@ -706,24 +845,39 @@ function TabReportes() {
             key={tmpl.id}
             onClick={() => setActiveReport(activeReport === tmpl.id ? null : tmpl.id)}
             className={cn(
-              "glass border rounded-xl p-5 text-left transition-all duration-200",
+              "glass rounded-xl border p-5 text-left transition-all duration-200",
               activeReport === tmpl.id ? toneBorderClasses(tmpl.tone) : "border-white/10",
               !tmpl.available && "opacity-60",
             )}
           >
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", toneBgClasses(tmpl.tone))}>
+                <div
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-lg",
+                    toneBgClasses(tmpl.tone),
+                  )}
+                >
                   <DynamicIcon name={tmpl.icon} className={cn("h-5 w-5", toneClasses(tmpl.tone))} />
                 </div>
                 <div>
                   <p className="font-medium text-white">{tmpl.title}</p>
                   <p className="text-xs text-[var(--color-text-secondary)]">
-                    {tmpl.available ? (tmpl.lastGenerated ? `Última generación: ${tmpl.lastGenerated}` : "Listo para generar") : "Próximamente con OVI AI"}
+                    {tmpl.available
+                      ? tmpl.lastGenerated
+                        ? `Última generación: ${tmpl.lastGenerated}`
+                        : "Listo para generar"
+                      : "Próximamente con OVI AI"}
                   </p>
                 </div>
               </div>
-              <span className={cn("rounded-full px-2 py-0.5 text-xs font-medium", toneBgClasses(tmpl.tone), toneClasses(tmpl.tone))}>
+              <span
+                className={cn(
+                  "rounded-full px-2 py-0.5 text-xs font-medium",
+                  toneBgClasses(tmpl.tone),
+                  toneClasses(tmpl.tone),
+                )}
+              >
                 {tmpl.type}
               </span>
             </div>
@@ -731,7 +885,9 @@ function TabReportes() {
 
             {activeReport === tmpl.id && (
               <div className="mt-4 border-t border-white/10 pt-4">
-                <p className="mb-2 text-xs font-medium text-[var(--color-text-secondary)]">Secciones incluidas:</p>
+                <p className="mb-2 text-xs font-medium text-[var(--color-text-secondary)]">
+                  Secciones incluidas:
+                </p>
                 <ul className="space-y-1">
                   {tmpl.sections.map((sec) => (
                     <li key={sec} className="flex items-center gap-2 text-sm text-white">
@@ -772,18 +928,36 @@ function TabArquitectura() {
         {analyticsPillars.map((pillar) => (
           <Card key={pillar.id} className={cn("glass border p-5", toneBorderClasses(pillar.tone))}>
             <div className="flex items-start justify-between gap-3">
-              <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", toneBgClasses(pillar.tone))}>
-                <DynamicIcon name={pillar.icon} className={cn("h-5 w-5", toneClasses(pillar.tone))} />
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-lg",
+                  toneBgClasses(pillar.tone),
+                )}
+              >
+                <DynamicIcon
+                  name={pillar.icon}
+                  className={cn("h-5 w-5", toneClasses(pillar.tone))}
+                />
               </div>
               <StatusBadge status={pillar.status} />
             </div>
             <div className="mt-4">
               <h3 className="font-bold text-white">{pillar.title}</h3>
-              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{pillar.description}</p>
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+                {pillar.description}
+              </p>
               <ul className="mt-3 space-y-1">
                 {pillar.capabilities.map((cap) => (
-                  <li key={cap} className="flex items-start gap-2 text-xs text-[var(--color-text-secondary)]">
-                    <span className={cn("mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full", toneClasses(pillar.tone).replace("text-", "bg-"))} />
+                  <li
+                    key={cap}
+                    className="flex items-start gap-2 text-xs text-[var(--color-text-secondary)]"
+                  >
+                    <span
+                      className={cn(
+                        "mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full",
+                        toneClasses(pillar.tone).replace("text-", "bg-"),
+                      )}
+                    />
                     {cap}
                   </li>
                 ))}
@@ -795,7 +969,7 @@ function TabArquitectura() {
 
       {/* Integrations */}
       <div>
-        <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]">
+        <h3 className="mb-4 text-sm font-semibold tracking-widest text-[var(--color-text-secondary)] uppercase">
           Integraciones del ecosistema OVI
         </h3>
         <div className="space-y-3">
@@ -811,7 +985,9 @@ function TabArquitectura() {
                       <p className="font-bold text-white">{integ.system}</p>
                       <StatusBadge status={integ.status} />
                     </div>
-                    <p className="mt-0.5 text-sm text-[var(--color-text-secondary)]">{integ.description}</p>
+                    <p className="mt-0.5 text-sm text-[var(--color-text-secondary)]">
+                      {integ.description}
+                    </p>
                     <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                       Datos: <span className="text-white">{integ.dataFlow}</span>
                     </p>
@@ -832,11 +1008,20 @@ function TabArquitectura() {
           <div>
             <h3 className="font-bold text-white">OVI AI — Inteligencia Ejecutiva</h3>
             <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              La arquitectura de OVI Analytics está preparada para que OVI AI genere, en próximas versiones:
+              La arquitectura de OVI Analytics está preparada para que OVI AI genere, en próximas
+              versiones:
             </p>
             <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {["Resúmenes ejecutivos automáticos", "Hallazgos y alertas relevantes", "Detección de riesgos operativos", "Recomendaciones preventivas"].map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
+              {[
+                "Resúmenes ejecutivos automáticos",
+                "Hallazgos y alertas relevantes",
+                "Detección de riesgos operativos",
+                "Recomendaciones preventivas",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]"
+                >
                   <Sparkles className="h-3.5 w-3.5 shrink-0 text-[var(--color-brand-accent)]" />
                   {item}
                 </li>
@@ -869,12 +1054,14 @@ export function OviAnalyticsPage() {
                   <h1 className="text-2xl font-black tracking-tight text-white">
                     OVI <span className="text-[var(--color-brand-primary)]">Analytics</span>
                   </h1>
-                  <p className="text-sm text-[var(--color-text-secondary)]">Executive Intelligence Dashboard</p>
+                  <p className="text-sm text-[var(--color-text-secondary)]">
+                    Executive Intelligence Dashboard
+                  </p>
                 </div>
               </div>
               <p className="mt-4 max-w-2xl text-[var(--color-text-secondary)]">
-                Transforma los datos operativos de OVI OS, OVI Field, OVI Lab y OVI Core en indicadores ejecutivos
-                de alto valor para la toma de mejores decisiones.
+                Transforma los datos operativos de OVI OS, OVI Field, OVI Lab y OVI Core en
+                indicadores ejecutivos de alto valor para la toma de mejores decisiones.
               </p>
             </div>
             <div className="flex flex-col gap-2 text-sm text-[var(--color-text-secondary)]">

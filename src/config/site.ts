@@ -58,6 +58,7 @@ export const siteConfig = {
       { label: "OVI OS", href: "/ovi-os" },
       { label: "OVI Field", href: "/ovi-field" },
       { label: "OVI Analytics", href: "/ovi-analytics" },
+      { label: "OVI Command Center", href: "/ovi-command-center" },
       { label: "Contacto", href: "/contact" },
     ],
     cta: {
@@ -95,6 +96,7 @@ export const siteConfig = {
           { label: "OVI OS", href: "/ovi-os" },
           { label: "OVI Field", href: "/ovi-field" },
           { label: "OVI Analytics", href: "/ovi-analytics" },
+          { label: "OVI Command Center", href: "/ovi-command-center" },
         ],
       },
       {
