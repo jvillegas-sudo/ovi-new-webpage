@@ -52,6 +52,7 @@ export const siteConfig = {
       { label: "Ingeniería", href: "/engineering" },
       { label: "Metodología", href: "/technology" },
       { label: "Sostenibilidad", href: "/sustainability" },
+      { label: "OVI Missions", href: "/missions" },
       { label: "Solution Lab", href: "/solution-lab" },
       { label: "OVI AI", href: "/ovi-ai" },
       { label: "OVI OS", href: "/ovi-os" },
@@ -81,6 +82,15 @@ export const siteConfig = {
           { label: "Soluciones Químicas", href: "/solutions" },
           { label: "Limpieza Industrial", href: "/solutions" },
           { label: "Lavado de Flota", href: "/solutions" },
+        ],
+      },
+      {
+        title: "Experiencias",
+        links: [
+          { label: "OVI Missions", href: "/missions" },
+          { label: "Solution Lab", href: "/solution-lab" },
+          { label: "OVI AI", href: "/ovi-ai" },
+          { label: "OVI OS", href: "/ovi-os" },
         ],
       },
       {
