@@ -133,25 +133,31 @@ function CinematicLighting({ progress }: { progress: number }) {
 
   useFrame(() => {
     if (!keyLightRef.current) return;
-    keyLightRef.current.intensity = 2.8 + progress * 1.8;
-    keyLightRef.current.color.set(progress > 0.4 ? "#67ddff" : "#4ac6ff");
+    keyLightRef.current.intensity = 3.2 + progress * 2.2;
+    keyLightRef.current.color.set(progress > 0.35 ? "#5cd4ff" : "#38b8f0");
   });
 
   return (
     <>
       <spotLight
         ref={keyLightRef}
-        position={[0, 9, 3]}
-        angle={0.35}
-        penumbra={0.9}
-        intensity={3}
-        color="#4ac6ff"
+        position={[0, 10, 3]}
+        angle={0.32}
+        penumbra={0.95}
+        intensity={3.2}
+        color="#38b8f0"
         castShadow={false}
       />
-      <pointLight position={[0, -1.2, 0]} intensity={0.9} color="#163f72" distance={12} />
-      <pointLight position={[5, 2.5, -2]} intensity={1.4} color="#00c4ff" distance={18} />
-      <pointLight position={[-4, 2.2, -2]} intensity={1.2} color="#00ff85" distance={16} />
-      <pointLight position={[0, 1.8, -8]} intensity={1.2} color="#ffffff" distance={22} />
+      {/* Deep ambient fill — heavier blue for industrial depth */}
+      <pointLight position={[0, -1.5, 0]} intensity={1.1} color="#0d2e4e" distance={14} />
+      {/* Left edge — OVI cyan */}
+      <pointLight position={[5, 2.8, -2]} intensity={1.6} color="#00c4ff" distance={20} />
+      {/* Right edge — bio-green accent */}
+      <pointLight position={[-4, 2.4, -2]} intensity={1.3} color="#00ff85" distance={18} />
+      {/* Deep background fill */}
+      <pointLight position={[0, 1.8, -10]} intensity={1.4} color="#ffffff" distance={26} />
+      {/* Floor shimmer — wet surface */}
+      <pointLight position={[0, -1.0, -2.5]} intensity={0.7} color="#29b5e8" distance={8} />
     </>
   );
 }
@@ -348,7 +354,7 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
             forcePerformance={prefersReducedMotion ? "low" : undefined}
           >
             <color attach="background" args={["#02060E"]} />
-            <fog attach="fog" args={["#02060E", 9, 25]} />
+            <fog attach="fog" args={["#02060E", 7, 26]} />
             <CinematicWorld
               progress={progress}
               reducedMotion={prefersReducedMotion}

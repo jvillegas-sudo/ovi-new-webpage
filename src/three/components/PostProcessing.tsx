@@ -34,13 +34,13 @@ function FullPipeline() {
     <EffectComposer multisampling={4} enableNormalPass={false}>
       <SMAA />
       <Bloom
-        intensity={0.8}
-        luminanceThreshold={0.85}
-        luminanceSmoothing={0.3}
-        kernelSize={KernelSize.MEDIUM}
+        intensity={1.1}
+        luminanceThreshold={0.72}
+        luminanceSmoothing={0.35}
+        kernelSize={KernelSize.LARGE}
         blendFunction={BlendFunction.ADD}
       />
-      <Vignette offset={0.4} darkness={0.5} blendFunction={BlendFunction.NORMAL} />
+      <Vignette offset={0.38} darkness={0.58} blendFunction={BlendFunction.NORMAL} />
     </EffectComposer>
   );
 }
@@ -50,7 +50,7 @@ function MinimalPipeline() {
   return (
     <EffectComposer multisampling={0} enableNormalPass={false}>
       <SMAA />
-      <Vignette offset={0.4} darkness={0.3} blendFunction={BlendFunction.NORMAL} />
+      <Vignette offset={0.38} darkness={0.36} blendFunction={BlendFunction.NORMAL} />
     </EffectComposer>
   );
 }
@@ -60,7 +60,7 @@ function VignettePipeline() {
   return (
     <EffectComposer multisampling={0} enableNormalPass={false}>
       <SMAA />
-      <Vignette offset={0.4} darkness={0.5} blendFunction={BlendFunction.NORMAL} />
+      <Vignette offset={0.38} darkness={0.55} blendFunction={BlendFunction.NORMAL} />
     </EffectComposer>
   );
 }

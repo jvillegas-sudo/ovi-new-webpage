@@ -7,45 +7,50 @@ interface WetIndustrialSurfaceProps extends OviDnaBaseProps {
   weight: number;
 }
 
+/**
+ * WetIndustrialSurface — WO-017 Art Direction Lock
+ *
+ * Replaces artificial box panels with horizontal wet floor zones.
+ * The atmosphere is the protagonist: water films on industrial metal surfaces
+ * suggest the cleaning intervention without showing explicit wall panels.
+ */
 export function WetIndustrialSurface({ weight }: WetIndustrialSurfaceProps) {
-  const panelPositions = useMemo(
+  // Wet floor zones at ground level — horizontal plates, not vertical walls
+  const wetZones = useMemo(
     () =>
       [
-        [-2.8, 0.2, -3.2],
-        [0, 0.35, -3.1],
-        [2.8, 0.25, -3.2],
-      ] as const,
+        { pos: [-2.8, -1.29, -3.2] as const, w: 2.4, d: 2.8 },
+        { pos: [0, -1.29, -3.0] as const, w: 3.0, d: 3.2 },
+        { pos: [2.8, -1.29, -3.2] as const, w: 2.4, d: 2.8 },
+      ],
     [],
   );
 
   return (
     <group>
-      {panelPositions.map((position, index) => (
-        <group key={index} position={position}>
-          <mesh>
-            <boxGeometry args={[2.4, 1.35, 0.14]} />
-            <BrushedSteelMaterial opacity={Math.max(0.4, weight)} />
+      {wetZones.map((zone, index) => (
+        <group key={index} position={zone.pos}>
+          {/* Wet industrial metal floor — highly reflective, no vertical panels */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[zone.w, zone.d]} />
+            <BrushedSteelMaterial
+              opacity={Math.max(0.28, weight * 0.58)}
+              color="#0a1820"
+              roughness={0.05}
+              metalness={0.97}
+            />
           </mesh>
-          <mesh position={[0, 0.01, 0.08]}>
-            <planeGeometry args={[2.3, 1.26]} />
+          {/* Water film overlay — liquid glass sheen on the surface */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.002, 0]}>
+            <planeGeometry args={[zone.w * 0.82, zone.d * 0.82]} />
             <LiquidGlassMaterial
-              opacity={Math.max(0.15, weight * 0.45)}
-              color="#8ee2ff"
-              emissive="#124f72"
+              opacity={Math.max(0.06, weight * 0.24)}
+              color="#7ee8ff"
+              emissive="#0f527a"
             />
           </mesh>
         </group>
       ))}
-
-      <mesh position={[0, -0.45, -2.9]}>
-        <cylinderGeometry args={[0.12, 0.12, 7, 24]} />
-        <BrushedSteelMaterial
-          opacity={Math.max(0.35, weight * 0.85)}
-          color="#15232e"
-          roughness={0.2}
-          metalness={0.9}
-        />
-      </mesh>
     </group>
   );
 }

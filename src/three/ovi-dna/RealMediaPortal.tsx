@@ -14,50 +14,63 @@ interface RealMediaPortalProps extends OviDnaBaseProps {
   weight: number;
 }
 
+/**
+ * RealMediaPortal — WO-017 Art Direction Lock
+ *
+ * Replaces artificial rectangular panel wall with a spatial arc of sector markers.
+ * Sector names float in atmospheric space — no backing panel geometry.
+ * Small circular spotlights on the floor anchor each sector without rigid panels.
+ */
 export function RealMediaPortal({ items, weight }: RealMediaPortalProps) {
   const slots = useMemo(() => items.slice(0, 7), [items]);
-  const columns = 4;
+
+  // Arrange sectors in a gentle spatial arc — organic, not a grid
+  const positions = useMemo(() => {
+    const arcRadius = 3.8;
+    const arcSpan = Math.PI * 0.72;
+    const arcOffset = -(arcSpan / 2);
+    return slots.map((_, index) => {
+      const t = slots.length > 1 ? index / (slots.length - 1) : 0.5;
+      const angle = arcOffset + t * arcSpan;
+      return {
+        x: Math.sin(angle) * arcRadius,
+        y: -0.1 + Math.sin(t * Math.PI) * 0.7,
+        z: -(Math.cos(angle) * arcRadius * 0.38 + 1.2),
+      };
+    });
+  }, [slots]);
+
+  const opacity = Math.max(0, Math.min(1, weight));
 
   return (
-    <group position={[0, 0.1, -1.8]}>
+    <group position={[0, 0.4, 0]}>
       {slots.map((item, index) => {
-        const row = Math.floor(index / columns);
-        const indexInRow = index % columns;
-        const itemsInRow = Math.min(columns, slots.length - row * columns);
-        const x = (indexInRow - (itemsInRow - 1) / 2) * 2.2;
-        const y = row === 0 ? 0.74 : -0.74;
-        const isOfficial = item.status === "official";
+        const pos = positions[index];
+        const floorY = -(pos.y + 1.75);
 
         return (
-          <group key={item.id} position={[x, y, 0]}>
-            <mesh>
-              <planeGeometry args={[1.8, 1.2]} />
+          <group key={item.id} position={[pos.x, pos.y, pos.z]}>
+            {/* Circular floor spotlight — anchors the sector in space, not a panel */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, floorY, 0]}>
+              <circleGeometry args={[0.16, 32]} />
               <meshStandardMaterial
-                color={isOfficial ? "#9de6ff" : "#354450"}
-                emissive={isOfficial ? "#1f7cad" : "#1f2b32"}
-                emissiveIntensity={isOfficial ? 1.1 : 0.45}
+                color="#4ac6ff"
+                emissive="#4ac6ff"
+                emissiveIntensity={2.2}
                 transparent
-                opacity={Math.max(0, Math.min(1, weight * 0.95))}
+                opacity={opacity * 0.42}
+                depthWrite={false}
               />
             </mesh>
 
-            <mesh position={[0, 0, 0.01]}>
-              <planeGeometry args={[1.72, 1.08]} />
-              <meshStandardMaterial
-                color={isOfficial ? "#0e2230" : "#18212a"}
-                emissive={isOfficial ? "#204f6a" : "#202d37"}
-                emissiveIntensity={0.8}
-                transparent
-                opacity={Math.max(0, Math.min(1, weight * 0.82))}
-              />
-            </mesh>
-
-            <Html transform position={[0, 0, 0.03]}>
-              <div className="w-40 rounded-md border border-[rgba(157,230,255,0.35)] bg-[rgba(2,12,19,0.72)] px-2 py-1 text-center text-[10px] tracking-[0.08em] text-white uppercase">
-                <div className="font-semibold">{item.title}</div>
-                <div className="mt-1 text-[9px] text-[rgba(157,230,255,0.86)]">
-                  {item.kind} · {isOfficial ? "contenido oficial" : "pendiente oficial"}
-                </div>
+            {/* Floating sector label — no backing panel geometry */}
+            <Html transform position={[0, 0, 0.01]}>
+              <div
+                style={{ opacity }}
+                className="w-28 rounded-lg border border-[rgba(157,230,255,0.28)] bg-[rgba(2,10,16,0.70)] px-2 py-1.5 text-center text-[9px] tracking-[0.10em] text-white uppercase backdrop-blur-sm"
+              >
+                <div className="font-semibold text-[rgba(157,230,255,0.95)]">{item.title}</div>
+                <div className="mt-0.5 text-[8px] text-[rgba(157,230,255,0.6)]">{item.kind}</div>
               </div>
             </Html>
           </group>
