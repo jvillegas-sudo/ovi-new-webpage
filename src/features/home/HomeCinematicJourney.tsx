@@ -124,24 +124,46 @@ function CameraController({ progress }: { progress: number }) {
 /** Highly reflective water surface — stainless steel meets water */
 function WaterSurface() {
   const meshRef = useRef<THREE.Mesh>(null);
+  const gridRef = useRef<THREE.Mesh>(null);
 
   useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
     if (meshRef.current) {
-      meshRef.current.position.y = -1.4 + Math.sin(clock.elapsedTime * 0.5) * 0.04;
+      meshRef.current.position.y = -1.4 + Math.sin(t * 0.5) * 0.04;
+    }
+    if (gridRef.current) {
+      (gridRef.current.material as THREE.MeshStandardMaterial).opacity =
+        0.042 + Math.sin(t * 0.65) * 0.012;
     }
   });
 
   return (
-    <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.4, 0]}>
-      <planeGeometry args={[28, 28]} />
-      <meshStandardMaterial
-        color="#071828"
-        metalness={0.92}
-        roughness={0.04}
-        transparent
-        opacity={0.75}
-      />
-    </mesh>
+    <>
+      {/* Base stainless-steel wet floor */}
+      <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.4, 0]}>
+        <planeGeometry args={[28, 28]} />
+        <meshStandardMaterial
+          color="#071828"
+          metalness={0.95}
+          roughness={0.03}
+          transparent
+          opacity={0.80}
+        />
+      </mesh>
+      {/* Inspection grid overlay — industrial floor precision markings */}
+      <mesh ref={gridRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.385, 0]}>
+        <planeGeometry args={[24, 24, 12, 12]} />
+        <meshStandardMaterial
+          color="#90D8F8"
+          metalness={0.1}
+          roughness={0.0}
+          transparent
+          opacity={0.042}
+          wireframe
+          depthWrite={false}
+        />
+      </mesh>
+    </>
   );
 }
 
@@ -210,39 +232,69 @@ function WaterRipples({ weight }: { weight: number }) {
   );
 }
 
-/** Orbital particle field — persistent across all scenes */
-function MainParticles({ progress }: { progress: number }) {
-  const pointsRef = useRef<THREE.Points>(null);
+/** Micro-droplet field — water spray and technical mist replacing generic particles */
+function MicroDropletField({ progress }: { progress: number }) {
+  const sprayRef = useRef<THREE.Points>(null);
+  const mistRef = useRef<THREE.Points>(null);
 
-  const particles = useMemo(() => {
-    const count = 1800;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const r = 3 + Math.random() * 5.5;
+  const { sprayPositions, mistPositions } = useMemo(() => {
+    // Coarse spray layer — visible micro-droplets in arc/column patterns
+    const sprayCount = 900;
+    const sprayPositions = new Float32Array(sprayCount * 3);
+    for (let i = 0; i < sprayCount; i++) {
+      const r = 2.8 + Math.random() * 5;
       const theta = Math.random() * Math.PI * 2;
-      const phi = (Math.random() - 0.5) * 2.6;
+      const phi = (Math.random() - 0.5) * 2.2;
       const i3 = i * 3;
-      positions[i3] = Math.cos(theta) * r;
-      positions[i3 + 1] = phi;
-      positions[i3 + 2] = Math.sin(theta) * r;
+      sprayPositions[i3] = Math.cos(theta) * r;
+      sprayPositions[i3 + 1] = phi;
+      sprayPositions[i3 + 2] = Math.sin(theta) * r;
     }
-    return positions;
+    // Fine mist layer — denser, closer to water surface
+    const mistCount = 700;
+    const mistPositions = new Float32Array(mistCount * 3);
+    for (let i = 0; i < mistCount; i++) {
+      const r = 1.8 + Math.random() * 6.5;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = (Math.random() - 0.5) * 1.2 - 0.3;
+      const i3 = i * 3;
+      mistPositions[i3] = Math.cos(theta) * r;
+      mistPositions[i3 + 1] = phi;
+      mistPositions[i3 + 2] = Math.sin(theta) * r;
+    }
+    return { sprayPositions, mistPositions };
   }, []);
 
   useFrame((state, delta) => {
-    if (!pointsRef.current) return;
-    pointsRef.current.rotation.y += delta * (0.05 + progress * 0.06);
-    pointsRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.35) * 0.3;
-    (pointsRef.current.material as THREE.PointsMaterial).opacity = 0.28 + progress * 0.14;
+    if (sprayRef.current) {
+      sprayRef.current.rotation.y += delta * (0.042 + progress * 0.05);
+      sprayRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.32) * 0.28;
+      (sprayRef.current.material as THREE.PointsMaterial).opacity = 0.20 + progress * 0.12;
+    }
+    if (mistRef.current) {
+      mistRef.current.rotation.y -= delta * 0.018;
+      mistRef.current.position.y = -0.25 + Math.sin(state.clock.elapsedTime * 0.42 + 1.2) * 0.14;
+      (mistRef.current.material as THREE.PointsMaterial).opacity = 0.10 + progress * 0.07;
+    }
   });
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[particles, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.025} color="#00C4FF" transparent opacity={0.28} depthWrite={false} />
-    </points>
+    <>
+      {/* Coarse micro-droplets — pulverization / spray */}
+      <points ref={sprayRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[sprayPositions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial size={0.028} color="#A8DEFF" transparent opacity={0.20} depthWrite={false} />
+      </points>
+      {/* Fine technical mist — neblina near water surface */}
+      <points ref={mistRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[mistPositions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial size={0.014} color="#DCF5FF" transparent opacity={0.10} depthWrite={false} />
+      </points>
+    </>
   );
 }
 
@@ -292,6 +344,106 @@ function SteamParticles({ weight }: { weight: number }) {
       </bufferGeometry>
       <pointsMaterial size={0.06} color="#C8F0FF" transparent opacity={0} depthWrite={false} />
     </points>
+  );
+}
+
+/** Foam micro-bubbles on water surface — cleaning product indicator — Scene 0 */
+function FoamBubbles({ weight }: { weight: number }) {
+  const BUBBLE_COUNT = 14;
+  const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
+
+  const bubbles = useMemo(
+    () =>
+      Array.from({ length: BUBBLE_COUNT }, () => ({
+        x: (Math.random() - 0.5) * 7,
+        z: (Math.random() - 0.5) * 7,
+        r: 0.025 + Math.random() * 0.045,
+        speed: 0.45 + Math.random() * 0.85,
+        phase: Math.random() * Math.PI * 2,
+      })),
+    [],
+  );
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    meshRefs.current.forEach((mesh, i) => {
+      if (!mesh) return;
+      const b = bubbles[i];
+      mesh.position.y = Math.sin(t * b.speed + b.phase) * 0.022;
+      (mesh.material as THREE.MeshStandardMaterial).opacity =
+        weight * (0.5 + Math.sin(t * b.speed * 0.6 + b.phase) * 0.18);
+    });
+  });
+
+  return (
+    <group position={[0, -1.33, 0]}>
+      {bubbles.map((b, i) => (
+        <mesh
+          key={i}
+          ref={(el) => {
+            meshRefs.current[i] = el;
+          }}
+          position={[b.x, 0, b.z]}
+        >
+          <sphereGeometry args={[b.r, 8, 8]} />
+          <meshStandardMaterial
+            color="#EEF8FF"
+            metalness={0.05}
+            roughness={0.06}
+            transparent
+            opacity={0}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+/** Industrial inspection beam — horizontal scan plane sweeping through scene — Scenes 2–3 */
+function InspectionBeam({ weight }: { weight: number }) {
+  const planeRef = useRef<THREE.Mesh>(null);
+  const lineRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    const sweep = -0.8 + ((Math.sin(t * 0.38) + 1) * 0.5) * 2.2;
+    if (planeRef.current) {
+      planeRef.current.position.y = sweep;
+      (planeRef.current.material as THREE.MeshStandardMaterial).opacity = weight * 0.042;
+    }
+    if (lineRef.current) {
+      lineRef.current.position.y = sweep;
+      (lineRef.current.material as THREE.MeshStandardMaterial).opacity = weight * 0.32;
+    }
+  });
+
+  return (
+    <>
+      {/* Wide scan plane — diffuse inspection glow */}
+      <mesh ref={planeRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -1]}>
+        <planeGeometry args={[14, 9]} />
+        <meshStandardMaterial
+          color="#00C4FF"
+          emissive="#00C4FF"
+          emissiveIntensity={1.0}
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
+      </mesh>
+      {/* Sharp scan edge — the visible leading edge of the beam */}
+      <mesh ref={lineRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -1]}>
+        <planeGeometry args={[13, 0.012]} />
+        <meshStandardMaterial
+          color="#00C4FF"
+          emissive="#00AADD"
+          emissiveIntensity={2.5}
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
+      </mesh>
+    </>
   );
 }
 
@@ -579,17 +731,18 @@ function EcosystemOrbit({ weight }: { weight: number }) {
 
   return (
     <group ref={groupRef} position={[0, 0.5, 2.5]}>
+      {/* Hub — polished stainless steel sphere replacing abstract wireframe */}
       <mesh ref={hubRef}>
-        <icosahedronGeometry args={[0.28, 1]} />
+        <sphereGeometry args={[0.3, 32, 32]} />
         <meshStandardMaterial
-          color="#00C4FF"
-          emissive="#0099CC"
-          emissiveIntensity={2}
+          color="#1C2B38"
+          metalness={0.97}
+          roughness={0.04}
           transparent
           opacity={weight * 0.95}
-          wireframe
         />
       </mesh>
+      {/* Hub core glow */}
       <mesh>
         <sphereGeometry args={[0.14, 32, 32]} />
         <meshStandardMaterial
@@ -614,16 +767,17 @@ function EcosystemOrbit({ weight }: { weight: number }) {
                 opacity={weight * 0.22}
               />
             </mesh>
+            {/* Glass-like droplets — water / liquid technology */}
             <mesh position={[Math.cos(angle) * p.radius, 0, Math.sin(angle) * p.radius]}>
               <sphereGeometry args={[0.16, 24, 24]} />
               <meshStandardMaterial
                 color={p.color}
                 emissive={p.emissive}
-                emissiveIntensity={1.5}
+                emissiveIntensity={0.6}
                 transparent
-                opacity={weight * 0.9}
-                metalness={0.7}
-                roughness={0.2}
+                opacity={weight * 0.88}
+                metalness={0.05}
+                roughness={0.04}
               />
             </mesh>
           </group>
@@ -673,20 +827,22 @@ function CinematicWorld({ progress }: { progress: number }) {
       <CameraController progress={progress} />
       <CinematicLighting progress={progress} />
 
-      {/* Persistent */}
+      {/* Persistent — micro-droplet field replaces generic orbital particles */}
       <WaterSurface />
-      <MainParticles progress={progress} />
+      <MicroDropletField progress={progress} />
 
-      {/* Scene 0: Nacimiento */}
+      {/* Scene 0: Nacimiento — water drop, ripples, foam */}
       <WaterDrop weight={w(0)} />
       <WaterRipples weight={w(0) + w(1) * 0.3} />
+      <FoamBubbles weight={w(0)} />
 
       {/* Scene 1: Logo */}
       <OVILogo weight={w(1)} />
 
-      {/* Scene 2: Industrial */}
+      {/* Scene 2: Industrial — tanks, steam, inspection beam */}
       <IndustrialAssets weight={w(2)} />
       <SteamParticles weight={w(2) + w(3) * 0.4} />
+      <InspectionBeam weight={w(2) + w(3) * 0.5} />
 
       {/* Scene 3: OVI AI */}
       <AICore weight={w(3)} />
