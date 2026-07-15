@@ -1,9 +1,6 @@
 /**
  * OVI Knowledge Home — Cinematic Scenes
- * Work Order 004 · Home Intelligence Integration
- *
- * Scene metadata for the Five-act cinematic hero experience.
- * Moved from HomeCinematicJourney.tsx — Three.js code is NOT affected.
+ * Work Order 015 · OVI Cinematic DNA Replacement
  */
 
 import type { HomeCmsEntity, HomeLocale } from "./types";
@@ -14,21 +11,19 @@ export interface CinematicSceneLocale {
 }
 
 export interface HomeCinematicScene extends HomeCmsEntity {
-  /** Scene identifier used by the Three.js scene router */
   sceneId: string;
-  /** Display number (e.g. "01") */
   number: string;
   locales: Record<HomeLocale, CinematicSceneLocale>;
 }
 
 export const cinematicScenes: HomeCinematicScene[] = [
   {
-    slug: "scene-nacimiento-ovi",
-    sceneId: "scene-water",
+    slug: "hero-oscuridad-gota",
+    sceneId: "hero-drop",
     number: "01",
-    seoTitle: "Nacimiento OVI",
-    seoDescription: "Una gota cae. La onda genera energía. Las partículas forman el universo.",
-    keywords: ["nacimiento", "agua", "energía"],
+    seoTitle: "Oscuridad y Gota",
+    seoDescription: "Una microgota suspendida activa la narrativa de limpieza de OVI.",
+    keywords: ["gota", "limpieza", "OVI", "microgotas"],
     images: [],
     icon: "droplets",
     order: 1,
@@ -36,106 +31,151 @@ export const cinematicScenes: HomeCinematicScene[] = [
     featured: true,
     locales: {
       es: {
-        title: "Nacimiento OVI",
-        tagline: "Una gota cae. La onda genera energía. Las partículas forman el universo.",
+        title: "Oscuridad y Gota",
+        tagline: "Una gota controlada anuncia precisión, limpieza y tecnología OVI.",
       },
       en: {
-        title: "OVI Birth",
-        tagline: "A drop falls. The wave generates energy. The particles form the universe.",
+        title: "Darkness and Drop",
+        tagline: "A controlled drop introduces OVI precision cleaning technology.",
       },
     },
   },
   {
-    slug: "scene-logo",
-    sceneId: "scene-logo",
+    slug: "hero-impacto-limpieza",
+    sceneId: "hero-impact",
     number: "02",
-    seoTitle: "El Logo OVI",
-    seoDescription: "La energía se organiza. OVI nace desde el agua y la luz.",
-    keywords: ["logo", "energía", "agua", "luz"],
+    seoTitle: "Impacto",
+    seoDescription: "La onda limpia una película de contaminación y revela superficie útil.",
+    keywords: ["impacto", "onda", "limpieza industrial"],
     images: [],
-    icon: "zap",
+    icon: "activity",
     order: 2,
     status: "active",
     featured: true,
     locales: {
       es: {
-        title: "El Logo",
-        tagline: "La energía se organiza. OVI nace desde el agua y la luz.",
+        title: "Impacto",
+        tagline: "La onda de agua limpia y revela valor operativo en la superficie.",
       },
       en: {
-        title: "The Logo",
-        tagline: "Energy organizes itself. OVI is born from water and light.",
+        title: "Impact",
+        tagline: "A controlled ripple cleans and reveals operational value.",
       },
     },
   },
   {
-    slug: "scene-ingenieria",
-    sceneId: "scene-industrial",
+    slug: "hero-logo-ovi",
+    sceneId: "hero-logo",
     number: "03",
-    seoTitle: "Ingeniería en Limpieza",
-    seoDescription: "Activos industriales. Vapor. Acero inoxidable. Superficies impecables.",
-    keywords: ["ingeniería", "limpieza industrial", "acero inoxidable", "vapor"],
+    seoTitle: "Nacimiento del Logo OVI",
+    seoDescription: "El logo oficial de OVI emerge desde agua, luz y cristal líquido.",
+    keywords: ["logo OVI", "cristal líquido", "resplandor"],
     images: [],
-    icon: "wrench",
+    icon: "sparkles",
     order: 3,
     status: "active",
     featured: true,
     locales: {
       es: {
-        title: "Ingeniería en Limpieza",
-        tagline: "Activos industriales. Vapor. Acero inoxidable. Superficies impecables.",
+        title: "Nacimiento del Logo OVI",
+        tagline: "El logo oficial aparece sobre una superficie limpia y técnica.",
       },
       en: {
-        title: "Cleaning Engineering",
-        tagline: "Industrial assets. Steam. Stainless steel. Impeccable surfaces.",
+        title: "OVI Logo Reveal",
+        tagline: "The official OVI logo emerges over a clean technical surface.",
       },
     },
   },
   {
-    slug: "scene-ovi-ai",
-    sceneId: "scene-ai",
+    slug: "escena-a-ingenieria",
+    sceneId: "scene-a-engineering",
     number: "04",
-    seoTitle: "OVI AI — Ingeniero Virtual",
-    seoDescription: "Un ingeniero virtual. Siempre disponible. Presente en todo el universo.",
-    keywords: ["OVI AI", "ingeniero virtual", "inteligencia artificial"],
+    seoTitle: "Ingeniería en Limpieza",
+    seoDescription: "Activos industriales con inspección de riesgo y solución OVI.",
+    keywords: ["ingeniería en limpieza", "inspección", "activos industriales"],
     images: [],
-    icon: "bot",
+    icon: "wrench",
     order: 4,
     status: "active",
     featured: true,
     locales: {
       es: {
-        title: "OVI AI",
-        tagline: "Un ingeniero virtual. Siempre disponible. Presente en todo el universo.",
+        title: "Escena A — Ingeniería en Limpieza",
+        tagline: "Inspección azul detecta riesgo y activa solución OVI sobre acero industrial.",
       },
       en: {
-        title: "OVI AI",
-        tagline: "A virtual engineer. Always available. Present throughout the universe.",
+        title: "Scene A — Cleaning Engineering",
+        tagline: "Blue inspection light detects risk and activates OVI intervention.",
       },
     },
   },
   {
-    slug: "scene-ecosistema",
-    sceneId: "scene-ecosystem",
+    slug: "escena-b-sectores",
+    sceneId: "scene-b-sectors",
     number: "05",
-    seoTitle: "Ecosistema OVI",
-    seoDescription: "OVI AI · OVI OS · OVI Laboratorio · OVI Catálogo. Un solo universo integrado.",
-    keywords: ["ecosistema OVI", "OVI AI", "OVI OS", "OVI Laboratorio", "OVI Catálogo"],
+    seoTitle: "Sectores",
+    seoDescription:
+      "Portales de contenido oficial y pendiente para transporte, industria y energía.",
+    keywords: ["sectores", "contenido oficial", "portales"],
     images: [],
-    icon: "layers",
+    icon: "grid-2x2",
     order: 5,
     status: "active",
     featured: true,
     locales: {
       es: {
-        title: "Ecosistema OVI",
-        tagline:
-          "OVI AI · OVI OS · OVI Laboratorio · OVI Catálogo. Un solo universo integrado.",
+        title: "Escena B — Sectores",
+        tagline: "Portales técnicos integran evidencia visual real y pendientes de validación.",
       },
       en: {
-        title: "OVI Ecosystem",
-        tagline:
-          "OVI AI · OVI OS · OVI Laboratory · OVI Catalogue. One single integrated universe.",
+        title: "Scene B — Sectors",
+        tagline: "Technical portals combine official evidence and pending approved assets.",
+      },
+    },
+  },
+  {
+    slug: "escena-c-transformacion",
+    sceneId: "scene-c-transformation",
+    number: "06",
+    seoTitle: "Transformación",
+    seoDescription: "Secuencia completa de limpieza técnica con producto oficial OVI.",
+    keywords: ["transformación", "espuma", "vapor", "producto OVI"],
+    images: [],
+    icon: "refresh-cw",
+    order: 6,
+    status: "active",
+    featured: true,
+    locales: {
+      es: {
+        title: "Escena C — Transformación",
+        tagline: "Agua, espuma y vapor muestran intervención técnica con resultado verificable.",
+      },
+      en: {
+        title: "Scene C — Transformation",
+        tagline: "Water, foam, and steam depict a technical cleaning intervention.",
+      },
+    },
+  },
+  {
+    slug: "entrada-universo-ovi",
+    sceneId: "entry-transition",
+    number: "07",
+    seoTitle: "Entrada",
+    seoDescription: "Transición líquida hacia el ecosistema digital OVI sin corte de página.",
+    keywords: ["entrada", "transición líquida", "ecosistema OVI"],
+    images: [],
+    icon: "move-right",
+    order: 7,
+    status: "active",
+    featured: true,
+    locales: {
+      es: {
+        title: "Entrada",
+        tagline: "Transición cinematográfica hacia el ecosistema OVI sin romper la inmersión.",
+      },
+      en: {
+        title: "Entry",
+        tagline: "Cinematic transition into the OVI ecosystem without page cut.",
       },
     },
   },

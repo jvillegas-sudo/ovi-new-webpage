@@ -44,12 +44,12 @@ export const homeHero: HomeHeroContent = {
       badge: "OVI — Ingeniería en Limpieza",
       title: "INGENIERÍA EN LIMPIEZA",
       subtitle:
-        "Diseñamos soluciones integrales para resolver desafíos de limpieza, mantenimiento e higiene mediante diagnóstico técnico, protocolos especializados, servicios y tecnología aplicada.",
+        "Diseñamos soluciones especializadas para resolver desafíos de limpieza, mantenimiento e higiene industrial mediante conocimiento, productos, servicios y tecnología.",
       story: [
-        "Una gota de agua aparece.",
-        "Esa gota se transforma en energía operativa.",
-        "La energía evoluciona a inteligencia operacional.",
-        "La inteligencia se convierte en soluciones industriales reales.",
+        "Una microgota se suspende en silencio.",
+        "El impacto activa una limpieza controlada.",
+        "La superficie revela el logo oficial OVI.",
+        "La transición abre la experiencia de Ingeniería en Limpieza.",
       ],
     },
     en: {

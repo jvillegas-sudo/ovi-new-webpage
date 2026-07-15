@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="256" viewBox="0 0 640 256" fill="none">
+  <rect width="640" height="256" rx="32" fill="black" fill-opacity="0"/>
+  <text x="50%" y="56%" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="170" font-weight="800" letter-spacing="10" fill="#EAFBFF">OVI</text>
+  <rect x="80" y="40" width="480" height="176" rx="18" stroke="#00C4FF" stroke-opacity="0.35" stroke-width="2"/>
+</svg>
