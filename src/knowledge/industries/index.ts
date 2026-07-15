@@ -9,7 +9,9 @@
 
 export {
   sectors as industries,
+  officialSectors as officialIndustries,
   getSector as getIndustry,
+  getOfficialSector as getOfficialIndustry,
   getSectorsByProduct as getIndustriesByProduct,
   getSectorsByService as getIndustriesByService,
 } from "../sectors";

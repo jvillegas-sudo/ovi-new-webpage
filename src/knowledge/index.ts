@@ -1,6 +1,6 @@
 /**
  * OVI Knowledge Base — Main Export Barrel
- * FASE 1 · Foundation Order 001
+ * FASE 1 · Work Order 002
  *
  * Single entry point for the entire OVI Knowledge Base.
  * All platform modules should import from here via:
@@ -27,31 +27,93 @@ export type {
   OviKnowledgeBase,
 } from "./types";
 
+// Official Work Order 002 models
+export type {
+  OviKnowledgeStatus,
+  OviKnowledgeProduct,
+  OviKnowledgeService,
+  OviKnowledgeProtocol,
+  OviKnowledgeContaminant,
+  OviKnowledgeSurface,
+  OviKnowledgeSector,
+} from "./shared";
+
 // Contamination types
-export { contaminationTypes, getContaminationType, getContaminationTypesByDifficulty, getContaminationTypesBySector } from "./contamination";
+export {
+  contaminationTypes,
+  getContaminationType,
+  getContaminationTypesByDifficulty,
+  getContaminationTypesBySector,
+} from "./contamination";
+
+// Contaminants (official Work Order 002 naming)
+export { contaminants, getContaminant } from "./contaminants";
 
 // Surfaces
-export { surfaces, getSurface, getSurfacesBySensitivity } from "./surfaces";
+export {
+  surfaces,
+  officialSurfaces,
+  getSurface,
+  getSurfacesBySensitivity,
+  getOfficialSurface,
+} from "./surfaces";
 
 // Sectors
-export { sectors, getSector, getSectorsByProduct, getSectorsByService } from "./sectors";
+export {
+  sectors,
+  officialSectors,
+  getSector,
+  getOfficialSector,
+  getSectorsByProduct,
+  getSectorsByService,
+} from "./sectors";
 
 // Industries (alias for sectors)
-export { industries, getIndustry, getIndustriesByProduct, getIndustriesByService } from "./industries";
+export {
+  industries,
+  officialIndustries,
+  getIndustry,
+  getOfficialIndustry,
+  getIndustriesByProduct,
+  getIndustriesByService,
+} from "./industries";
 
 // Protocols
-export { protocols, getProtocol, getProtocolByCode, getProtocolsBySector, getProtocolsByProduct } from "./protocols";
+export {
+  protocols,
+  officialProtocols,
+  getProtocol,
+  getOfficialProtocol,
+  getProtocolByCode,
+  getProtocolsBySector,
+  getProtocolsByProduct,
+} from "./protocols";
 
 // Equipment
-export { equipment, getEquipment, getEquipmentByCategory, getEquipmentByProduct } from "./equipment";
+export {
+  equipment,
+  getEquipment,
+  getEquipmentByCategory,
+  getEquipmentByProduct,
+} from "./equipment";
 
 // Services
-export { services, getService, getServicesBySector, getServicesByProduct, getServicesByProtocol } from "./services";
+export {
+  services,
+  officialServices,
+  getService,
+  getOfficialService,
+  getServicesBySector,
+  getServicesByProduct,
+  getServicesByProtocol,
+} from "./services";
 
 // Products
 export {
   products,
+  officialProducts,
   getProduct,
+  getOfficialProduct,
   getProductsByCategory,
   getProductsBySector,
   getProductsByContamination,
@@ -80,5 +142,5 @@ export type { OviSolutionResult } from "./queries";
 // ─── Version metadata ─────────────────────────────────────────────────────────
 
 export const KB_VERSION = "1.0.0";
-export const KB_PHASE = "FASE 1 — Foundation Order 001";
+export const KB_PHASE = "FASE 1 — Work Order 002";
 export const KB_STATUS = "ACTIVE";

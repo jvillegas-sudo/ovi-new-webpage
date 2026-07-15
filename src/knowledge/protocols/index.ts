@@ -3,8 +3,10 @@
  */
 
 import { protocols } from "./catalog";
+import { officialProtocols } from "./official-catalog";
 
 export { protocols } from "./catalog";
+export { officialProtocols } from "./official-catalog";
 
 export function getProtocol(id: string) {
   return protocols.find((p) => p.id === id);
@@ -20,4 +22,8 @@ export function getProtocolsBySector(sectorId: string) {
 
 export function getProtocolsByProduct(productId: string) {
   return protocols.filter((p) => p.productosRequeridos.includes(productId));
+}
+
+export function getOfficialProtocol(id: string) {
+  return officialProtocols.find((p) => p.id === id);
 }

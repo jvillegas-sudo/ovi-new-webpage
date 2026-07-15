@@ -3,9 +3,11 @@
  */
 
 import { products } from "./catalog";
+import { officialProducts } from "./official-catalog";
 import type { OviProductCategory } from "../types";
 
 export { products } from "./catalog";
+export { officialProducts } from "./official-catalog";
 
 export function getProduct(id: string) {
   return products.find((p) => p.id === id);
@@ -29,4 +31,8 @@ export function getProductsBySurface(surfaceId: string) {
 
 export function getProductsByIds(ids: string[]) {
   return ids.map((id) => getProduct(id)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+}
+
+export function getOfficialProduct(id: string) {
+  return officialProducts.find((p) => p.id === id);
 }
