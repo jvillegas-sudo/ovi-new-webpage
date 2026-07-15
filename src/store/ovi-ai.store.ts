@@ -1,33 +1,52 @@
 /**
  * Store: OVI AI State
- * Experience Order 004
+ * Work Order 006
  *
  * Session-aware state for the persistent OVI AI holographic companion.
- * Tracks conversation history, detected industry, and companion visibility.
+ * Tracks conversational messages, diagnostic context, and the Knowledge Engine recommendation.
  *
  * Architecture notes:
- *   - Session memory persists across page navigations (no re-asking)
+ *   - diagnosticContext accumulates answers across the entire diagnostic flow
+ *   - messages drives the conversational UI (AI + user bubbles)
+ *   - recommendation holds the final KE output (OviRecommendation)
+ *   - diagnosticStep tracks where in the flow the user is
  *   - analysisState drives companion animations
- *   - Extensible for future LLM, voice, and image capabilities
+ *   - Designed for future voice, image analysis, and multi-language extension
  */
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { SimulatedReport, ConversationTurn } from "@features/ovi-ai/ovi-ai-engine";
+import type {
+  OviChatMessage,
+  OviDecisionInput,
+  OviRecommendation,
+} from "@features/ovi-ai/ovi-ai-engine";
+
+// ─── Diagnostic phases ────────────────────────────────────────────────────────
+
+export type OviAiDiagnosticPhase =
+  | "greeting" // companion just opened — showing welcome message
+  | "diagnosing" // step-by-step diagnostic questions in progress
+  | "generating" // recommendation is being computed (analysis animation)
+  | "done"; // recommendation delivered
 
 // ─── Session ──────────────────────────────────────────────────────────────────
 
 export interface OviAiSession {
-  /** Detected industry from the most recent report */
+  /** Full conversation (assistant + user turns) */
+  messages: OviChatMessage[];
+  /** Accumulated diagnostic context built from user answers */
+  diagnosticContext: OviDecisionInput;
+  /** Decision tree step currently being asked (0 = none yet) */
+  currentStep: number;
+  /** Phase of the diagnostic flow */
+  diagnosticPhase: OviAiDiagnosticPhase;
+  /** Final recommendation from the Knowledge Engine */
+  recommendation: OviRecommendation | null;
+
+  // ─── Derived convenience fields (populated from context) ────────────────────
+  /** Detected industry label from context — shown in session strip */
   industry: string | null;
-  /** Asset context extracted from conversation */
-  asset: string | null;
-  /** Contamination type from last analysis */
-  contamination: string | null;
-  /** The most recently generated report */
-  lastReport: SimulatedReport | null;
-  /** Full conversation history (for future multi-turn LLM use) */
-  turns: ConversationTurn[];
 }
 
 // ─── State interface ──────────────────────────────────────────────────────────
@@ -41,25 +60,41 @@ interface OviAiState {
   close: () => void;
   toggle: () => void;
 
-  // ─── Analysis lifecycle ──────────────────────────────────────────────────
+  // ─── Analysis lifecycle (drives animations) ───────────────────────────────
   analysisState: OviAiAnalysisState;
   setAnalysisState: (state: OviAiAnalysisState) => void;
 
-  // ─── Session memory ──────────────────────────────────────────────────────
+  // ─── Session ─────────────────────────────────────────────────────────────
   session: OviAiSession;
-  addTurn: (turn: ConversationTurn) => void;
-  applyReport: (report: SimulatedReport) => void;
+
+  /** Append a message to the conversation */
+  addMessage: (message: OviChatMessage) => void;
+
+  /** Merge new fields into the accumulated diagnostic context */
+  updateDiagnosticContext: (update: Partial<OviDecisionInput>) => void;
+
+  /** Advance the current decision tree step */
+  setCurrentStep: (step: number) => void;
+
+  /** Transition the diagnostic phase */
+  setDiagnosticPhase: (phase: OviAiDiagnosticPhase) => void;
+
+  /** Store the Knowledge Engine recommendation and mark phase as done */
+  setRecommendation: (recommendation: OviRecommendation) => void;
+
+  /** Reset the entire session to initial state */
   resetSession: () => void;
 }
 
 // ─── Initial state ────────────────────────────────────────────────────────────
 
 const EMPTY_SESSION: OviAiSession = {
+  messages: [],
+  diagnosticContext: {},
+  currentStep: 0,
+  diagnosticPhase: "greeting",
+  recommendation: null,
   industry: null,
-  asset: null,
-  contamination: null,
-  lastReport: null,
-  turns: [],
 };
 
 // ─── Store ────────────────────────────────────────────────────────────────────
@@ -77,21 +112,54 @@ export const useOviAiStore = create<OviAiState>()(
       analysisState: "idle",
       setAnalysisState: (state) => set({ analysisState: state }),
 
-      // Session memory
+      // Session
       session: EMPTY_SESSION,
 
-      addTurn: (turn) =>
-        set((s) => ({
-          session: { ...s.session, turns: [...s.session.turns, turn] },
-        })),
-
-      applyReport: (report) =>
+      addMessage: (message) =>
         set((s) => ({
           session: {
             ...s.session,
-            industry: report.detectedIndustry,
-            lastReport: report,
+            messages: [...s.session.messages, message],
           },
+        })),
+
+      updateDiagnosticContext: (update) =>
+        set((s) => {
+          const merged = { ...s.session.diagnosticContext, ...update };
+          // Merge array fields (environmentalRestrictions) rather than replace
+          if (
+            update.environmentalRestrictions &&
+            s.session.diagnosticContext.environmentalRestrictions
+          ) {
+            const existing = s.session.diagnosticContext.environmentalRestrictions;
+            const incoming = update.environmentalRestrictions;
+            merged.environmentalRestrictions = [
+              ...new Set([...existing, ...incoming]),
+            ] as OviDecisionInput["environmentalRestrictions"];
+          }
+          return {
+            session: {
+              ...s.session,
+              diagnosticContext: merged,
+              // Update derived industry label if industryId was provided
+              industry: update.industryId ? (update.industryId as string) : s.session.industry,
+            },
+          };
+        }),
+
+      setCurrentStep: (step) => set((s) => ({ session: { ...s.session, currentStep: step } })),
+
+      setDiagnosticPhase: (phase) =>
+        set((s) => ({ session: { ...s.session, diagnosticPhase: phase } })),
+
+      setRecommendation: (recommendation) =>
+        set((s) => ({
+          session: {
+            ...s.session,
+            recommendation,
+            diagnosticPhase: "done",
+          },
+          analysisState: "done",
         })),
 
       resetSession: () =>

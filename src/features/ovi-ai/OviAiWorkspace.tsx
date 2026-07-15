@@ -2,18 +2,18 @@
 
 /**
  * Feature: OVI AI Workspace
+ * Work Order 006
  *
- * Premium engineering consulting interface.
- * Simulates an intelligent cleaning engineering consultant.
- * No AI backend — UX/architecture implementation only.
+ * Full-page engineering consulting workspace.
+ * Accepts a free-form description, extracts context, and delivers a
+ * Knowledge Engine recommendation — no hardcoded responses.
  *
- * Features:
- *   - Rotating example prompts
- *   - Large multiline engineering input
- *   - Simulated DEMO diagnostic report
- *   - Smooth Framer Motion animations
- *   - Full accessibility (ARIA, keyboard, reduced-motion)
- *   - Responsive: mobile / tablet / desktop
+ * Flow:
+ *   Free-text input → ContextExtractor → OviDecisionInput →
+ *   Knowledge Engine (generateRecommendation) → OviRecommendation display
+ *
+ * All recommendation data comes from @knowledge-engine.
+ * All product/protocol/service details come from @knowledge.
  */
 
 import * as React from "react";
@@ -31,19 +31,31 @@ import {
   Loader2,
   RotateCcw,
   Wrench,
+  AlertTriangle,
   Zap,
+  Phone,
 } from "lucide-react";
 import { cn } from "@utils/cn";
 import { Badge, Button, Card, Heading, Text } from "@components/ui";
 import {
-  generateSimulatedReport,
+  extractContextFromText,
+  computeRecommendation,
+  confidenceToComplexity,
   ANALYSIS_STAGES,
-  EXAMPLE_QUERIES,
-  type SimulatedReport,
+  OVI_INTEGRATION_LINKS,
+  type OviRecommendation,
 } from "@features/ovi-ai/ovi-ai-engine";
+import { getProduct, getProtocol, getService, equipment as allEquipment } from "@knowledge";
 
-// Re-export for consumers that import from this module
-export type { SimulatedReport };
+// ─── Example queries ──────────────────────────────────────────────────────────
+
+const EXAMPLE_QUERIES = [
+  "Tengo una flota de 250 buses y quiero reducir el consumo de agua.",
+  "Necesito eliminar grasa industrial en una planta de alimentos.",
+  "Busco una solución para pisos de concreto con acumulación de sarro.",
+  "Necesito mejorar los protocolos de limpieza de un hospital.",
+  "Quiero reducir el consumo de productos químicos en planta de manufactura.",
+] as const;
 
 type WorkspaceState = "idle" | "analyzing" | "report";
 
@@ -80,8 +92,6 @@ function ExamplesCarousel({
           &ldquo;{EXAMPLE_QUERIES[activeIndex]}&rdquo;
         </motion.p>
       </AnimatePresence>
-
-      {/* Example dots */}
       <div className="mt-3 flex gap-1.5" role="tablist" aria-label="Ejemplos disponibles">
         {EXAMPLE_QUERIES.map((_, i) => (
           <button
@@ -113,9 +123,8 @@ function AnalyzingState({ stage }: { stage: string }) {
       className="flex flex-col items-center justify-center gap-6 py-16"
       role="status"
       aria-live="polite"
-      aria-label="Analizando su desafío"
+      aria-label="Consultando Knowledge Engine"
     >
-      {/* Animated ring */}
       <div className="relative flex items-center justify-center">
         <div
           className="absolute h-20 w-20 animate-ping rounded-full border-2 border-[var(--color-brand-primary)] opacity-20"
@@ -137,7 +146,7 @@ function AnalyzingState({ stage }: { stage: string }) {
 
       <div className="text-center">
         <Heading as="h3" size="lg" align="center">
-          OVI AI
+          OVI AI · Knowledge Engine
         </Heading>
         <AnimatePresence mode="wait">
           <motion.p
@@ -153,7 +162,6 @@ function AnalyzingState({ stage }: { stage: string }) {
         </AnimatePresence>
       </div>
 
-      {/* Progress bar */}
       <div
         className="h-0.5 w-48 overflow-hidden rounded-full bg-[var(--color-border-subtle)]"
         role="progressbar"
@@ -172,8 +180,8 @@ function AnalyzingState({ stage }: { stage: string }) {
   );
 }
 
-function ComplexityBadge({ level }: { level: SimulatedReport["complexityLevel"] }) {
-  const styles: Record<SimulatedReport["complexityLevel"], string> = {
+function ComplexityBadge({ level }: { level: ReturnType<typeof confidenceToComplexity> }) {
+  const styles: Record<ReturnType<typeof confidenceToComplexity>, string> = {
     Bajo: "bg-[rgba(0,255,133,0.1)] text-[var(--color-brand-accent)] border border-[rgba(0,255,133,0.3)]",
     Medio:
       "bg-[rgba(0,196,255,0.1)] text-[var(--color-brand-primary)] border border-[var(--color-border-brand)]",
@@ -238,7 +246,32 @@ function ReportSection({
   );
 }
 
-function EngineeringReport({ report, onReset }: { report: SimulatedReport; onReset: () => void }) {
+function EngineeringReport({
+  recommendation,
+  onReset,
+}: {
+  recommendation: OviRecommendation;
+  onReset: () => void;
+}) {
+  const product = recommendation.primaryProductId
+    ? getProduct(recommendation.primaryProductId)
+    : null;
+  const protocol = recommendation.protocolId ? getProtocol(recommendation.protocolId) : null;
+  const service = recommendation.serviceId ? getService(recommendation.serviceId) : null;
+
+  const complementaryProducts = recommendation.complementaryProductIds
+    .map((id) => getProduct(id))
+    .filter(Boolean);
+
+  const resolvedEquipment = recommendation.equipmentIds
+    .map((id) => allEquipment.find((e) => e.id === id))
+    .filter(Boolean);
+
+  const complexity = confidenceToComplexity(
+    recommendation.confidence,
+    recommendation.input.contaminationLevel,
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -269,8 +302,7 @@ function EngineeringReport({ report, onReset }: { report: SimulatedReport; onRes
               Informe de Ingeniería OVI AI
             </Text>
             <Text as="p" size="sm" textColor="secondary">
-              Diagnóstico preliminar —{" "}
-              <span className="font-medium text-[var(--color-brand-warning)]">DEMO</span>
+              Diagnóstico técnico — Knowledge Engine
             </Text>
           </div>
         </div>
@@ -291,138 +323,217 @@ function EngineeringReport({ report, onReset }: { report: SimulatedReport; onRes
 
       {/* Report grid */}
       <div className="grid gap-4 sm:grid-cols-2">
-        {/* Diagnóstico Inicial */}
+        {/* Diagnóstico */}
         <ReportSection
           icon={<Brain className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Diagnóstico Inicial"
+          title="Diagnóstico"
           delay={0.05}
         >
-          <Text size="sm">{report.diagnosisInitial}</Text>
-        </ReportSection>
-
-        {/* Industria Detectada */}
-        <ReportSection
-          icon={<Cpu className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Industria Detectada"
-          delay={0.1}
-        >
-          <Text size="sm" weight="semibold" textColor="primary">
-            {report.detectedIndustry}
-          </Text>
+          <Text size="sm">{recommendation.diagnosis}</Text>
         </ReportSection>
 
         {/* Nivel de Complejidad */}
         <ReportSection
           icon={<Zap className="h-4 w-4 text-[var(--color-brand-primary)]" />}
           title="Nivel de Complejidad"
+          delay={0.1}
+        >
+          <ComplexityBadge level={complexity} />
+        </ReportSection>
+
+        {/* Justificación Técnica */}
+        <ReportSection
+          icon={<Cpu className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+          title="Justificación Técnica"
           delay={0.15}
         >
-          <ComplexityBadge level={report.complexityLevel} />
+          <Text size="sm">{recommendation.technicalJustification}</Text>
         </ReportSection>
 
-        {/* Impacto Ambiental */}
+        {/* Protocolo Recomendado */}
         <ReportSection
-          icon={<Leaf className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Impacto Ambiental"
+          icon={<CheckCircle2 className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+          title="Protocolo Recomendado"
           delay={0.2}
         >
-          <Text size="sm">{report.environmentalImpact}</Text>
+          {protocol ? (
+            <div>
+              <Text size="sm" weight="semibold" textColor="primary">
+                {protocol.codigo} — {protocol.nombre}
+              </Text>
+              <Text size="sm" className="mt-1">
+                {protocol.descripcion}
+              </Text>
+            </div>
+          ) : (
+            <Text size="sm" textColor="secondary">
+              El equipo técnico de OVI diseñará el protocolo tras diagnóstico en sitio.
+            </Text>
+          )}
         </ReportSection>
 
-        {/* Servicios Recomendados */}
+        {/* Servicio Recomendado */}
         <ReportSection
           icon={<Wrench className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Servicios Recomendados"
+          title="Servicio Recomendado"
           delay={0.25}
         >
+          {service ? (
+            <div>
+              <Text size="sm" weight="semibold" textColor="primary">
+                {service.nombre}
+              </Text>
+              <Text size="sm" className="mt-1">
+                {service.descripcion}
+              </Text>
+            </div>
+          ) : (
+            <Text size="sm" textColor="secondary">
+              Solicitar diagnóstico técnico para determinar el servicio adecuado.
+            </Text>
+          )}
+        </ReportSection>
+
+        {/* Producto Principal */}
+        <ReportSection
+          icon={<FlaskConical className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+          title="Producto Principal"
+          delay={0.3}
+        >
+          {product ? (
+            <div>
+              <Text size="sm" weight="semibold" textColor="primary">
+                {product.nombre}
+              </Text>
+              <Text size="sm" className="mt-1">
+                {product.resumen}
+              </Text>
+            </div>
+          ) : (
+            <Text size="sm" textColor="secondary">
+              Se seleccionará el producto tras análisis de condiciones específicas.
+            </Text>
+          )}
+        </ReportSection>
+
+        {/* Productos Complementarios */}
+        {complementaryProducts.length > 0 && (
+          <ReportSection
+            icon={<Droplets className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+            title="Productos Complementarios"
+            delay={0.35}
+          >
+            <ul className="space-y-2">
+              {complementaryProducts.map(
+                (p) =>
+                  p && (
+                    <li key={p.id} className="flex items-start gap-2">
+                      <ChevronRight
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--color-brand-accent)]"
+                        aria-hidden="true"
+                      />
+                      <div>
+                        <Text size="sm" weight="semibold" textColor="primary">
+                          {p.nombre}
+                        </Text>
+                        <Text size="sm" className="text-[var(--color-text-tertiary)]">
+                          {p.resumen}
+                        </Text>
+                      </div>
+                    </li>
+                  ),
+              )}
+            </ul>
+          </ReportSection>
+        )}
+
+        {/* Beneficio Esperado */}
+        <ReportSection
+          icon={<Leaf className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+          title="Beneficio Esperado"
+          delay={0.4}
+        >
+          <Text size="sm">{recommendation.expectedBenefit}</Text>
+        </ReportSection>
+
+        {/* Buenas Prácticas / ¿Por qué? */}
+        <ReportSection
+          icon={<ArrowRight className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+          title="Buenas Prácticas"
+          delay={0.45}
+        >
           <ul className="space-y-2">
-            {report.recommendedServices.map((service) => (
-              <li key={service} className="flex items-start gap-2">
+            {recommendation.reasoning.benefitsGenerated.map((b) => (
+              <li key={b} className="flex items-start gap-2">
                 <CheckCircle2
                   className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--color-brand-accent)]"
                   aria-hidden="true"
                 />
-                <Text size="sm">{service}</Text>
+                <Text size="sm">{b}</Text>
               </li>
             ))}
           </ul>
         </ReportSection>
 
-        {/* Productos Potenciales */}
-        <ReportSection
-          icon={<FlaskConical className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Productos Potenciales"
-          delay={0.3}
-        >
-          <ul className="space-y-2">
-            {report.potentialProducts.map((product) => (
-              <li key={product} className="flex items-start gap-2">
-                <Droplets
-                  className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--color-brand-primary)]"
-                  aria-hidden="true"
-                />
-                <Text size="sm">{product}</Text>
-              </li>
-            ))}
-          </ul>
-        </ReportSection>
+        {/* Advertencias */}
+        {recommendation.reasoning.risksAvoided.length > 0 && (
+          <ReportSection
+            icon={<AlertTriangle className="h-4 w-4 text-[var(--color-brand-warning)]" />}
+            title="Advertencias"
+            delay={0.5}
+          >
+            <ul className="space-y-2">
+              {recommendation.reasoning.risksAvoided.map((r) => (
+                <li key={r} className="flex items-start gap-2">
+                  <span
+                    className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ background: "rgba(255,165,0,0.8)" }}
+                    aria-hidden="true"
+                  />
+                  <Text size="sm">{r}</Text>
+                </li>
+              ))}
+            </ul>
+          </ReportSection>
+        )}
 
-        {/* Protocolos Sugeridos */}
-        <ReportSection
-          icon={<CheckCircle2 className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Protocolos Sugeridos"
-          delay={0.35}
-        >
-          <ul className="space-y-2">
-            {report.suggestedProtocols.map((protocol) => (
-              <li key={protocol} className="flex items-start gap-2">
-                <ChevronRight
-                  className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--color-brand-accent)]"
-                  aria-hidden="true"
-                />
-                <Text size="sm" className="font-mono text-[var(--color-text-secondary)]">
-                  {protocol}
-                </Text>
-              </li>
-            ))}
-          </ul>
-        </ReportSection>
-
-        {/* Próximos Pasos */}
-        <ReportSection
-          icon={<ArrowRight className="h-4 w-4 text-[var(--color-brand-primary)]" />}
-          title="Próximos Pasos"
-          delay={0.4}
-        >
-          <ol className="space-y-2">
-            {report.nextSteps.map((step, i) => (
-              <li key={step} className="flex items-start gap-2">
-                <span
-                  className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-[var(--color-text-inverse)]"
-                  style={{ background: "var(--color-brand-primary)" }}
-                  aria-hidden="true"
-                >
-                  {i + 1}
-                </span>
-                <Text size="sm">{step}</Text>
-              </li>
-            ))}
-          </ol>
-        </ReportSection>
+        {/* Equipo Recomendado */}
+        {resolvedEquipment.length > 0 && (
+          <ReportSection
+            icon={<Wrench className="h-4 w-4 text-[var(--color-brand-primary)]" />}
+            title="Equipo Recomendado"
+            delay={0.55}
+          >
+            <ul className="space-y-2">
+              {resolvedEquipment.map(
+                (eq) =>
+                  eq && (
+                    <li key={eq.id} className="flex items-start gap-2">
+                      <ChevronRight
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--color-text-secondary)]"
+                        aria-hidden="true"
+                      />
+                      <Text size="sm">{eq.nombre}</Text>
+                    </li>
+                  ),
+              )}
+            </ul>
+          </ReportSection>
+        )}
       </div>
 
       {/* CTAs after report */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
         className="mt-8"
       >
         <Card
           variant="glow"
           padding="lg"
           className="border border-[rgba(0,196,255,0.2)]"
-          aria-label="Próximos pasos con OVI"
+          aria-label="Continuar con OVI"
         >
           <Text
             as="p"
@@ -430,45 +541,55 @@ function EngineeringReport({ report, onReset }: { report: SimulatedReport; onRes
             weight="semibold"
             className="tracking-wider text-[var(--color-brand-primary)] uppercase"
           >
-            ¿Listo para la solución real?
+            ¿Listo para la solución definitiva?
           </Text>
           <Heading as="h3" size="lg" className="mt-2">
-            Continúe con un experto OVI
+            Continúe con un Ingeniero OVI
           </Heading>
           <Text className="mt-2 max-w-xl">
-            Este diagnóstico es una aproximación preliminar. Un ingeniero OVI validará las
-            condiciones reales y diseñará el protocolo definitivo para su operación.
+            Este diagnóstico es un punto de partida técnico. Un ingeniero OVI validará las
+            condiciones reales, diseñará el protocolo definitivo e implementará la solución.
           </Text>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/contact">
+            <Link href={OVI_INTEGRATION_LINKS.technicalVisit}>
               <Button
                 variant="primary"
                 size="md"
                 rounded="default"
                 leftIcon={<CheckCircle2 size={16} aria-hidden="true" />}
               >
-                Solicitar Diagnóstico Profesional
+                Solicitar Visita Técnica
               </Button>
             </Link>
-            <Link href="/contact">
+            <Link href={OVI_INTEGRATION_LINKS.engineer}>
               <Button
                 variant="outline"
                 size="md"
                 rounded="default"
-                leftIcon={<Wrench size={16} aria-hidden="true" />}
+                leftIcon={<Phone size={16} aria-hidden="true" />}
               >
                 Hablar con un Ingeniero OVI
               </Button>
             </Link>
-            <Link href="/technology">
+            <Link href={OVI_INTEGRATION_LINKS.lab}>
+              <Button
+                variant="ghost"
+                size="md"
+                rounded="default"
+                leftIcon={<FlaskConical size={16} aria-hidden="true" />}
+              >
+                OVI Laboratorio de Soluciones
+              </Button>
+            </Link>
+            <Link href={OVI_INTEGRATION_LINKS.store}>
               <Button
                 variant="ghost"
                 size="md"
                 rounded="default"
                 leftIcon={<Cpu size={16} aria-hidden="true" />}
               >
-                Conocer OVI OS
+                OVI Catálogo Técnico
               </Button>
             </Link>
           </div>
@@ -487,7 +608,7 @@ export function OviAiWorkspace() {
   const [inputValue, setInputValue] = React.useState("");
   const [activeExampleIndex, setActiveExampleIndex] = React.useState(0);
   const [analysisStage, setAnalysisStage] = React.useState<string>(ANALYSIS_STAGES[0]);
-  const [report, setReport] = React.useState<SimulatedReport | null>(null);
+  const [recommendation, setRecommendation] = React.useState<OviRecommendation | null>(null);
   const [showExamples, setShowExamples] = React.useState(false);
 
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -502,7 +623,6 @@ export function OviAiWorkspace() {
     return () => clearInterval(interval);
   }, [workspaceState]);
 
-  // Auto-resize textarea
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     e.target.style.height = "auto";
@@ -515,7 +635,6 @@ export function OviAiWorkspace() {
 
     setWorkspaceState("analyzing");
 
-    // Cycle through analysis stages
     let stageIndex = 0;
     const stageInterval = setInterval(() => {
       stageIndex += 1;
@@ -524,14 +643,14 @@ export function OviAiWorkspace() {
       }
     }, 500);
 
-    // After analysis completes, show report
     setTimeout(() => {
       clearInterval(stageInterval);
-      const generatedReport = generateSimulatedReport(trimmed);
-      setReport(generatedReport);
+      // Extract context from text and call the Knowledge Engine
+      const context = extractContextFromText(trimmed);
+      const rec = computeRecommendation(context);
+      setRecommendation(rec);
       setWorkspaceState("report");
 
-      // Scroll to report
       if (!prefersReducedMotion) {
         setTimeout(() => {
           reportRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -543,7 +662,7 @@ export function OviAiWorkspace() {
   const handleReset = () => {
     setWorkspaceState("idle");
     setInputValue("");
-    setReport(null);
+    setRecommendation(null);
     setAnalysisStage(ANALYSIS_STAGES[0]);
     setShowExamples(false);
     setTimeout(() => textareaRef.current?.focus(), 100);
@@ -562,7 +681,6 @@ export function OviAiWorkspace() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Ctrl/Cmd + Enter submits
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       e.preventDefault();
       handleAnalyze();
@@ -573,20 +691,20 @@ export function OviAiWorkspace() {
 
   return (
     <div className="w-full">
-      {/* Engineering approach indicator */}
+      {/* Engineering flow indicator */}
       <div
         className="mb-10 flex items-center justify-center"
-        aria-label="Metodología de ingeniería OVI"
+        aria-label="Flujo de diagnóstico OVI AI"
       >
         <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-[var(--color-text-tertiary)]">
           {[
-            "Problema",
-            "Análisis",
-            "Ingeniería",
-            "Protocolo",
-            "Productos",
-            "Servicios",
-            "Implementación",
+            "Industria",
+            "Activo",
+            "Material",
+            "Contaminante",
+            "Objetivo",
+            "Knowledge Engine",
+            "Diagnóstico",
           ].map((step, i, arr) => (
             <React.Fragment key={step}>
               <span className="hidden sm:inline">{step}</span>
@@ -609,7 +727,6 @@ export function OviAiWorkspace() {
         className="overflow-visible border border-[var(--color-border-brand)] shadow-[var(--shadow-glow-primary)]"
       >
         <div className="p-6 sm:p-8 lg:p-10">
-          {/* Input section */}
           <AnimatePresence mode="wait">
             {workspaceState === "idle" && (
               <motion.div
@@ -619,7 +736,6 @@ export function OviAiWorkspace() {
                 exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Input label */}
                 <label
                   htmlFor="ovi-ai-input"
                   className="mb-3 block text-sm font-medium text-[var(--color-text-secondary)]"
@@ -627,7 +743,6 @@ export function OviAiWorkspace() {
                   Describa su desafío operacional
                 </label>
 
-                {/* Textarea */}
                 <div className="relative">
                   <textarea
                     ref={textareaRef}
@@ -635,7 +750,7 @@ export function OviAiWorkspace() {
                     value={inputValue}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    placeholder="Describa aquí el desafío de limpieza que desea resolver..."
+                    placeholder="Describa aquí el desafío de limpieza que desea resolver — industria, tipo de activo, contaminante, objetivos..."
                     rows={5}
                     className={cn(
                       "w-full resize-none rounded-xl",
@@ -652,7 +767,6 @@ export function OviAiWorkspace() {
                     aria-label="Describe tu desafío de limpieza"
                     aria-describedby="ovi-ai-hint"
                   />
-                  {/* Character hint */}
                   {inputValue.length > 0 && (
                     <span className="absolute right-4 bottom-3 text-xs text-[var(--color-text-tertiary)]">
                       {inputValue.length} caracteres
@@ -660,12 +774,10 @@ export function OviAiWorkspace() {
                   )}
                 </div>
 
-                {/* Hint */}
                 <p id="ovi-ai-hint" className="mt-2 text-xs text-[var(--color-text-tertiary)]">
                   Presione Ctrl+Enter para analizar rápidamente.
                 </p>
 
-                {/* Actions row */}
                 <div className="mt-5 flex flex-wrap items-center gap-3">
                   <Button
                     variant="primary"
@@ -687,7 +799,7 @@ export function OviAiWorkspace() {
                     )}
                     aria-label="Analizar desafío de limpieza"
                   >
-                    Analizar desafío
+                    Analizar con OVI AI
                   </Button>
 
                   <Button
@@ -703,7 +815,6 @@ export function OviAiWorkspace() {
                   </Button>
                 </div>
 
-                {/* Rotating example / examples panel */}
                 <div className="mt-6 border-t border-[var(--color-border-subtle)] pt-5">
                   <AnimatePresence mode="wait">
                     {!showExamples ? (
@@ -777,7 +888,6 @@ export function OviAiWorkspace() {
               </motion.div>
             )}
 
-            {/* Analyzing state */}
             {workspaceState === "analyzing" && (
               <motion.div
                 key="analyzing"
@@ -789,8 +899,7 @@ export function OviAiWorkspace() {
               </motion.div>
             )}
 
-            {/* Report state */}
-            {workspaceState === "report" && report && (
+            {workspaceState === "report" && recommendation && (
               <motion.div
                 key="report"
                 ref={reportRef}
@@ -798,29 +907,12 @@ export function OviAiWorkspace() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
               >
-                <EngineeringReport report={report} onReset={handleReset} />
+                <EngineeringReport recommendation={recommendation} onReset={handleReset} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </Card>
-
-      {/* Demo disclaimer */}
-      <motion.div
-        initial={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-4 flex items-center justify-center gap-2"
-        role="note"
-        aria-label="Nota sobre modo demostración"
-      >
-        <Badge variant="default" size="sm">
-          DEMO
-        </Badge>
-        <Text size="xs" textColor="secondary">
-          Esta es una simulación. OVI AI real utilizará inteligencia artificial conectada.
-        </Text>
-      </motion.div>
     </div>
   );
 }

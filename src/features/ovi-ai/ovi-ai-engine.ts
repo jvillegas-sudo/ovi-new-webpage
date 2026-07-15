@@ -1,239 +1,367 @@
 /**
  * OVI AI — Engine
- * Experience Order 004
+ * Work Order 006
  *
- * Shared types and simulated report generator.
- * No LLM connected — produces DEMO diagnostic reports via keyword matching.
- * Architecture is ready for real AI integration.
+ * Conversational diagnostic engine for OVI AI — Digital Cleaning Engineer.
+ * All recommendations are derived from the Knowledge Engine — no hardcoded responses.
+ *
+ * Architecture:
+ *   - Conversational types: OviChatMessage, OviChatOption
+ *   - ConversationEngine: builds diagnostic flow from the decision tree
+ *   - ContextExtractor: maps free text to OviDecisionInput (keyword matching)
+ *   - Recommendation: fully delegated to @knowledge-engine
+ *
+ * Future extension hooks (add implementations here when ready):
+ *   - Voice:     extractContextFromTranscript(transcript: string)
+ *   - Images:    extractContextFromImageAnalysis(analysis: ImageAnalysis)
+ *   - Documents: extractContextFromDocument(doc: ParsedDocument)
+ *   - i18n:      locale-aware question/option labels
  */
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+import {
+  decisionTree,
+  getEntryNode,
+  getDecisionNode,
+  generateRecommendation,
+} from "@knowledge-engine";
+import type { OviDecisionInput, OviDecisionNode, OviRecommendation } from "@knowledge-engine";
 
-export interface SimulatedReport {
-  diagnosisInitial: string;
-  detectedIndustry: string;
-  complexityLevel: "Bajo" | "Medio" | "Alto" | "Crítico";
-  recommendedServices: string[];
-  potentialProducts: string[];
-  suggestedProtocols: string[];
-  environmentalImpact: string;
-  nextSteps: string[];
-}
+// ─── Chat types ───────────────────────────────────────────────────────────────
 
-export interface ConversationTurn {
+export interface OviChatMessage {
   id: string;
-  query: string;
-  report: SimulatedReport;
+  role: "assistant" | "user";
+  content: string;
+  /** Quick-select options for structured diagnostic questions */
+  options?: OviChatOption[];
   timestamp: number;
 }
+
+export interface OviChatOption {
+  label: string;
+  value: string;
+  /** Which OviDecisionInput field this option populates */
+  field: keyof OviDecisionInput;
+  hint?: string;
+  /** Multi-select for array fields (environmentalRestrictions) */
+  multiple?: boolean;
+}
+
+// Re-export for consumer convenience
+export type { OviDecisionInput, OviRecommendation };
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 export const ANALYSIS_STAGES = [
   "Analizando contexto operacional...",
-  "Identificando industria y variables...",
-  "Evaluando nivel de complejidad...",
+  "Consultando Knowledge Engine...",
+  "Evaluando compatibilidad de productos...",
   "Generando diagnóstico de ingeniería...",
-  "Compilando recomendaciones...",
+  "Compilando recomendaciones técnicas...",
 ] as const;
 
 export type AnalysisStage = (typeof ANALYSIS_STAGES)[number];
 
-export const EXAMPLE_QUERIES = [
-  "Tengo una flota de 250 buses y quiero reducir el consumo de agua.",
-  "Necesito eliminar grasa industrial en una planta de alimentos.",
-  "Busco una solución para pisos de alto tráfico.",
-  "Necesito mejorar los protocolos de limpieza de un hospital.",
-  "Quiero reducir el consumo de productos químicos.",
-] as const;
+/**
+ * OVI AI first message — Work Order 006 specification.
+ */
+export const OVI_GREETING =
+  "Hola, soy OVI AI.\n\nEstoy aquí para ayudarte a diagnosticar un desafío de Ingeniería en Limpieza.\n\nCuéntame qué activo deseas intervenir o qué problema estás enfrentando.";
 
-// ─── Report generator ─────────────────────────────────────────────────────────
+/**
+ * OVI ecosystem integration paths.
+ */
+export const OVI_INTEGRATION_LINKS = {
+  lab: "/solution-lab",
+  store: "/store",
+  technicalVisit: "/contact",
+  engineer: "/contact",
+} as const;
 
-export function generateSimulatedReport(input: string): SimulatedReport {
-  const lowerInput = input.toLowerCase();
+// ─── Conversational Engine ────────────────────────────────────────────────────
 
-  const isFleet =
-    lowerInput.includes("flota") ||
-    lowerInput.includes("bus") ||
-    lowerInput.includes("transporte") ||
-    lowerInput.includes("vehículo");
-
-  const isFood =
-    lowerInput.includes("alimentos") ||
-    lowerInput.includes("grasa") ||
-    lowerInput.includes("planta") ||
-    lowerInput.includes("cocina");
-
-  const isHospital =
-    lowerInput.includes("hospital") ||
-    lowerInput.includes("clínica") ||
-    lowerInput.includes("salud") ||
-    lowerInput.includes("médico");
-
-  const isFloor =
-    lowerInput.includes("piso") || lowerInput.includes("suelo") || lowerInput.includes("tráfico");
-
-  if (isFleet) {
-    return {
-      diagnosisInitial:
-        "[DEMO] Operación de flota vehicular con requerimientos de limpieza técnica. Se identifica necesidad de optimización de consumo hídrico, tiempo de ciclo y estandarización de protocolos por unidad.",
-      detectedIndustry: "Transporte y Logística — Flota Vehicular",
-      complexityLevel: "Alto",
-      recommendedServices: [
-        "Diagnóstico técnico de consumo hídrico por unidad",
-        "Diseño de protocolo de lavado estandarizado",
-        "Implementación de sistema de lavado de bajo consumo",
-        "Capacitación operativa al equipo de limpieza",
-      ],
-      potentialProducts: [
-        "Detergente biodegradable de alta dilución para flota",
-        "Desengrasante alcalino concentrado para chasis",
-        "Cera protectora de efecto prolongado",
-      ],
-      suggestedProtocols: [
-        "Protocolo P-001: Lavado exterior de bajo consumo (≤ 40L/unidad)",
-        "Protocolo P-002: Limpieza de interior y desinfección",
-        "Protocolo P-003: Control de calidad por ciclo",
-      ],
-      environmentalImpact:
-        "[DEMO] Reducción estimada del 40–60% en consumo hídrico con implementación de protocolo estándar. Menor carga química en aguas residuales con formulaciones biodegradables.",
-      nextSteps: [
-        "Auditoría de consumo actual de agua y productos",
-        "Visita técnica a instalaciones de lavado",
-        "Propuesta de protocolo personalizado",
-        "Piloto con 10 unidades para validación",
-      ],
-    };
-  }
-
-  if (isFood) {
-    return {
-      diagnosisInitial:
-        "[DEMO] Entorno de industria alimentaria con presencia de grasas y residuos orgánicos de alta adherencia. Requiere soluciones con validación alimentaria (food-grade) y protocolos HACCP compatibles.",
-      detectedIndustry: "Industria Alimentaria — Procesamiento",
-      complexityLevel: "Crítico",
-      recommendedServices: [
-        "Diagnóstico de puntos críticos de contaminación",
-        "Diseño de plan de limpieza y desinfección HACCP",
-        "Implementación con personal técnico certificado",
-        "Auditorías periódicas de cumplimiento",
-      ],
-      potentialProducts: [
-        "Desengrasante alcalino food-grade de alta eficacia",
-        "Desinfectante de superficies en contacto con alimentos",
-        "Limpiador de pisos industriales con inhibidor de biofilm",
-      ],
-      suggestedProtocols: [
-        "Protocolo P-010: Limpieza CIP de superficies de contacto",
-        "Protocolo P-011: Desengrase de campanas y ductos",
-        "Protocolo P-012: Desinfección y validación microbiológica",
-      ],
-      environmentalImpact:
-        "[DEMO] Formulaciones biodegradables reducen carga orgánica en efluentes industriales. Compatible con sistemas de tratamiento de aguas residuales alimentarias.",
-      nextSteps: [
-        "Evaluación de superficies y equipos involucrados",
-        "Análisis de carga de grasa por zona",
-        "Selección de agentes de limpieza certificados",
-        "Implementación con protocolo documentado",
-      ],
-    };
-  }
-
-  if (isHospital) {
-    return {
-      diagnosisInitial:
-        "[DEMO] Infraestructura hospitalaria con requerimientos de desinfección de alto nivel. Áreas críticas con riesgo biológico requieren protocolos diferenciados por zona y nivel de asepsia.",
-      detectedIndustry: "Salud — Infraestructura Hospitalaria",
-      complexityLevel: "Crítico",
-      recommendedServices: [
-        "Diagnóstico de zonas críticas y clasificación de áreas",
-        "Diseño de protocolos diferenciados por nivel de asepsia",
-        "Capacitación de personal en manejo de productos biocidas",
-        "Sistema de trazabilidad y registro de limpiezas",
-      ],
-      potentialProducts: [
-        "Desinfectante de superficie de amplio espectro",
-        "Limpiador enzimático para áreas de procedimientos",
-        "Producto de limpieza con acción bactericida certificada",
-      ],
-      suggestedProtocols: [
-        "Protocolo H-001: Limpieza y desinfección de área crítica",
-        "Protocolo H-002: Manejo de residuos hospitalarios",
-        "Protocolo H-003: Control de infecciones asociadas al entorno",
-      ],
-      environmentalImpact:
-        "[DEMO] Uso técnico de biocidas reduce sobreuso y resistencia. Gestión adecuada minimiza impacto de efluentes hospitalarios.",
-      nextSteps: [
-        "Mapeo de áreas y clasificación por riesgo",
-        "Evaluación de productos actualmente en uso",
-        "Propuesta de sustitución y protocolo integrado",
-        "Implementación con seguimiento técnico",
-      ],
-    };
-  }
-
-  if (isFloor) {
-    return {
-      diagnosisInitial:
-        "[DEMO] Superficie de alto tráfico con acumulación de suciedad incrustada y desgaste acelerado de acabado. Requiere plan de mantenimiento preventivo y soluciones de restauración.",
-      detectedIndustry: "Infraestructura — Pisos de Alto Tráfico",
-      complexityLevel: "Medio",
-      recommendedServices: [
-        "Evaluación del tipo de piso y nivel de deterioro",
-        "Limpieza profunda y restauración de acabado",
-        "Diseño de protocolo de mantenimiento preventivo",
-        "Aplicación de protector de superficie de larga duración",
-      ],
-      potentialProducts: [
-        "Limpiador alcalino para pisos industriales",
-        "Sellador polimérico para pisos de concreto",
-        "Producto de mantenimiento diario de bajo impacto",
-      ],
-      suggestedProtocols: [
-        "Protocolo F-001: Limpieza profunda trimestral",
-        "Protocolo F-002: Mantenimiento preventivo diario",
-        "Protocolo F-003: Restauración y protección anual",
-      ],
-      environmentalImpact:
-        "[DEMO] Productos de bajo VOC reducen contaminación del aire interior. Menor frecuencia de intervención con mantenimiento preventivo correcto.",
-      nextSteps: [
-        "Inspección técnica de pisos y medición de deterioro",
-        "Prueba de productos en área representativa",
-        "Propuesta de plan de mantenimiento anual",
-        "Implementación por fases",
-      ],
-    };
-  }
-
-  // Generic fallback
+/**
+ * Build an assistant chat message from a decision tree node.
+ * The message contains the question as content and the node options as quick-select buttons.
+ */
+export function buildMessageFromNode(node: OviDecisionNode): OviChatMessage {
+  const isMultiSelect = node.field === "environmentalRestrictions";
   return {
-    diagnosisInitial:
-      "[DEMO] Desafío operacional de limpieza identificado. Se requiere análisis de condiciones específicas del entorno para diseñar una solución de ingeniería precisa y eficiente.",
-    detectedIndustry: "Operación Industrial — Análisis en Progreso",
-    complexityLevel: "Medio",
-    recommendedServices: [
-      "Diagnóstico técnico inicial del entorno operativo",
-      "Diseño de protocolo de limpieza personalizado",
-      "Selección de productos especializados por aplicación",
-      "Implementación supervisada con control de resultados",
-    ],
-    potentialProducts: [
-      "Línea de limpieza industrial de alto desempeño",
-      "Desinfectantes y biocidas de amplio espectro",
-      "Productos de mantenimiento preventivo",
-    ],
-    suggestedProtocols: [
-      "Protocolo G-001: Diagnóstico y evaluación inicial",
-      "Protocolo G-002: Limpieza técnica estándar",
-      "Protocolo G-003: Control de calidad y verificación",
-    ],
-    environmentalImpact:
-      "[DEMO] Formulaciones biodegradables y uso técnico de insumos reducen impacto ambiental. Optimización de recursos hídricos y químicos por ciclo de operación.",
-    nextSteps: [
-      "Reunión técnica para análisis de condiciones",
-      "Propuesta de solución personalizada",
-      "Piloto controlado de implementación",
-      "Evaluación de resultados y ajuste",
-    ],
+    id: `msg-${node.id}-${Date.now()}`,
+    role: "assistant",
+    content: node.question,
+    options: node.options.map((opt) => ({
+      label: opt.label,
+      value: opt.value,
+      field: node.field as keyof OviDecisionInput,
+      hint: opt.hint,
+      multiple: isMultiSelect,
+    })),
+    timestamp: Date.now(),
   };
 }
+
+/**
+ * Returns the next unanswered decision tree node given the accumulated context.
+ * Traverses nodes in step order; skips steps whose field is already populated.
+ * Returns null when all steps are answered or the flow is complete.
+ */
+export function getNextDiagnosticNode(
+  context: OviDecisionInput,
+  currentStep: number,
+): OviDecisionNode | null {
+  const ordered = [...decisionTree].sort((a, b) => a.step - b.step);
+  for (const node of ordered) {
+    if (node.step <= currentStep) continue;
+    const value = context[node.field as keyof OviDecisionInput];
+    const answered =
+      value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true);
+    if (!answered) return node;
+  }
+  return null;
+}
+
+/**
+ * Build the next assistant question message for the diagnostic flow.
+ * Returns null when the flow is complete (no more unanswered steps).
+ */
+export function buildNextQuestionMessage(
+  context: OviDecisionInput,
+  currentStep: number,
+): { step: number; message: OviChatMessage } | null {
+  const nextNode = getNextDiagnosticNode(context, currentStep);
+  if (!nextNode) return null;
+  return {
+    step: nextNode.step,
+    message: buildMessageFromNode(nextNode),
+  };
+}
+
+/**
+ * Returns the entry node (step 1 — Industria) wrapped as a chat message.
+ */
+export function buildGreetingWithFirstQuestion(): OviChatMessage {
+  const entry = getEntryNode();
+  return buildMessageFromNode(entry);
+}
+
+/**
+ * Determine whether the context is sufficient for a confident recommendation.
+ * Minimum: industryId + contaminationId (two dimensions).
+ */
+export function hasSufficientContext(context: OviDecisionInput): boolean {
+  return !!(context.industryId && context.contaminationId);
+}
+
+// ─── Context Extractor ────────────────────────────────────────────────────────
+
+/**
+ * Extract OviDecisionInput fields from a free-text description.
+ * Uses keyword matching — no LLM required.
+ *
+ * EXTENSION POINT: Replace or augment with LLM extraction when available.
+ */
+export function extractContextFromText(text: string): Partial<OviDecisionInput> {
+  const t = text.toLowerCase();
+  const ctx: Partial<OviDecisionInput> = {};
+
+  // ── Industry ────────────────────────────────────────────────────────────────
+  if (
+    has(t, [
+      "transporte",
+      "bus",
+      "flota",
+      "camión",
+      "camion",
+      "logístic",
+      "logistic",
+      "vehículo",
+      "vehiculo",
+    ])
+  ) {
+    ctx.industryId = "transporte";
+  } else if (
+    has(t, ["hospital", "clínica", "clinica", "salud", "médico", "medico", "quiróf", "asepsia"])
+  ) {
+    ctx.industryId = "hospitales";
+  } else if (
+    has(t, [
+      "aliment",
+      "comida",
+      "food",
+      "haccp",
+      "cocina industrial",
+      "planta de alimentos",
+      "inocuidad",
+    ])
+  ) {
+    ctx.industryId = "alimentos";
+  } else if (
+    has(t, [
+      "industria",
+      "manufactura",
+      "manufactu",
+      "fábrica",
+      "fabrica",
+      "producción",
+      "produccion",
+      "planta industrial",
+    ])
+  ) {
+    ctx.industryId = "industria";
+  } else if (
+    has(t, ["energía", "energia", "generadora", "transmisión", "eléctric", "subestación", "subest"])
+  ) {
+    ctx.industryId = "energia";
+  } else if (
+    has(t, [
+      "universidad",
+      "colegio",
+      "corporativo",
+      "edificio",
+      "oficina",
+      "centro comercial",
+      "aeropuerto",
+    ])
+  ) {
+    ctx.industryId = "institucional";
+  } else if (has(t, ["retail", "tienda", "comercio", "supermercado", "minimarket"])) {
+    ctx.industryId = "retail";
+  }
+
+  // ── Contamination ───────────────────────────────────────────────────────────
+  if (has(t, ["grasa", "grease", "hidrocarburo"])) {
+    ctx.contaminationId = "grasa-pesada";
+  } else if (has(t, ["aceite", "oil"])) {
+    ctx.contaminationId = "aceite";
+  } else if (has(t, ["biofilm", "bacteria", "microbi", "biopelícula", "biopelicula"])) {
+    ctx.contaminationId = "biofilm";
+  } else if (has(t, ["óxido", "oxido", "herrumb", "corrosión", "corrosion", "rust"])) {
+    ctx.contaminationId = "oxido";
+  } else if (has(t, ["carbonilla", "hollín", "hollin", "soot", "hollín"])) {
+    ctx.contaminationId = "carbonilla";
+  } else if (has(t, ["sarro", "calcár", "calcio", "limescale", "incrustac"])) {
+    ctx.contaminationId = "sarro";
+  } else if (has(t, ["lodo", "barro", "sedimento", "mud", "sludge"])) {
+    ctx.contaminationId = "lodo";
+  } else if (has(t, ["polvo industrial", "partícula", "particula", "dust"])) {
+    ctx.contaminationId = "polvo-industrial";
+  } else if (has(t, ["orgánico", "organico", "residuo orgánico", "proteína", "proteina"])) {
+    ctx.contaminationId = "residuos-organicos";
+  } else if (has(t, ["químico", "quimico", "solvente", "residuo químico", "contaminante quim"])) {
+    ctx.contaminationId = "residuos-quimicos";
+  }
+
+  // ── Surface ─────────────────────────────────────────────────────────────────
+  if (has(t, ["acero inox", "stainless", "inoxidable"])) {
+    ctx.surfaceId = "acero-inoxidable";
+  } else if (has(t, ["aluminio", "aluminum", "alumini"])) {
+    ctx.surfaceId = "aluminio";
+  } else if (has(t, ["vidrio", "glass", "cristal"])) {
+    ctx.surfaceId = "vidrio";
+  } else if (has(t, ["concreto", "cemento", "hormigón", "hormigon", "concrete"])) {
+    ctx.surfaceId = "concreto";
+  } else if (has(t, ["pintura automotriz", "carrocería", "carroceria"])) {
+    ctx.surfaceId = "pintura-automotriz";
+  } else if (has(t, ["caucho", "goma", "rubber"])) {
+    ctx.surfaceId = "caucho";
+  } else if (has(t, ["plástico", "plastico", "pvc", "polimer"])) {
+    ctx.surfaceId = "pvc";
+  } else if (has(t, ["cerámica", "ceramica", "ceramic"])) {
+    ctx.surfaceId = "ceramica";
+  }
+
+  // ── Contamination level ──────────────────────────────────────────────────────
+  if (has(t, ["crítico", "critico", "extremo", "muy alto", "emergencia"])) {
+    ctx.contaminationLevel = "crítico";
+  } else if (has(t, ["severo", "severo", "intenso", "alta contaminación", "mucho"])) {
+    ctx.contaminationLevel = "severo";
+  } else if (has(t, ["moderado", "medio", "regular", "notable"])) {
+    ctx.contaminationLevel = "moderado";
+  } else if (has(t, ["leve", "poco", "mínimo", "minimo", "bajo"])) {
+    ctx.contaminationLevel = "leve";
+  }
+
+  // ── Client goal ──────────────────────────────────────────────────────────────
+  if (has(t, ["reducir agua", "consumo de agua", "ahorro de agua", "menos agua"])) {
+    ctx.clientGoal = "reducir-consumo-agua";
+  } else if (has(t, ["haccp", "inocuidad", "normativa", "cumplimiento"])) {
+    ctx.clientGoal = "cumplir-normativa-haccp";
+  } else if (has(t, ["biofilm", "desinfect", "sanitiz"])) {
+    ctx.clientGoal = "eliminar-biofilm";
+  } else if (has(t, ["preventivo", "mantenimiento preventivo", "prevención"])) {
+    ctx.clientGoal = "mantenimiento-preventivo";
+  } else if (has(t, ["impermeabiliz", "sellar sello impermeabl"])) {
+    ctx.clientGoal = "impermeabilizacion";
+  } else if (has(t, ["auditoría", "auditoria", "trazabilidad"])) {
+    ctx.clientGoal = "trazabilidad-auditoria";
+  } else if (has(t, ["tiempo de ciclo", "reducir tiempo", "más rápido", "mas rapido"])) {
+    ctx.clientGoal = "reducir-tiempo-ciclo";
+  } else if (has(t, ["proteger superficie", "protección superfici"])) {
+    ctx.clientGoal = "proteger-superficie";
+  } else if (has(t, ["minimizar químico", "menos químico", "carga química"])) {
+    ctx.clientGoal = "minimizar-carga-quimica";
+  }
+
+  // ── Environmental restrictions ───────────────────────────────────────────────
+  const restrictions: NonNullable<OviDecisionInput["environmentalRestrictions"]> = [];
+  if (has(t, ["contacto con alimento", "food-grade", "food grade", "zona de alimento"])) {
+    restrictions.push("zona-alimentaria");
+  }
+  if (has(t, ["zona hospitalaria", "área hospitalaria", "area hospitalaria"])) {
+    restrictions.push("zona-hospitalaria");
+  }
+  if (has(t, ["biodegradable", "verde", "ecológico", "sostenible", "sustentable"])) {
+    restrictions.push("biodegradable-requerido");
+  }
+  if (has(t, ["eléctrico", "electrico", "voltaje", "riesgo eléctrico", "electr"])) {
+    restrictions.push("riesgo-electrico");
+  }
+  if (has(t, ["sin solvente clorado", "sin cloro", "no cloro"])) {
+    restrictions.push("sin-solventes-clorados");
+  }
+  if (restrictions.length > 0) {
+    ctx.environmentalRestrictions = restrictions;
+  }
+
+  return ctx;
+}
+
+/** Utility: returns true if the text contains at least one of the given terms. */
+function has(text: string, terms: string[]): boolean {
+  return terms.some((term) => text.includes(term));
+}
+
+// ─── Recommendation ───────────────────────────────────────────────────────────
+
+/**
+ * Compute a full OVI recommendation from the diagnostic context.
+ * Delegates entirely to the Knowledge Engine — no hardcoded responses.
+ *
+ * @param context - Accumulated OviDecisionInput from the diagnostic conversation.
+ * @returns OviRecommendation with diagnosis, protocol, service, products, reasoning.
+ */
+export function computeRecommendation(context: OviDecisionInput): OviRecommendation {
+  return generateRecommendation(context);
+}
+
+// ─── Complexity mapping ───────────────────────────────────────────────────────
+
+/**
+ * Map recommendation confidence to a display complexity label.
+ * Used for visual badges in the report view.
+ */
+export function confidenceToComplexity(
+  confidence: OviRecommendation["confidence"],
+  contaminationLevel?: OviDecisionInput["contaminationLevel"],
+): "Bajo" | "Medio" | "Alto" | "Crítico" {
+  if (contaminationLevel === "crítico") return "Crítico";
+  if (contaminationLevel === "severo") return "Alto";
+  if (confidence === "alta") return "Alto";
+  if (confidence === "media") return "Medio";
+  return "Bajo";
+}
+
+// ─── Node accessor ────────────────────────────────────────────────────────────
+
+export { getDecisionNode };

@@ -2,48 +2,73 @@
 
 /**
  * OVI AI — Holographic Companion
- * Experience Order 004
+ * Work Order 006
  *
- * Persistent holographic AI companion that lives inside the OVI universe.
- * NOT a chatbot widget. NOT a chat window.
+ * Persistent holographic companion that conducts step-by-step cleaning
+ * engineering diagnostics and delivers Knowledge Engine recommendations.
  *
- * Visual identity:
+ * NOT a chatbot. NOT a generic AI. NOT a product recommender.
+ * OVI AI is a Digital Cleaning Engineer — precise, professional, consultive.
+ *
+ * Diagnostic flow:
+ *   Industria → Activo → Zona → Material → Tipo de suciedad →
+ *   Nivel → Objetivo → Restricciones → Knowledge Engine → Diagnóstico
+ *
+ * Visual identity (preserved from WO-004):
  *   - Energy orb: pulsing radial-gradient sphere with animated rings
  *   - Holographic panel: corner brackets, scan line, mono-font readouts
- *   - Responds as a consulting engineer, never as a chatbot
+ *   - Conversational message bubbles replace the single-query input
  *
- * Session memory:
- *   - Remembers detected industry, last report, and conversation turns
- *   - Does not re-ask for context already known
- *
- * Architecture note:
- *   - No LLM connected — uses generateSimulatedReport() for DEMO mode
- *   - Designed for future voice, image analysis, and OVI OS integration
+ * Future extension hooks:
+ *   - Voice input: connect to extractContextFromTranscript()
+ *   - Image analysis: connect to extractContextFromImageAnalysis()
+ *   - Document upload: connect to extractContextFromDocument()
+ *   - Multi-language: pass locale to buildMessageFromNode()
  */
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { X, ChevronRight, RotateCcw, ArrowRight } from "lucide-react";
+import {
+  X,
+  RotateCcw,
+  ArrowRight,
+  ChevronRight,
+  Send,
+  FlaskConical,
+  Wrench,
+  Phone,
+} from "lucide-react";
 import { cn } from "@utils/cn";
 import { useOviAiStore } from "@store/ovi-ai.store";
 import {
-  generateSimulatedReport,
+  OVI_GREETING,
+  OVI_INTEGRATION_LINKS,
   ANALYSIS_STAGES,
-  EXAMPLE_QUERIES,
-  type SimulatedReport,
+  buildGreetingWithFirstQuestion,
+  buildNextQuestionMessage,
+  hasSufficientContext,
+  computeRecommendation,
+  extractContextFromText,
+  confidenceToComplexity,
+  type OviChatMessage,
+  type OviChatOption,
+  type OviDecisionInput,
+  type OviRecommendation,
 } from "@features/ovi-ai/ovi-ai-engine";
+import { getProduct, getProtocol, getService } from "@knowledge";
 
 // ─── Energy Orb ───────────────────────────────────────────────────────────────
 
 function EnergyOrb({
   isOpen,
   isAnalyzing,
-  hasTurns,
+  hasMessages,
   onClick,
 }: {
   isOpen: boolean;
   isAnalyzing: boolean;
-  hasTurns: boolean;
+  hasMessages: boolean;
   onClick: () => void;
 }) {
   const prefersReducedMotion = useReducedMotion();
@@ -55,7 +80,7 @@ function EnergyOrb({
       aria-expanded={isOpen}
       className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-primary)]"
     >
-      {/* Outer pulse rings — visible when not open */}
+      {/* Outer pulse rings */}
       {!isOpen && !prefersReducedMotion && (
         <>
           <motion.span
@@ -153,7 +178,7 @@ function EnergyOrb({
       </motion.span>
 
       {/* Session active dot */}
-      {hasTurns && !isOpen && (
+      {hasMessages && !isOpen && (
         <span
           className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full"
           style={{
@@ -185,57 +210,6 @@ function ScanLine({ active }: { active: boolean }) {
   );
 }
 
-// ─── Welcome view ─────────────────────────────────────────────────────────────
-
-function WelcomeView({
-  industry,
-  onSelectExample,
-}: {
-  industry: string | null;
-  onSelectExample: (q: string) => void;
-}) {
-  return (
-    <div className="space-y-5">
-      {/* Greeting — consultant, not chatbot */}
-      <div>
-        <p className="font-mono text-[9px] tracking-[0.22em] text-[var(--color-brand-primary)] uppercase">
-          OVI AI · INGENIERO DIGITAL
-        </p>
-        <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-primary)]">
-          {industry
-            ? `Continuando con su operación en ${industry}. ¿Qué desafío desea resolver?`
-            : "¿Qué desafío operativo desea resolver hoy?"}
-        </p>
-      </div>
-
-      {/* Example queries */}
-      <div>
-        <p className="mb-2 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
-          Consultas frecuentes
-        </p>
-        <div className="space-y-1.5">
-          {EXAMPLE_QUERIES.slice(0, 3).map((q) => (
-            <button
-              key={q}
-              onClick={() => onSelectExample(q)}
-              className={cn(
-                "block w-full rounded-md border border-[rgba(255,255,255,0.07)] px-3 py-2",
-                "text-left font-mono text-[11px] text-[var(--color-text-secondary)] italic",
-                "transition-all duration-200",
-                "hover:border-[rgba(0,196,255,0.3)] hover:bg-[rgba(0,196,255,0.05)] hover:text-[var(--color-text-primary)]",
-                "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
-              )}
-              aria-label={`Usar consulta: ${q}`}
-            >
-              &ldquo;{q}&rdquo;
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Analyzing view ───────────────────────────────────────────────────────────
 
 function AnalyzingView({ stage }: { stage: string }) {
@@ -244,7 +218,6 @@ function AnalyzingView({ stage }: { stage: string }) {
 
   return (
     <div className="flex flex-col items-center gap-5 py-6" role="status" aria-live="polite">
-      {/* Energy rings */}
       <div className="relative flex h-20 w-20 items-center justify-center" aria-hidden="true">
         {RINGS.map((i) => (
           <motion.span
@@ -270,7 +243,6 @@ function AnalyzingView({ stage }: { stage: string }) {
             }}
           />
         ))}
-        {/* Core dot */}
         <motion.span
           className="h-3 w-3 rounded-full"
           style={{ background: "var(--color-brand-primary)" }}
@@ -281,7 +253,7 @@ function AnalyzingView({ stage }: { stage: string }) {
 
       <div className="text-center">
         <p className="font-mono text-[9px] tracking-[0.22em] text-[var(--color-brand-accent)] uppercase">
-          OVI AI · ANALIZANDO
+          OVI AI · CONSULTANDO KNOWLEDGE ENGINE
         </p>
         <AnimatePresence mode="wait">
           <motion.p
@@ -297,7 +269,6 @@ function AnalyzingView({ stage }: { stage: string }) {
         </AnimatePresence>
       </div>
 
-      {/* Progress bar */}
       <div
         className="h-0.5 w-40 overflow-hidden rounded-full bg-[var(--color-border-subtle)]"
         role="progressbar"
@@ -314,10 +285,101 @@ function AnalyzingView({ stage }: { stage: string }) {
   );
 }
 
-// ─── Holographic report readout ───────────────────────────────────────────────
+// ─── Message bubble ───────────────────────────────────────────────────────────
 
-function ReportReadout({ report, onReset }: { report: SimulatedReport; onReset: () => void }) {
-  const COMPLEXITY_COLOR: Record<SimulatedReport["complexityLevel"], string> = {
+function MessageBubble({
+  message,
+  onSelectOption,
+  isLatest,
+}: {
+  message: OviChatMessage;
+  onSelectOption?: (option: OviChatOption) => void;
+  isLatest: boolean;
+}) {
+  const isAssistant = message.role === "assistant";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      className={cn("flex", isAssistant ? "justify-start" : "justify-end")}
+    >
+      <div className={cn("max-w-[88%]", isAssistant ? "" : "")}>
+        {/* Bubble */}
+        <div
+          className={cn(
+            "rounded-xl px-3 py-2.5 text-xs leading-relaxed",
+            isAssistant
+              ? "rounded-tl-sm border border-[rgba(0,196,255,0.14)] bg-[rgba(0,196,255,0.07)] text-[var(--color-text-primary)]"
+              : "rounded-tr-sm border border-[rgba(0,71,171,0.4)] bg-[rgba(0,71,171,0.35)] text-[var(--color-text-primary)]",
+          )}
+        >
+          {message.content.split("\n").map((line, i) => (
+            <span key={i}>
+              {line}
+              {i < message.content.split("\n").length - 1 && <br />}
+            </span>
+          ))}
+        </div>
+
+        {/* Quick-select options — only on latest assistant message */}
+        {isAssistant && message.options && isLatest && onSelectOption && (
+          <div
+            className="mt-2 flex flex-wrap gap-1.5"
+            role="group"
+            aria-label="Opciones de respuesta"
+          >
+            {message.options.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => onSelectOption(opt)}
+                title={opt.hint}
+                className={cn(
+                  "rounded-full border px-2.5 py-1",
+                  "font-mono text-[10px] tracking-[0.06em] text-[var(--color-text-secondary)]",
+                  "border-[rgba(0,196,255,0.2)] bg-[rgba(0,196,255,0.04)]",
+                  "transition-all duration-200",
+                  "hover:border-[rgba(0,196,255,0.45)] hover:bg-[rgba(0,196,255,0.1)] hover:text-[var(--color-text-primary)]",
+                  "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
+                )}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Recommendation readout ───────────────────────────────────────────────────
+
+function RecommendationReadout({
+  recommendation,
+  onReset,
+}: {
+  recommendation: OviRecommendation;
+  onReset: () => void;
+}) {
+  const product = recommendation.primaryProductId
+    ? getProduct(recommendation.primaryProductId)
+    : null;
+  const protocol = recommendation.protocolId ? getProtocol(recommendation.protocolId) : null;
+  const service = recommendation.serviceId ? getService(recommendation.serviceId) : null;
+
+  const complementaryProducts = recommendation.complementaryProductIds
+    .slice(0, 2)
+    .map((id) => getProduct(id))
+    .filter(Boolean);
+
+  const complexity = confidenceToComplexity(
+    recommendation.confidence,
+    recommendation.input.contaminationLevel,
+  );
+
+  const COMPLEXITY_COLOR: Record<typeof complexity, string> = {
     Bajo: "rgba(0,255,133,0.8)",
     Medio: "rgba(0,196,255,0.8)",
     Alto: "rgba(255,165,0,0.85)",
@@ -325,11 +387,11 @@ function ReportReadout({ report, onReset }: { report: SimulatedReport; onReset: 
   };
 
   return (
-    <div className="space-y-4">
-      {/* Report header */}
+    <div className="space-y-3">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <span className="font-mono text-[9px] tracking-[0.22em] text-[var(--color-brand-primary)] uppercase">
-          DIAGNÓSTICO · OVI ENGINEERING
+          DIAGNÓSTICO · OVI AI
         </span>
         <button
           onClick={onReset}
@@ -339,120 +401,272 @@ function ReportReadout({ report, onReset }: { report: SimulatedReport; onReset: 
             "transition-colors hover:text-[var(--color-text-primary)]",
             "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
           )}
-          aria-label="Nueva consulta"
+          aria-label="Nuevo diagnóstico"
         >
           <RotateCcw size={10} aria-hidden="true" />
-          Nueva consulta
+          Nuevo diagnóstico
         </button>
       </div>
 
-      {/* Industry + complexity */}
+      {/* Complexity badge */}
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05 }}
         className="rounded-md border border-[rgba(0,196,255,0.15)] bg-[rgba(0,196,255,0.04)] px-3 py-2.5"
       >
-        <p className="mb-0.5 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
-          INDUSTRIA DETECTADA
-        </p>
-        <p className="text-xs font-medium text-[var(--color-text-primary)]">
-          {report.detectedIndustry}
-        </p>
-        <div className="mt-1.5 flex items-center gap-2">
-          <span className="font-mono text-[8px] tracking-[0.14em] text-[var(--color-text-tertiary)] uppercase">
-            Complejidad:
-          </span>
+        <div className="flex items-center justify-between">
+          <p className="font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Nivel de complejidad
+          </p>
           <span
             className="font-mono text-[10px] font-semibold"
-            style={{ color: COMPLEXITY_COLOR[report.complexityLevel] }}
+            style={{ color: COMPLEXITY_COLOR[complexity] }}
           >
-            {report.complexityLevel}
+            {complexity}
           </span>
         </div>
+        {recommendation.input.industryId && (
+          <p className="mt-1 text-[10px] font-medium text-[var(--color-text-primary)] capitalize">
+            {recommendation.input.industryId.replace(/-/g, " ")}
+          </p>
+        )}
       </motion.div>
 
       {/* Diagnosis */}
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.12 }}
+        transition={{ delay: 0.1 }}
       >
         <p className="mb-1 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
-          DIAGNÓSTICO
+          Diagnóstico
         </p>
-        <p className="text-xs leading-relaxed text-[var(--color-text-secondary)]">
-          {report.diagnosisInitial}
+        <p className="text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
+          {recommendation.diagnosis}
         </p>
       </motion.div>
 
-      {/* Protocols */}
+      {/* Technical justification */}
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        transition={{ delay: 0.14 }}
       >
-        <p className="mb-1.5 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
-          PROTOCOLOS RECOMENDADOS
+        <p className="mb-1 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+          Justificación técnica
         </p>
-        <ul className="space-y-1.5">
-          {report.suggestedProtocols.map((protocol) => (
-            <li key={protocol} className="flex items-start gap-2">
-              <ChevronRight
-                size={10}
-                className="mt-0.5 shrink-0 text-[var(--color-brand-accent)]"
-                aria-hidden="true"
-              />
-              <span className="font-mono text-[10px] leading-relaxed text-[var(--color-text-secondary)]">
-                {protocol}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <p className="text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
+          {recommendation.technicalJustification}
+        </p>
       </motion.div>
 
-      {/* Key service */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.28 }}
-      >
-        <p className="mb-1.5 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
-          SIGUIENTE PASO RECOMENDADO
-        </p>
-        <div className="flex items-start gap-2 rounded-md border border-[rgba(0,255,133,0.2)] bg-[rgba(0,255,133,0.04)] px-3 py-2">
-          <ArrowRight
-            size={11}
-            className="mt-0.5 shrink-0 text-[var(--color-brand-accent)]"
-            aria-hidden="true"
-          />
-          <span className="text-xs leading-relaxed text-[var(--color-text-primary)]">
-            {report.nextSteps[0]}
-          </span>
-        </div>
-      </motion.div>
+      {/* Protocol */}
+      {protocol && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+        >
+          <p className="mb-1 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Protocolo recomendado
+          </p>
+          <div className="flex items-start gap-2 rounded-md border border-[rgba(0,196,255,0.15)] bg-[rgba(0,196,255,0.04)] px-3 py-2">
+            <ChevronRight
+              size={10}
+              className="mt-0.5 shrink-0 text-[var(--color-brand-primary)]"
+              aria-hidden="true"
+            />
+            <span className="font-mono text-[10px] leading-relaxed text-[var(--color-text-primary)]">
+              {protocol.codigo} — {protocol.nombre}
+            </span>
+          </div>
+        </motion.div>
+      )}
 
-      {/* Ecosystem hooks — future capabilities */}
+      {/* Service */}
+      {service && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22 }}
+        >
+          <p className="mb-1 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Servicio recomendado
+          </p>
+          <p className="text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
+            {service.nombre}
+          </p>
+        </motion.div>
+      )}
+
+      {/* Primary product */}
+      {product && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.26 }}
+        >
+          <p className="mb-1 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Producto principal
+          </p>
+          <div className="rounded-md border border-[rgba(0,255,133,0.2)] bg-[rgba(0,255,133,0.04)] px-3 py-2">
+            <p className="text-[11px] font-medium text-[var(--color-text-primary)]">
+              {product.nombre}
+            </p>
+            <p className="mt-0.5 text-[10px] text-[var(--color-text-tertiary)]">
+              {product.resumen}
+            </p>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Complementary products */}
+      {complementaryProducts.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="mb-1.5 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Productos complementarios
+          </p>
+          <ul className="space-y-1">
+            {complementaryProducts.map(
+              (p) =>
+                p && (
+                  <li key={p.id} className="flex items-start gap-2">
+                    <ChevronRight
+                      size={10}
+                      className="mt-0.5 shrink-0 text-[var(--color-brand-accent)]"
+                      aria-hidden="true"
+                    />
+                    <span className="text-[10px] text-[var(--color-text-secondary)]">
+                      {p.nombre}
+                    </span>
+                  </li>
+                ),
+            )}
+          </ul>
+        </motion.div>
+      )}
+
+      {/* Expected benefit */}
+      {recommendation.expectedBenefit && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.34 }}
+        >
+          <p className="mb-1 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Beneficio esperado
+          </p>
+          <div className="flex items-start gap-2 rounded-md border border-[rgba(0,255,133,0.2)] bg-[rgba(0,255,133,0.04)] px-3 py-2">
+            <ArrowRight
+              size={10}
+              className="mt-0.5 shrink-0 text-[var(--color-brand-accent)]"
+              aria-hidden="true"
+            />
+            <span className="text-[11px] leading-relaxed text-[var(--color-text-primary)]">
+              {recommendation.expectedBenefit}
+            </span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Risks avoided (warnings) */}
+      {recommendation.reasoning.risksAvoided.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.38 }}
+        >
+          <p className="mb-1.5 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
+            Advertencias
+          </p>
+          <ul className="space-y-1">
+            {recommendation.reasoning.risksAvoided.map((risk) => (
+              <li key={risk} className="flex items-start gap-1.5">
+                <span
+                  className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                  style={{ background: "rgba(255,165,0,0.8)" }}
+                  aria-hidden="true"
+                />
+                <span className="text-[10px] leading-relaxed text-[var(--color-text-secondary)]">
+                  {risk}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      )}
+
+      {/* Integration CTAs */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.45 }}
         className="border-t border-[rgba(255,255,255,0.06)] pt-3"
       >
         <p className="mb-2 font-mono text-[8px] tracking-[0.18em] text-[var(--color-text-tertiary)] uppercase">
-          CONTINUAR EN OVI
+          Continuar con OVI
         </p>
         <div className="flex flex-wrap gap-1.5">
-          {["OVI Laboratorio", "OVI Catálogo", "OVI OS"].map((label) => (
-            <span
-              key={label}
-              className="rounded-full border border-[rgba(255,255,255,0.1)] px-2.5 py-0.5"
+          <Link href={OVI_INTEGRATION_LINKS.technicalVisit}>
+            <button
+              className={cn(
+                "flex items-center gap-1.5 rounded-full border px-2.5 py-1",
+                "font-mono text-[9px] tracking-[0.06em] text-[var(--color-brand-primary)]",
+                "border-[rgba(0,196,255,0.3)] bg-[rgba(0,196,255,0.06)]",
+                "transition-all hover:border-[rgba(0,196,255,0.5)] hover:bg-[rgba(0,196,255,0.1)]",
+                "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
+              )}
             >
-              <span className="font-mono text-[9px] tracking-[0.12em] text-[var(--color-text-tertiary)] uppercase">
-                {label}
-              </span>
-            </span>
-          ))}
+              <Wrench size={9} aria-hidden="true" />
+              Visita técnica
+            </button>
+          </Link>
+          <Link href={OVI_INTEGRATION_LINKS.lab}>
+            <button
+              className={cn(
+                "flex items-center gap-1.5 rounded-full border px-2.5 py-1",
+                "font-mono text-[9px] tracking-[0.06em] text-[var(--color-text-secondary)]",
+                "border-[rgba(255,255,255,0.1)] bg-transparent",
+                "transition-all hover:border-[rgba(255,255,255,0.2)] hover:text-[var(--color-text-primary)]",
+                "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
+              )}
+            >
+              <FlaskConical size={9} aria-hidden="true" />
+              OVI Lab
+            </button>
+          </Link>
+          <Link href={OVI_INTEGRATION_LINKS.store}>
+            <button
+              className={cn(
+                "flex items-center gap-1.5 rounded-full border px-2.5 py-1",
+                "font-mono text-[9px] tracking-[0.06em] text-[var(--color-text-secondary)]",
+                "border-[rgba(255,255,255,0.1)] bg-transparent",
+                "transition-all hover:border-[rgba(255,255,255,0.2)] hover:text-[var(--color-text-primary)]",
+                "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
+              )}
+            >
+              OVI Catálogo
+            </button>
+          </Link>
+          <Link href={OVI_INTEGRATION_LINKS.engineer}>
+            <button
+              className={cn(
+                "flex items-center gap-1.5 rounded-full border px-2.5 py-1",
+                "font-mono text-[9px] tracking-[0.06em] text-[var(--color-text-secondary)]",
+                "border-[rgba(255,255,255,0.1)] bg-transparent",
+                "transition-all hover:border-[rgba(255,255,255,0.2)] hover:text-[var(--color-text-primary)]",
+                "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
+              )}
+            >
+              <Phone size={9} aria-hidden="true" />
+              Ingeniero OVI
+            </button>
+          </Link>
         </div>
       </motion.div>
     </div>
@@ -462,45 +676,51 @@ function ReportReadout({ report, onReset }: { report: SimulatedReport; onReset: 
 // ─── Holographic panel ────────────────────────────────────────────────────────
 
 function HolographicPanel({
-  industry,
+  session,
   analysisState,
   analysisStage,
-  lastReport,
   onClose,
   onReset,
-  onSubmit,
+  onSelectOption,
+  onSubmitText,
+  onGenerateDiagnostic,
 }: {
-  industry: string | null;
+  session: ReturnType<typeof useOviAiStore>["session"];
   analysisState: "idle" | "analyzing" | "done";
   analysisStage: string;
-  lastReport: SimulatedReport | null;
   onClose: () => void;
   onReset: () => void;
-  onSubmit: (query: string) => void;
+  onSelectOption: (option: OviChatOption) => void;
+  onSubmitText: (text: string) => void;
+  onGenerateDiagnostic: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [query, setQuery] = useState("");
-  const isIdle = analysisState === "idle";
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [inputValue, setInputValue] = useState("");
 
-  // Focus input when returning to idle
+  const isAnalyzing = analysisState === "analyzing";
+  const isDone = session.diagnosticPhase === "done";
+  const isDiagnosing = session.diagnosticPhase === "diagnosing";
+  const canGenerate = hasSufficientContext(session.diagnosticContext) && !isDone && !isAnalyzing;
+
+  // Scroll to bottom on new messages
   useEffect(() => {
-    if (!isIdle) return;
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [session.messages]);
+
+  // Focus input when returning to diagnosing
+  useEffect(() => {
+    if (isAnalyzing || !isDiagnosing) return;
     const id = window.setTimeout(() => inputRef.current?.focus(), 120);
     return () => window.clearTimeout(id);
-  }, [isIdle]);
+  }, [isAnalyzing, isDiagnosing]);
 
-  // When an example is selected, also focus the input
-  const handleSelectExample = (q: string) => {
-    setQuery(q);
-    window.setTimeout(() => inputRef.current?.focus(), 50);
-  };
-
-  const handleSubmitInternal = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmed = query.trim();
-    if (!trimmed || analysisState === "analyzing") return;
-    onSubmit(trimmed);
-    setQuery("");
+    const trimmed = inputValue.trim();
+    if (!trimmed || isAnalyzing) return;
+    onSubmitText(trimmed);
+    setInputValue("");
   };
 
   return (
@@ -541,7 +761,7 @@ function HolographicPanel({
       />
 
       {/* Animated scan line */}
-      <ScanLine active={isIdle || analysisState === "done"} />
+      <ScanLine active={!isAnalyzing} />
 
       {/* Panel header */}
       <div className="flex items-center justify-between border-b border-[rgba(255,255,255,0.06)] px-4 py-3">
@@ -549,10 +769,7 @@ function HolographicPanel({
           <motion.span
             className="h-1.5 w-1.5 rounded-full"
             style={{
-              background:
-                analysisState === "analyzing"
-                  ? "var(--color-brand-accent)"
-                  : "var(--color-brand-primary)",
+              background: isAnalyzing ? "var(--color-brand-accent)" : "var(--color-brand-primary)",
             }}
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
@@ -575,36 +792,31 @@ function HolographicPanel({
         </button>
       </div>
 
-      {/* Session memory strip */}
-      {industry && (
+      {/* Session context strip */}
+      {session.industry && (
         <div className="flex items-center gap-2 border-b border-[rgba(255,255,255,0.04)] bg-[rgba(0,196,255,0.04)] px-4 py-2">
           <span className="font-mono text-[8px] tracking-[0.14em] text-[var(--color-text-tertiary)] uppercase">
-            SESIÓN:
+            Sesión:
           </span>
           <span className="rounded-full border border-[rgba(0,196,255,0.25)] px-2 py-0.5">
-            <span className="font-mono text-[9px] tracking-[0.1em] text-[var(--color-brand-primary)]">
-              {industry}
+            <span className="font-mono text-[9px] tracking-[0.1em] text-[var(--color-brand-primary)] capitalize">
+              {session.industry.replace(/-/g, " ")}
             </span>
           </span>
+          {session.diagnosticContext.contaminationId && (
+            <span className="rounded-full border border-[rgba(0,196,255,0.15)] px-2 py-0.5">
+              <span className="font-mono text-[9px] tracking-[0.08em] text-[var(--color-text-secondary)] capitalize">
+                {session.diagnosticContext.contaminationId.replace(/-/g, " ")}
+              </span>
+            </span>
+          )}
         </div>
       )}
 
       {/* Scrollable content */}
-      <div className="max-h-[320px] overflow-y-auto overscroll-contain px-4 py-4">
+      <div className="max-h-[360px] overflow-y-auto overscroll-contain px-4 py-4">
         <AnimatePresence mode="wait">
-          {analysisState === "idle" && (
-            <motion.div
-              key="welcome"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              <WelcomeView industry={industry} onSelectExample={handleSelectExample} />
-            </motion.div>
-          )}
-
-          {analysisState === "analyzing" && (
+          {isAnalyzing ? (
             <motion.div
               key="analyzing"
               initial={{ opacity: 0 }}
@@ -614,69 +826,114 @@ function HolographicPanel({
             >
               <AnalyzingView stage={analysisStage} />
             </motion.div>
-          )}
-
-          {analysisState === "done" && lastReport && (
+          ) : isDone && session.recommendation ? (
             <motion.div
-              key="report"
+              key="recommendation"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
             >
-              <ReportReadout report={lastReport} onReset={onReset} />
+              <RecommendationReadout recommendation={session.recommendation} onReset={onReset} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="conversation"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-3"
+              aria-live="polite"
+              aria-label="Conversación con OVI AI"
+            >
+              {(session.messages as OviChatMessage[]).map((msg: OviChatMessage, idx: number) => (
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  onSelectOption={onSelectOption}
+                  isLatest={idx === session.messages.length - 1}
+                />
+              ))}
+              <div ref={messagesEndRef} />
+
+              {/* Generate diagnostic button — appears when sufficient context */}
+              {canGenerate && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="pt-1"
+                >
+                  <button
+                    onClick={onGenerateDiagnostic}
+                    className={cn(
+                      "flex w-full items-center justify-center gap-2 rounded-lg py-2.5",
+                      "font-mono text-[10px] tracking-[0.14em] uppercase",
+                      "border border-[rgba(0,196,255,0.3)] bg-[rgba(0,196,255,0.12)]",
+                      "text-[var(--color-brand-primary)]",
+                      "transition-all hover:border-[rgba(0,196,255,0.5)] hover:bg-[rgba(0,196,255,0.2)]",
+                      "focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]",
+                    )}
+                  >
+                    <ArrowRight size={12} aria-hidden="true" />
+                    Generar diagnóstico de ingeniería
+                  </button>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Query input — hidden during analysis */}
-      {(() => {
-        const showInput = analysisState !== "analyzing";
-        return (
-          <AnimatePresence>
-            {showInput && (
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
-                transition={{ duration: 0.25 }}
-                className="border-t border-[rgba(255,255,255,0.06)] px-4 py-3"
+      {/* Text input — hidden during analysis and done states */}
+      {!isAnalyzing && !isDone && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.25 }}
+            className="border-t border-[rgba(255,255,255,0.06)] px-4 py-3"
+          >
+            <form onSubmit={handleSubmit} className="flex items-center gap-2">
+              <span
+                className="font-mono text-xs text-[var(--color-brand-primary)]"
+                aria-hidden="true"
               >
-                <form onSubmit={handleSubmitInternal} className="flex items-center gap-2">
-                  {/* Terminal prompt */}
-                  <span
-                    className="font-mono text-xs text-[var(--color-brand-primary)]"
-                    aria-hidden="true"
-                  >
-                    &gt;
-                  </span>
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Describa el desafío operativo..."
-                    className={cn(
-                      "min-w-0 flex-1 bg-transparent font-mono text-xs",
-                      "text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)]",
-                      "outline-none focus:placeholder:opacity-0",
-                    )}
-                    aria-label="Consulta para OVI AI"
-                  />
-                  {/* Submit via Enter */}
-                  <input type="submit" className="hidden" aria-hidden="true" />
-                </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        );
-      })()}
+                &gt;
+              </span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Describa el desafío o seleccione una opción..."
+                className={cn(
+                  "min-w-0 flex-1 bg-transparent font-mono text-xs",
+                  "text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)]",
+                  "outline-none focus:placeholder:opacity-0",
+                )}
+                aria-label="Mensaje para OVI AI"
+              />
+              {inputValue.trim() && (
+                <button
+                  type="submit"
+                  className="flex items-center justify-center rounded p-1 text-[var(--color-brand-primary)] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-[var(--color-brand-primary)]"
+                  aria-label="Enviar"
+                >
+                  <Send size={12} aria-hidden="true" />
+                </button>
+              )}
+            </form>
+          </motion.div>
+        </AnimatePresence>
+      )}
 
-      {/* Demo label */}
+      {/* Footer */}
       <div className="flex items-center justify-between border-t border-[rgba(255,255,255,0.04)] px-4 py-2">
         <span className="font-mono text-[8px] tracking-[0.14em] text-[var(--color-text-tertiary)] uppercase">
-          DEMO · MODO SIMULACIÓN
+          Knowledge Engine
         </span>
         <span className="font-mono text-[8px] tracking-[0.1em] text-[rgba(0,196,255,0.4)]">
           OVI — INGENIERÍA EN LIMPIEZA
@@ -697,14 +954,17 @@ export function OviAiCompanion() {
     analysisState,
     setAnalysisState,
     session,
-    addTurn,
-    applyReport,
+    addMessage,
+    updateDiagnosticContext,
+    setCurrentStep,
+    setDiagnosticPhase,
+    setRecommendation,
     resetSession,
   } = useOviAiStore();
 
   const [analysisStage, setAnalysisStage] = useState<string>(ANALYSIS_STAGES[0]);
-  const [pendingQuery, setPendingQuery] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const hasInit = useRef(false);
 
   // Handle close on Escape
   useEffect(() => {
@@ -724,7 +984,6 @@ export function OviAiCompanion() {
         close();
       }
     };
-    // Small delay to avoid immediate close on open click
     const id = window.setTimeout(() => document.addEventListener("mousedown", handler), 50);
     return () => {
       window.clearTimeout(id);
@@ -732,55 +991,158 @@ export function OviAiCompanion() {
     };
   }, [isOpen, close]);
 
-  // Run analysis when pendingQuery is set
+  // Initialize conversation on first open
   useEffect(() => {
-    if (!pendingQuery) return;
+    if (!isOpen || hasInit.current || session.messages.length > 0) return;
+    hasInit.current = true;
 
-    setAnalysisState("analyzing");
+    // Greeting message
+    addMessage({
+      id: `msg-greeting-${Date.now()}`,
+      role: "assistant",
+      content: OVI_GREETING,
+      timestamp: Date.now(),
+    });
 
-    let stageIndex = 0;
-    const stageInterval = window.setInterval(() => {
-      stageIndex += 1;
-      if (stageIndex < ANALYSIS_STAGES.length) {
-        setAnalysisStage(ANALYSIS_STAGES[stageIndex]);
-      }
-    }, 540);
+    // First diagnostic question (Industria) — delayed for UX
+    window.setTimeout(() => {
+      const firstQuestion = buildGreetingWithFirstQuestion();
+      addMessage({ ...firstQuestion, id: `msg-q1-${Date.now()}` });
+      setCurrentStep(1);
+      setDiagnosticPhase("diagnosing");
+    }, 600);
+  }, [isOpen, session.messages.length, addMessage, setCurrentStep, setDiagnosticPhase]);
 
-    const analysisTimeout = window.setTimeout(() => {
-      window.clearInterval(stageInterval);
-      const report = generateSimulatedReport(pendingQuery);
-      const turn = {
-        id: `turn-${Date.now()}`,
-        query: pendingQuery,
-        report,
+  // Run recommendation generation
+  const runGeneration = useCallback(
+    (context: OviDecisionInput) => {
+      setAnalysisState("analyzing");
+      setDiagnosticPhase("generating");
+
+      let stageIndex = 0;
+      const stageInterval = window.setInterval(() => {
+        stageIndex += 1;
+        if (stageIndex < ANALYSIS_STAGES.length) {
+          setAnalysisStage(ANALYSIS_STAGES[stageIndex]);
+        }
+      }, 540);
+
+      const timeout = window.setTimeout(() => {
+        window.clearInterval(stageInterval);
+        const recommendation = computeRecommendation(context);
+        setRecommendation(recommendation);
+        setAnalysisStage(ANALYSIS_STAGES[0]);
+      }, 2800);
+
+      return () => {
+        window.clearInterval(stageInterval);
+        window.clearTimeout(timeout);
+      };
+    },
+    [setAnalysisState, setDiagnosticPhase, setRecommendation],
+  );
+
+  // Handle quick-select option button click
+  const handleSelectOption = useCallback(
+    (option: OviChatOption) => {
+      // Add user message
+      const userMsg: OviChatMessage = {
+        id: `msg-user-${Date.now()}`,
+        role: "user",
+        content: option.label,
         timestamp: Date.now(),
       };
-      addTurn(turn);
-      applyReport(report);
-      setAnalysisState("done");
-      setAnalysisStage(ANALYSIS_STAGES[0]);
-      setPendingQuery(null);
-    }, 2800);
+      addMessage(userMsg);
 
-    return () => {
-      window.clearInterval(stageInterval);
-      window.clearTimeout(analysisTimeout);
-    };
-  }, [pendingQuery, addTurn, applyReport, setAnalysisState]);
+      // Update context
+      const update: Partial<OviDecisionInput> = {};
+      if (option.field === "environmentalRestrictions") {
+        const existing = session.diagnosticContext.environmentalRestrictions ?? [];
+        update.environmentalRestrictions = [
+          ...new Set([...existing, option.value]),
+        ] as OviDecisionInput["environmentalRestrictions"];
+      } else {
+        (update as Record<string, unknown>)[option.field] = option.value;
+      }
+      updateDiagnosticContext(update);
 
-  const handleSubmit = useCallback(
-    (query: string) => {
-      if (!query.trim() || analysisState === "analyzing") return;
-      setPendingQuery(query.trim());
-      if (!isOpen) open();
+      const newContext = { ...session.diagnosticContext, ...update };
+      const newStep = session.currentStep;
+
+      // Ask next question or stay on restrictions (allow multiple)
+      const next = buildNextQuestionMessage(newContext, newStep);
+      if (next) {
+        window.setTimeout(() => {
+          addMessage({ ...next.message, id: `msg-q${next.step}-${Date.now()}` });
+          setCurrentStep(next.step);
+        }, 300);
+      }
     },
-    [analysisState, isOpen, open],
+    [
+      addMessage,
+      updateDiagnosticContext,
+      session.diagnosticContext,
+      session.currentStep,
+      setCurrentStep,
+    ],
   );
+
+  // Handle free-text submission
+  const handleSubmitText = useCallback(
+    (text: string) => {
+      // Add user message
+      addMessage({
+        id: `msg-user-${Date.now()}`,
+        role: "user",
+        content: text,
+        timestamp: Date.now(),
+      });
+
+      // Extract context from text
+      const extracted = extractContextFromText(text);
+      if (Object.keys(extracted).length > 0) {
+        updateDiagnosticContext(extracted);
+        const newContext = { ...session.diagnosticContext, ...extracted };
+
+        // Ask the next unanswered question
+        const next = buildNextQuestionMessage(newContext, session.currentStep);
+        if (next) {
+          window.setTimeout(() => {
+            addMessage({ ...next.message, id: `msg-q${next.step}-${Date.now()}` });
+            setCurrentStep(next.step);
+          }, 300);
+        }
+      } else {
+        // Acknowledge the message and keep asking the current question
+        window.setTimeout(() => {
+          addMessage({
+            id: `msg-ack-${Date.now()}`,
+            role: "assistant",
+            content:
+              "Entendido. Para continuar con el diagnóstico, por favor responde las preguntas de los botones de opción o proporciona detalles sobre la industria y el tipo de contaminación.",
+            timestamp: Date.now(),
+          });
+        }, 300);
+      }
+    },
+    [
+      addMessage,
+      updateDiagnosticContext,
+      session.diagnosticContext,
+      session.currentStep,
+      setCurrentStep,
+    ],
+  );
+
+  // Handle "generate diagnostic" button
+  const handleGenerateDiagnostic = useCallback(() => {
+    runGeneration(session.diagnosticContext);
+  }, [runGeneration, session.diagnosticContext]);
 
   const handleReset = useCallback(() => {
     resetSession();
+    hasInit.current = false;
     setAnalysisStage(ANALYSIS_STAGES[0]);
-    setPendingQuery(null);
   }, [resetSession]);
 
   return (
@@ -794,13 +1156,14 @@ export function OviAiCompanion() {
         {isOpen && (
           <div className="w-[360px] max-w-[calc(100vw-2.5rem)]">
             <HolographicPanel
-              industry={session.industry}
+              session={session}
               analysisState={analysisState}
               analysisStage={analysisStage}
-              lastReport={session.lastReport}
               onClose={close}
               onReset={handleReset}
-              onSubmit={handleSubmit}
+              onSelectOption={handleSelectOption}
+              onSubmitText={handleSubmitText}
+              onGenerateDiagnostic={handleGenerateDiagnostic}
             />
           </div>
         )}
@@ -810,7 +1173,7 @@ export function OviAiCompanion() {
       <EnergyOrb
         isOpen={isOpen}
         isAnalyzing={analysisState === "analyzing"}
-        hasTurns={session.turns.length > 0}
+        hasMessages={session.messages.length > 0}
         onClick={toggle}
       />
     </div>
@@ -821,11 +1184,11 @@ export function OviAiCompanion() {
 
 /**
  * useOviAi — programmatic access to the OVI AI companion.
- * Call from any page or feature to open the companion with a pre-filled query.
+ * Call from any page or feature to open the companion.
  *
  * @example
- *   const { openWithQuery } = useOviAi()
- *   openWithQuery("Necesito limpiar motores en una planta industrial")
+ *   const { openWithContext } = useOviAi()
+ *   openWithContext({ industryId: 'transporte' })
  */
 export function useOviAi() {
   const { open, close, toggle, isOpen } = useOviAiStore();
