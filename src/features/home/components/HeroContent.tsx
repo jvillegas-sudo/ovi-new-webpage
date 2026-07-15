@@ -42,11 +42,16 @@ export function HeroContent({ hero, showScrollIndicator = true }: HeroContentPro
           {hero.subtitle}
         </Text>
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+          <Link href="/descubre-tu-solucion">
+            <Button size="lg">▶ Descubre tu Solución</Button>
+          </Link>
           <Link href="/contact">
-            <Button size="lg">▶ Iniciar la Experiencia</Button>
+            <Button variant="outline" size="lg">
+              Iniciar la Experiencia
+            </Button>
           </Link>
           <Link href="/store">
-            <Button variant="outline" size="lg">
+            <Button variant="ghost" size="lg">
               OVI Catálogo
             </Button>
           </Link>

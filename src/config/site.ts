@@ -46,6 +46,7 @@ export const siteConfig = {
   nav: {
     main: [
       { label: "Inicio", href: "/" },
+      { label: "Descubre tu Solución", href: "/descubre-tu-solucion" },
       { label: "Nosotros", href: "/about" },
       { label: "Servicios", href: "/solutions" },
       { label: "OVI Catálogo", href: "/store" },
@@ -81,8 +82,9 @@ export const siteConfig = {
         ],
       },
       {
-        title: "Servicios",
+        title: "Soluciones",
         links: [
+          { label: "Descubre tu Solución", href: "/descubre-tu-solucion" },
           { label: "Soluciones Químicas", href: "/solutions" },
           { label: "Limpieza Industrial", href: "/solutions" },
           { label: "Lavado de Flota", href: "/solutions" },
