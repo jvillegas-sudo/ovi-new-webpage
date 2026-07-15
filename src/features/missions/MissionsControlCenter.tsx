@@ -45,6 +45,7 @@ import { Button, Container, Heading, Text } from "@components/ui";
 import { ThreeCanvas } from "@three/components/ThreeCanvas";
 import { PostProcessing } from "@three/components/PostProcessing";
 import { SceneEnvironment } from "@three/components/SceneEnvironment";
+import { OalAssetPlaceholder } from "@lib/oal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -487,134 +488,20 @@ function MissionCameraController({ progress }: { progress: number }) {
   return null;
 }
 
-// ─── Three.js: Mission Asset ───────────────────────────────────────────────────
+// ─── OAL: Mission → Asset ID mapping ─────────────────────────────────────────
 
-interface MissionAssetProps {
-  weight: number;
-  contaminated: number;
-  cleaning: number;
-}
+const MISSION_TO_OAL_ID: Record<string, string> = {
+  "transporte-publico": "OAL-TR-002",
+  "recoleccion-residuos": "OAL-TR-001",
+  "industria-pesada": "OAL-IN-002",
+  "salud": "OAL-IN-001",
+  "energia": "OAL-IN-002",
+  "retail": "OAL-IN-004",
+  "alimentos": "OAL-IN-003",
+};
 
-function MissionAsset({ weight, contaminated, cleaning }: MissionAssetProps) {
-  const groupRef = useRef<THREE.Group>(null);
-  const cleanFactor = cleaning;
-
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(clock.elapsedTime * 0.1) * 0.08;
-    }
-  });
-
-  const roughness = 0.85 - cleanFactor * 0.7;
-  const metalness = 0.38 + cleanFactor * 0.5;
-  const bodyColor = cleanFactor > 0.6 ? "#243545" : contaminated > 0.5 ? "#201408" : "#1A2A35";
-  const emissiveIntensity = cleanFactor * 0.4;
-
-  return (
-    <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Main body */}
-      <mesh position={[0.3, 0, 0]}>
-        <boxGeometry args={[3.6, 1.3, 1.7]} />
-        <meshStandardMaterial
-          color={bodyColor}
-          metalness={metalness}
-          roughness={roughness}
-          transparent
-          opacity={weight}
-          emissive="#001A2A"
-          emissiveIntensity={emissiveIntensity}
-        />
-      </mesh>
-
-      {/* Cab */}
-      <mesh position={[-1.5, 0.58, 0]}>
-        <boxGeometry args={[1.05, 0.92, 1.68]} />
-        <meshStandardMaterial
-          color={cleanFactor > 0.6 ? "#1A3345" : contaminated > 0.5 ? "#1A1008" : "#152030"}
-          metalness={metalness}
-          roughness={roughness}
-          transparent
-          opacity={weight}
-        />
-      </mesh>
-
-      {/* Windshield glow */}
-      <mesh position={[-1.05, 0.65, 0]} rotation={[0, 0, Math.PI * 0.06]}>
-        <boxGeometry args={[0.05, 0.62, 1.28]} />
-        <meshStandardMaterial
-          color="#00C4FF"
-          emissive="#004466"
-          emissiveIntensity={0.5 + cleanFactor * 0.9}
-          transparent
-          opacity={weight * (0.18 + cleanFactor * 0.28)}
-        />
-      </mesh>
-
-      {/* Cargo box */}
-      <mesh position={[1.8, 0.15, 0]}>
-        <boxGeometry args={[1.15, 1.65, 1.75]} />
-        <meshStandardMaterial
-          color={cleanFactor > 0.6 ? "#1E2E3E" : contaminated > 0.5 ? "#160E04" : "#15202A"}
-          metalness={metalness}
-          roughness={roughness}
-          transparent
-          opacity={weight}
-        />
-      </mesh>
-
-      {/* Wheels */}
-      {(
-        [
-          [-1.15, -0.82, 0.98],
-          [-1.15, -0.82, -0.98],
-          [1.15, -0.82, 0.98],
-          [1.15, -0.82, -0.98],
-        ] as [number, number, number][]
-      ).map((pos, i) => (
-        <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.36, 0.36, 0.26, 24]} />
-          <meshStandardMaterial
-            color={cleanFactor > 0.5 ? "#1A1A1A" : "#0A0800"}
-            metalness={0.2}
-            roughness={0.95}
-            transparent
-            opacity={weight}
-          />
-        </mesh>
-      ))}
-
-      {/* Headlights */}
-      {(
-        [
-          [-1.98, 0.33, 0.52],
-          [-1.98, 0.33, -0.52],
-        ] as [number, number, number][]
-      ).map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <boxGeometry args={[0.05, 0.2, 0.26]} />
-          <meshStandardMaterial
-            color="#FFFBE0"
-            emissive="#FFFBE0"
-            emissiveIntensity={cleanFactor * 2.8}
-            transparent
-            opacity={weight * (0.28 + cleanFactor * 0.72)}
-          />
-        </mesh>
-      ))}
-
-      {/* Ground reflection */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.18, 0]}>
-        <planeGeometry args={[13, 8]} />
-        <meshStandardMaterial
-          color="#030508"
-          metalness={0.7}
-          roughness={0.2}
-          transparent
-          opacity={weight * 0.4}
-        />
-      </mesh>
-    </group>
-  );
+function getOalIdForMission(missionId: string): string {
+  return MISSION_TO_OAL_ID[missionId] ?? "OAL-IN-001";
 }
 
 // ─── Three.js: Contamination Cloud ────────────────────────────────────────────
@@ -872,7 +759,7 @@ function AmbientParticles({ progress }: { progress: number }) {
 
 // ─── Three.js: Mission World ───────────────────────────────────────────────────
 
-function MissionWorld({ progress }: { progress: number }) {
+function MissionWorld({ progress, mission }: { progress: number; mission: MissionData }) {
   const N = 8;
   const w = (index: number) => sceneWeight(progress, index, N);
 
@@ -887,14 +774,18 @@ function MissionWorld({ progress }: { progress: number }) {
 
   const assetWeight = Math.min(1, w(0) + w(1) + w3 + w(3) + w(4) + w(5) + w7 + w(7));
 
+  // OAL asset ID based on current mission
+  const oalId = getOalIdForMission(mission.id);
+
   return (
     <>
       <MissionCameraController progress={progress} />
       <AmbientParticles progress={progress} />
-      <MissionAsset
+      {/* OAL Asset placeholder — replaces geometric primitives */}
+      <OalAssetPlaceholder
+        assetId={oalId}
         weight={Math.min(1, assetWeight)}
-        contaminated={contaminationWeight}
-        cleaning={w7}
+        label={mission.assetDescription}
       />
       <ContaminationCloud weight={contaminationWeight} />
       <HolographicScan weight={w4} />
@@ -1415,7 +1306,7 @@ function MissionJourney({
           <ThreeCanvas className="h-full w-full">
             <color attach="background" args={["#020406"]} />
             <fog attach="fog" args={["#020406", 14, 32]} />
-            <MissionWorld progress={progress} />
+            <MissionWorld progress={progress} mission={mission} />
             <SceneEnvironment preset="night" intensity={0.45} />
             <PostProcessing />
           </ThreeCanvas>

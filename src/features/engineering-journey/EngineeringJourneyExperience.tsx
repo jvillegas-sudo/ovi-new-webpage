@@ -25,6 +25,7 @@ import { motion, AnimatePresence, useMotionValueEvent, useScroll } from "framer-
 import { ThreeCanvas } from "@three/components/ThreeCanvas";
 import { PostProcessing } from "@three/components/PostProcessing";
 import { SceneEnvironment } from "@three/components/SceneEnvironment";
+import { OalAssetPlaceholder } from "@lib/oal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -245,150 +246,18 @@ function JourneyCameraController({ progress }: { progress: number }) {
   return null;
 }
 
-// ─── Three.js: Industrial Asset ──────────────────────────────────────────────
+// ─── OAL: Sector → Asset ID mapping ──────────────────────────────────────────
 
-interface IndustrialAssetProps {
-  weight: number;
-  /** 0 = pristine, 1 = fully contaminated */
-  contaminated: number;
-  /** 0 = as-is, 1 = fully cleaned */
-  cleaning: number;
-}
+const SECTOR_TO_OAL_ID: Record<string, string> = {
+  truck: "OAL-TR-001",
+  bus: "OAL-TR-002",
+  plant: "OAL-IN-002",
+  hospital: "OAL-IN-001",
+  energy: "OAL-IN-002",
+};
 
-function IndustrialAsset({ weight, contaminated, cleaning }: IndustrialAssetProps) {
-  const groupRef = useRef<THREE.Group>(null);
-  const cleanFactor = cleaning;
-
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(clock.elapsedTime * 0.11) * 0.09;
-    }
-  });
-
-  // Material params shift from dirty to clean
-  const roughness = 0.88 - cleanFactor * 0.74;
-  const metalness = 0.35 + cleanFactor * 0.52;
-  const bodyColor = cleanFactor > 0.6 ? "#243545" : contaminated > 0.5 ? "#221508" : "#1A2A35";
-  const cabColor = cleanFactor > 0.6 ? "#1A3345" : contaminated > 0.5 ? "#1A1008" : "#152030";
-  const emissiveIntensity = cleanFactor * 0.45;
-
-  return (
-    <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Main body */}
-      <mesh position={[0.3, 0, 0]}>
-        <boxGeometry args={[3.8, 1.4, 1.8]} />
-        <meshStandardMaterial
-          color={bodyColor}
-          metalness={metalness}
-          roughness={roughness}
-          transparent
-          opacity={weight}
-          emissive="#001A2A"
-          emissiveIntensity={emissiveIntensity}
-        />
-      </mesh>
-
-      {/* Cab */}
-      <mesh position={[-1.55, 0.62, 0]}>
-        <boxGeometry args={[1.1, 0.96, 1.78]} />
-        <meshStandardMaterial
-          color={cabColor}
-          metalness={metalness}
-          roughness={roughness}
-          transparent
-          opacity={weight}
-        />
-      </mesh>
-
-      {/* Windshield — faint cyan glow */}
-      <mesh position={[-1.09, 0.7, 0]} rotation={[0, 0, Math.PI * 0.07]}>
-        <boxGeometry args={[0.06, 0.65, 1.36]} />
-        <meshStandardMaterial
-          color="#00C4FF"
-          emissive="#004466"
-          emissiveIntensity={0.6 + cleanFactor * 0.8}
-          transparent
-          opacity={weight * (0.2 + cleanFactor * 0.25)}
-        />
-      </mesh>
-
-      {/* Rear collection / cargo box */}
-      <mesh position={[1.82, 0.18, 0]}>
-        <boxGeometry args={[1.2, 1.72, 1.8]} />
-        <meshStandardMaterial
-          color={cleanFactor > 0.6 ? "#1E2E3E" : contaminated > 0.5 ? "#160E04" : "#15202A"}
-          metalness={metalness}
-          roughness={roughness}
-          transparent
-          opacity={weight}
-        />
-      </mesh>
-
-      {/* Wheels — 4 */}
-      {(
-        [
-          [-1.2, -0.85, 1.02],
-          [-1.2, -0.85, -1.02],
-          [1.2, -0.85, 1.02],
-          [1.2, -0.85, -1.02],
-        ] as [number, number, number][]
-      ).map((pos, i) => (
-        <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.38, 0.38, 0.28, 24]} />
-          <meshStandardMaterial
-            color={cleanFactor > 0.5 ? "#1A1A1A" : "#0A0800"}
-            metalness={0.2}
-            roughness={0.95}
-            transparent
-            opacity={weight}
-          />
-        </mesh>
-      ))}
-
-      {/* Exhaust stack */}
-      <mesh position={[-1.28, 1.06, 0.74]}>
-        <cylinderGeometry args={[0.06, 0.08, 0.82, 12]} />
-        <meshStandardMaterial
-          color="#2A2A2A"
-          metalness={0.82}
-          roughness={0.28}
-          transparent
-          opacity={weight}
-        />
-      </mesh>
-
-      {/* Headlights — glow when clean */}
-      {(
-        [
-          [-2.02, 0.35, 0.55],
-          [-2.02, 0.35, -0.55],
-        ] as [number, number, number][]
-      ).map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <boxGeometry args={[0.05, 0.22, 0.28]} />
-          <meshStandardMaterial
-            color="#FFFBE0"
-            emissive="#FFFBE0"
-            emissiveIntensity={cleanFactor * 2.5}
-            transparent
-            opacity={weight * (0.3 + cleanFactor * 0.7)}
-          />
-        </mesh>
-      ))}
-
-      {/* Ground reflection plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.22, 0]}>
-        <planeGeometry args={[14, 9]} />
-        <meshStandardMaterial
-          color="#030508"
-          metalness={0.72}
-          roughness={0.18}
-          transparent
-          opacity={weight * 0.42}
-        />
-      </mesh>
-    </group>
-  );
+function getOalIdForSector(sectorId: string): string {
+  return SECTOR_TO_OAL_ID[sectorId] ?? "OAL-IN-001";
 }
 
 // ─── Three.js: Contamination Cloud ───────────────────────────────────────────
@@ -678,7 +547,7 @@ function AmbientParticles({ progress }: { progress: number }) {
 
 // ─── Three.js: Scene World (top-level R3F component) ─────────────────────────
 
-function JourneyWorld({ progress }: { progress: number; sector: SectorDefinition }) {
+function JourneyWorld({ progress, sector }: { progress: number; sector: SectorDefinition }) {
   const N = 7;
   const w = (index: number) => sceneWeight(progress, index, N);
 
@@ -695,19 +564,19 @@ function JourneyWorld({ progress }: { progress: number; sector: SectorDefinition
   // Asset is present from scene 1 onward
   const assetWeight = Math.min(1, w(0) + w2 + w(2) + w(3) + w(4) + w(5) + w6);
 
-  // Cleaning effect drives material restoration
-  const cleanFactor = w6;
+  // OAL asset ID based on current sector
+  const oalId = getOalIdForSector(sector.id);
 
   return (
     <>
       <JourneyCameraController progress={progress} />
       <AmbientParticles progress={progress} />
 
-      {/* Industrial asset — always present once revealed */}
-      <IndustrialAsset
+      {/* OAL Asset placeholder — replaces geometric primitives */}
+      <OalAssetPlaceholder
+        assetId={oalId}
         weight={Math.min(1, assetWeight)}
-        contaminated={contaminationWeight}
-        cleaning={cleanFactor}
+        label={sector.label}
       />
 
       {/* Contamination cloud — scenes 2–6 */}
