@@ -2,8 +2,9 @@
 
 # OVI — Ingeniería en Limpieza
 
-> Estado: Base visual aprobada para futuras implementaciones  
-> Alcance: Dirección de arte, selección de assets, motion, 3D, UI y contenido visual
+> Estado: Aprobado — Ver **Foundation Order 003** para el lenguaje de diseño completo v1.0  
+> Alcance: Dirección de arte, selección de assets, motion, 3D, UI y contenido visual  
+> Referencia completa: [`design-language/design-language-v1.md`](design-language/design-language-v1.md)
 
 ---
 
