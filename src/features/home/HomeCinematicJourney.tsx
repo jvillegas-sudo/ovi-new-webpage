@@ -250,23 +250,28 @@ function CinematicWorld({
       <CameraController progress={progress} reducedMotion={reducedMotion} />
       <CinematicLighting progress={progress} />
 
+      {/* Persistent water foundation — present from scene 01 through closing scene 07 */}
       <WaterRippleSurface
-        weight={w(0) + w(1) + w(2) * 0.6}
+        weight={w(0) + w(1) + w(2) * 0.6 + w(5) * 0.5 + w(6) * 1.0}
         reducedMotion={reducedMotion}
         quality={quality}
       />
+      {/* Micro-droplet atmosphere — trails off at industrial peak, returns for closing */}
       <MicroDropletField
-        weight={w(0) * 0.9 + w(1) * 0.8 + w(2) * 0.7 + w(3) * 0.35}
+        weight={w(0) * 0.9 + w(1) * 0.8 + w(2) * 0.7 + w(3) * 0.35 + w(5) * 0.3 + w(6) * 0.7}
         reducedMotion={reducedMotion}
         quality={quality}
       />
 
+      {/* Scene 01 — Oscuridad y Gota */}
       <PrecisionWaterDrop weight={w(0)} reducedMotion={reducedMotion} intensity={1.2} />
+      {/* Scene 02 — Impacto */}
       <PremiumFoamLayer weight={w(1)} reducedMotion={reducedMotion} />
       <CleanSurfaceReveal weight={w(1)} reducedMotion={reducedMotion} />
-
+      {/* Scene 03 — Logo OVI */}
       <OviLogoReveal weight={w(2)} reducedMotion={reducedMotion} />
 
+      {/* Scene 04 — Ingeniería · Scene 06 — Transformación (shared industrial elements) */}
       <WetIndustrialSurface weight={w(3) + w(5) * 0.4} />
       <InspectionLightSweep weight={w(3) + w(5)} reducedMotion={reducedMotion} />
       <TechnicalSteamVolume
@@ -275,9 +280,15 @@ function CinematicWorld({
         reducedMotion={reducedMotion}
       />
       <SceneAAnnotations weight={w(3)} />
+      {/* Scene 06 — Transformación: water actively at work */}
+      <PrecisionWaterDrop weight={w(5) * 0.7} reducedMotion={reducedMotion} intensity={0.9} />
 
+      {/* Scene 05 — Sectores */}
       <RealMediaPortal items={mediaItems} weight={w(4)} />
       <SceneCTransformationLabel weight={w(5)} />
+
+      {/* Scene 07 — Entrada: cinematic pull-back — inspection beam fades as water returns */}
+      <InspectionLightSweep weight={w(6) * 0.4} reducedMotion={reducedMotion} width={14} depth={9} />
     </>
   );
 }
@@ -354,7 +365,9 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
             accesible.
           </Text>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button size="lg">Iniciar la Experiencia</Button>
+            <Link href="/descubre-tu-solucion">
+              <Button size="lg">Iniciar la Experiencia</Button>
+            </Link>
             <Link href="/descubre-tu-solucion">
               <Button variant="outline" size="lg">
                 Resolver un desafío
@@ -460,7 +473,9 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
             </div>
 
             <div className="pointer-events-auto flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button size="lg">Iniciar la Experiencia</Button>
+              <Link href="/descubre-tu-solucion">
+                <Button size="lg">Iniciar la Experiencia</Button>
+              </Link>
               <Link href="/descubre-tu-solucion">
                 <Button variant="outline" size="lg">
                   Resolver un desafío
