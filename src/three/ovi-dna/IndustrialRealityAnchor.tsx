@@ -1,8 +1,7 @@
 import { Html } from "@react-three/drei";
 import type { OviDnaBaseProps } from "./types";
 
-const OFFICIAL_ASSET_URL =
-  "https://github.com/user-attachments/assets/59c65962-fe03-4348-a567-3398fed123d4";
+const OFFICIAL_ASSET_URL = "/ovi-media/cases/emvarias/emvarias-fleet-wash.png";
 
 const STEEL_FINS = [
   { position: [-1.62, 0.56, 0.16] as const, size: [0.18, 2.48, 0.08] as const, rotation: [0, 0.08, 0] as const },
@@ -36,7 +35,7 @@ interface IndustrialRealityAnchorProps extends OviDnaBaseProps {
  * Asset:
  *   Client: EMVARIAS — Transporte y gestión de residuos
  *   Service: Lavado de flota In-House, lavado general, desmanchado y despavonado
- *   URL: https://github.com/user-attachments/assets/59c65962-fe03-4348-a567-3398fed123d4
+ *   Asset: public/ovi-media/cases/emvarias/emvarias-fleet-wash.png
  */
 export function IndustrialRealityAnchor({
   weight,
