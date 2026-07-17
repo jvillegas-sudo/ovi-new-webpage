@@ -11,7 +11,7 @@
  */
 
 import { useEffect, useRef } from "react";
-import type * as THREE from "three";
+import * as THREE from "three";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { OAL_CATALOG } from "./catalog";
@@ -46,10 +46,7 @@ export const KTX2_TRANSCODER_PATH = "/basis/";
  * Resolves the public URL for an OAL asset by ID and LOD level.
  * Returns null if the asset is not yet integrated (status !== ready/integrated).
  */
-export function resolveOalPath(
-  assetId: string,
-  lod: OalLodLevel = "lod0",
-): string | null {
+export function resolveOalPath(assetId: string, lod: OalLodLevel = "lod0"): string | null {
   const entry = OAL_CATALOG[assetId];
   if (!entry) return null;
 
@@ -114,10 +111,7 @@ export function extractHotspots(scene: THREE.Object3D): OalHotspot[] {
  * caller should check isAssetReady() BEFORE rendering this hook to avoid
  * the Suspense boundary being triggered for a missing file.
  */
-export function useOalAsset(
-  assetId: string,
-  lod: OalLodLevel = "lod0",
-): GLTF | null {
+export function useOalAsset(assetId: string, lod: OalLodLevel = "lod0"): GLTF | null {
   const path = resolveOalPath(assetId, lod);
 
   // useGLTF requires a non-empty string; using a sentinel path avoids
@@ -180,10 +174,7 @@ export function useOalAnimation(
  * preloadOalAssets(['OAL-TR-001', 'OAL-IN-002']);
  * ```
  */
-export function preloadOalAssets(
-  assetIds: string[],
-  lod: OalLodLevel = "lod1",
-): void {
+export function preloadOalAssets(assetIds: string[], lod: OalLodLevel = "lod1"): void {
   for (const id of assetIds) {
     const path = resolveOalPath(id, lod);
     if (path) {
