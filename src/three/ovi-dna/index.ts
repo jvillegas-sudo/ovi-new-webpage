@@ -10,6 +10,7 @@ export { BrushedSteelMaterial } from "./BrushedSteelMaterial";
 export { WetIndustrialSurface } from "./WetIndustrialSurface";
 export { OviLogoReveal } from "./OviLogoReveal";
 export { RealMediaPortal } from "./RealMediaPortal";
+export { IndustrialRealityAnchor } from "./IndustrialRealityAnchor";
 
 export type { OviDnaBaseProps, OviDnaQuality } from "./types";
 export type { RealMediaItem } from "./RealMediaPortal";

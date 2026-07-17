@@ -18,6 +18,7 @@ import { SceneEnvironment } from "@three/components/SceneEnvironment";
 import { ThreeCanvas } from "@three/components/ThreeCanvas";
 import {
   CleanSurfaceReveal,
+  IndustrialRealityAnchor,
   InspectionLightSweep,
   MicroDropletField,
   OviLogoReveal,
@@ -275,6 +276,7 @@ function CinematicWorld({
         reducedMotion={reducedMotion}
       />
       <SceneAAnnotations weight={w(3)} />
+      <IndustrialRealityAnchor weight={w(3)} reducedMotion={reducedMotion} quality={quality} />
 
       <RealMediaPortal items={mediaItems} weight={w(4)} />
       <SceneCTransformationLabel weight={w(5)} />
