@@ -1,18 +1,46 @@
-import { Html } from "@react-three/drei";
+import { useTexture } from "@react-three/drei";
+import { useEffect, useMemo } from "react";
+import * as THREE from "three";
 import type { OviDnaBaseProps } from "./types";
 
 const OFFICIAL_ASSET_URL = "/ovi-media/cases/emvarias/emvarias-fleet-wash.png";
 
 const STEEL_FINS = [
-  { position: [-1.62, 0.56, 0.16] as const, size: [0.18, 2.48, 0.08] as const, rotation: [0, 0.08, 0] as const },
-  { position: [-0.62, 0.22, 0.18] as const, size: [0.14, 2.16, 0.08] as const, rotation: [0, -0.05, 0] as const },
-  { position: [0.58, -0.12, 0.2] as const, size: [0.16, 2.06, 0.08] as const, rotation: [0, 0.03, 0] as const },
-  { position: [1.54, 0.34, 0.17] as const, size: [0.12, 2.3, 0.08] as const, rotation: [0, -0.08, 0] as const },
+  {
+    position: [-1.62, 0.56, 0.16] as const,
+    size: [0.18, 2.48, 0.08] as const,
+    rotation: [0, 0.08, 0] as const,
+  },
+  {
+    position: [-0.62, 0.22, 0.18] as const,
+    size: [0.14, 2.16, 0.08] as const,
+    rotation: [0, -0.05, 0] as const,
+  },
+  {
+    position: [0.58, -0.12, 0.2] as const,
+    size: [0.16, 2.06, 0.08] as const,
+    rotation: [0, 0.03, 0] as const,
+  },
+  {
+    position: [1.54, 0.34, 0.17] as const,
+    size: [0.12, 2.3, 0.08] as const,
+    rotation: [0, -0.08, 0] as const,
+  },
 ] as const;
 
 const CONDENSATION_VEILS = [
-  { position: [-0.9, 0.32, 0.14] as const, size: [1.18, 1.86] as const, rotation: [0.04, 0.08, -0.06] as const, opacity: 0.1 },
-  { position: [0.92, -0.08, 0.15] as const, size: [1.4, 1.96] as const, rotation: [-0.03, -0.06, 0.04] as const, opacity: 0.08 },
+  {
+    position: [-0.9, 0.32, 0.14] as const,
+    size: [1.18, 1.86] as const,
+    rotation: [0.04, 0.08, -0.06] as const,
+    opacity: 0.1,
+  },
+  {
+    position: [0.92, -0.08, 0.15] as const,
+    size: [1.4, 1.96] as const,
+    rotation: [-0.03, -0.06, 0.04] as const,
+    opacity: 0.08,
+  },
 ] as const;
 
 interface IndustrialRealityAnchorProps extends OviDnaBaseProps {
@@ -37,10 +65,48 @@ interface IndustrialRealityAnchorProps extends OviDnaBaseProps {
  *   Service: Lavado de flota In-House, lavado general, desmanchado y despavonado
  *   Asset: public/ovi-media/cases/emvarias/emvarias-fleet-wash.png
  */
-export function IndustrialRealityAnchor({
-  weight,
-}: IndustrialRealityAnchorProps) {
+export function IndustrialRealityAnchor({ weight }: IndustrialRealityAnchorProps) {
   const opacity = Math.max(0, Math.min(1, weight));
+  const photoTexture = useTexture(OFFICIAL_ASSET_URL);
+
+  const apertureShape = useMemo(() => {
+    const width = 4.26;
+    const height = 2.5;
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const points = [
+      [0.02, 0.08],
+      [0.15, 0.02],
+      [0.82, 0],
+      [0.98, 0.1],
+      [1, 0.8],
+      [0.92, 0.98],
+      [0.16, 1],
+      [0, 0.88],
+    ] as const;
+
+    const shape = new THREE.Shape();
+    points.forEach(([x, y], index) => {
+      const px = x * width - halfWidth;
+      const py = halfHeight - y * height;
+      if (index === 0) {
+        shape.moveTo(px, py);
+        return;
+      }
+      shape.lineTo(px, py);
+    });
+    shape.closePath();
+    return shape;
+  }, []);
+
+  useEffect(() => {
+    photoTexture.colorSpace = THREE.SRGBColorSpace;
+    photoTexture.minFilter = THREE.LinearMipmapLinearFilter;
+    photoTexture.magFilter = THREE.LinearFilter;
+    photoTexture.anisotropy = 8;
+    photoTexture.needsUpdate = true;
+  }, [photoTexture]);
+
   if (opacity < 0.02) return null;
 
   return (
@@ -87,73 +153,39 @@ export function IndustrialRealityAnchor({
           opacity={opacity * 0.86}
         />
       </mesh>
-      <Html transform position={[0.16, 0.02, 0.012]} occlude={false}>
-        <div
-          style={{
-            opacity: opacity * 0.96,
-            width: "430px",
-            height: "264px",
-            overflow: "hidden",
-            pointerEvents: "none",
-            position: "relative",
-            background: "#040a0f",
-            clipPath:
-              "polygon(2% 8%, 15% 2%, 82% 0%, 98% 10%, 100% 80%, 92% 98%, 16% 100%, 0% 88%)",
-            boxShadow:
-              "inset 0 0 72px rgba(2,6,14,0.92), inset 0 0 18px rgba(126,232,255,0.18)",
-            filter: "blur(0.1px)",
-          }}
-        >
-          <img
-            src={OFFICIAL_ASSET_URL}
-            alt="OVI — Lavado de flota industrial · EMVARIAS"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-              filter: "saturate(0.8) brightness(0.84) contrast(1.04)",
-              transform: "scale(1.02)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(96deg, rgba(2,6,14,0.82) 0%, rgba(2,6,14,0.18) 23%, rgba(0,196,255,0.14) 54%, rgba(2,6,14,0.42) 100%)",
-              mixBlendMode: "screen",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle at 78% 44%, rgba(126,232,255,0.26), transparent 24%), linear-gradient(to top, rgba(2,6,14,0.76), transparent 36%), linear-gradient(to right, rgba(2,6,14,0.9), transparent 18%, transparent 78%, rgba(2,6,14,0.86) 100%)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              left: "4%",
-              top: "8%",
-              width: "34%",
-              height: "76%",
-              background:
-                "linear-gradient(100deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02) 36%, transparent 72%)",
-              filter: "blur(16px)",
-              opacity: 0.44,
-            }}
-          />
-        </div>
-      </Html>
+      <mesh position={[0.16, 0.02, 0.012]}>
+        <shapeGeometry args={[apertureShape]} />
+        <meshStandardMaterial
+          map={photoTexture}
+          color="#b8d7e4"
+          emissive="#1f3d4f"
+          emissiveIntensity={opacity * 0.16}
+          roughness={0.56}
+          metalness={0.08}
+          transparent
+          opacity={opacity * 0.98}
+        />
+      </mesh>
+      <mesh position={[0.16, 0.02, 0.022]}>
+        <shapeGeometry args={[apertureShape]} />
+        <meshBasicMaterial
+          color="#08121a"
+          transparent
+          opacity={opacity * 0.18}
+          depthWrite={false}
+        />
+      </mesh>
+      <mesh position={[-0.56, 0.18, 0.028]} rotation={[0.06, -0.04, 0.02]}>
+        <planeGeometry args={[1.28, 2.02]} />
+        <meshBasicMaterial
+          color="#dff7ff"
+          transparent
+          opacity={opacity * 0.12}
+          depthWrite={false}
+        />
+      </mesh>
       {STEEL_FINS.map((fin, index) => (
-        <mesh
-          key={`fin-${index}`}
-          position={fin.position}
-          rotation={fin.rotation}
-        >
+        <mesh key={`fin-${index}`} position={fin.position} rotation={fin.rotation}>
           <boxGeometry args={fin.size} />
           <meshStandardMaterial
             color="#0a1820"
@@ -165,11 +197,7 @@ export function IndustrialRealityAnchor({
         </mesh>
       ))}
       {CONDENSATION_VEILS.map((veil, index) => (
-        <mesh
-          key={`veil-${index}`}
-          position={veil.position}
-          rotation={veil.rotation}
-        >
+        <mesh key={`veil-${index}`} position={veil.position} rotation={veil.rotation}>
           <planeGeometry args={veil.size} />
           <meshBasicMaterial
             color="#b7f4ff"
