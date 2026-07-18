@@ -276,7 +276,12 @@ function CinematicWorld({
         reducedMotion={reducedMotion}
       />
       <SceneAAnnotations weight={w(3)} />
-      <IndustrialRealityAnchor weight={w(3)} reducedMotion={reducedMotion} quality={quality} />
+      <IndustrialRealityAnchor
+        weight={w(3)}
+        progress={progress}
+        reducedMotion={reducedMotion}
+        quality={quality}
+      />
 
       <RealMediaPortal items={mediaItems} weight={w(4)} />
       <SceneCTransformationLabel weight={w(5)} />
@@ -284,7 +289,7 @@ function CinematicWorld({
   );
 }
 
-export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourneyProps) {
+export function HomeCinematicJourney({ hero, locale: _locale = "es" }: HomeCinematicJourneyProps) {
   const journeyRef = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0);
   const [hasWebGL, setHasWebGL] = useState(true);
@@ -304,9 +309,6 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
     setHasWebGL(supportsWebGL());
   }, []);
 
-  const scenes = useMemo(() => buildFlatScenes(locale), [locale]);
-  const activeIndex = Math.min(scenes.length - 1, Math.floor(progress * scenes.length));
-  const activeScene = scenes[activeIndex];
   const mediaItems = useMemo(
     () =>
       [
@@ -392,29 +394,13 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,196,255,0.18),transparent_46%),radial-gradient(circle_at_center,rgba(163,239,255,0.08),transparent_42%),radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.06),transparent_52%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,14,0.35)_0%,transparent_25%,transparent_75%,rgba(2,6,14,0.55)_100%)]" />
 
-        <div className="absolute top-1/2 left-6 z-20 flex -translate-y-1/2 flex-col items-center gap-3">
-          {scenes.map((scene, index) => {
-            const isActive = index === activeIndex;
-            return (
-              <div key={scene.id} className="flex items-center gap-2.5">
-                <div
-                  className={`h-px transition-all duration-700 ${isActive ? "w-8 bg-[var(--color-brand-primary)]" : "w-3 bg-[rgba(255,255,255,0.2)]"}`}
-                />
-                <div
-                  className={`rounded-full transition-all duration-700 ${isActive ? "h-1.5 w-1.5 scale-150 bg-[var(--color-brand-primary)] shadow-[0_0_8px_var(--color-brand-primary)]" : "h-1 w-1 bg-[rgba(255,255,255,0.2)]"}`}
-                />
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="absolute top-1/2 right-6 z-20 -translate-y-1/2">
-          <Text
-            size="xs"
-            className="font-mono tracking-[0.22em] text-[var(--color-text-tertiary)] uppercase"
-          >
-            {activeScene?.number} / {String(scenes.length).padStart(2, "0")}
-          </Text>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center px-6 pb-6">
+          <div className="h-px w-full max-w-xs overflow-hidden rounded-full bg-[rgba(255,255,255,0.12)]">
+            <div
+              className="h-full bg-[rgba(0,196,255,0.72)] transition-all duration-300"
+              style={{ width: `${Math.max(progress * 100, 4)}%` }}
+            />
+          </div>
         </div>
 
         <Container className="relative z-10 flex h-full flex-col justify-between py-10">
@@ -431,36 +417,6 @@ export function HomeCinematicJourney({ hero, locale = "es" }: HomeCinematicJourn
           </div>
 
           <div className="mx-auto w-full max-w-5xl space-y-5">
-            <div className="glass pointer-events-auto rounded-2xl border border-[var(--color-border-default)] px-6 py-4">
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
-                  <Text
-                    size="xs"
-                    className="tracking-[0.18em] text-[var(--color-brand-primary)] uppercase"
-                  >
-                    Escena {activeScene?.number}
-                  </Text>
-                  <Text weight="semibold" className="mt-0.5 text-[var(--color-text-primary)]">
-                    {activeScene?.title}
-                  </Text>
-                  <Text size="sm" className="mt-1 text-[var(--color-text-secondary)]">
-                    {activeScene?.tagline}
-                  </Text>
-                </div>
-                <div className="flex shrink-0 flex-col items-end gap-1.5 pt-1">
-                  <Text size="xs" className="text-[var(--color-text-tertiary)]">
-                    {Math.round(progress * 100)}%
-                  </Text>
-                  <div className="h-0.5 w-20 rounded-full bg-[var(--color-border-default)]">
-                    <div
-                      className="h-full rounded-full bg-[var(--color-brand-primary)] transition-all duration-300"
-                      style={{ width: `${progress * 100}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div className="pointer-events-auto flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button size="lg">Iniciar la Experiencia</Button>
               <Link href="/descubre-tu-solucion">
