@@ -1,52 +1,45 @@
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@lib/metadata";
 import { ChemicalLinePage } from "@features/products/ChemicalLinePage";
-import { getChemicalLineBySlug, CHEMICAL_LINES } from "@features/products/chemical-lines-data";
-
-// ─── Static Params ─────────────────────────────────────────────────────────────
+import { getSectorBySlug, OVI_SECTORS } from "@features/products/chemical-lines-data";
 
 export async function generateStaticParams() {
-  return CHEMICAL_LINES.map((line) => ({ line: line.slug }));
+  return OVI_SECTORS.map((sector) => ({ line: sector.slug }));
 }
-
-// ─── Metadata ──────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: { params: Promise<{ line: string }> }) {
   const { line: slug } = await params;
-  const line = getChemicalLineBySlug(slug);
+  const sector = getSectorBySlug(slug);
 
-  if (!line) {
+  if (!sector) {
     return buildMetadata({
-      title: "Línea no encontrada",
-      description: "La línea de productos solicitada no existe en el catálogo OVI.",
+      title: "Sector no encontrado",
+      description: "El sector de productos solicitado no existe en el catálogo OVI.",
       canonical: "/products",
     });
   }
 
   return buildMetadata({
-    title: line.name,
-    description: `${line.subtitle}. ${line.description}`,
-    canonical: `/products/${line.slug}`,
+    title: `${sector.officialName} | Productos OVI`,
+    description: `Sector ${sector.officialName} del catálogo oficial OVI. ${sector.products.length} productos cargados.`,
+    canonical: `/products/${sector.slug}`,
     keywords: [
-      line.name,
-      line.badge,
-      ...line.industries,
-      "OVI Ingeniería en Limpieza",
-      "productos químicos industriales",
-      "formulaciones biodegradables",
+      "productos OVI",
+      "catálogo OVI",
+      sector.officialName,
+      "limpieza profesional",
+      "ingeniería en limpieza",
     ],
   });
 }
 
-// ─── Page ──────────────────────────────────────────────────────────────────────
-
-export default async function ChemicalLineRoute({ params }: { params: Promise<{ line: string }> }) {
+export default async function SectorRoute({ params }: { params: Promise<{ line: string }> }) {
   const { line: slug } = await params;
-  const line = getChemicalLineBySlug(slug);
+  const sector = getSectorBySlug(slug);
 
-  if (!line) {
+  if (!sector) {
     notFound();
   }
 
-  return <ChemicalLinePage line={line} />;
+  return <ChemicalLinePage line={sector} />;
 }

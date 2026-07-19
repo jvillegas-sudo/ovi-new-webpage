@@ -4,17 +4,18 @@ import { ProductsPage } from "@features/products/ProductsPage";
 export const metadata = buildMetadata({
   title: "Productos",
   description:
-    "Portafolio de productos OVI Ingeniería en Limpieza: formulaciones biodegradables, equipos de aplicación, accesorios y servicios técnicos para industria, flota e instituciones.",
+    "Catálogo de productos OVI organizado por sector oficial: Industrial, Biotecnología, Lavandería, Alimentos, Protección y Cuidado Personal, Hotelería e Institucional y Mantenimiento.",
   canonical: "/products",
   keywords: [
     "productos OVI",
-    "desengrasante industrial",
-    "formulación biodegradable",
+    "catálogo oficial OVI",
     "químicos de limpieza",
-    "equipos de limpieza",
-    "lavado de flota",
-    "OVI Ingeniería en Limpieza",
-    "soluciones de limpieza industrial",
+    "limpieza industrial",
+    "biotecnología",
+    "lavandería",
+    "alimentos",
+    "cuidado personal",
+    "institucional",
   ],
 });
 
