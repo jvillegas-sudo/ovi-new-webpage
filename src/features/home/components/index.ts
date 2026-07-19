@@ -10,3 +10,4 @@ export { ServiceHighlights } from "./ServiceHighlights";
 export { FeaturedProducts } from "./FeaturedProducts";
 export { FeaturedSolutions } from "./FeaturedSolutions";
 export { KnowledgeHighlights } from "./KnowledgeHighlights";
+export { CommercialNavHub } from "./CommercialNavHub";

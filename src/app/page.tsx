@@ -20,6 +20,7 @@ import {
   FeaturedProducts,
   FeaturedSolutions,
   KnowledgeHighlights,
+  CommercialNavHub,
 } from "@features/home/components";
 import {
   homeHero,
@@ -65,6 +66,9 @@ export default function HomePage() {
   return (
     <>
       <HomeCinematicJourney hero={heroContent} locale={locale} />
+
+      {/* Commercial Navigation Hub */}
+      <CommercialNavHub />
 
       {/* Identity Metrics */}
       <Section background="elevated" padding="md">
