@@ -80,8 +80,8 @@ function CameraController({
     [0, 1, 5.8],
     [0, 0.6, 4.2],
     [2.4, 1.4, 5.4],
-    [0, 1.1, 5.1],
-    [-2.5, 1.2, 5.6],
+    [0.9, 1.1, 5.25],
+    [-1.6, 1.2, 5.5],
     [0, 1.4, 7.2],
   ];
 
@@ -90,8 +90,8 @@ function CameraController({
     [0, -0.4, 0],
     [0, 0.2, 0],
     [0, 0, -3],
-    [0, 0, -1.8],
-    [0, 0, -2.2],
+    [0.12, 0.08, -2.65],
+    [0.08, 0.08, -2.72],
     [0, 0.3, 1.2],
   ];
 
@@ -123,6 +123,20 @@ function CameraController({
     lookAt.current.x += (flx + (tlx - flx) * t - lookAt.current.x) * 0.04;
     lookAt.current.y += (fly + (tly - fly) * t - lookAt.current.y) * 0.04;
     lookAt.current.z += (flz + (tlz - flz) * t - lookAt.current.z) * 0.04;
+
+    const focusIn = THREE.MathUtils.smoothstep(progress, 0.39, 0.47);
+    const focusOut = 1 - THREE.MathUtils.smoothstep(progress, 0.56, 0.64);
+    const sceneAFocus = focusIn * focusOut;
+
+    if (sceneAFocus > 0.001) {
+      camera.position.x += (0.7 - camera.position.x) * (0.02 + sceneAFocus * 0.08);
+      camera.position.y += (1.08 - camera.position.y) * (0.02 + sceneAFocus * 0.08);
+      camera.position.z += (5.26 - camera.position.z) * (0.02 + sceneAFocus * 0.08);
+      lookAt.current.x += (0.2 - lookAt.current.x) * (0.03 + sceneAFocus * 0.1);
+      lookAt.current.y += (0.3 - lookAt.current.y) * (0.03 + sceneAFocus * 0.1);
+      lookAt.current.z += (-2.74 - lookAt.current.z) * (0.03 + sceneAFocus * 0.1);
+    }
+
     camera.lookAt(lookAt.current.x, lookAt.current.y, lookAt.current.z);
   });
 

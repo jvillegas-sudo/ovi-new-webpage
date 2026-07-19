@@ -5,9 +5,9 @@ import type { OviDnaBaseProps } from "./types";
 
 const OFFICIAL_ASSET_URL = "/ovi-media/cases/emvarias/emvarias-fleet-wash.png";
 const ACTIVATION_SCROLL_RANGE = [0.3367, 0.6633] as const;
-const PHOTO_SIZE = [3.9, 2.92] as const;
-const ANCHOR_POSITION = [0.18, 0.26, -2.86] as const;
-const ANCHOR_ROTATION = [0.03, -0.1, 0.015] as const;
+const PHOTO_SIZE = [4.84, 3.62] as const;
+const ANCHOR_POSITION = [0.22, 0.3, -2.74] as const;
+const ANCHOR_ROTATION = [0.03, -0.075, 0.012] as const;
 
 const STEEL_FINS = [
   {
@@ -32,13 +32,13 @@ const CONDENSATION_VEILS = [
     position: [-0.9, 0.32, 0.14] as const,
     size: [1.18, 1.86] as const,
     rotation: [0.04, 0.08, -0.06] as const,
-    opacity: 0.1,
+    opacity: 0.08,
   },
   {
     position: [0.92, -0.08, 0.15] as const,
     size: [1.4, 1.96] as const,
     rotation: [-0.03, -0.06, 0.04] as const,
-    opacity: 0.08,
+    opacity: 0.065,
   },
 ] as const;
 
@@ -163,19 +163,19 @@ export function IndustrialRealityAnchor({ weight, progress = 0 }: IndustrialReal
   return (
     <group ref={groupRef} position={ANCHOR_POSITION} rotation={ANCHOR_ROTATION}>
       <mesh position={[0, -0.04, -0.08]}>
-        <planeGeometry args={[4.34, 3.18]} />
+        <planeGeometry args={[5.38, 3.94]} />
         <meshStandardMaterial
-          color="#08141d"
-          emissive="#061018"
-          emissiveIntensity={opacity * 0.22}
-          roughness={0.22}
+          color="#060f16"
+          emissive="#050d14"
+          emissiveIntensity={opacity * 0.2}
+          roughness={0.26}
           metalness={0.9}
           transparent
-          opacity={0.84}
+          opacity={0.9}
         />
       </mesh>
       <mesh position={[0.12, -1.56, 0.24]} rotation={[-Math.PI / 2, 0.16, 0]}>
-        <planeGeometry args={[4.28, 1.86]} />
+        <planeGeometry args={[5.24, 2.18]} />
         <meshStandardMaterial
           color="#0a1820"
           roughness={0.16}
@@ -187,58 +187,58 @@ export function IndustrialRealityAnchor({ weight, progress = 0 }: IndustrialReal
       <pointLight
         position={[1.86, 1.18, 1.05]}
         color="#00c4ff"
-        intensity={opacity * 2.8}
-        distance={7}
+        intensity={opacity * 3.6}
+        distance={8.5}
       />
       <pointLight
         position={[-1.68, 0.52, 0.92]}
         color="#d8fbff"
-        intensity={opacity * 0.9}
-        distance={5}
+        intensity={opacity * 1.3}
+        distance={6.4}
       />
       <mesh position={[0.02, 0.05, 0.02]}>
-        <planeGeometry args={[4.08, 3.06]} />
+        <planeGeometry args={[5.02, 3.76]} />
         <meshStandardMaterial
-          color="#11222d"
-          emissive="#16394b"
-          emissiveIntensity={opacity * 0.4}
+          color="#0d1a23"
+          emissive="#143344"
+          emissiveIntensity={opacity * 0.34}
           roughness={0.42}
           metalness={0.36}
           transparent
-          opacity={opacity * 0.18}
+          opacity={opacity * 0.14}
         />
       </mesh>
       <mesh geometry={photoGeometry} position={[0.02, 0.05, 0.08]}>
         <meshStandardMaterial
           map={photoTexture}
-          color="#d5e9f2"
+          color="#e3f2f9"
           emissive="#24566e"
-          emissiveIntensity={opacity * 0.22}
-          roughness={0.34}
+          emissiveIntensity={opacity * 0.28}
+          roughness={0.26}
           metalness={0.14}
           transparent
           opacity={opacity}
         />
       </mesh>
       <mesh position={[0.08, 0.02, 0.12]}>
-        <planeGeometry args={[4.04, 3]} />
+        <planeGeometry args={[4.96, 3.68]} />
         <meshStandardMaterial
           color="#6aa9c3"
           emissive="#2f94bf"
-          emissiveIntensity={opacity * 0.22}
+          emissiveIntensity={opacity * 0.2}
           roughness={0.08}
           metalness={0.04}
           transparent
-          opacity={opacity * 0.06}
+          opacity={opacity * 0.045}
           depthWrite={false}
         />
       </mesh>
       <mesh position={[-0.18, 0.04, 0.18]} rotation={[0.05, -0.02, 0.01]}>
-        <planeGeometry args={[4.18, 3.02]} />
+        <planeGeometry args={[5.14, 3.74]} />
         <meshBasicMaterial
           color="#d7f3ff"
           transparent
-          opacity={opacity * 0.09}
+          opacity={opacity * 0.07}
           depthWrite={false}
         />
       </mesh>
