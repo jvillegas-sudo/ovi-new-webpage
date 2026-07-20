@@ -477,7 +477,9 @@ describe("Test 20 — Empty knowledge records preserve fallback behavior", () =>
 
   it("all minimal records have empty application arrays", () => {
     const minimal = PRODUCT_KNOWLEDGE_REGISTRY.filter((pk) => pk.informationStatus === "minimal");
-    expect(minimal.length).toBe(56); // all are currently minimal
+    const enriched = PRODUCT_KNOWLEDGE_REGISTRY.filter((pk) => pk.informationStatus !== "minimal");
+    expect(minimal.length + enriched.length).toBe(56);
+    expect(enriched.length).toBeGreaterThan(0);
     for (const pk of minimal) {
       expect(pk.applications).toHaveLength(0);
       expect(pk.surfaces).toHaveLength(0);

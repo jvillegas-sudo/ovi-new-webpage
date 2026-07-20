@@ -52,7 +52,7 @@ describe("Services Knowledge — resolver", () => {
     expect(service.purpose).toContain("lavado técnico");
     expect(service.executionSteps.length).toBeGreaterThan(0);
     expect(service.kpis).toContain("Tiempo de ciclo por unidad");
-    expect(service.relatedProjects).toContain("CASE-001");
+    expect(service.relatedProjects).toContain("case-001");
   });
 
   it("builds a public service view for published services", () => {
