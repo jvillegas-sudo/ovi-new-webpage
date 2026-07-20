@@ -26,6 +26,7 @@ import { Cursor } from "@components/ui/Cursor";
 import { Loader } from "@components/ui/Loader";
 import { buildMetadata } from "@lib/metadata";
 import { OviAiCompanion } from "@features/ovi-ai/OviAiCompanion";
+import { ProductSearchDialog } from "@features/product-search";
 
 // ─── Metadata ────────────────────────────────────────────────────────────────
 export const metadata: Metadata = buildMetadata();
@@ -57,6 +58,9 @@ export default function RootLayout({
 
           {/* OVI AI — Holographic Companion (Experience Order 004) */}
           <OviAiCompanion />
+
+          {/* Product Search — Global dialog (Work Order 007) */}
+          <ProductSearchDialog />
         </Providers>
       </body>
     </html>

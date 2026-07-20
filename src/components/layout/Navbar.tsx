@@ -28,6 +28,7 @@ import { siteConfig } from "@config/site";
 import { navbarSlide, mobileMenu, staggerContainer, staggerItem } from "@animations/variants";
 import { Button } from "@components/ui/Button";
 import { Container } from "@components/ui/Container";
+import { ProductSearchTrigger } from "@features/product-search";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -124,6 +125,9 @@ export function Navbar() {
 
             {/* Desktop CTA + Mobile Menu Toggle */}
             <div className="flex items-center gap-3">
+              {/* Product Search trigger — desktop */}
+              <ProductSearchTrigger variant="nav" className="hidden lg:inline-flex" />
+
               <Button variant="primary" size="sm" className="hidden lg:inline-flex" rounded="full">
                 <Link href={siteConfig.nav.cta.href}>{siteConfig.nav.cta.label}</Link>
               </Button>
@@ -189,6 +193,14 @@ export function Navbar() {
                     <Button variant="primary" fullWidth size="lg" rounded="full">
                       <Link href={siteConfig.nav.cta.href}>{siteConfig.nav.cta.label}</Link>
                     </Button>
+                  </motion.li>
+
+                  {/* Product search — mobile */}
+                  <motion.li variants={staggerItem} className="mt-2 px-4">
+                    <ProductSearchTrigger
+                      variant="nav"
+                      className="w-full justify-center rounded-full border border-[var(--color-border-default)] py-3 text-sm"
+                    />
                   </motion.li>
                 </motion.ul>
               </Container>

@@ -14,7 +14,8 @@
     "type-check": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest run"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -55,22 +56,29 @@
     "@storybook/blocks": "^8.6.17",
     "@storybook/nextjs": "^8.6.17",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/testing-library__user-event": "^4.1.1",
     "@types/three": "^0.185.1",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
     "@typescript-eslint/parser": "^8.63.0",
+    "@vitest/ui": "^4.1.10",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
     "lint-staged": "^17.0.8",
     "prettier": "^3.9.5",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "storybook": "^8.6.17",
     "tailwindcss": "^4",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.10"
   }
 }

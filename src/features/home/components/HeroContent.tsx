@@ -11,6 +11,7 @@
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { Badge, Button, Container, Heading, Text } from "@components/ui";
+import { ProductSearchTrigger } from "@features/product-search";
 import type { HeroLocaleContent } from "@knowledge/home";
 
 interface HeroContentProps {
@@ -55,6 +56,11 @@ export function HeroContent({ hero, showScrollIndicator = true }: HeroContentPro
               OVI Catálogo
             </Button>
           </Link>
+        </div>
+
+        {/* Product search CTA — additive entry point (WO-007) */}
+        <div className="mt-6">
+          <ProductSearchTrigger variant="hero" />
         </div>
         {showScrollIndicator && (
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
