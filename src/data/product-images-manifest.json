@@ -1,0 +1,338 @@
+[
+  {
+    "productId": "industrial-handsol",
+    "expectedPath": "/ovi-media/products/industrial/handsol.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-biodex",
+    "expectedPath": "/ovi-media/products/industrial/biodex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-degreaser",
+    "expectedPath": "/ovi-media/products/industrial/degreaser.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-biodelect",
+    "expectedPath": "/ovi-media/products/industrial/biodelect.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-ecotex",
+    "expectedPath": "/ovi-media/products/industrial/ecotex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-solwash",
+    "expectedPath": "/ovi-media/products/industrial/solwash.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-concrete-clean",
+    "expectedPath": "/ovi-media/products/industrial/concrete-clean.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-cr30",
+    "expectedPath": "/ovi-media/products/industrial/cr30.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-cr30s",
+    "expectedPath": "/ovi-media/products/industrial/cr30s.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-jp35",
+    "expectedPath": "/ovi-media/products/industrial/jp35.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-dust-off",
+    "expectedPath": "/ovi-media/products/industrial/dust-off.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-ultradegreaser-i",
+    "expectedPath": "/ovi-media/products/industrial/ultradegreaser-i.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-litoclean",
+    "expectedPath": "/ovi-media/products/industrial/litoclean.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-improclean-e",
+    "expectedPath": "/ovi-media/products/industrial/improclean-e.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-gum-remove",
+    "expectedPath": "/ovi-media/products/industrial/gum-remove.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-ecolub",
+    "expectedPath": "/ovi-media/products/industrial/ecolub.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "industrial-contact-sol",
+    "expectedPath": "/ovi-media/products/industrial/contact-sol.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "biotecnologia-eco-zyme",
+    "expectedPath": "/ovi-media/products/biotecnologia/eco-zyme.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "biotecnologia-eco-zyme-solid",
+    "expectedPath": "/ovi-media/products/biotecnologia/eco-zyme-solid.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "lavanderia-detertex",
+    "expectedPath": "/ovi-media/products/lavanderia/detertex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "lavanderia-degratex",
+    "expectedPath": "/ovi-media/products/lavanderia/degratex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "lavanderia-oxytex",
+    "expectedPath": "/ovi-media/products/lavanderia/oxytex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "lavanderia-rintex",
+    "expectedPath": "/ovi-media/products/lavanderia/rintex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "lavanderia-oxifree",
+    "expectedPath": "/ovi-media/products/lavanderia/oxifree.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "lavanderia-clorotex",
+    "expectedPath": "/ovi-media/products/lavanderia/clorotex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-ecogrill",
+    "expectedPath": "/ovi-media/products/alimentos/ecogrill.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-biodegreaser-a",
+    "expectedPath": "/ovi-media/products/alimentos/biodegreaser-a.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-ultra-degreaser",
+    "expectedPath": "/ovi-media/products/alimentos/ultra-degreaser.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-chlorinne-detergent",
+    "expectedPath": "/ovi-media/products/alimentos/chlorinne-detergent.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-ecoquat",
+    "expectedPath": "/ovi-media/products/alimentos/ecoquat.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-peroxol-a",
+    "expectedPath": "/ovi-media/products/alimentos/peroxol-a.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-ecoblast",
+    "expectedPath": "/ovi-media/products/alimentos/ecoblast.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-hipoclor",
+    "expectedPath": "/ovi-media/products/alimentos/hipoclor.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-biocetic",
+    "expectedPath": "/ovi-media/products/alimentos/biocetic.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-biocitric",
+    "expectedPath": "/ovi-media/products/alimentos/biocitric.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-eco-machine",
+    "expectedPath": "/ovi-media/products/alimentos/eco-machine.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-eco-machine-rinse",
+    "expectedPath": "/ovi-media/products/alimentos/eco-machine-rinse.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-descaler-a",
+    "expectedPath": "/ovi-media/products/alimentos/descaler-a.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-neutrodex",
+    "expectedPath": "/ovi-media/products/alimentos/neutrodex.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-cip-acido",
+    "expectedPath": "/ovi-media/products/alimentos/cip-acido.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "alimentos-cip-alcalino",
+    "expectedPath": "/ovi-media/products/alimentos/cip-alcalino.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "pcp-biohand",
+    "expectedPath": "/ovi-media/products/proteccion-y-cuidado-personal/biohand.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "pcp-biosan",
+    "expectedPath": "/ovi-media/products/proteccion-y-cuidado-personal/biosan.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "pcp-biosoap",
+    "expectedPath": "/ovi-media/products/proteccion-y-cuidado-personal/biosoap.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "pcp-quaterhand",
+    "expectedPath": "/ovi-media/products/proteccion-y-cuidado-personal/quaterhand.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-solfresh",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/solfresh.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-biodegreaser",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/biodegreaser.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-peroxol",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/peroxol.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-bioglass",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/bioglass.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-descaler",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/descaler.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-ecoshine",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/ecoshine.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-restorer",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/restorer.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-floor-wax",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/floor-wax.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-ecowax",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/ecowax.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-ecoseal",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/ecoseal.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  },
+  {
+    "productId": "im-ecomov",
+    "expectedPath": "/ovi-media/products/institucional-y-mantenimiento/ecomov.webp",
+    "status": "missing",
+    "source": "official-catalog-pending-import"
+  }
+]

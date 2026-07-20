@@ -1,0 +1,52 @@
+[
+  {
+    "id": "industrial",
+    "slug": "industrial",
+    "name": "Industrial",
+    "description": null,
+    "contentGap": false
+  },
+  {
+    "id": "biotecnologia",
+    "slug": "biotecnologia",
+    "name": "Biotecnología",
+    "description": null,
+    "contentGap": false
+  },
+  {
+    "id": "lavanderia",
+    "slug": "lavanderia",
+    "name": "Lavandería",
+    "description": null,
+    "contentGap": false
+  },
+  {
+    "id": "alimentos",
+    "slug": "alimentos",
+    "name": "Alimentos",
+    "description": null,
+    "contentGap": false
+  },
+  {
+    "id": "proteccion-y-cuidado-personal",
+    "slug": "proteccion-y-cuidado-personal",
+    "name": "Protección y Cuidado Personal",
+    "description": null,
+    "contentGap": false
+  },
+  {
+    "id": "hoteleria",
+    "slug": "hoteleria",
+    "name": "Hotelería",
+    "description": null,
+    "contentGap": true,
+    "contentGapNote": "No official products assigned yet. Sector is officially recognized but product list is pending."
+  },
+  {
+    "id": "institucional-y-mantenimiento",
+    "slug": "institucional-y-mantenimiento",
+    "name": "Institucional y Mantenimiento",
+    "description": null,
+    "contentGap": false
+  }
+]
