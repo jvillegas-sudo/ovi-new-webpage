@@ -59,7 +59,7 @@ describe("Company Knowledge — mission, vision and history", () => {
     const profile = getCompanyProfile();
 
     expect(profile.history?.publicationStatus).toBe("published");
-    expect(profile.history?.narrative).toContain("Más de 18 años");
+    expect(profile.history?.narrative).toContain("más de 18 años");
   });
 
   it("keeps a supported timeline event with date and source reference", () => {
@@ -152,7 +152,7 @@ describe("Company Knowledge — public profile resolver", () => {
 
     expect(profile.mission?.description).toContain("química biodegradable");
     expect(profile.vision?.description).toContain("futuro de la industria");
-    expect(profile.history?.narrative).toContain("Más de 18 años");
+    expect(profile.history?.narrative).toContain("más de 18 años");
     expect(profile.history?.timeline).toHaveLength(1);
     expect(profile.experience?.projects).toHaveLength(3);
   });
@@ -180,7 +180,7 @@ describe("Company Knowledge — AI context", () => {
     expect(context.brandName).toBe("OVI");
     expect(context.mission).toContain("química biodegradable");
     expect(context.vision).toContain("responsables con el medio ambiente");
-    expect(context.history).toContain("Más de 18 años");
+    expect(context.history).toContain("más de 18 años");
     expect(context.capabilityNames).toContain("Diagnóstico técnico");
     expect(context.technologyHighlights).toContain("Artificial Intelligence");
     expect(context.projectReferenceTitles).toContain("Flota de transporte pesado");
@@ -206,7 +206,7 @@ describe("Company Knowledge — search document", () => {
 
     expect(document.id).toBe("company-profile");
     expect(document.missionText).toContain("química biodegradable");
-    expect(document.historyText).toContain("Más de 18 años");
+    expect(document.historyText).toContain("más de 18 años");
     expect(document.experienceText).toContain("3 casos oficiales");
     expect(document.technologyHighlights).toContain("OVI OS");
     expect(document.projectReferenceTitles).toContain("Flota de transporte pesado");

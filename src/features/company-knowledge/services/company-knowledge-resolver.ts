@@ -31,6 +31,10 @@ function joinLabels(labels: string[]): string | null {
   return `${labels.slice(0, -1).join(", ")} y ${labels[labels.length - 1]}`;
 }
 
+function isNonNullableString(value: string | null | undefined): value is string {
+  return typeof value === "string" && value.length > 0;
+}
+
 // ─── Public Profile Resolver ──────────────────────────────────────────────────
 
 /**
@@ -456,6 +460,6 @@ export function resolveCompanySearchDocument(profile?: CompanyProfile): CompanyS
       ...pub.differentiators.map((d) => d.description ?? d.title),
       ...pub.projectReferences.map((project) => project.description ?? project.title),
       ...faqAnswers,
-    ].filter(Boolean),
+    ].filter(isNonNullableString),
   };
 }
