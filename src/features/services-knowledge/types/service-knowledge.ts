@@ -9,6 +9,8 @@ export interface ServiceRelationshipSet {
   productIds: string[];
   industryIds: string[];
   projectIds: string[];
+  /** WO-005: Explicit case study cross-references */
+  caseStudyIds: string[];
   customerIds: string[];
   documentIds: string[];
   engineeringProtocolIds: string[];
@@ -37,6 +39,8 @@ export interface ServiceKnowledge {
   relatedProjects: string[];
   relatedDocuments: string[];
   relatedCustomers: string[];
+  /** WO-005: Explicit case study cross-references */
+  caseStudyIds: string[];
   images: string[];
   videos: string[];
   faqs: ServiceFAQEntry[];
@@ -71,6 +75,8 @@ export interface PublicServiceView {
   relatedProjects: string[];
   relatedDocuments: string[];
   relatedCustomers: string[];
+  /** WO-005: Explicit case study cross-references */
+  caseStudyIds: string[];
   images: string[];
   videos: string[];
   faqs: ServiceFAQEntry[];

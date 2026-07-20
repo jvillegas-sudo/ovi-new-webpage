@@ -19,23 +19,27 @@
  *    See company/CONTENT_RULES.md, Regla 4.
  *
  * ──────────────────────────────────────────────────────────────────────────────
- * REPOSITORY AUDIT SUMMARY (OKP-001)
+ * REPOSITORY AUDIT SUMMARY (OKP-001 / WO-005)
  * ──────────────────────────────────────────────────────────────────────────────
  *
  * VERIFIED OFFICIAL INFORMATION FOUND:
- *   ✓ Identity:         src/config/site.ts, company/brand/brand-pillars.md
- *   ✓ Mission:          src/app/about/page.tsx
- *   ✓ Vision:           src/app/about/page.tsx
- *   ✓ History:          src/knowledge/home/engineering-pillars.ts
- *   ✓ Experience:       src/knowledge/home/identity-metrics.ts, src/knowledge/home/success-cases.ts
- *   ✓ Brand Pillars:    company/brand/brand-pillars.md
- *   ✓ Brand Promise:    company/brand/brand-promise.md (draft, not published)
- *   ✓ Tone of Voice:    company/brand/tone-of-voice.md
- *   ✓ Industries:       src/knowledge/sectors/catalog.ts
- *   ✓ Services:         src/knowledge/services/catalog.ts
- *   ✓ Technology:       company/brand/brand-pillars.md, company/PROJECT_VISION.md
- *   ✓ Client evidence:  public/ovi-media/cases/emvarias/emvarias-fleet-wash.png
- *   ✓ Brand Assets:     public/brand/ovi-logo.svg
+ *   ✓ Identity:             src/config/site.ts, company/brand/brand-pillars.md
+ *   ✓ Mission:              src/app/about/page.tsx
+ *   ✓ Vision:               src/app/about/page.tsx
+ *   ✓ History:              src/knowledge/home/engineering-pillars.ts
+ *   ✓ Experience:           src/knowledge/home/identity-metrics.ts, src/knowledge/home/success-cases.ts
+ *   ✓ Brand Pillars:        company/brand/brand-pillars.md
+ *   ✓ Brand Promise:        company/brand/brand-promise.md (draft, not published)
+ *   ✓ Tone of Voice:        company/brand/tone-of-voice.md          ← WO-005
+ *   ✓ Case Studies:         src/knowledge/home/success-cases.ts,
+ *                           docs/content/OVI_CONTENT_MASTER.md       ← WO-005
+ *   ✓ Corporate Terminology: brand-pillars.md, services/catalog.ts,
+ *                            sectors/catalog.ts                      ← WO-005
+ *   ✓ Industries:           src/knowledge/sectors/catalog.ts
+ *   ✓ Services:             src/knowledge/services/catalog.ts
+ *   ✓ Technology:           company/brand/brand-pillars.md, company/PROJECT_VISION.md
+ *   ✓ Client evidence:      public/ovi-media/cases/emvarias/emvarias-fleet-wash.png
+ *   ✓ Brand Assets:         public/brand/ovi-logo.svg
  *
  * NOT FOUND IN REPOSITORY (marked missing):
  *   ✗ Certifications:   company/MASTER_INDEX.md — pending
@@ -54,10 +58,10 @@ import type { CompanyProfile } from "../types/company-profile";
 
 export const OVI_COMPANY_PROFILE: CompanyProfile = {
   profileId: "ovi-company-profile",
-  schemaVersion: "1.0.0",
+  schemaVersion: "1.1.0",
   informationStatus: "partial",
   publicationStatus: "draft",
-  lastUpdated: "2026-07-20T22:08:51.000Z",
+  lastUpdated: "2026-07-20T22:29:33.000Z",
 
   // ─── Identity ───────────────────────────────────────────────────────────────
   // Source: src/config/site.ts, company/brand/brand-pillars.md
@@ -1260,6 +1264,446 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
         },
       ],
     },
+    {
+      id: "faq-como-comunica-ovi",
+      question: "¿Cómo se comunica OVI?",
+      answer:
+        "OVI comunica con tono profesional, técnico, innovador, premium, confiable y elegante. Evita el lenguaje genérico, las promesas exageradas y los tecnicismos innecesarios. Cada mensaje parte de soluciones diseñadas, no de slogans.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/tone-of-voice.md",
+          sourceSection: "CORE TONE / TONE PRINCIPLES",
+          verificationStatus: "source_confirmed",
+          internalNote: "WO-005: Official tone-of-voice document — approved as base of work.",
+        },
+      ],
+    },
+    {
+      id: "faq-casos-de-exito",
+      question: "¿Qué casos de éxito tiene OVI?",
+      answer:
+        "OVI documenta tres casos oficiales: lavado de flota de transporte pesado (CASE-001) con más de 7,000 unidades/mes y estandarización hídrica; desengrase en planta industrial de manufactura (CASE-002) con trazabilidad HACCP; y mantenimiento preventivo en instalación institucional de alto tráfico (CASE-003) con OVI Ecoseal y extensión del ciclo de mantenimiento.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "successCases",
+          verificationStatus: "source_confirmed",
+          internalNote: "WO-005: Official case study data confirmed from active home knowledge.",
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "faq-trazabilidad",
+      question: "¿Qué es la trazabilidad en OVI?",
+      answer:
+        "La trazabilidad en OVI es el registro documental y fotográfico de cada intervención de limpieza. Incluye protocolo aplicado, consumo de insumos, resultados por unidad o área, y evidencia verificable. Es parte del cierre estándar de cada servicio.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/services/catalog.ts",
+          sourceSection: "lavado-flota — entregables / limpieza-industrial — entregables",
+          verificationStatus: "source_confirmed",
+          internalNote:
+            "WO-005: Trazabilidad described as standard deliverable in official service catalog.",
+        },
+      ],
+    },
+  ],
+
+  // ─── Tone of Voice (WO-005) ──────────────────────────────────────────────────
+  // Source: company/brand/tone-of-voice.md — Estado: Aprobado como base de trabajo
+  toneOfVoice: {
+    coreTones: [
+      {
+        id: "tone-professional",
+        principle: "Professional",
+        description:
+          "OVI comunica con claridad, criterio y madurez. El lenguaje debe transmitir dominio del tema sin sonar rígido ni distante.",
+      },
+      {
+        id: "tone-technical",
+        principle: "Technical",
+        description:
+          "OVI explica problemas y soluciones con precisión. Debe evitar vaguedades y priorizar lenguaje útil para responsables operativos, técnicos y de gestión.",
+      },
+      {
+        id: "tone-innovative",
+        principle: "Innovative",
+        description:
+          "OVI proyecta evolución, inteligencia aplicada y visión de futuro. La innovación debe sentirse estructurada, no experimental ni caprichosa.",
+      },
+      {
+        id: "tone-premium",
+        principle: "Premium",
+        description:
+          "OVI debe sentirse de alta calidad en cada palabra. Esto implica sobriedad, precisión y control, no ostentación.",
+      },
+      {
+        id: "tone-trustworthy",
+        principle: "Trustworthy",
+        description:
+          "La comunicación debe generar confianza por medio de consistencia, exactitud y responsabilidad. No debe prometer lo que no pueda respaldarse.",
+      },
+      {
+        id: "tone-elegant",
+        principle: "Elegant",
+        description:
+          "El lenguaje debe ser limpio, seguro y refinado. La elegancia en OVI nace de la simplicidad bien resuelta y del criterio técnico.",
+      },
+    ],
+    writingStandards: [
+      "Reforzar el posicionamiento OVI — Ingeniería en Limpieza en cada texto.",
+      "Sonar preciso y contemporáneo.",
+      "Hablar desde soluciones diseñadas, no desde slogans.",
+      "Mantener coherencia entre sofisticación visual y solidez técnica.",
+    ],
+    forbiddenTones: ["Arrogant", "Exaggerated", "Generic"],
+    forbiddenPhrases: [
+      "Frases infladas o grandilocuentes.",
+      "Promesas absolutas sin respaldo.",
+      "Copywriting vacío típico de sitios corporativos genéricos.",
+      "Lenguaje demasiado publicitario o agresivo.",
+      "Tecnicismos innecesarios que compliquen la comprensión.",
+    ],
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
+    sources: [
+      {
+        sourceType: "brand_document",
+        sourceFile: "company/brand/tone-of-voice.md",
+        sourceSection:
+          "CORE TONE / TONE PRINCIPLES / WHAT THE TONE MUST NEVER BE / WRITING STANDARD",
+        verificationStatus: "source_confirmed",
+        internalNote: "WO-005: Tone of voice approved as base of work per tone-of-voice.md header.",
+      },
+    ],
+  },
+
+  // ─── Corporate Terminology (WO-005) ──────────────────────────────────────────
+  // Sources: brand-pillars.md, services/catalog.ts, sectors/catalog.ts,
+  //          src/knowledge/home/success-cases.ts
+  corporateTerminology: {
+    terms: [
+      {
+        id: "term-ingenieria-en-limpieza",
+        term: "Ingeniería en Limpieza",
+        definition:
+          "Posicionamiento central de OVI. Significa que OVI no vende productos genéricos de limpieza, sino que aplica ingeniería para diagnosticar, diseñar y ejecutar soluciones específicas para cada desafío de higiene industrial.",
+        context: "Identidad corporativa, todas las comunicaciones.",
+        relatedTerms: ["diagnóstico técnico", "protocolo", "Operational Excellence"],
+      },
+      {
+        id: "term-diagnostico-tecnico",
+        term: "Diagnóstico técnico",
+        definition:
+          "Evaluación inicial in situ del contaminante, superficie, proceso y contexto operativo antes de recomendar cualquier solución. Es el primer paso obligatorio en la metodología OVI.",
+        context: "Metodología de servicio, servicios de diagnóstico.",
+        relatedTerms: ["protocolo", "Ingeniería en Limpieza", "trazabilidad"],
+      },
+      {
+        id: "term-protocolo",
+        term: "Protocolo",
+        definition:
+          "Procedimiento estructurado y documentado que define los pasos, productos, dosificaciones, frecuencias y parámetros de control para una intervención de limpieza. Garantiza consistencia y repetibilidad.",
+        context: "Diseño de servicios, entregables operativos.",
+        relatedTerms: ["diagnóstico técnico", "trazabilidad", "HACCP"],
+      },
+      {
+        id: "term-trazabilidad",
+        term: "Trazabilidad",
+        definition:
+          "Registro documental y fotográfico de cada intervención: protocolo aplicado, consumo de insumos, resultados y evidencia verificable por unidad o área intervenida.",
+        context: "Entregables de servicio, auditorías, HACCP.",
+        relatedTerms: ["protocolo", "KPI", "evidencia"],
+      },
+      {
+        id: "term-lavado-de-flota",
+        term: "Lavado de flota",
+        definition:
+          "Servicio de lavado técnico estandarizado aplicado a vehículos de carga, transporte público y flota pesada. Incluye gestión hídrica, dosificación controlada y trazabilidad por unidad.",
+        context: "Sector transporte, patios de flota.",
+        relatedTerms: ["ciclo de lavado", "gestión hídrica", "OVI Solwash"],
+      },
+      {
+        id: "term-ciclo-de-lavado",
+        term: "Ciclo de lavado",
+        definition:
+          "Secuencia completa de operaciones para lavar un vehículo: desde la entrada al patio hasta la salida con registro de intervención. KPI clave: tiempo de ciclo por unidad.",
+        context: "Sector transporte, operaciones de patio.",
+        relatedTerms: ["lavado de flota", "KPI", "trazabilidad"],
+      },
+      {
+        id: "term-gestion-hidrica",
+        term: "Gestión hídrica",
+        definition:
+          "Control del consumo de agua por ciclo de limpieza: medición, optimización y cumplimiento de normativa ambiental para efluentes de proceso.",
+        context: "Transporte, lavado de flota, optimización hídrica.",
+        relatedTerms: ["efluentes", "sostenibilidad", "consumo de agua"],
+      },
+      {
+        id: "term-efluentes",
+        term: "Efluentes",
+        definition:
+          "Aguas residuales generadas en el proceso de lavado industrial o de flota. Su gestión adecuada es requisito normativo y parte del servicio OVI.",
+        context: "Lavado de flota, limpieza industrial, sostenibilidad.",
+        relatedTerms: ["gestión hídrica", "normativa ambiental"],
+      },
+      {
+        id: "term-haccp",
+        term: "HACCP",
+        definition:
+          "Hazard Analysis and Critical Control Points — sistema de inocuidad alimentaria que OVI aplica como referencia en protocolos de limpieza para plantas de alimentos y manufactura.",
+        context: "Sector alimentos, industria, limpieza industrial.",
+        relatedTerms: ["inocuidad", "BPM", "protocolo"],
+      },
+      {
+        id: "term-inocuidad",
+        term: "Inocuidad",
+        definition:
+          "Condición de seguridad en superficies y equipos de contacto con alimentos, garantizando ausencia de contaminación química, física o biológica. Objetivo de los protocolos de limpieza en la industria alimentaria.",
+        context: "Sector alimentos, manufactura con HACCP.",
+        relatedTerms: ["HACCP", "BPM", "desinfección"],
+      },
+      {
+        id: "term-desengrase",
+        term: "Desengrase",
+        definition:
+          "Proceso de remoción de grasas minerales, aceites y contaminantes adheridos a superficies industriales mediante productos específicos. Proceso central en industria, transporte y energía.",
+        context: "Industria, transporte, energía.",
+        relatedTerms: ["contaminante", "OVI Biodex", "OVI JP 35"],
+      },
+      {
+        id: "term-biodegradable",
+        term: "Biodegradable",
+        definition:
+          "Característica de los productos OVI: formulaciones que se descomponen por acción microbiana sin dejar residuos tóxicos persistentes. Pilar de sostenibilidad de la propuesta de valor.",
+        context: "Toda la línea química OVI.",
+        relatedTerms: ["sostenibilidad", "gestión hídrica", "impacto ambiental"],
+      },
+      {
+        id: "term-mantenimiento-preventivo",
+        term: "Mantenimiento preventivo",
+        definition:
+          "Programa estructurado de protección de superficies que reduce la frecuencia de limpiezas correctivas y extiende el ciclo de vida de pisos, fachadas e infraestructura. Servicio OVI con OVI Ecoseal.",
+        context: "Institucional, energía, retail.",
+        relatedTerms: ["sellador", "OVI Ecoseal", "ciclo de mantenimiento"],
+      },
+      {
+        id: "term-socio-de-largo-plazo",
+        term: "Socio de largo plazo",
+        definition:
+          "Modelo de relación OVI con sus clientes: acompañamiento continuo, comprensión profunda del contexto operativo y evolución de soluciones en el tiempo, en contraposición al proveedor transaccional.",
+        context: "Filosofía comercial, Long-Term Partnership.",
+        relatedTerms: ["Long-Term Partnership", "Ingeniería en Limpieza"],
+      },
+    ],
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
+    sources: [
+      {
+        sourceType: "brand_document",
+        sourceFile: "company/brand/brand-pillars.md",
+        sourceSection: "THE SIX PERMANENT PILLARS",
+        verificationStatus: "source_confirmed",
+        internalNote:
+          "WO-005: Primary source for Ingeniería en Limpieza, Sustainability, Knowledge, Long-Term Partnership terminology.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/services/catalog.ts",
+        sourceSection: "services",
+        verificationStatus: "source_confirmed",
+        internalNote:
+          "WO-005: Source for operational terms: trazabilidad, protocolo, lavado de flota, ciclo de lavado.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/sectors/catalog.ts",
+        sourceSection: "sectors",
+        verificationStatus: "source_confirmed",
+        internalNote:
+          "WO-005: Source for industry terms: HACCP, inocuidad, efluentes, gestión hídrica.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/features/products/chemical-lines-data.ts",
+        sourceSection: "OVI_SECTORS",
+        verificationStatus: "source_confirmed",
+        internalNote: "WO-005: Source for product terminology: biodegradable, desengrase.",
+      },
+    ],
+  },
+
+  // ─── Case Studies (WO-005) ────────────────────────────────────────────────────
+  // Sources: src/knowledge/home/success-cases.ts, docs/content/OVI_CONTENT_MASTER.md,
+  //          public/ovi-dam/metadata/CASE-001-IMG-01.json
+  caseStudies: [
+    {
+      caseId: "CASE-001",
+      title: "Flota de transporte pesado",
+      client: "EMVARIAS",
+      industry: "transporte",
+      service: "lavado-flota",
+      products: ["ovi-solwash"],
+      scope:
+        "Protocolo de lavado OVI Solwash implementado en patio de flota pesada con capacidad para atender más de 7,000 unidades por mes.",
+      operationalChallenge:
+        "Estandarizar el lavado de flota pesada, reducir el tiempo de ciclo por unidad y controlar el consumo de agua entre operadores.",
+      solutionImplemented:
+        "Implementación del protocolo OVI Solwash con dosificación controlada, registro por unidad y gestión de aguas residuales.",
+      evidence: [
+        "Capacidad de atención de más de 7,000 unidades por mes.",
+        "Reducción del tiempo de ciclo por unidad.",
+        "Estandarización del consumo de agua entre operadores.",
+        "Documentación fotográfica y trazabilidad por unidad.",
+      ],
+      images: ["/ovi-media/cases/emvarias/emvarias-fleet-wash.png"],
+      documents: [
+        "public/ovi-dam/metadata/CASE-001-IMG-01.json",
+        "docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito",
+      ],
+      relationshipRefs: {
+        serviceIds: ["lavado-flota"],
+        productIds: ["ovi-solwash"],
+        industryIds: ["transporte"],
+        mediaIds: ["CASE-001-IMG-01"],
+      },
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "caso-flota-transporte-pesado",
+          verificationStatus: "source_confirmed",
+          internalNote: "WO-005: Active home knowledge content — official case reference.",
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO — CASE-001",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "public/ovi-dam/metadata/CASE-001-IMG-01.json",
+          sourceSection: "case",
+          verificationStatus: "source_confirmed",
+          internalNote: "Official DAM metadata for CASE-001 image asset.",
+        },
+      ],
+    },
+    {
+      caseId: "CASE-002",
+      title: "Planta industrial de manufactura",
+      industry: "industria",
+      service: "limpieza-industrial",
+      products: ["industrial-biodex"],
+      scope:
+        "Implementación de protocolo de desengrase con OVI Desengrasante Industrial en maquinaria y líneas de producción industrial.",
+      operationalChallenge:
+        "Remover grasa pesada incrustada en maquinaria y líneas de producción garantizando trazabilidad completa y cumplimiento de normativa de inocuidad HACCP.",
+      solutionImplemented:
+        "Protocolo de desengrase con OVI Desengrasante Industrial (Ultradegreaser) documentado por intervención, con registro fotográfico y auditoría de inocuidad.",
+      evidence: [
+        "Trazabilidad completa de cada intervención documentada.",
+        "Cumplimiento de normativa HACCP en líneas de producción.",
+        "Registro fotográfico antes/después por activo intervenido.",
+      ],
+      images: [],
+      documents: [
+        "docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito",
+        "src/knowledge/home/success-cases.ts",
+      ],
+      relationshipRefs: {
+        serviceIds: ["limpieza-industrial", "diagnostico-tecnico"],
+        productIds: ["industrial-biodex"],
+        industryIds: ["industria"],
+      },
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "caso-planta-industrial-manufactura",
+          verificationStatus: "source_confirmed",
+          internalNote: "WO-005: Active home knowledge content — official case reference.",
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO — CASE-002",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      caseId: "CASE-003",
+      title: "Instalación institucional de alto tráfico",
+      industry: "institucional",
+      service: "mantenimiento-preventivo",
+      products: ["ovi-ecoseal"],
+      scope:
+        "Programa de mantenimiento preventivo de superficies con OVI Ecoseal en instalación institucional de alto tráfico.",
+      operationalChallenge:
+        "Reducir la frecuencia de limpiezas correctivas y extender el ciclo de mantenimiento en instalación con alto volumen de usuarios.",
+      solutionImplemented:
+        "Aplicación de OVI Ecoseal como sellador protector de pisos que facilita la limpieza diaria y prolonga la vida útil de las superficies.",
+      evidence: [
+        "Menor consumo de insumos de limpieza por ciclo.",
+        "Extensión del ciclo de mantenimiento en operación real.",
+        "Reducción de intervenciones correctivas.",
+      ],
+      images: [],
+      documents: [
+        "docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito",
+        "src/knowledge/home/success-cases.ts",
+      ],
+      relationshipRefs: {
+        serviceIds: ["mantenimiento-preventivo"],
+        productIds: ["ovi-ecoseal"],
+        industryIds: ["institucional"],
+      },
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "caso-instalacion-institucional",
+          verificationStatus: "source_confirmed",
+          internalNote: "WO-005: Active home knowledge content — official case reference.",
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO — CASE-003",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
   ],
 
   // ─── Global Sources ──────────────────────────────────────────────────────────
@@ -1344,6 +1788,20 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       sourceSection: null,
       verificationStatus: "source_confirmed",
       internalNote: "WO-004: Official tone of voice — governs communication style and AI language.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "src/knowledge/home/success-cases.ts",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote: "WO-005: Official case study source — CASE-001, CASE-002, CASE-003.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+      sourceSection: "1. CASOS DE ÉXITO",
+      verificationStatus: "source_confirmed",
+      internalNote: "WO-005: Official content master — authoritative case study registry.",
     },
   ],
 };

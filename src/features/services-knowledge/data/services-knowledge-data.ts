@@ -12,6 +12,8 @@ interface ServiceKnowledgeEnrichment {
   relatedProjects: string[];
   relatedDocuments: string[];
   operationalNotes: string | null;
+  /** WO-005: Explicit case study cross-references */
+  caseStudyIds: string[];
 }
 
 const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
@@ -58,6 +60,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     ],
     operationalNotes:
       "Servicio orientado a operación continua de flota con métricas de ciclo y control de consumo.",
+    caseStudyIds: ["CASE-001"],
   },
   "limpieza-industrial": {
     purpose:
@@ -99,6 +102,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito"],
     operationalNotes:
       "Servicio orientado a plantas de manufactura, alimentos y energía con coordinación operativa.",
+    caseStudyIds: ["CASE-002"],
   },
   "auditoria-patio": {
     purpose:
@@ -141,6 +145,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     ],
     operationalNotes:
       "Servicio de diagnóstico para preparar iniciativas de optimización hídrica y protocolo.",
+    caseStudyIds: ["CASE-001"],
   },
   "optimizacion-hidrica": {
     purpose:
@@ -180,6 +185,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito"],
     operationalNotes:
       "Servicio aplicable en transporte e industria con metas explícitas de ahorro.",
+    caseStudyIds: ["CASE-001"],
   },
   "diagnostico-tecnico": {
     purpose:
@@ -218,6 +224,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     relatedProjects: ["case-002"],
     relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#3-servicios"],
     operationalNotes: "Servicio transversal para industria, transporte, alimentos y hospitales.",
+    caseStudyIds: ["CASE-002"],
   },
   "capacitacion-personal": {
     purpose:
@@ -259,6 +266,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
       "src/knowledge/home/success-cases.ts",
     ],
     operationalNotes: "Servicio orientado a estandarización operativa y reducción de reprocesos.",
+    caseStudyIds: ["CASE-001", "CASE-002"],
   },
   "diseno-protocolo": {
     purpose:
@@ -297,6 +305,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     relatedProjects: ["case-002", "case-003"],
     relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#3-servicios"],
     operationalNotes: "Servicio base para estandarización, auditoría y continuidad operativa.",
+    caseStudyIds: ["CASE-001", "CASE-002"],
   },
   "mantenimiento-preventivo": {
     purpose:
@@ -337,6 +346,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito"],
     operationalNotes:
       "Servicio especialmente aplicable a institucional, retail y energía con enfoque de ciclo de vida.",
+    caseStudyIds: ["CASE-003"],
   },
   "implementacion-protocolo": {
     purpose:
@@ -375,6 +385,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     relatedProjects: ["case-002"],
     relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#3-servicios"],
     operationalNotes: "Servicio de transición entre diseño de protocolo y operación estable.",
+    caseStudyIds: ["CASE-002"],
   },
   "levantamiento-activos": {
     purpose:
@@ -417,6 +428,7 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
     ],
     operationalNotes:
       "Servicio base para programas de mantenimiento preventivo en energía e industria.",
+    caseStudyIds: ["CASE-002", "CASE-003"],
   },
 };
 
@@ -438,6 +450,7 @@ function createServiceKnowledgeRecord(service: (typeof legacyServices)[number]):
     relatedProjects: enrichment?.relatedProjects ?? [],
     relatedDocuments: enrichment?.relatedDocuments ?? [],
     relatedCustomers: [],
+    caseStudyIds: enrichment?.caseStudyIds ?? [],
     images: [],
     videos: [],
     faqs: enrichment?.faqs ?? [],
@@ -471,12 +484,13 @@ function createServiceKnowledgeRecord(service: (typeof legacyServices)[number]):
           "Cross-checked service positioning and case/service relationships from official content inventory.",
       },
     ],
-    revision: 2,
-    version: "1.1.0",
+    revision: 3,
+    version: "1.2.0",
     relationships: {
       productIds: [...service.productosAsociados],
       industryIds: [...service.sectores],
       projectIds: enrichment?.relatedProjects ?? [],
+      caseStudyIds: enrichment?.caseStudyIds ?? [],
       customerIds: [],
       documentIds: enrichment?.relatedDocuments ?? [],
       engineeringProtocolIds: [...service.protocolosAsociados],

@@ -427,6 +427,108 @@ export interface CompanyCorporateGovernance extends GovernedField {
   regulatoryFrameworks?: string[];
 }
 
+// ─── Tone of Voice ────────────────────────────────────────────────────────────
+
+/**
+ * A single tone principle extracted from company/brand/tone-of-voice.md.
+ * WO-005: Added for corporate knowledge migration Phase I.
+ */
+export interface CompanyToneEntry {
+  /** Unique identifier */
+  id: string;
+  /** Principle name (e.g. "Professional", "Technical") */
+  principle: string;
+  /** Full description of how this principle manifests */
+  description: string;
+}
+
+/**
+ * OVI official tone of voice as structured knowledge.
+ * Source: company/brand/tone-of-voice.md
+ * WO-005: Added for corporate knowledge migration Phase I.
+ */
+export interface CompanyToneOfVoice extends GovernedField {
+  /** The six approved core tones */
+  coreTones: CompanyToneEntry[];
+  /** Writing standards every OVI text must meet */
+  writingStandards: string[];
+  /** Tones the brand must NEVER use */
+  forbiddenTones: string[];
+  /** Phrase patterns to avoid */
+  forbiddenPhrases: string[];
+}
+
+// ─── Corporate Terminology ────────────────────────────────────────────────────
+
+/**
+ * A single official corporate terminology entry.
+ * WO-005: Added for corporate knowledge migration Phase I.
+ */
+export interface CompanyCorporateTermEntry {
+  /** Unique identifier */
+  id: string;
+  /** Official term exactly as used in OVI communications */
+  term: string;
+  /** Definition extracted from official sources */
+  definition: string;
+  /** Operational or industry context where the term appears */
+  context?: string;
+  /** Related terms */
+  relatedTerms?: string[];
+}
+
+/**
+ * OVI official corporate vocabulary as structured knowledge.
+ * WO-005: Added for corporate knowledge migration Phase I.
+ */
+export interface CompanyCorporateTerminology extends GovernedField {
+  /** Official corporate terms */
+  terms: CompanyCorporateTermEntry[];
+}
+
+// ─── Case Study ───────────────────────────────────────────────────────────────
+
+/**
+ * A structured case study entity.
+ * WO-005: Added for corporate knowledge migration Phase I.
+ * Source: docs/content/OVI_CONTENT_MASTER.md, src/knowledge/home/success-cases.ts
+ */
+export interface CompanyCaseStudy extends GovernedField {
+  /** Canonical case identifier (e.g. "CASE-001") */
+  caseId: string;
+  /** Official title */
+  title: string;
+  /** Client name — only when officially documented */
+  client?: string;
+  /** Industry sector */
+  industry: string;
+  /** Primary service delivered */
+  service: string;
+  /** Products applied in this case */
+  products: string[];
+  /** Geographic location if officially documented */
+  location?: string;
+  /** Scope description */
+  scope: string;
+  /** Operational challenge addressed */
+  operationalChallenge: string;
+  /** Solution implemented */
+  solutionImplemented: string;
+  /** Evidence items (measurable results) */
+  evidence: string[];
+  /** Official image paths */
+  images: string[];
+  /** Reference document paths */
+  documents: string[];
+  /** Cross-domain relationship identifiers */
+  relationshipRefs: {
+    serviceIds: string[];
+    productIds: string[];
+    industryIds: string[];
+    mediaIds?: string[];
+  };
+}
+
 // ─── AI Context ───────────────────────────────────────────────────────────────
 
 /**
@@ -469,6 +571,12 @@ export interface CompanyAIContext {
   projectReferenceTitles: string[];
   /** Published experience summary (null if unpublished) */
   experienceSummary: string | null;
+  /** Published tone-of-voice principle names — how OVI speaks (WO-005) */
+  toneOfVoicePrinciples: string[];
+  /** Published case study titles (WO-005) */
+  caseStudyTitles: string[];
+  /** Published corporate term identifiers for semantic context (WO-005) */
+  corporateTermIds: string[];
   /** Search-oriented question answers for common queries */
   searchAnswers: {
     whoIsOvi: string;
@@ -479,6 +587,8 @@ export interface CompanyAIContext {
     whatIndustriesDoesOviServe: string | null;
     whatCertificationsDoesOviHave: string | null;
     whatExperienceDoesOviHave: string | null;
+    howDoesOviSpeak: string | null;
+    whatCaseStudiesDoesOviHave: string | null;
   };
 }
 
@@ -512,6 +622,14 @@ export interface CompanySearchDocument {
   faqQuestions: string[];
   faqAnswers: string[];
   answerSnippets: string[];
+  /** Corporate terminology terms for semantic search (WO-005) */
+  corporateTerms: string[];
+  /** Corporate terminology definitions for semantic search (WO-005) */
+  corporateTermDefinitions: string[];
+  /** Case study titles for commercial search (WO-005) */
+  caseStudyTitles: string[];
+  /** Case study scopes and solutions for contextual search (WO-005) */
+  caseStudyDescriptions: string[];
 }
 
 // ─── Public Company Profile ───────────────────────────────────────────────────
@@ -599,6 +717,37 @@ export interface PublicCompanyProfile {
     competitiveAdvantages?: string[];
   } | null;
   faqs: { id: string; question: string; answer?: string }[];
+  /** Safe view of published tone-of-voice principles (WO-005) */
+  toneOfVoice: {
+    coreTones: { id: string; principle: string; description: string }[];
+    writingStandards: string[];
+    forbiddenTones: string[];
+  } | null;
+  /** Safe view of published case studies (WO-005) */
+  caseStudies: {
+    caseId: string;
+    title: string;
+    client?: string;
+    industry: string;
+    service: string;
+    products: string[];
+    location?: string;
+    scope: string;
+    operationalChallenge: string;
+    solutionImplemented: string;
+    evidence: string[];
+    images: string[];
+    documents: string[];
+    relationshipRefs: { serviceIds: string[]; productIds: string[]; industryIds: string[] };
+  }[];
+  /** Safe view of published corporate terminology (WO-005) */
+  corporateTerminology: {
+    id: string;
+    term: string;
+    definition: string;
+    context?: string;
+    relatedTerms?: string[];
+  }[];
 }
 
 // ─── Validation ───────────────────────────────────────────────────────────────
@@ -684,6 +833,12 @@ export interface CompanyProfile {
   faqs?: CompanyFAQEntry[];
   /** Corporate governance */
   governance?: CompanyCorporateGovernance;
+  /** Official tone of voice — how OVI communicates (WO-005) */
+  toneOfVoice?: CompanyToneOfVoice;
+  /** Official corporate terminology — structured vocabulary (WO-005) */
+  corporateTerminology?: CompanyCorporateTerminology;
+  /** Structured case study entities — migrated from official sources (WO-005) */
+  caseStudies?: CompanyCaseStudy[];
   /** Global source references for the entire profile */
   sources?: SourceReference[];
 }

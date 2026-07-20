@@ -222,6 +222,56 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
     .filter((f) => f.publicationStatus === "published" && f.answer != null)
     .map((f) => ({ id: f.id, question: f.question, answer: f.answer }));
 
+  // ─── Tone of Voice (WO-005) ────────────────────────────────────────────────
+  const toneOfVoice =
+    p.toneOfVoice?.publicationStatus === "published"
+      ? {
+          coreTones: (p.toneOfVoice.coreTones ?? []).map((t) => ({
+            id: t.id,
+            principle: t.principle,
+            description: t.description,
+          })),
+          writingStandards: p.toneOfVoice.writingStandards ?? [],
+          forbiddenTones: p.toneOfVoice.forbiddenTones ?? [],
+        }
+      : null;
+
+  // ─── Case Studies (WO-005) ────────────────────────────────────────────────
+  const caseStudies = (p.caseStudies ?? [])
+    .filter((c) => c.publicationStatus === "published")
+    .map((c) => ({
+      caseId: c.caseId,
+      title: c.title,
+      client: c.client,
+      industry: c.industry,
+      service: c.service,
+      products: c.products,
+      location: c.location,
+      scope: c.scope,
+      operationalChallenge: c.operationalChallenge,
+      solutionImplemented: c.solutionImplemented,
+      evidence: c.evidence,
+      images: c.images,
+      documents: c.documents,
+      relationshipRefs: {
+        serviceIds: c.relationshipRefs.serviceIds,
+        productIds: c.relationshipRefs.productIds,
+        industryIds: c.relationshipRefs.industryIds,
+      },
+    }));
+
+  // ─── Corporate Terminology (WO-005) ───────────────────────────────────────
+  const corporateTerminology =
+    p.corporateTerminology?.publicationStatus === "published"
+      ? (p.corporateTerminology.terms ?? []).map((t) => ({
+          id: t.id,
+          term: t.term,
+          definition: t.definition,
+          context: t.context,
+          relatedTerms: t.relatedTerms,
+        }))
+      : [];
+
   return {
     brandName,
     tagline,
@@ -249,6 +299,9 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
     projectReferences,
     commercialPositioning,
     faqs,
+    toneOfVoice,
+    caseStudies,
+    corporateTerminology,
   };
 }
 
@@ -379,6 +432,34 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
   const whatExperienceDoesOviHave =
     expFaq?.publicationStatus === "published" ? (expFaq.answer ?? null) : experienceSummary;
 
+  // ─── WO-005: tone, case studies, terminology ──────────────────────────────
+  const toneOfVoicePrinciples =
+    p.toneOfVoice?.publicationStatus === "published"
+      ? (p.toneOfVoice.coreTones ?? []).map((t) => t.principle)
+      : [];
+
+  const caseStudyTitles = (p.caseStudies ?? [])
+    .filter((c) => c.publicationStatus === "published")
+    .map((c) => c.title);
+
+  const corporateTermIds = (p.corporateTerminology?.terms ?? []).map((t) => t.id);
+
+  const toneFaq = (p.faqs ?? []).find((f) => f.id === "faq-como-comunica-ovi");
+  const howDoesOviSpeak =
+    toneFaq?.publicationStatus === "published"
+      ? (toneFaq.answer ?? null)
+      : toneOfVoicePrinciples.length > 0
+        ? `${brandName} comunica con tono ${toneOfVoicePrinciples.join(", ").toLowerCase()}.`
+        : null;
+
+  const casesFaq = (p.faqs ?? []).find((f) => f.id === "faq-casos-de-exito");
+  const whatCaseStudiesDoesOviHave =
+    casesFaq?.publicationStatus === "published"
+      ? (casesFaq.answer ?? null)
+      : caseStudyTitles.length > 0
+        ? `${brandName} documenta casos en: ${caseStudyTitles.join(", ")}.`
+        : null;
+
   return {
     brandName,
     tagline,
@@ -397,6 +478,9 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
     technologyHighlights,
     projectReferenceTitles,
     experienceSummary,
+    toneOfVoicePrinciples,
+    caseStudyTitles,
+    corporateTermIds,
     searchAnswers: {
       whoIsOvi,
       whatMakesOviDifferent,
@@ -406,6 +490,8 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
       whatIndustriesDoesOviServe,
       whatCertificationsDoesOviHave,
       whatExperienceDoesOviHave,
+      howDoesOviSpeak,
+      whatCaseStudiesDoesOviHave,
     },
   };
 }
@@ -459,7 +545,17 @@ export function resolveCompanySearchDocument(profile?: CompanyProfile): CompanyS
       ...(pub.experience?.evidence ?? []),
       ...pub.differentiators.map((d) => d.description ?? d.title),
       ...pub.projectReferences.map((project) => project.description ?? project.title),
+      ...(pub.caseStudies ?? []).map((c) => c.solutionImplemented),
       ...faqAnswers,
     ].filter(isNonNullableString),
+    corporateTerms: (pub.corporateTerminology ?? []).map((t) => t.term),
+    corporateTermDefinitions: (pub.corporateTerminology ?? []).map((t) => t.definition),
+    caseStudyTitles: (pub.caseStudies ?? []).map((c) => c.title),
+    caseStudyDescriptions: (pub.caseStudies ?? []).flatMap((c) => [
+      c.scope,
+      c.operationalChallenge,
+      c.solutionImplemented,
+      ...c.evidence,
+    ]),
   };
 }

@@ -19,7 +19,7 @@ describe("Company Knowledge — official profile", () => {
     const profile = getCompanyProfile();
 
     expect(profile.profileId).toBe("ovi-company-profile");
-    expect(profile.schemaVersion).toBe("1.0.0");
+    expect(profile.schemaVersion).toBe("1.1.0");
   });
 
   it("keeps the official brand identity", () => {
@@ -341,5 +341,93 @@ describe("Company Knowledge — publication governance", () => {
 
   it("does not reintroduce the forbidden OVI Ventures brand", () => {
     expect(getBrandName()).not.toContain("Ventures");
+  });
+});
+
+describe("Company Knowledge — WO-005 knowledge migration", () => {
+  it("includes tone-of-voice with six core tones", () => {
+    const profile = getCompanyProfile();
+
+    expect(profile.toneOfVoice).toBeDefined();
+    expect(profile.toneOfVoice?.publicationStatus).toBe("published");
+    expect(profile.toneOfVoice?.coreTones.length).toBe(6);
+    const principles = profile.toneOfVoice?.coreTones.map((t) => t.principle) ?? [];
+    expect(principles).toContain("Professional");
+    expect(principles).toContain("Technical");
+    expect(principles).toContain("Elegant");
+  });
+
+  it("resolves tone-of-voice principles in AI context", () => {
+    const aiContext = resolveCompanyAIContext();
+
+    expect(aiContext.toneOfVoicePrinciples.length).toBe(6);
+    expect(aiContext.toneOfVoicePrinciples).toContain("Professional");
+    expect(aiContext.searchAnswers.howDoesOviSpeak).toBeTruthy();
+  });
+
+  it("includes three structured case studies", () => {
+    const profile = getCompanyProfile();
+
+    expect(profile.caseStudies).toBeDefined();
+    expect(profile.caseStudies?.length).toBe(3);
+    const ids = profile.caseStudies?.map((c) => c.caseId) ?? [];
+    expect(ids).toContain("CASE-001");
+    expect(ids).toContain("CASE-002");
+    expect(ids).toContain("CASE-003");
+  });
+
+  it("case studies are published with evidence and relationships", () => {
+    const profile = getCompanyProfile();
+    const cases = profile.caseStudies ?? [];
+
+    for (const cs of cases) {
+      expect(cs.publicationStatus).toBe("published");
+      expect(cs.evidence.length).toBeGreaterThan(0);
+      expect(cs.relationshipRefs.serviceIds.length).toBeGreaterThan(0);
+      expect(cs.relationshipRefs.industryIds.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("resolves case study titles in AI context", () => {
+    const aiContext = resolveCompanyAIContext();
+
+    expect(aiContext.caseStudyTitles.length).toBe(3);
+    expect(aiContext.searchAnswers.whatCaseStudiesDoesOviHave).toBeTruthy();
+  });
+
+  it("resolves case studies in public profile", () => {
+    const pub = resolveCompanyProfile();
+
+    expect(pub.caseStudies.length).toBe(3);
+    const titles = pub.caseStudies.map((c) => c.title);
+    expect(titles).toContain("Flota de transporte pesado");
+  });
+
+  it("includes corporate terminology with official terms", () => {
+    const profile = getCompanyProfile();
+
+    expect(profile.corporateTerminology).toBeDefined();
+    expect(profile.corporateTerminology?.publicationStatus).toBe("published");
+    const terms = profile.corporateTerminology?.terms.map((t) => t.term) ?? [];
+    expect(terms).toContain("Ingeniería en Limpieza");
+    expect(terms).toContain("Diagnóstico técnico");
+    expect(terms).toContain("Trazabilidad");
+  });
+
+  it("resolves corporate terminology in search document", () => {
+    const searchDoc = resolveCompanySearchDocument();
+
+    expect(searchDoc.corporateTerms.length).toBeGreaterThan(0);
+    expect(searchDoc.caseStudyTitles.length).toBe(3);
+    expect(searchDoc.caseStudyDescriptions.length).toBeGreaterThan(0);
+  });
+
+  it("includes new FAQs for tone and case studies", () => {
+    const faqs = getPublishedFAQs();
+    const faqIds = faqs.map((f) => f.id);
+
+    expect(faqIds).toContain("faq-como-comunica-ovi");
+    expect(faqIds).toContain("faq-casos-de-exito");
+    expect(faqIds).toContain("faq-trazabilidad");
   });
 });
