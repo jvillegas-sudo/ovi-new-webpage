@@ -46,6 +46,15 @@ describe("Services Knowledge — registry", () => {
 });
 
 describe("Services Knowledge — resolver", () => {
+  it("enriches methodology fields using official service sources", () => {
+    const service = getServiceKnowledgeById("lavado-flota")!;
+
+    expect(service.purpose).toContain("lavado técnico");
+    expect(service.executionSteps.length).toBeGreaterThan(0);
+    expect(service.kpis).toContain("Tiempo de ciclo por unidad");
+    expect(service.relatedProjects).toContain("CASE-001");
+  });
+
   it("builds a public service view for published services", () => {
     const service = getServiceKnowledgeById("diagnostico-tecnico")!;
     const publicView = resolvePublicService(service);
@@ -85,6 +94,9 @@ describe("Services Knowledge — resolver", () => {
     expect(documents).toHaveLength(TOTAL_KNOWLEDGE_SERVICES);
     expect(documents.some((document) => document.id === "lavado-flota")).toBe(true);
     expect(documents.every((document) => document.keywords.length > 0)).toBe(true);
+
+    const lavadoFlotaDoc = documents.find((document) => document.id === "lavado-flota");
+    expect(lavadoFlotaDoc?.keywords.some((keyword) => keyword.includes("trazabilidad"))).toBe(true);
   });
 });
 

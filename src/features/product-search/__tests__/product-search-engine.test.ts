@@ -90,9 +90,7 @@ describe("searchProducts", () => {
   it("is accent-insensitive for sector search", () => {
     const withAccent = searchProducts(index, "Biotecnología");
     const withoutAccent = searchProducts(index, "Biotecnologia");
-    expect(withAccent.map((r) => r.document.id)).toEqual(
-      withoutAccent.map((r) => r.document.id),
-    );
+    expect(withAccent.map((r) => r.document.id)).toEqual(withoutAccent.map((r) => r.document.id));
   });
 
   it("supports partial product name matching", () => {
@@ -138,10 +136,14 @@ describe("searchProducts", () => {
   it("synonym: 'desengrasante' finds DEGREASER", () => {
     const results = searchProducts(index, "desengrasante");
     expect(results.length).toBeGreaterThan(0);
-    const hasDegreaser = results.some(
-      (r) => r.document.normalizedName.includes("degreaser"),
-    );
+    const hasDegreaser = results.some((r) => r.document.normalizedName.includes("degreaser"));
     expect(hasDegreaser).toBe(true);
+  });
+
+  it("knowledge keywords: 'ultradegreaser' finds BIODEX", () => {
+    const results = searchProducts(index, "ultradegreaser");
+    expect(results.length).toBeGreaterThan(0);
+    expect(results.some((result) => result.document.id === "industrial-biodex")).toBe(true);
   });
 
   it("sector search finds products in that sector", () => {

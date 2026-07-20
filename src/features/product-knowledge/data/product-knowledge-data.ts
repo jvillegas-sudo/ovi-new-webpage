@@ -2,16 +2,15 @@
  * Product Knowledge Data
  * Work Order 008A — OVI Product Knowledge Engine
  *
- * Minimal knowledge records for all 56 official OVI products.
+ * Governed knowledge records for all 56 official OVI products.
  *
  * Data Integrity Policy:
- *   All records are initialized with informationStatus: "minimal" because
- *   the repository audit found no official source with verified product details
- *   (shortDescription, applications, surfaces, industries, equipment, problems).
+ *   Records start with informationStatus: "minimal" and are enriched only
+ *   when official repository evidence is available.
  *
- *   Fields will be enriched only when an authorized editor provides an official
- *   source reference. See docs/WORK-ORDER-008A-PRODUCT-KNOWLEDGE-ENGINE.md
- *   for instructions on how to safely add verified information.
+ *   WO-003 Phase I adds official enrichment for a controlled subset of products
+ *   with explicit source references, while preserving minimal records for the
+ *   remaining catalog until official data is available.
  *
  * Source: src/features/products/chemical-lines-data.ts
  *   — canonical identity for all 56 products across 7 official sectors.
@@ -112,6 +111,256 @@ function createMinimalKnowledge(
     // Verification
     verifiedBy: null,
     verifiedAt: null,
+  };
+}
+
+type ProductKnowledgeOverride = Partial<
+  Omit<
+    ProductKnowledge,
+    | "productId"
+    | "slug"
+    | "officialName"
+    | "sectorSlug"
+    | "sourceReferences"
+    | "revision"
+    | "updatedAt"
+  >
+> & {
+  sourceReferences?: ProductKnowledge["sourceReferences"];
+};
+
+const OFFICIAL_PRODUCT_KNOWLEDGE_OVERRIDES: Record<string, ProductKnowledgeOverride> = {
+  "industrial-biodex": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Desengrasante industrial de alto poder 99% biodegradable para remoción de grasa severa en operación industrial.",
+    aliases: ["OVI Desengrasante Industrial", "Ultradegreaser"],
+    keywords: ["desengrasante industrial", "ultradegreaser", "grasa pesada", "biodegradable"],
+    customerLanguageTerms: ["desengrasante para grasa pesada", "desengrasante biodegradable"],
+    officialBenefits: [
+      "99% biodegradable con base de cáscara de naranja",
+      "Alto poder de desengrase para suciedad industrial severa",
+      "Protección de metales durante la limpieza",
+      "Sin solventes agresivos ni clorados",
+    ],
+    differentiators: [
+      "Formulación de alto poder orientada a grasa severa",
+      "Enfoque de desempeño con menor impacto ambiental",
+    ],
+    relatedServices: ["limpieza-industrial", "diagnostico-tecnico", "implementacion-protocolo"],
+    compositionSummary:
+      "Formulación desengrasante biodegradable con base de cáscara de naranja y agentes emulsificantes.",
+    biodegradability: "99% biodegradable",
+    usageInstructions:
+      "Aplicar por aspersión, espuma controlada o aplicación manual según protocolo OVI definido para el activo.",
+    internalNotes:
+      "WO-003 Phase I enrichment from official product catalog and content inventory. Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-biodex",
+        verificationStatus: "source_confirmed",
+        internalNote:
+          "Official product description and benefits for OVI Desengrasante Industrial (Ultradegreaser).",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.1 Químicos — PROD-001",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for product positioning and linked services.",
+      },
+    ],
+  },
+  "industrial-solwash": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Detergente especializado 100% biodegradable para lavado técnico de flota pesada y transporte público.",
+    aliases: ["OVI Solwash"],
+    keywords: ["lavado de flota", "detergente flota", "flota pesada", "100% biodegradable"],
+    customerLanguageTerms: ["jabón para lavar buses", "limpiador para camiones"],
+    officialBenefits: [
+      "Formulación 100% biodegradable",
+      "Protege brillo de pintura al no usar abrasivos ni solventes",
+      "Compatible con lavado automático y manual",
+    ],
+    differentiators: [
+      "Diseñado para operación de flota pesada con protocolos estandarizados",
+      "Alineado a control de consumo y trazabilidad operativa",
+    ],
+    relatedServices: ["lavado-flota", "optimizacion-hidrica"],
+    biodegradability: "100% biodegradable",
+    usageInstructions:
+      "Aplicar manualmente o en sistema de lavado automático según protocolo OVI para tipo de flota y nivel de suciedad.",
+    internalNotes:
+      "WO-003 Phase I enrichment from official product catalog and CASE-001 references. Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-solwash",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Solwash description, applications, and benefits.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "1. CASOS DE ÉXITO — CASE-001 / 2.1 Químicos — PROD-004",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for service/product relation and operational case context.",
+      },
+    ],
+  },
+  "industrial-jp-35": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Desengrasante biodegradable especializado en grasas minerales para maquinaria y equipos industriales.",
+    aliases: ["OVI JP 35"],
+    keywords: ["jp 35", "grasa mineral", "desengrasante biodegradable", "maquinaria industrial"],
+    customerLanguageTerms: ["desengrasante para motores", "limpiador para grasa mineral"],
+    officialBenefits: [
+      "Formulación biodegradable para remoción de grasas minerales",
+      "Eficiente en aplicaciones continuas",
+      "No daña superficies metálicas en uso adecuado",
+    ],
+    differentiators: [
+      "Especialización en grasa mineral para equipos y motores",
+      "Compatibilidad con protocolos de mantenimiento técnico",
+    ],
+    relatedServices: ["diagnostico-tecnico", "implementacion-protocolo", "levantamiento-activos"],
+    biodegradability: "Biodegradable",
+    usageInstructions:
+      "Aplicar por aspersión a presión o aplicación manual en ambientes con ventilación adecuada, según protocolo OVI.",
+    internalNotes:
+      "WO-003 Phase I enrichment from official product catalog and content inventory. Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-jp35",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official JP 35 summary, usage context, and benefits.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.1 Químicos — PROD-003",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for JP 35 product positioning and service links.",
+      },
+    ],
+  },
+  "institucional-ecoshine": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Limpiador de pisos con desinfección y aroma para mantenimiento institucional de alto tráfico.",
+    aliases: ["OVI Ecoshine"],
+    keywords: ["limpiador de pisos", "desinfección", "aroma", "alto tráfico"],
+    customerLanguageTerms: ["limpiador para pisos institucionales", "desinfectante para pisos"],
+    officialBenefits: [
+      "Triple acción: limpieza profunda, desinfección y aroma duradero",
+      "Apoyo a protocolos de mantenimiento diario institucional",
+      "Formulación ecológica de bajo impacto ambiental",
+    ],
+    differentiators: [
+      "Producto orientado a pisos de alto tráfico con enfoque operativo",
+      "Integra limpieza y desinfección en una sola intervención",
+    ],
+    relatedServices: ["diseno-protocolo", "mantenimiento-preventivo"],
+    usageInstructions:
+      "Diluir según nivel de suciedad y aplicar con mopa o equipo de limpieza, siguiendo protocolo OVI.",
+    internalNotes:
+      "WO-003 Phase I enrichment from official product catalog and content inventory. Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-ecoshine",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Ecoshine description and benefits.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.1 Químicos — PROD-005",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for institutional/hospitality usage context.",
+      },
+    ],
+  },
+  "institucional-ecoseal": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Sellador para pisos institucionales e industriales que facilita mantenimiento preventivo y extiende vida útil.",
+    aliases: ["OVI Ecoseal"],
+    keywords: ["sellador de pisos", "mantenimiento preventivo", "protección de superficies"],
+    customerLanguageTerms: ["protector para pisos", "sellador para alto tráfico"],
+    officialBenefits: [
+      "Crea capa protectora contra manchas, humedad y desgaste",
+      "Reduce frecuencia de limpiezas correctivas",
+      "Extiende la vida útil de superficies en alto tráfico",
+    ],
+    differentiators: [
+      "Integra limpieza técnica con protección preventiva de superficie",
+      "Optimiza ciclo de mantenimiento en instalaciones institucionales",
+    ],
+    relatedServices: ["mantenimiento-preventivo", "diseno-protocolo"],
+    usageInstructions:
+      "Aplicar listo para uso sobre superficie limpia y seca, respetando tiempos de curado definidos por protocolo OVI.",
+    internalNotes:
+      "WO-003 Phase I enrichment from official product catalog and CASE-003 context. Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-ecoseal",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Ecoseal description and preventive maintenance fit.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "1. CASOS DE ÉXITO — CASE-003 / 2.1 Químicos — PROD-002",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for preventive maintenance case and product usage context.",
+      },
+    ],
+  },
+};
+
+function applyProductKnowledgeOverride(record: ProductKnowledge): ProductKnowledge {
+  const override = OFFICIAL_PRODUCT_KNOWLEDGE_OVERRIDES[record.productId];
+  if (!override) {
+    return record;
+  }
+
+  return {
+    ...record,
+    ...override,
+    sourceReferences: override.sourceReferences ?? record.sourceReferences,
+    revision: record.revision + 1,
+    updatedAt: "2026-07-20",
   };
 }
 
@@ -268,7 +517,7 @@ export const PRODUCT_KNOWLEDGE_REGISTRY: ProductKnowledge[] = [
   ...cuidadoPersonalKnowledge,
   ...hoteleriaKnowledge,
   ...institucionalKnowledge,
-];
+].map(applyProductKnowledgeOverride);
 
 /**
  * Precomputed lookup map for O(1) access by product ID.
