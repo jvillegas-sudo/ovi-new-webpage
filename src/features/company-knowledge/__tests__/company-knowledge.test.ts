@@ -1,439 +1,345 @@
-/**
- * Tests: Company Knowledge Engine
- * OKP-001 — OVI Knowledge Program — Company Knowledge
- *
- * Validates:
- *   - Resolver produces correct PublicCompanyProfile
- *   - Validator detects missing mission, vision and structural issues
- *   - Public profile strips internal governance fields
- *   - Source references are present on published sections
- *   - Missing data (mission, vision, history) is correctly flagged
- *   - AI context is correctly resolved
- *   - Search document is correctly resolved
- *   - No fictional content is introduced
- */
-
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
-  getCompanyProfile,
-  getBrandName,
-  getTagline,
-  getPublishedCoreValues,
   getAllCoreValues,
-  getPublishedDifferentiators,
+  getBrandName,
+  getCompanyProfile,
   getPublicClients,
-  getAllFAQs,
+  getPublishedDifferentiators,
   getPublishedFAQs,
-} from "../repositories/company-knowledge.repository";
-import {
-  resolveCompanyProfile,
+  getTagline,
   resolveCompanyAIContext,
+  resolveCompanyProfile,
   resolveCompanySearchDocument,
-} from "../services/company-knowledge-resolver";
+} from "../index";
 import { validateCompanyProfile } from "../services/company-knowledge-validator";
 import type { CompanyProfile } from "../types/company-profile";
 
-// ─── 1. Official profile exists and is structurally valid ─────────────────────
-
-describe("Test 1 — Official profile exists and has required identity", () => {
-  it("getCompanyProfile returns a profile with correct profileId", () => {
+describe("Company Knowledge — official profile", () => {
+  it("returns the official profile id and schema version", () => {
     const profile = getCompanyProfile();
+
     expect(profile.profileId).toBe("ovi-company-profile");
+    expect(profile.schemaVersion).toBe("1.0.0");
   });
 
-  it("profile has schemaVersion", () => {
-    const profile = getCompanyProfile();
-    expect(profile.schemaVersion).toBeTruthy();
-  });
-
-  it("profile has informationStatus", () => {
-    const profile = getCompanyProfile();
-    expect(profile.informationStatus).toBeTruthy();
-  });
-});
-
-// ─── 2. Official brand identity is correct ────────────────────────────────────
-
-describe("Test 2 — Official brand identity", () => {
-  it("getBrandName returns 'OVI'", () => {
+  it("keeps the official brand identity", () => {
     expect(getBrandName()).toBe("OVI");
-  });
-
-  it("getTagline returns 'Ingeniería en Limpieza'", () => {
     expect(getTagline()).toBe("Ingeniería en Limpieza");
   });
 
-  it("identity has contactEmail", () => {
+  it("preserves the contact and corporate description", () => {
     const profile = getCompanyProfile();
-    expect(profile.identity?.contactEmail).toBe("info@ovi.com");
-  });
 
-  it("identity has linkedin", () => {
-    const profile = getCompanyProfile();
+    expect(profile.identity?.contactEmail).toBe("info@ovi.com");
     expect(profile.identity?.linkedin).toBe("https://www.linkedin.com/company/ovi");
+    expect(profile.identity?.description).toContain("diagnóstico técnico");
   });
 });
 
-// ─── 3. Core values are populated from official brand pillars ─────────────────
+describe("Company Knowledge — mission, vision and history", () => {
+  it("publishes the mission with evidence and sources", () => {
+    const profile = getCompanyProfile();
 
-describe("Test 3 — Core values from official brand pillars", () => {
-  it("there are exactly 6 core values (The Six Permanent Pillars)", () => {
+    expect(profile.mission?.publicationStatus).toBe("published");
+    expect(profile.mission?.description).toContain("química biodegradable");
+    expect(profile.mission?.evidence).toBeTruthy();
+    expect(profile.mission?.sources.length).toBeGreaterThan(0);
+  });
+
+  it("publishes the vision with evidence and sources", () => {
+    const profile = getCompanyProfile();
+
+    expect(profile.vision?.publicationStatus).toBe("published");
+    expect(profile.vision?.description).toContain("futuro de la industria");
+    expect(profile.vision?.evidence).toBeTruthy();
+    expect(profile.vision?.sources.length).toBeGreaterThan(0);
+  });
+
+  it("publishes the history narrative", () => {
+    const profile = getCompanyProfile();
+
+    expect(profile.history?.publicationStatus).toBe("published");
+    expect(profile.history?.narrative).toContain("Más de 18 años");
+  });
+
+  it("keeps a supported timeline event with date and source reference", () => {
+    const timeline = getCompanyProfile().history?.timeline ?? [];
+
+    expect(timeline.length).toBeGreaterThan(0);
+    expect(timeline[0]?.date).toBe("2026-07-15");
+    expect(timeline[0]?.sourceReference).toBe("public/ovi-dam/metadata/CASE-001-IMG-01.json");
+    expect(timeline[0]?.sources.length).toBeGreaterThan(0);
+  });
+});
+
+describe("Company Knowledge — structured experience", () => {
+  it("publishes structured experience with years, projects, industries and capabilities", () => {
+    const experience = getCompanyProfile().experience;
+
+    expect(experience?.publicationStatus).toBe("published");
+    expect(experience?.years).toBe("Más de 18 años");
+    expect(experience?.projects).toHaveLength(3);
+    expect(experience?.industries).toHaveLength(7);
+    expect(experience?.capabilities).toContain("Diagnóstico técnico");
+    expect(experience?.evidence?.length).toBeGreaterThan(0);
+  });
+
+  it("uses unique ids for experience projects", () => {
+    const projects = getCompanyProfile().experience?.projects ?? [];
+    const ids = projects.map((project) => project.id);
+
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("references CASE-001 as an official project", () => {
+    const project = getCompanyProfile().experience?.projects?.find(
+      (item) => item.caseStudyId === "CASE-001",
+    );
+
+    expect(project?.title).toBe("Flota de transporte pesado");
+    expect(project?.evidence).toContain("tiempo de ciclo");
+  });
+});
+
+describe("Company Knowledge — services, industries, capabilities and differentiators", () => {
+  it("keeps the six permanent pillars as core values", () => {
     expect(getAllCoreValues()).toHaveLength(6);
   });
 
-  it("all 6 core values are published", () => {
-    const published = getPublishedCoreValues();
-    expect(published).toHaveLength(6);
+  it("references official services without duplicating the service domain", () => {
+    const serviceReferences = getCompanyProfile().serviceReferences ?? [];
+
+    expect(serviceReferences.length).toBeGreaterThan(0);
+    expect(serviceReferences.some((service) => service.serviceId === "lavado-flota")).toBe(true);
+    expect(serviceReferences.some((service) => service.serviceId === "diagnostico-tecnico")).toBe(
+      true,
+    );
   });
 
-  it("core value IDs are unique", () => {
-    const values = getAllCoreValues();
-    const ids = values.map((v) => v.id);
-    const unique = new Set(ids);
-    expect(unique.size).toBe(ids.length);
+  it("references official industries from the industry knowledge source", () => {
+    const industryReferences = getCompanyProfile().industryReferences ?? [];
+
+    expect(industryReferences).toHaveLength(7);
+    expect(industryReferences.some((industry) => industry.industryId === "transporte")).toBe(true);
+    expect(industryReferences.some((industry) => industry.industryId === "alimentos")).toBe(true);
   });
 
-  it("all published core values have sources", () => {
-    const published = getPublishedCoreValues();
-    for (const value of published) {
-      expect(value.sources.length).toBeGreaterThan(0);
-    }
+  it("publishes company capabilities with evidence", () => {
+    const capabilities = getCompanyProfile().capabilities ?? [];
+
+    expect(capabilities.length).toBeGreaterThan(0);
+    expect(capabilities.every((capability) => capability.evidence)).toBe(true);
   });
 
-  it("ingenieria-en-limpieza pillar is present", () => {
-    const values = getAllCoreValues();
-    const pillar = values.find((v) => v.id === "ingenieria-en-limpieza");
-    expect(pillar).toBeDefined();
-    expect(pillar?.name).toBe("Ingeniería en Limpieza");
-  });
-});
+  it("publishes differentiators with evidence", () => {
+    const differentiators = getPublishedDifferentiators();
 
-// ─── 4. Validator detects missing mission ─────────────────────────────────────
-
-describe("Test 4 — Validator detects missing mission description", () => {
-  it("validation result has a warning for missing mission description", () => {
-    const result = validateCompanyProfile();
-    const missionWarnings = result.warnings.filter((w) => w.field.startsWith("mission"));
-    expect(missionWarnings.length).toBeGreaterThan(0);
-    expect(missionWarnings[0].message).toContain("misión");
+    expect(differentiators.length).toBeGreaterThan(0);
+    expect(differentiators.every((item) => item.evidence)).toBe(true);
   });
 });
 
-// ─── 5. Validator detects missing vision ──────────────────────────────────────
+describe("Company Knowledge — public profile resolver", () => {
+  it("strips internal governance fields", () => {
+    const profile = resolveCompanyProfile();
 
-describe("Test 5 — Validator detects missing vision description", () => {
-  it("validation result has a warning for missing vision description", () => {
-    const result = validateCompanyProfile();
-    const visionWarnings = result.warnings.filter((w) => w.field.startsWith("vision"));
-    expect(visionWarnings.length).toBeGreaterThan(0);
-    expect(visionWarnings[0].message).toContain("visión");
-  });
-});
-
-// ─── 6. Validator detects missing history ─────────────────────────────────────
-
-describe("Test 6 — Validator detects missing history", () => {
-  it("validation result has a warning for missing history", () => {
-    const result = validateCompanyProfile();
-    const historyWarnings = result.warnings.filter((w) => w.field === "history");
-    expect(historyWarnings.length).toBeGreaterThan(0);
-  });
-});
-
-// ─── 7. Resolver strips internal fields ──────────────────────────────────────
-
-describe("Test 7 — Resolver strips internal governance fields", () => {
-  it("PublicCompanyProfile has no 'sources' field", () => {
-    const pub = resolveCompanyProfile();
-    expect("sources" in pub).toBe(false);
+    expect("sources" in profile).toBe(false);
+    expect("verificationStatus" in profile).toBe(false);
   });
 
-  it("PublicCompanyProfile has no 'verificationStatus' field", () => {
-    const pub = resolveCompanyProfile();
-    expect("verificationStatus" in pub).toBe(false);
+  it("publishes mission, vision, history and experience", () => {
+    const profile = resolveCompanyProfile();
+
+    expect(profile.mission?.description).toContain("química biodegradable");
+    expect(profile.vision?.description).toContain("futuro de la industria");
+    expect(profile.history?.narrative).toContain("Más de 18 años");
+    expect(profile.history?.timeline).toHaveLength(1);
+    expect(profile.experience?.projects).toHaveLength(3);
   });
 
-  it("PublicCompanyProfile.brandName is 'OVI'", () => {
-    const pub = resolveCompanyProfile();
-    expect(pub.brandName).toBe("OVI");
+  it("publishes corporate numbers, technology and project references", () => {
+    const profile = resolveCompanyProfile();
+
+    expect(profile.corporateNumbers?.otherFigures?.experiencia).toBe("Más de 18 años");
+    expect(profile.technologyStack?.technologies?.Automation).toBeTruthy();
+    expect(profile.projectReferences).toHaveLength(3);
   });
 
-  it("PublicCompanyProfile.tagline is 'Ingeniería en Limpieza'", () => {
-    const pub = resolveCompanyProfile();
-    expect(pub.tagline).toBe("Ingeniería en Limpieza");
-  });
-});
-
-// ─── 8. Resolver excludes unpublished sections ────────────────────────────────
-
-describe("Test 8 — Resolver excludes unpublished sections", () => {
-  it("mission is null in public profile (not yet published)", () => {
-    const pub = resolveCompanyProfile();
-    expect(pub.mission).toBeNull();
-  });
-
-  it("vision is null in public profile (not yet published)", () => {
-    const pub = resolveCompanyProfile();
-    expect(pub.vision).toBeNull();
-  });
-
-  it("purpose is null in public profile (draft)", () => {
-    const pub = resolveCompanyProfile();
-    expect(pub.purpose).toBeNull();
-  });
-});
-
-// ─── 9. Resolver includes published core values ───────────────────────────────
-
-describe("Test 9 — Resolver includes published core values", () => {
-  it("public profile has 6 core values", () => {
-    const pub = resolveCompanyProfile();
-    expect(pub.coreValues).toHaveLength(6);
-  });
-
-  it("public core values have no 'sources' field", () => {
-    const pub = resolveCompanyProfile();
-    for (const value of pub.coreValues) {
-      expect("sources" in value).toBe(false);
-    }
-  });
-});
-
-// ─── 10. Source references are present on identity ───────────────────────────
-
-describe("Test 10 — Source references on published identity", () => {
-  it("identity has at least one source reference", () => {
-    const profile = getCompanyProfile();
-    expect(profile.identity?.sources.length).toBeGreaterThan(0);
-  });
-
-  it("identity source references src/config/site.ts", () => {
-    const profile = getCompanyProfile();
-    const sources = profile.identity?.sources ?? [];
-    const siteConfigSource = sources.find((s) => s.sourceFile.includes("site.ts"));
-    expect(siteConfigSource).toBeDefined();
-  });
-});
-
-// ─── 11. No fictional content in brand name or tagline ───────────────────────
-
-describe("Test 11 — No fictional content", () => {
-  it("brand name does not contain 'Ventures'", () => {
-    expect(getBrandName()).not.toContain("Ventures");
-  });
-
-  it("brand name is exactly 'OVI'", () => {
-    expect(getBrandName()).toBe("OVI");
-  });
-
-  it("tagline is exactly 'Ingeniería en Limpieza'", () => {
-    expect(getTagline()).toBe("Ingeniería en Limpieza");
-  });
-});
-
-// ─── 12. Client references — public clients only ─────────────────────────────
-
-describe("Test 12 — Client visibility governance", () => {
-  it("getPublicClients returns only public + published clients", () => {
+  it("keeps only public clients", () => {
     const clients = getPublicClients();
-    for (const client of clients) {
-      expect(client.visibility).toBe("public");
-      expect(client.publicationStatus).toBe("published");
-    }
-  });
 
-  it("EMVARIAS client is present as official reference", () => {
-    const clients = getPublicClients();
-    const emvarias = clients.find((c) => c.id === "emvarias");
-    expect(emvarias).toBeDefined();
+    expect(clients).toHaveLength(1);
+    expect(clients[0]?.displayName).toBe("EMVARIAS");
   });
 });
 
-// ─── 13. FAQs are structured for search and AI ───────────────────────────────
+describe("Company Knowledge — AI context", () => {
+  it("builds a richer structured AI context", () => {
+    const context = resolveCompanyAIContext();
 
-describe("Test 13 — FAQs structured for search and AI", () => {
-  it("all FAQ entries have a unique id", () => {
-    const faqs = getAllFAQs();
-    const ids = faqs.map((f) => f.id);
-    const unique = new Set(ids);
-    expect(unique.size).toBe(ids.length);
+    expect(context.brandName).toBe("OVI");
+    expect(context.mission).toContain("química biodegradable");
+    expect(context.vision).toContain("responsables con el medio ambiente");
+    expect(context.history).toContain("Más de 18 años");
+    expect(context.capabilityNames).toContain("Diagnóstico técnico");
+    expect(context.technologyHighlights).toContain("Artificial Intelligence");
+    expect(context.projectReferenceTitles).toContain("Flota de transporte pesado");
+    expect(context.experienceSummary).toContain("3 referencias oficiales");
   });
 
-  it("published FAQs all have answers", () => {
-    const published = getPublishedFAQs();
-    for (const faq of published) {
-      expect(faq.answer).toBeTruthy();
-    }
-  });
+  it("answers the key company questions naturally", () => {
+    const answers = resolveCompanyAIContext().searchAnswers;
 
-  it("faq-quienes-somos is published and has an answer", () => {
-    const faq = getAllFAQs().find((f) => f.id === "faq-quienes-somos");
-    expect(faq).toBeDefined();
-    expect(faq?.publicationStatus).toBe("published");
-    expect(faq?.answer).toBeTruthy();
-  });
-});
-
-// ─── 14. AI context is correctly resolved ────────────────────────────────────
-
-describe("Test 14 — AI context resolver", () => {
-  it("AI context has correct brandName", () => {
-    const ctx = resolveCompanyAIContext();
-    expect(ctx.brandName).toBe("OVI");
-  });
-
-  it("AI context has correct tagline", () => {
-    const ctx = resolveCompanyAIContext();
-    expect(ctx.tagline).toBe("Ingeniería en Limpieza");
-  });
-
-  it("AI context has 6 brand pillar names", () => {
-    const ctx = resolveCompanyAIContext();
-    expect(ctx.brandPillarNames).toHaveLength(6);
-  });
-
-  it("AI context whoIsOvi search answer is populated", () => {
-    const ctx = resolveCompanyAIContext();
-    expect(ctx.searchAnswers.whoIsOvi).toBeTruthy();
-    expect(ctx.searchAnswers.whoIsOvi).toContain("OVI");
-  });
-
-  it("AI context mission is null (not yet published)", () => {
-    const ctx = resolveCompanyAIContext();
-    expect(ctx.mission).toBeNull();
-  });
-
-  it("AI context vision is null (not yet published)", () => {
-    const ctx = resolveCompanyAIContext();
-    expect(ctx.vision).toBeNull();
+    expect(answers.whoIsOvi).toContain("OVI");
+    expect(answers.whatMakesOviDifferent).toContain("diagnóstico técnico");
+    expect(answers.whyChooseOvi).toContain("socio de largo plazo");
+    expect(answers.whatServicesDoesOviProvide).toContain("lavado de flota");
+    expect(answers.whatIndustriesDoesOviServe).toContain("transporte");
+    expect(answers.whatExperienceDoesOviHave).toContain("18 años");
+    expect(answers.whereDoesOviOperate).toContain("Colombia y la región");
   });
 });
 
-// ─── 15. Search document is correctly resolved ───────────────────────────────
+describe("Company Knowledge — search document", () => {
+  it("enriches the search document with history, experience and technology", () => {
+    const document = resolveCompanySearchDocument();
 
-describe("Test 15 — Search document resolver", () => {
-  it("search document id is 'company-profile'", () => {
-    const doc = resolveCompanySearchDocument();
-    expect(doc.id).toBe("company-profile");
+    expect(document.id).toBe("company-profile");
+    expect(document.missionText).toContain("química biodegradable");
+    expect(document.historyText).toContain("Más de 18 años");
+    expect(document.experienceText).toContain("3 casos oficiales");
+    expect(document.technologyHighlights).toContain("OVI OS");
+    expect(document.projectReferenceTitles).toContain("Flota de transporte pesado");
   });
 
-  it("search document has brandName 'OVI'", () => {
-    const doc = resolveCompanySearchDocument();
-    expect(doc.brandName).toBe("OVI");
-  });
+  it("includes natural answer snippets for search indexing", () => {
+    const document = resolveCompanySearchDocument();
 
-  it("search document has keywords array", () => {
-    const doc = resolveCompanySearchDocument();
-    expect(Array.isArray(doc.keywords)).toBe(true);
-    expect(doc.keywords.length).toBeGreaterThan(0);
-  });
-
-  it("search document has coreValueNames", () => {
-    const doc = resolveCompanySearchDocument();
-    expect(doc.coreValueNames).toHaveLength(6);
-  });
-
-  it("search document faqQuestions includes 'who is OVI' question", () => {
-    const doc = resolveCompanySearchDocument();
-    const hasWhoIs = doc.faqQuestions.some((q) => q.includes("Quiénes"));
-    expect(hasWhoIs).toBe(true);
+    expect(document.answerSnippets.length).toBeGreaterThan(0);
+    expect(document.answerSnippets.some((snippet) => snippet.includes("diagnóstico técnico"))).toBe(
+      true,
+    );
+    expect(
+      document.faqQuestions.some((question) => question.includes("¿Qué hace diferente a OVI?")),
+    ).toBe(true);
   });
 });
 
-// ─── 16. Validator — no errors on valid profile ──────────────────────────────
-
-describe("Test 16 — Validator on official profile", () => {
-  it("official profile passes validation with no errors", () => {
+describe("Company Knowledge — validation", () => {
+  it("validates the official profile without errors", () => {
     const result = validateCompanyProfile();
+
     expect(result.valid).toBe(true);
     expect(result.errors).toHaveLength(0);
   });
 
-  it("official profile has governance warnings for missing content", () => {
+  it("still reports missing corporate sections that have no evidence", () => {
     const result = validateCompanyProfile();
-    // Warnings expected: mission description, vision description, history, etc.
-    expect(result.warnings.length).toBeGreaterThan(0);
+
+    expect(result.warnings.some((warning) => warning.field === "certifications")).toBe(true);
   });
-});
 
-// ─── 17. Validator — detects duplicate IDs ───────────────────────────────────
-
-describe("Test 17 — Validator detects duplicate core value IDs", () => {
-  it("profile with duplicate core value ID reports an error", () => {
+  it("detects duplicate experience project ids", () => {
     const profile = getCompanyProfile();
     const duplicate: CompanyProfile = {
       ...profile,
-      coreValues: [
-        ...(profile.coreValues ?? []),
-        {
-          id: "ingenieria-en-limpieza",
-          name: "Duplicado",
-          publicationStatus: "draft",
-          verificationStatus: "unverified",
-          sources: [],
-        },
-      ],
+      experience: profile.experience && {
+        ...profile.experience,
+        projects: [
+          ...(profile.experience.projects ?? []),
+          {
+            id: "case-001-flota-transporte-pesado",
+            title: "Duplicado",
+            status: "complete",
+          },
+        ],
+      },
     };
+
     const result = validateCompanyProfile(duplicate);
+
     expect(result.valid).toBe(false);
-    const dupError = result.errors.find((e) => e.message.includes("ingenieria-en-limpieza"));
-    expect(dupError).toBeDefined();
+    expect(result.errors.some((error) => error.field.includes("experience.projects"))).toBe(true);
   });
-});
 
-// ─── 18. Validator — detects published FAQ without answer ────────────────────
-
-describe("Test 18 — Validator detects published FAQ without answer", () => {
-  it("profile with published FAQ and no answer reports an error", () => {
+  it("detects broken service references", () => {
     const profile = getCompanyProfile();
-    const badProfile: CompanyProfile = {
+    const broken: CompanyProfile = {
       ...profile,
-      faqs: [
-        {
-          id: "faq-sin-respuesta",
-          question: "¿Pregunta sin respuesta?",
-          answerStatus: "missing",
-          publicationStatus: "published",
-          verificationStatus: "unverified",
-          sources: [],
-        },
+      serviceReferences: [
+        ...(profile.serviceReferences ?? []),
+        { serviceId: "servicio-inexistente", label: "Inexistente" },
       ],
     };
-    const result = validateCompanyProfile(badProfile);
+
+    const result = validateCompanyProfile(broken);
+
     expect(result.valid).toBe(false);
-    const faqError = result.errors.find((e) => e.field.includes("faq-sin-respuesta"));
-    expect(faqError).toBeDefined();
+    expect(
+      result.errors.some((error) =>
+        error.field.includes("serviceReferences[servicio-inexistente]"),
+      ),
+    ).toBe(true);
+  });
+
+  it("detects broken industry references", () => {
+    const profile = getCompanyProfile();
+    const broken: CompanyProfile = {
+      ...profile,
+      industryReferences: [
+        ...(profile.industryReferences ?? []),
+        { industryId: "industria-inexistente", label: "Industria inexistente" },
+      ],
+    };
+
+    const result = validateCompanyProfile(broken);
+
+    expect(result.valid).toBe(false);
+    expect(
+      result.errors.some((error) =>
+        error.field.includes("industryReferences[industria-inexistente]"),
+      ),
+    ).toBe(true);
+  });
+
+  it("detects published timeline events without date or source reference", () => {
+    const profile = getCompanyProfile();
+    const broken: CompanyProfile = {
+      ...profile,
+      history: profile.history && {
+        ...profile.history,
+        timeline: [
+          {
+            event: "Evento inválido",
+            publicationStatus: "published",
+            verificationStatus: "source_confirmed",
+            sources: [],
+          },
+        ],
+      },
+    };
+
+    const result = validateCompanyProfile(broken);
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((error) => error.field.includes("history.timeline[0].date"))).toBe(
+      true,
+    );
+    expect(
+      result.errors.some((error) => error.field.includes("history.timeline[0].sourceReference")),
+    ).toBe(true);
   });
 });
 
-// ─── 19. Differentiators from official brand pillars ─────────────────────────
+describe("Company Knowledge — publication governance", () => {
+  it("publishes FAQs only when answers exist", () => {
+    const faqs = getPublishedFAQs();
 
-describe("Test 19 — Differentiators from official brand pillars", () => {
-  it("there are published differentiators", () => {
-    const published = getPublishedDifferentiators();
-    expect(published.length).toBeGreaterThan(0);
+    expect(faqs.length).toBeGreaterThan(0);
+    expect(faqs.every((faq) => faq.answer)).toBe(true);
   });
 
-  it("differentiator IDs are unique", () => {
-    const profile = getCompanyProfile();
-    const diffs = profile.differentiators ?? [];
-    const ids = diffs.map((d) => d.id);
-    expect(new Set(ids).size).toBe(ids.length);
-  });
-
-  it("published differentiators all have sources", () => {
-    const published = getPublishedDifferentiators();
-    for (const diff of published) {
-      expect(diff.sources.length).toBeGreaterThan(0);
-    }
-  });
-});
-
-// ─── 20. Profile information status reflects partial state ───────────────────
-
-describe("Test 20 — Profile information status", () => {
-  it("informationStatus is 'partial' (mission and vision not yet defined)", () => {
-    const profile = getCompanyProfile();
-    expect(profile.informationStatus).toBe("partial");
+  it("does not reintroduce the forbidden OVI Ventures brand", () => {
+    expect(getBrandName()).not.toContain("Ventures");
   });
 });

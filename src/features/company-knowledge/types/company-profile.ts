@@ -122,6 +122,8 @@ export interface CompanyCoreValue extends GovernedField {
 // ─── Timeline Event ───────────────────────────────────────────────────────────
 
 export interface CompanyTimelineEvent extends GovernedField {
+  /** ISO 8601 date when the event was documented or occurred */
+  date?: string;
   /** Year of the event (e.g. 2015) */
   year?: number;
   /** Short event title */
@@ -130,6 +132,8 @@ export interface CompanyTimelineEvent extends GovernedField {
   description?: string;
   /** Supporting evidence or reference */
   evidence?: string;
+  /** Human-readable primary source reference */
+  sourceReference?: string;
 }
 
 // ─── History ─────────────────────────────────────────────────────────────────
@@ -156,6 +160,8 @@ export interface CompanyCapability extends GovernedField {
   name: string;
   /** Capability description */
   description?: string;
+  /** Evidence supporting this capability */
+  evidence?: string;
 }
 
 // ─── Differentiator ───────────────────────────────────────────────────────────
@@ -167,6 +173,40 @@ export interface CompanyDifferentiator extends GovernedField {
   title: string;
   /** Differentiator description */
   description?: string;
+  /** Evidence supporting this differentiator */
+  evidence?: string;
+}
+
+// ─── Experience ────────────────────────────────────────────────────────────────
+
+export interface CompanyExperienceProject {
+  /** Project or experience identifier */
+  id: string;
+  /** Official project title */
+  title: string;
+  /** Related case study identifier */
+  caseStudyId?: string;
+  /** Project summary */
+  description?: string;
+  /** Evidence supporting the project reference */
+  evidence?: string;
+  /** Completeness status for the project reference */
+  status: InformationStatus;
+}
+
+export interface CompanyExperience extends GovernedField {
+  /** Official experience statement, preserving qualifiers like "más de" */
+  years?: string;
+  /** Officially documented project references */
+  projects?: CompanyExperienceProject[];
+  /** Industries where experience is documented */
+  industries?: CompanyIndustryReference[];
+  /** Capability highlights proven by sources */
+  capabilities?: string[];
+  /** Evidence highlights supporting the experience section */
+  evidence?: string[];
+  /** Overall completeness state for the experience section */
+  status: InformationStatus;
 }
 
 // ─── Business Unit ────────────────────────────────────────────────────────────
@@ -344,6 +384,25 @@ export interface CompanyCommercialPositioning extends GovernedField {
   competitiveAdvantages?: string[];
 }
 
+// ─── Project Reference ─────────────────────────────────────────────────────────
+
+export interface CompanyProjectReference extends GovernedField {
+  /** Project reference identifier */
+  id: string;
+  /** Public project title */
+  title: string;
+  /** Public project description */
+  description?: string;
+  /** Related case study identifier */
+  caseStudyId?: string;
+  /** Related public image path */
+  imagePath?: string;
+  /** Related public document path */
+  documentPath?: string;
+  /** Official testimonial, only if documented */
+  testimonial?: string;
+}
+
 // ─── FAQ Entry ────────────────────────────────────────────────────────────────
 
 export interface CompanyFAQEntry extends GovernedField {
@@ -386,10 +445,14 @@ export interface CompanyAIContext {
   mission: string | null;
   /** Published vision statement (null if not published) */
   vision: string | null;
+  /** Published history narrative (null if not published) */
+  history: string | null;
   /** Published core value names */
   coreValueNames: string[];
   /** Published brand pillar names */
   brandPillarNames: string[];
+  /** Published capability names */
+  capabilityNames: string[];
   /** Published industry labels */
   industryLabels: string[];
   /** Published service labels */
@@ -400,9 +463,16 @@ export interface CompanyAIContext {
   differentiatorTitles: string[];
   /** Published certification names */
   certificationNames: string[];
+  /** Published technology highlights */
+  technologyHighlights: string[];
+  /** Published project reference titles */
+  projectReferenceTitles: string[];
+  /** Published experience summary (null if unpublished) */
+  experienceSummary: string | null;
   /** Search-oriented question answers for common queries */
   searchAnswers: {
     whoIsOvi: string;
+    whatMakesOviDifferent: string | null;
     whereDoesOviOperate: string | null;
     whatServicesDoesOviProvide: string | null;
     whyChooseOvi: string | null;
@@ -424,16 +494,24 @@ export interface CompanySearchDocument {
   tagline: string;
   description: string;
   keywords: string[];
+  purposeText: string | null;
   missionText: string | null;
   visionText: string | null;
+  historyText: string | null;
+  experienceText: string | null;
   coreValueNames: string[];
+  capabilityNames: string[];
   differentiatorTitles: string[];
   industryLabels: string[];
   serviceLabels: string[];
   certificationNames: string[];
+  technologyHighlights: string[];
+  projectReferenceTitles: string[];
+  projectReferenceDescriptions: string[];
   coverageText: string | null;
   faqQuestions: string[];
   faqAnswers: string[];
+  answerSnippets: string[];
 }
 
 // ─── Public Company Profile ───────────────────────────────────────────────────
@@ -460,6 +538,33 @@ export interface PublicCompanyProfile {
   mission: { title?: string; description?: string } | null;
   vision: { title?: string; description?: string } | null;
   purpose: { description?: string; brandPromise?: string } | null;
+  history: {
+    foundingYear?: number;
+    foundingLocation?: string;
+    narrative?: string;
+    timeline: {
+      date?: string;
+      year?: number;
+      event: string;
+      description?: string;
+      sourceReference?: string;
+    }[];
+  } | null;
+  experience: {
+    years?: string;
+    projects: {
+      id: string;
+      title: string;
+      caseStudyId?: string;
+      description?: string;
+      evidence?: string;
+      status: InformationStatus;
+    }[];
+    industries: CompanyIndustryReference[];
+    capabilities: string[];
+    evidence: string[];
+    status: InformationStatus;
+  } | null;
   coreValues: { id: string; name: string; description?: string }[];
   differentiators: { id: string; title: string; description?: string }[];
   capabilities: { id: string; category: string; name: string; description?: string }[];
@@ -467,8 +572,26 @@ export interface PublicCompanyProfile {
   serviceReferences: CompanyServiceReference[];
   industryReferences: CompanyIndustryReference[];
   geographicCoverage: { countries?: string[]; regions?: string[]; description?: string } | null;
+  corporateNumbers: {
+    yearsInOperation?: number;
+    clientsServed?: number;
+    teamSize?: number;
+    productCount?: number;
+    certificationCount?: number;
+    otherFigures?: Record<string, string>;
+  } | null;
   certifications: { id: string; name: string; issuer?: string; expirationDate?: string }[];
+  technologyStack: { technologies?: Record<string, string> } | null;
   brandAssets: { id: string; title: string; path?: string; type?: string }[];
+  projectReferences: {
+    id: string;
+    title: string;
+    description?: string;
+    caseStudyId?: string;
+    imagePath?: string;
+    documentPath?: string;
+    testimonial?: string;
+  }[];
   commercialPositioning: {
     primaryStatement?: string;
     targetAudience?: string;
@@ -525,6 +648,8 @@ export interface CompanyProfile {
   coreValues?: CompanyCoreValue[];
   /** Corporate history and timeline */
   history?: CompanyHistory;
+  /** Structured company experience */
+  experience?: CompanyExperience;
   /** Operational capabilities */
   capabilities?: CompanyCapability[];
   /** Brand pillars (treated as differentiators) */
@@ -549,6 +674,8 @@ export interface CompanyProfile {
   corporateDocuments?: CorporateDocument[];
   /** Brand assets */
   brandAssets?: CompanyBrandAsset[];
+  /** Official project references */
+  projectReferences?: CompanyProjectReference[];
   /** Commercial positioning */
   commercialPositioning?: CompanyCommercialPositioning;
   /** Client references */

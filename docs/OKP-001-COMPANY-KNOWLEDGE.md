@@ -11,281 +11,308 @@
 
 ## 1. Resumen Ejecutivo
 
-OKP-001 implementa el primer dominio de conocimiento empresarial del OVI Knowledge Engine: el **Company Knowledge Domain**.
+OKP-001 consolida el dominio **Company Knowledge** como la fuente corporativa oficial de OVI dentro del repositorio.
 
-Este Work Order establece el repositorio oficial de identidad corporativa de OVI como fuente autoritativa para todos los sistemas de la plataforma: website, OVI AI, OVI OS, CRM, Generador de Propuestas, Buscador de Soluciones, Product Experience Platform y futuros sistemas.
+El objetivo sigue siendo el mismo:
 
-El objetivo **no es rediseñar el sitio web**. El objetivo es construir el repositorio oficial de conocimiento corporativo, gobernado, trazable y preparado para integración futura.
+- no rediseñar interfaces,
+- no crear nuevas páginas,
+- no inventar contenido,
+- y exponer únicamente información respaldada por evidencia oficial del repositorio.
+
+En esta actualización se enriqueció el perfil corporativo con misión, visión, historia, experiencia estructurada, referencias de industrias, referencias de servicios, tecnología aplicada, cifras corporativas textuales, referencias de proyectos y respuestas más naturales para búsqueda e IA.
 
 ---
 
-## 2. Auditoría del Repositorio
+## 2. Fuentes oficiales auditadas
+
+### Fuentes corporativas principales
+
+- `src/config/site.ts`
+- `src/app/about/page.tsx`
+- `company/brand/brand-pillars.md`
+- `company/brand/brand-promise.md`
+- `company/brand/tone-of-voice.md`
+- `company/PROJECT_VISION.md`
+- `company/CONTENT_RULES.md`
+- `company/MASTER_INDEX.md`
+
+### Fuentes de website content / knowledge content
+
+- `src/knowledge/home/engineering-pillars.ts`
+- `src/knowledge/home/identity-metrics.ts`
+- `src/knowledge/home/success-cases.ts`
+- `src/knowledge/services/catalog.ts`
+- `src/knowledge/sectors/catalog.ts`
+- `src/app/missions/page.tsx`
+
+### Fuentes DAM / casos / activos
+
+- `docs/content/OVI_CONTENT_MASTER.md`
+- `public/ovi-dam/metadata/CASE-001-IMG-01.json`
+- `public/ovi-media/cases/emvarias/emvarias-fleet-wash.png`
+- `public/brand/ovi-logo.svg`
+
+---
+
+## 3. Auditoría del repositorio
 
 ### Información oficial encontrada ✓
 
-| Campo                    | Fuente                                                                             | Estado             |
-| ------------------------ | ---------------------------------------------------------------------------------- | ------------------ |
-| Nombre de marca          | `src/config/site.ts`                                                               | `source_confirmed` |
-| Tagline                  | `src/config/site.ts`                                                               | `source_confirmed` |
-| Descripción corporativa  | `src/config/site.ts`                                                               | `source_confirmed` |
-| URL del sitio            | `src/config/site.ts`                                                               | `source_confirmed` |
-| Email de contacto        | `src/config/site.ts`                                                               | `source_confirmed` |
-| LinkedIn                 | `src/config/site.ts`                                                               | `source_confirmed` |
-| Keywords SEO             | `src/config/site.ts`                                                               | `source_confirmed` |
-| 6 Pilares de Marca       | `company/brand/brand-pillars.md`                                                   | `source_confirmed` |
-| Brand Promise (draft)    | `company/brand/brand-promise.md`                                                   | `source_confirmed` |
-| Tono de voz              | `company/brand/tone-of-voice.md`                                                   | `source_confirmed` |
-| Unidades de negocio      | `company/PROJECT_VISION.md`, `src/config/site.ts`                                  | `source_confirmed` |
-| Referencias de servicios | `src/config/site.ts`                                                               | `source_confirmed` |
-| Cliente EMVARIAS         | `public/ovi-media/cases/emvarias/`, `public/ovi-dam/metadata/CASE-001-IMG-01.json` | `source_confirmed` |
-| Logo OVI                 | `public/brand/ovi-logo.svg`                                                        | `source_confirmed` |
+| Campo                                                   | Fuente(s)                                                                            | Estado             |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------ |
+| Identidad corporativa                                   | `src/config/site.ts`                                                                 | `source_confirmed` |
+| Misión                                                  | `src/app/about/page.tsx`                                                             | `source_confirmed` |
+| Visión                                                  | `src/app/about/page.tsx`                                                             | `source_confirmed` |
+| Historia narrativa                                      | `src/knowledge/home/engineering-pillars.ts`                                          | `source_confirmed` |
+| Timeline soportado                                      | `public/ovi-dam/metadata/CASE-001-IMG-01.json`, `docs/content/OVI_CONTENT_MASTER.md` | `source_confirmed` |
+| Valores / pilares                                       | `company/brand/brand-pillars.md`                                                     | `source_confirmed` |
+| Tono y cultura de comunicación                          | `company/brand/tone-of-voice.md`                                                     | `source_confirmed` |
+| Experiencia (+18 años, +7,000 unidades/mes, 7 sectores) | `src/knowledge/home/identity-metrics.ts`                                             | `source_confirmed` |
+| Casos oficiales                                         | `src/knowledge/home/success-cases.ts`, `docs/content/OVI_CONTENT_MASTER.md`          | `source_confirmed` |
+| Servicios                                               | `src/knowledge/services/catalog.ts`                                                  | `source_confirmed` |
+| Industrias                                              | `src/knowledge/sectors/catalog.ts`                                                   | `source_confirmed` |
+| Tecnología aplicada                                     | `company/brand/brand-pillars.md`, `company/PROJECT_VISION.md`                        | `source_confirmed` |
+| Cobertura textual                                       | `src/knowledge/home/identity-metrics.ts`                                             | `source_confirmed` |
+| Activos de marca                                        | `public/brand/ovi-logo.svg`                                                          | `source_confirmed` |
 
-### Información no encontrada (pendiente oficial)
+### Información aún no encontrada / no publicable
 
-| Campo                  | Evidencia                                                                     |
-| ---------------------- | ----------------------------------------------------------------------------- |
-| Misión                 | `company/MASTER_INDEX.md` — "TODO: Insertar misión oficial aprobada por OVI." |
-| Visión                 | `company/MASTER_INDEX.md` — "TODO: Insertar visión oficial aprobada por OVI." |
-| Historia corporativa   | `company/MASTER_INDEX.md` — "TODO: Insertar historia de la empresa"           |
-| Certificaciones        | `company/MASTER_INDEX.md` — PENDIENTE                                         |
-| Cobertura geográfica   | No documentada oficialmente                                                   |
-| Cifras corporativas    | No documentadas oficialmente                                                  |
-| Catálogo de servicios  | `company/services/README.md` — PENDIENTE                                      |
-| Industrias objetivo    | `company/industries/README.md` — PENDIENTE                                    |
-| Alianzas estratégicas  | No documentadas oficialmente                                                  |
-| Gobernanza corporativa | No documentada oficialmente                                                   |
+| Campo                                                               | Estado                           |
+| ------------------------------------------------------------------- | -------------------------------- |
+| Año de fundación exacto                                             | No documentado oficialmente      |
+| Fundadores                                                          | No documentado oficialmente      |
+| Historia legal detallada                                            | No documentada oficialmente      |
+| Certificaciones corporativas                                        | No documentadas oficialmente     |
+| Cobertura por países específicos más allá de “Colombia y la región” | No documentada oficialmente      |
+| Cifras exactas de clientes / equipo / portafolio corporativo        | No documentadas oficialmente     |
+| Testimonios oficiales                                               | No encontrados en el repositorio |
+| Alianzas estratégicas                                               | No documentadas oficialmente     |
+| Gobernanza corporativa                                              | No documentada oficialmente      |
 
 ---
 
-## 3. Arquitectura del Dominio
+## 4. Arquitectura vigente
 
-```
+```text
 src/features/company-knowledge/
 ├── __tests__/
-│   └── company-knowledge.test.ts        # 20 test cases
+│   └── company-knowledge.test.ts
 ├── data/
-│   └── company-knowledge-data.ts        # Datos oficiales auditados
+│   └── company-knowledge-data.ts
 ├── repositories/
-│   └── company-knowledge.repository.ts  # Capa de acceso a datos
+│   └── company-knowledge.repository.ts
 ├── services/
-│   ├── company-knowledge-resolver.ts    # Resolver público + AI + Search
-│   └── company-knowledge-validator.ts   # Validador de integridad
+│   ├── company-knowledge-resolver.ts
+│   └── company-knowledge-validator.ts
 ├── types/
-│   ├── company-profile.ts               # CompanyProfile y tipos derivados
-│   ├── knowledge-governance.ts          # VerificationStatus, PublicationStatus
-│   └── source-reference.ts             # SourceReference
-└── index.ts                             # API pública del módulo
+│   ├── company-profile.ts
+│   ├── knowledge-governance.ts
+│   └── source-reference.ts
+└── index.ts
 ```
 
----
+Se reutilizó la arquitectura existente y se mantuvieron:
 
-## 4. Modelo Corporativo (CompanyProfile)
+- `CompanyProfile`
+- `PublicCompanyProfile`
+- `resolveCompanyProfile()`
+- `resolveCompanyAIContext()`
+- `resolveCompanySearchDocument()`
 
-El `CompanyProfile` es el tipo central del dominio. Todos los campos son opcionales. No se permite contenido inventado.
-
-### Secciones del modelo
-
-| Sección                 | Tipo                           | Descripción                                    |
-| ----------------------- | ------------------------------ | ---------------------------------------------- |
-| `identity`              | `CompanyIdentity`              | Nombre, tagline, descripción, contacto, social |
-| `mission`               | `CompanyMission`               | Declaración de misión con versión y evidencia  |
-| `vision`                | `CompanyVision`                | Declaración de visión con versión y evidencia  |
-| `purpose`               | `CompanyPurpose`               | Propósito y brand promise                      |
-| `coreValues`            | `CompanyCoreValue[]`           | Valores corporativos (pilares de marca)        |
-| `history`               | `CompanyHistory`               | Historia y timeline corporativo                |
-| `capabilities`          | `CompanyCapability[]`          | Capacidades operativas                         |
-| `differentiators`       | `CompanyDifferentiator[]`      | Diferenciadores competitivos                   |
-| `businessUnits`         | `CompanyBusinessUnit[]`        | Unidades de negocio                            |
-| `serviceReferences`     | `CompanyServiceReference[]`    | Referencias a servicios (sin duplicar)         |
-| `industryReferences`    | `CompanyIndustryReference[]`   | Referencias a industrias (sin duplicar)        |
-| `geographicCoverage`    | `CompanyGeographicCoverage`    | Cobertura geográfica                           |
-| `corporateNumbers`      | `CompanyCorporateNumbers`      | Cifras corporativas oficiales                  |
-| `certifications`        | `CompanyCertification[]`       | Certificaciones activas                        |
-| `technologyStack`       | `CompanyTechnologyStack`       | Stack tecnológico                              |
-| `strategicAlliances`    | `CompanyStrategicAlliance[]`   | Alianzas estratégicas                          |
-| `corporateDocuments`    | `CorporateDocument[]`          | Brochures, presentaciones, certificados        |
-| `brandAssets`           | `CompanyBrandAsset[]`          | Logos, imágenes de marca                       |
-| `commercialPositioning` | `CompanyCommercialPositioning` | Posicionamiento comercial                      |
-| `clients`               | `CompanyClientReference[]`     | Referencias de clientes                        |
-| `faqs`                  | `CompanyFAQEntry[]`            | Preguntas frecuentes                           |
-| `governance`            | `CompanyCorporateGovernance`   | Gobernanza corporativa                         |
-| `sources`               | `SourceReference[]`            | Fuentes globales del perfil                    |
-
-### Gobernanza por campo (GovernedField)
-
-Todo bloque de conocimiento extiende `GovernedField`:
-
-```typescript
-interface GovernedField {
-  publicationStatus: PublicationStatus; // draft | pending_review | published | archived
-  verificationStatus: VerificationStatus; // unverified | source_confirmed | technically_verified | rejected
-  sources: SourceReference[];
-}
-```
+No se crearon modelos paralelos.
 
 ---
 
-## 5. Resolver
+## 5. Campos enriquecidos
 
-### resolveCompanyProfile()
+### Ya poblados con evidencia oficial
 
-Produce un `PublicCompanyProfile` seguro para uso externo:
+- `identity`
+- `mission`
+- `vision`
+- `history.narrative`
+- `history.timeline`
+- `experience`
+- `coreValues`
+- `capabilities`
+- `differentiators`
+- `businessUnits`
+- `serviceReferences`
+- `industryReferences`
+- `geographicCoverage.description`
+- `corporateNumbers.otherFigures`
+- `technologyStack`
+- `clients`
+- `brandAssets`
+- `projectReferences`
+- `commercialPositioning`
+- `faqs`
+- `sources`
 
-- Elimina todos los campos internos: `sources`, `verificationStatus`, `publicationStatus` de secciones individuales.
-- Solo incluye secciones con `publicationStatus === "published"`.
-- Confidential clients are never exposed.
+### Nuevos bloques aditivos incorporados al modelo
 
-### resolveCompanyAIContext()
-
-Produce un `CompanyAIContext` estructurado para OVI AI:
-
-- La IA **nunca lee el JSON crudo directamente**.
-- Consume este contexto estructurado.
-- Solo incluye información verificada y publicada.
-- Incluye respuestas a las 7 preguntas de búsqueda corporativa.
-
-### resolveCompanySearchDocument()
-
-Produce un `CompanySearchDocument` plano para indexación:
-
-- Estructura preparada para full-text y keyword search.
-- Responde: ¿Quién es OVI?, ¿Dónde opera?, ¿Qué servicios ofrece?, ¿Por qué elegir OVI?, ¿Qué industrias atiende?, ¿Qué certificaciones tiene?, ¿Qué experiencia tiene?
-
----
-
-## 6. Validador
-
-`validateCompanyProfile()` detecta:
-
-| Tipo    | Campo                 | Condición                                     |
-| ------- | --------------------- | --------------------------------------------- |
-| WARNING | `mission`             | Misión no definida o sin descripción          |
-| WARNING | `vision`              | Visión no definida o sin descripción          |
-| WARNING | `history`             | Historia corporativa no definida              |
-| WARNING | `geographicCoverage`  | Cobertura geográfica no definida              |
-| WARNING | `certifications`      | Sin certificaciones registradas               |
-| WARNING | `serviceReferences`   | Sin referencias a servicios                   |
-| WARNING | `industryReferences`  | Sin referencias a industrias                  |
-| ERROR   | `identity.brandName`  | Nombre de marca ausente                       |
-| ERROR   | `identity.tagline`    | Tagline ausente                               |
-| ERROR   | `*.sources`           | Sección publicada sin fuentes                 |
-| ERROR   | `faqs[id].answer`     | FAQ publicada sin respuesta                   |
-| ERROR   | `coreValues[id]`      | ID de valor duplicado                         |
-| ERROR   | `differentiators[id]` | ID de diferenciador duplicado                 |
-| ERROR   | `clients[id]`         | ID de cliente duplicado                       |
-| ERROR   | `certifications[id]`  | ID de certificación duplicado                 |
-| ERROR   | `faqs[id]`            | FAQ con answerStatus "complete" sin respuesta |
+- `experience`
+- `projectReferences`
+- `history.timeline.date`
+- `history.timeline.sourceReference`
+- `capabilities[].evidence`
+- `differentiators[].evidence`
 
 ---
 
-## 7. Integración con Search
+## 6. Experience section estructurada
 
-El `CompanySearchDocument` permite que futuros motores de búsqueda respondan:
+Se creó una sección `experience` con soporte para:
 
-| Pregunta                        | Campo en SearchDocument                  |
-| ------------------------------- | ---------------------------------------- |
-| ¿Quién es OVI?                  | `brandName`, `description`, `faqAnswers` |
-| ¿Dónde opera OVI?               | `coverageText`                           |
-| ¿Qué servicios ofrece OVI?      | `serviceLabels`                          |
-| ¿Por qué elegir OVI?            | `differentiatorTitles`                   |
-| ¿Qué industrias atiende OVI?    | `industryLabels`                         |
-| ¿Qué certificaciones tiene OVI? | `certificationNames`                     |
-| ¿Qué experiencia tiene OVI?     | `faqAnswers`                             |
+- **Years:** `Más de 18 años`
+- **Projects:** 3 referencias oficiales (`CASE-001`, `CASE-002`, `CASE-003`)
+- **Industries:** 7 industrias referenciadas
+- **Capabilities:** diagnóstico técnico, diseño operativo, protocolos especializados, tecnología aplicada, implementación en campo
+- **Evidence:** lista resumida de pruebas corporativas
+- **Status:** `partial`
 
 ---
 
-## 8. Integración con OVI AI
+## 7. Timeline corporativo
 
-OVI AI consume `CompanyAIContext` a través de `resolveCompanyAIContext()`.
+Solo se publicó un evento con soporte documental explícito:
 
-La IA **nunca lee el `CompanyProfile` directamente**.
+| Fecha        | Evento                                                       | Fuente                                         |
+| ------------ | ------------------------------------------------------------ | ---------------------------------------------- |
+| `2026-07-15` | Caso de lavado de flota pesada documentado en el DAM oficial | `public/ovi-dam/metadata/CASE-001-IMG-01.json` |
 
-```typescript
-import { resolveCompanyAIContext } from "@features/company-knowledge";
-const context = resolveCompanyAIContext();
-// context.brandName, context.tagline, context.searchAnswers, etc.
-```
-
-El contexto incluye:
-
-- Nombre y tagline de marca
-- Descripción corta
-- Misión y visión (cuando estén publicadas)
-- Nombres de pilares de marca
-- Etiquetas de industrias y servicios
-- Respuestas a preguntas corporativas frecuentes
+No se agregaron hitos fundacionales ni fechas históricas no verificadas.
 
 ---
 
-## 9. Tests
+## 8. Project references
 
-20 casos de prueba cubren:
+Se publicaron referencias oficiales a proyectos/casos únicamente donde existía soporte en el repositorio:
 
-1. Perfil existe y tiene estructura válida
-2. Identidad oficial correcta
-3. Valores corporativos de pilares de marca
-4. Validador detecta misión faltante
-5. Validador detecta visión faltante
-6. Validador detecta historia faltante
-7. Resolver elimina campos internos
-8. Resolver excluye secciones no publicadas
-9. Resolver incluye valores publicados
-10. Fuentes de referencia en identidad
-11. Sin contenido ficticio
-12. Visibilidad de clientes
-13. FAQs estructuradas para búsqueda y AI
-14. Contexto AI correctamente resuelto
-15. Documento de búsqueda correctamente resuelto
-16. Validador sin errores en perfil oficial
-17. Validador detecta IDs duplicados
-18. Validador detecta FAQ publicada sin respuesta
-19. Diferenciadores de pilares de marca
-20. Estado de información del perfil
+- `CASE-001` — Flota de transporte pesado
+- `CASE-002` — Planta industrial de manufactura
+- `CASE-003` — Instalación institucional de alto tráfico
+
+No se publicaron testimonios porque no existen testimonios oficiales auditables en el repositorio.
 
 ---
 
-## 10. Integraciones Futuras
+## 9. Búsqueda corporativa
 
-| Sistema         | Integración                                   | Estado    |
-| --------------- | --------------------------------------------- | --------- |
-| Website         | `resolveCompanyProfile()` → página /about     | Pendiente |
-| OVI AI          | `resolveCompanyAIContext()` → system prompt   | Pendiente |
-| OVI OS          | `getCompanyProfile()` → dashboard corporativo | Pendiente |
-| CRM             | `PublicCompanyProfile` → contexto comercial   | Pendiente |
-| Search Engine   | `resolveCompanySearchDocument()` → índice     | Pendiente |
-| Knowledge Graph | `CompanyProfile.sources` → nodos del grafo    | Pendiente |
+`resolveCompanySearchDocument()` ahora incluye:
 
----
+- `purposeText`
+- `historyText`
+- `experienceText`
+- `capabilityNames`
+- `technologyHighlights`
+- `projectReferenceTitles`
+- `projectReferenceDescriptions`
+- `answerSnippets`
 
-## 11. Reglas de Gobernanza
+Con esto la búsqueda puede responder de forma más natural:
 
-Este dominio sigue estrictamente las reglas de `company/CONTENT_RULES.md`:
-
-1. **Nunca inventar información** — Solo fuentes oficiales del repositorio.
-2. **Solo documentación oficial es válida** — No suposiciones ni datos de terceros.
-3. **Información faltante = ausente** — Campos vacíos, nunca placeholders inventados.
-4. **Español es el idioma maestro** — Todo contenido original en español.
-5. **Cero Lorem Ipsum** — Ningún texto genérico en ningún entorno.
-6. **Cada afirmación es verificable** — Toda información tiene `SourceReference`.
+- ¿Quién es OVI?
+- ¿Por qué elegir OVI?
+- ¿Qué hace diferente a OVI?
+- ¿Qué experiencia tiene?
+- ¿Qué industrias atiende?
+- ¿Qué servicios presta?
 
 ---
 
-## 12. Información Corporativa Faltante
+## 10. Contexto para IA
 
-Las siguientes secciones requieren información oficial de OVI para ser completadas:
+`resolveCompanyAIContext()` ahora entrega contexto estructurado adicional:
 
-| Campo                  | Razón                                                        |
-| ---------------------- | ------------------------------------------------------------ |
-| `mission.description`  | No encontrada en repositorio — ver `company/MASTER_INDEX.md` |
-| `vision.description`   | No encontrada en repositorio — ver `company/MASTER_INDEX.md` |
-| `history.*`            | No documentada — ver `company/MASTER_INDEX.md`               |
-| `geographicCoverage.*` | No documentada oficialmente                                  |
-| `certifications[]`     | No documentadas — ver `company/MASTER_INDEX.md`              |
-| `industryReferences[]` | Pendiente — ver `company/industries/README.md`               |
-| `corporateNumbers.*`   | No documentadas oficialmente                                 |
-| `strategicAlliances[]` | No documentadas oficialmente                                 |
-| `governance.*`         | No documentada oficialmente                                  |
+- `history`
+- `capabilityNames`
+- `technologyHighlights`
+- `projectReferenceTitles`
+- `experienceSummary`
+- `searchAnswers.whatMakesOviDifferent`
+
+La IA sigue consumiendo únicamente datos resueltos y publicados; no se expusieron notas internas ni información no publicada.
 
 ---
 
-_Documento generado por OKP-001. No modificar sin un Work Order oficial._
+## 11. Validaciones implementadas
+
+`validateCompanyProfile()` ahora detecta además:
+
+- referencias rotas a servicios,
+- referencias rotas a industrias,
+- IDs duplicados en proyectos de experiencia,
+- IDs duplicados en `projectReferences`,
+- eventos de timeline publicados sin `date`,
+- eventos de timeline publicados sin `sourceReference`,
+- secciones publicadas sin `sources`,
+- diferenciadores/capacidades sin evidencia textual explícita.
+
+---
+
+## 12. Tests
+
+La suite cubre ahora:
+
+1. Identidad corporativa oficial
+2. Misión publicada
+3. Visión publicada
+4. Historia publicada
+5. Timeline con evidencia
+6. Experience section estructurada
+7. Core values
+8. Referencias de servicios
+9. Referencias de industrias
+10. Capacidades y diferenciadores con evidencia
+11. Resolver público
+12. AI context enriquecido
+13. Search document enriquecido
+14. FAQs publicadas
+15. Validación de referencias rotas
+16. Validación de timeline inválido
+17. Validación de IDs duplicados
+
+---
+
+## 13. Información todavía faltante
+
+Sigue pendiente documentación oficial para:
+
+- año de fundación exacto,
+- fundadores,
+- historia corporativa detallada,
+- certificaciones,
+- países específicos de operación,
+- cifras exactas de clientes/equipo,
+- testimonios,
+- alianzas estratégicas,
+- gobernanza corporativa.
+
+---
+
+## 14. Recomendaciones
+
+1. Documentar misión y visión también en `company/MASTER_INDEX.md` para alinear la navegación documental con el website content ya publicado.
+2. Incorporar certificados oficiales si existen para habilitar `certifications`.
+3. Publicar cobertura geográfica por país/ciudad solo cuando exista documento oficial.
+4. Crear fichas formales para los tres casos activos en `docs/content/cases/`.
+5. Si OVI quiere exponer cifras exactas, documentarlas primero en una fuente corporativa controlada.
+
+---
+
+## 15. Reglas de gobernanza
+
+Este dominio sigue las reglas de `company/CONTENT_RULES.md`:
+
+1. Nunca inventar información.
+2. Solo usar documentación oficial OVI.
+3. Información faltante permanece ausente.
+4. Español como idioma maestro.
+5. Cero lorem ipsum.
+6. Toda afirmación debe ser trazable.
+
+---
+
+_Documento actualizado para Work Order 002. No introducir contenido no verificado._

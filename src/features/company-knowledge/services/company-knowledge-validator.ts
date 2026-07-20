@@ -28,6 +28,28 @@ import type {
   CompanyValidationIssue,
 } from "../types/company-profile";
 import { getCompanyProfile } from "../repositories/company-knowledge.repository";
+import { services as knowledgeServices } from "@knowledge/services/catalog";
+import { sectors as knowledgeSectors } from "@knowledge/sectors/catalog";
+
+function hasSources(sources?: { sourceFile: string }[]): boolean {
+  return Boolean(sources && sources.length > 0);
+}
+
+function pushPublishedWithoutSourcesError(
+  errors: CompanyValidationIssue[],
+  field: string,
+  message: string,
+  isPublished?: boolean,
+  sources?: { sourceFile: string }[],
+) {
+  if (isPublished && !hasSources(sources)) {
+    errors.push({
+      severity: "error",
+      field,
+      message,
+    });
+  }
+}
 
 // ─── Validator ────────────────────────────────────────────────────────────────
 
@@ -61,16 +83,21 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
     });
   }
 
-  if (
-    p.mission?.publicationStatus === "published" &&
-    (!p.mission.sources || p.mission.sources.length === 0)
-  ) {
-    errors.push({
-      severity: "error",
-      field: "mission.sources",
-      message: "La misión está marcada como publicada pero no tiene fuentes de referencia.",
+  if (p.mission?.publicationStatus === "published" && !p.mission.evidence) {
+    warnings.push({
+      severity: "warning",
+      field: "mission.evidence",
+      message: "La misión está publicada pero no tiene evidencia textual explícita.",
     });
   }
+
+  pushPublishedWithoutSourcesError(
+    errors,
+    "mission.sources",
+    "La misión está marcada como publicada pero no tiene fuentes de referencia.",
+    p.mission?.publicationStatus === "published",
+    p.mission?.sources,
+  );
 
   // ── Vision ───────────────────────────────────────────────────────────────────
 
@@ -88,16 +115,21 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
     });
   }
 
-  if (
-    p.vision?.publicationStatus === "published" &&
-    (!p.vision.sources || p.vision.sources.length === 0)
-  ) {
-    errors.push({
-      severity: "error",
-      field: "vision.sources",
-      message: "La visión está marcada como publicada pero no tiene fuentes de referencia.",
+  if (p.vision?.publicationStatus === "published" && !p.vision.evidence) {
+    warnings.push({
+      severity: "warning",
+      field: "vision.evidence",
+      message: "La visión está publicada pero no tiene evidencia textual explícita.",
     });
   }
+
+  pushPublishedWithoutSourcesError(
+    errors,
+    "vision.sources",
+    "La visión está marcada como publicada pero no tiene fuentes de referencia.",
+    p.vision?.publicationStatus === "published",
+    p.vision?.sources,
+  );
 
   // ── Identity ─────────────────────────────────────────────────────────────────
 
@@ -161,16 +193,13 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
       }
       valueIds.add(value.id);
 
-      if (
-        value.publicationStatus === "published" &&
-        (!value.sources || value.sources.length === 0)
-      ) {
-        errors.push({
-          severity: "error",
-          field: `coreValues[${value.id}].sources`,
-          message: `El valor "${value.name}" está marcado como publicado pero no tiene fuentes.`,
-        });
-      }
+      pushPublishedWithoutSourcesError(
+        errors,
+        `coreValues[${value.id}].sources`,
+        `El valor "${value.name}" está marcado como publicado pero no tiene fuentes.`,
+        value.publicationStatus === "published",
+        value.sources,
+      );
     }
   }
 
@@ -188,13 +217,53 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
       }
       diffIds.add(diff.id);
 
-      if (diff.publicationStatus === "published" && (!diff.sources || diff.sources.length === 0)) {
-        errors.push({
-          severity: "error",
-          field: `differentiators[${diff.id}].sources`,
-          message: `El diferenciador "${diff.title}" está marcado como publicado pero no tiene fuentes.`,
+      if (diff.publicationStatus === "published" && !diff.evidence) {
+        warnings.push({
+          severity: "warning",
+          field: `differentiators[${diff.id}].evidence`,
+          message: `El diferenciador "${diff.title}" está publicado pero no tiene evidencia textual explícita.`,
         });
       }
+
+      pushPublishedWithoutSourcesError(
+        errors,
+        `differentiators[${diff.id}].sources`,
+        `El diferenciador "${diff.title}" está marcado como publicado pero no tiene fuentes.`,
+        diff.publicationStatus === "published",
+        diff.sources,
+      );
+    }
+  }
+
+  // ── Capabilities ──────────────────────────────────────────────────────────────
+
+  if (p.capabilities && p.capabilities.length > 0) {
+    const capabilityIds = new Set<string>();
+    for (const capability of p.capabilities) {
+      if (capabilityIds.has(capability.id)) {
+        errors.push({
+          severity: "error",
+          field: `capabilities[${capability.id}]`,
+          message: `ID de capacidad duplicado: "${capability.id}".`,
+        });
+      }
+      capabilityIds.add(capability.id);
+
+      if (capability.publicationStatus === "published" && !capability.evidence) {
+        warnings.push({
+          severity: "warning",
+          field: `capabilities[${capability.id}].evidence`,
+          message: `La capacidad "${capability.name}" está publicada pero no tiene evidencia textual explícita.`,
+        });
+      }
+
+      pushPublishedWithoutSourcesError(
+        errors,
+        `capabilities[${capability.id}].sources`,
+        `La capacidad "${capability.name}" está marcada como publicada pero no tiene fuentes.`,
+        capability.publicationStatus === "published",
+        capability.sources,
+      );
     }
   }
 
@@ -228,13 +297,13 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
       }
       certIds.add(cert.id);
 
-      if (cert.publicationStatus === "published" && (!cert.sources || cert.sources.length === 0)) {
-        errors.push({
-          severity: "error",
-          field: `certifications[${cert.id}].sources`,
-          message: `La certificación "${cert.name}" está marcada como publicada pero no tiene fuentes.`,
-        });
-      }
+      pushPublishedWithoutSourcesError(
+        errors,
+        `certifications[${cert.id}].sources`,
+        `La certificación "${cert.name}" está marcada como publicada pero no tiene fuentes.`,
+        cert.publicationStatus === "published",
+        cert.sources,
+      );
     }
   }
 
@@ -267,6 +336,30 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
         });
       }
       assetIds.add(asset.id);
+    }
+  }
+
+  // ── Project References ────────────────────────────────────────────────────────
+
+  if (p.projectReferences && p.projectReferences.length > 0) {
+    const projectIds = new Set<string>();
+    for (const project of p.projectReferences) {
+      if (projectIds.has(project.id)) {
+        errors.push({
+          severity: "error",
+          field: `projectReferences[${project.id}]`,
+          message: `ID de referencia de proyecto duplicado: "${project.id}".`,
+        });
+      }
+      projectIds.add(project.id);
+
+      pushPublishedWithoutSourcesError(
+        errors,
+        `projectReferences[${project.id}].sources`,
+        `La referencia de proyecto "${project.title}" está marcada como publicada pero no tiene fuentes.`,
+        project.publicationStatus === "published",
+        project.sources,
+      );
     }
   }
 
@@ -338,12 +431,128 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
     });
   }
 
+  pushPublishedWithoutSourcesError(
+    errors,
+    "history.sources",
+    "La historia corporativa está marcada como publicada pero no tiene fuentes de referencia.",
+    p.history?.publicationStatus === "published",
+    p.history?.sources,
+  );
+
+  if (p.history?.timeline && p.history.timeline.length > 0) {
+    for (const [index, event] of p.history.timeline.entries()) {
+      if (event.publicationStatus === "published" && !event.date) {
+        errors.push({
+          severity: "error",
+          field: `history.timeline[${index}].date`,
+          message: `El evento "${event.event}" está publicado pero no tiene fecha soportada.`,
+        });
+      }
+
+      if (event.publicationStatus === "published" && !event.sourceReference) {
+        errors.push({
+          severity: "error",
+          field: `history.timeline[${index}].sourceReference`,
+          message: `El evento "${event.event}" está publicado pero no tiene sourceReference.`,
+        });
+      }
+
+      if (event.publicationStatus === "published" && !event.evidence) {
+        warnings.push({
+          severity: "warning",
+          field: `history.timeline[${index}].evidence`,
+          message: `El evento "${event.event}" está publicado pero no tiene evidencia textual explícita.`,
+        });
+      }
+
+      pushPublishedWithoutSourcesError(
+        errors,
+        `history.timeline[${index}].sources`,
+        `El evento "${event.event}" está marcado como publicado pero no tiene fuentes.`,
+        event.publicationStatus === "published",
+        event.sources,
+      );
+    }
+  }
+
   if (!p.geographicCoverage) {
     warnings.push({
       severity: "warning",
       field: "geographicCoverage",
       message: "La cobertura geográfica no está definida.",
     });
+  }
+
+  pushPublishedWithoutSourcesError(
+    errors,
+    "geographicCoverage.sources",
+    "La cobertura geográfica está marcada como publicada pero no tiene fuentes de referencia.",
+    p.geographicCoverage?.publicationStatus === "published",
+    p.geographicCoverage?.sources,
+  );
+
+  if (p.corporateNumbers?.publicationStatus === "published" && !p.corporateNumbers.otherFigures) {
+    warnings.push({
+      severity: "warning",
+      field: "corporateNumbers.otherFigures",
+      message:
+        "Las cifras corporativas están publicadas pero no tienen figuras oficiales detalladas.",
+    });
+  }
+
+  pushPublishedWithoutSourcesError(
+    errors,
+    "corporateNumbers.sources",
+    "Las cifras corporativas están marcadas como publicadas pero no tienen fuentes de referencia.",
+    p.corporateNumbers?.publicationStatus === "published",
+    p.corporateNumbers?.sources,
+  );
+
+  if (!p.experience) {
+    warnings.push({
+      severity: "warning",
+      field: "experience",
+      message: "La experiencia corporativa estructurada no está definida.",
+    });
+  } else {
+    pushPublishedWithoutSourcesError(
+      errors,
+      "experience.sources",
+      "La experiencia corporativa está marcada como publicada pero no tiene fuentes de referencia.",
+      p.experience.publicationStatus === "published",
+      p.experience.sources,
+    );
+
+    if (
+      p.experience.publicationStatus === "published" &&
+      (!p.experience.evidence || p.experience.evidence.length === 0)
+    ) {
+      warnings.push({
+        severity: "warning",
+        field: "experience.evidence",
+        message: "La experiencia corporativa está publicada pero no tiene evidencia resumida.",
+      });
+    }
+
+    const projectIds = new Set<string>();
+    for (const project of p.experience.projects ?? []) {
+      if (projectIds.has(project.id)) {
+        errors.push({
+          severity: "error",
+          field: `experience.projects[${project.id}]`,
+          message: `ID de proyecto de experiencia duplicado: "${project.id}".`,
+        });
+      }
+      projectIds.add(project.id);
+
+      if (!project.evidence) {
+        warnings.push({
+          severity: "warning",
+          field: `experience.projects[${project.id}].evidence`,
+          message: `El proyecto de experiencia "${project.title}" no tiene evidencia textual explícita.`,
+        });
+      }
+    }
   }
 
   if (!p.certifications || p.certifications.length === 0) {
@@ -368,6 +577,30 @@ export function validateCompanyProfile(profile?: CompanyProfile): CompanyValidat
       field: "industryReferences",
       message: "No hay referencias a industrias objetivo.",
     });
+  } else {
+    const knownIndustries = new Set(knowledgeSectors.map((sector) => sector.id));
+    for (const industry of p.industryReferences) {
+      if (!knownIndustries.has(industry.industryId)) {
+        errors.push({
+          severity: "error",
+          field: `industryReferences[${industry.industryId}]`,
+          message: `Referencia a industria inexistente o no soportada: "${industry.industryId}".`,
+        });
+      }
+    }
+  }
+
+  if (p.serviceReferences && p.serviceReferences.length > 0) {
+    const knownServices = new Set(knowledgeServices.map((service) => service.id));
+    for (const service of p.serviceReferences) {
+      if (!knownServices.has(service.serviceId)) {
+        errors.push({
+          severity: "error",
+          field: `serviceReferences[${service.serviceId}]`,
+          message: `Referencia a servicio inexistente o no soportado: "${service.serviceId}".`,
+        });
+      }
+    }
   }
 
   return {

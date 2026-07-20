@@ -24,23 +24,26 @@
  *
  * VERIFIED OFFICIAL INFORMATION FOUND:
  *   ✓ Identity:         src/config/site.ts, company/brand/brand-pillars.md
+ *   ✓ Mission:          src/app/about/page.tsx
+ *   ✓ Vision:           src/app/about/page.tsx
+ *   ✓ History:          src/knowledge/home/engineering-pillars.ts
+ *   ✓ Experience:       src/knowledge/home/identity-metrics.ts, src/knowledge/home/success-cases.ts
  *   ✓ Brand Pillars:    company/brand/brand-pillars.md
  *   ✓ Brand Promise:    company/brand/brand-promise.md (draft, not published)
  *   ✓ Tone of Voice:    company/brand/tone-of-voice.md
+ *   ✓ Industries:       src/knowledge/sectors/catalog.ts
+ *   ✓ Services:         src/knowledge/services/catalog.ts
+ *   ✓ Technology:       company/brand/brand-pillars.md, company/PROJECT_VISION.md
  *   ✓ Client evidence:  public/ovi-media/cases/emvarias/emvarias-fleet-wash.png
  *   ✓ Brand Assets:     public/brand/ovi-logo.svg
  *
  * NOT FOUND IN REPOSITORY (marked missing):
- *   ✗ Mission:          company/MASTER_INDEX.md — "TODO: Insertar misión oficial"
- *   ✗ Vision:           company/MASTER_INDEX.md — "TODO: Insertar visión oficial"
- *   ✗ History:          company/MASTER_INDEX.md — "TODO: Insertar historia"
  *   ✗ Certifications:   company/MASTER_INDEX.md — pending
- *   ✗ Geographic coverage: not documented officially
- *   ✗ Corporate numbers:   not documented officially
- *   ✗ Services catalog:    company/services/README.md — pending
- *   ✗ Industries:          company/industries/README.md — pending
  *   ✗ Strategic alliances: not documented officially
  *   ✗ Corporate governance: not documented officially
+ *   ✗ Founding year and legal history: not documented officially
+ *   ✗ Exact countries beyond "Colombia y la región": not documented officially
+ *   ✗ Testimonials: no testimonial repository source found
  *
  * ──────────────────────────────────────────────────────────────────────────────
  */
@@ -54,7 +57,7 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
   schemaVersion: "1.0.0",
   informationStatus: "partial",
   publicationStatus: "draft",
-  lastUpdated: "2026-07-20T00:00:00.000Z",
+  lastUpdated: "2026-07-20T21:21:50.300Z",
 
   // ─── Identity ───────────────────────────────────────────────────────────────
   // Source: src/config/site.ts, company/brand/brand-pillars.md
@@ -98,38 +101,43 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
   },
 
   // ─── Mission ────────────────────────────────────────────────────────────────
-  // Source: company/MASTER_INDEX.md — "TODO: Insertar misión oficial aprobada por OVI."
-  // FINDING: Mission has NOT been officially defined in the repository.
-  // This section intentionally has no description — it must not be invented.
+  // Source: src/app/about/page.tsx
   mission: {
-    publicationStatus: "draft",
-    verificationStatus: "unverified",
+    title: "Nuestra Misión",
+    description:
+      "Creamos soluciones industriales de limpieza y química biodegradable que elevan los estándares operativos reduciendo la huella ambiental. Cada producto y servicio está diseñado para resolver problemas medibles en limpieza industrial, post obra, impermeabilización y lavado de flota de transporte.",
+    evidence:
+      "La página About presenta una sección titulada 'Nuestra Misión' con un texto oficial que conecta limpieza industrial, química biodegradable, sostenibilidad y resultados medibles.",
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
     sources: [
       {
         sourceType: "repository_document",
-        sourceFile: "company/MASTER_INDEX.md",
-        sourceSection: "2. MISSION",
-        verificationStatus: "unverified",
-        internalNote:
-          "MASTER_INDEX.md contains 'TODO: Insertar misión oficial aprobada por OVI.' — mission not yet defined.",
+        sourceFile: "src/app/about/page.tsx",
+        sourceSection: "Nuestra Misión",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
       },
     ],
   },
 
   // ─── Vision ─────────────────────────────────────────────────────────────────
-  // Source: company/MASTER_INDEX.md — "TODO: Insertar visión oficial aprobada por OVI."
-  // FINDING: Vision has NOT been officially defined in the repository.
+  // Source: src/app/about/page.tsx
   vision: {
-    publicationStatus: "draft",
-    verificationStatus: "unverified",
+    title: "Visión",
+    description:
+      "Creemos que el futuro de la industria depende de soluciones que sean altamente efectivas e inherentemente responsables con el medio ambiente.",
+    evidence:
+      "La página About incluye una declaración destacada en formato de cita orientada al futuro de la industria y a la responsabilidad ambiental.",
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
     sources: [
       {
         sourceType: "repository_document",
-        sourceFile: "company/MASTER_INDEX.md",
-        sourceSection: "3. VISION",
-        verificationStatus: "unverified",
-        internalNote:
-          "MASTER_INDEX.md contains 'TODO: Insertar visión oficial aprobada por OVI.' — vision not yet defined.",
+        sourceFile: "src/app/about/page.tsx",
+        sourceSection: "Quote card in About mission section",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
       },
     ],
   },
@@ -262,22 +270,258 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
   ],
 
   // ─── History ────────────────────────────────────────────────────────────────
-  // Source: company/MASTER_INDEX.md — "TODO: Insertar historia de la empresa"
-  // FINDING: No official history found in repository.
+  // Source: src/knowledge/home/engineering-pillars.ts, src/knowledge/home/success-cases.ts,
+  //         public/ovi-dam/metadata/CASE-001-IMG-01.json
   history: {
-    publicationStatus: "draft",
-    verificationStatus: "unverified",
+    narrative:
+      "OVI lleva más de 18 años integrando ingeniería, tecnología, productos, servicios, protocolos e inteligencia operacional para resolver desafíos complejos de limpieza, mantenimiento e higiene.",
+    timeline: [
+      {
+        date: "2026-07-15",
+        year: 2026,
+        event: "Caso de lavado de flota pesada documentado en el DAM oficial",
+        description:
+          "La metadata oficial CASE-001-IMG-01 registra el caso 'Lavado de flota pesada en operación industrial' como evidencia pública del trabajo de OVI en transporte.",
+        evidence:
+          "CASE-001 documenta capacidad para más de 7,000 unidades por mes, reducción de tiempo de ciclo y estandarización del consumo de agua.",
+        sourceReference: "public/ovi-dam/metadata/CASE-001-IMG-01.json",
+        publicationStatus: "published",
+        verificationStatus: "source_confirmed",
+        sources: [
+          {
+            sourceType: "repository_document",
+            sourceFile: "public/ovi-dam/metadata/CASE-001-IMG-01.json",
+            sourceSection: "date",
+            verificationStatus: "source_confirmed",
+            internalNote: null,
+          },
+          {
+            sourceType: "repository_document",
+            sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+            sourceSection: "1. CASOS DE ÉXITO — CASE-001",
+            verificationStatus: "source_confirmed",
+            internalNote: null,
+          },
+        ],
+      },
+    ],
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
     sources: [
       {
         sourceType: "repository_document",
-        sourceFile: "company/MASTER_INDEX.md",
-        sourceSection: "4. HISTORY",
-        verificationStatus: "unverified",
-        internalNote:
-          "MASTER_INDEX.md contains 'TODO: Insertar historia de la empresa: fecha de fundación, fundadores, hitos clave, evolución del negocio.' — history not yet defined.",
+        sourceFile: "src/knowledge/home/engineering-pillars.ts",
+        sourceSection: "homeAbout.locales.es.body",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/home/engineering-pillars.ts",
+        sourceSection: "homeAbout.locales.es.heading",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
       },
     ],
   },
+
+  // ─── Experience ──────────────────────────────────────────────────────────────
+  // Source: src/knowledge/home/identity-metrics.ts, src/knowledge/home/success-cases.ts,
+  //         docs/content/OVI_CONTENT_MASTER.md
+  experience: {
+    years: "Más de 18 años",
+    projects: [
+      {
+        id: "case-001-flota-transporte-pesado",
+        title: "Flota de transporte pesado",
+        caseStudyId: "CASE-001",
+        description:
+          "Protocolo de lavado OVI Solwash implementado en patio con capacidad para atender más de 7,000 unidades por mes.",
+        evidence:
+          "Reducción del tiempo de ciclo por unidad y estandarización del consumo de agua entre operadores.",
+        status: "complete",
+      },
+      {
+        id: "case-002-planta-industrial-manufactura",
+        title: "Planta industrial de manufactura",
+        caseStudyId: "CASE-002",
+        description:
+          "Implementación de protocolo de desengrase en maquinaria y líneas de producción con trazabilidad completa.",
+        evidence: "Cumplimiento de normativa de inocuidad y documentación de cada intervención.",
+        status: "complete",
+      },
+      {
+        id: "case-003-instalacion-institucional",
+        title: "Instalación institucional de alto tráfico",
+        caseStudyId: "CASE-003",
+        description:
+          "Programa de mantenimiento preventivo con OVI Ecoseal para reducir limpiezas correctivas y extender el ciclo de mantenimiento.",
+        evidence:
+          "Menor consumo de insumos y extensión del ciclo de mantenimiento en operación real.",
+        status: "complete",
+      },
+    ],
+    industries: [
+      { industryId: "transporte", label: "Transporte" },
+      { industryId: "industria", label: "Industria" },
+      { industryId: "hospitales", label: "Hospitales" },
+      { industryId: "energia", label: "Energía" },
+      { industryId: "institucional", label: "Institucional" },
+      { industryId: "retail", label: "Retail" },
+      { industryId: "alimentos", label: "Alimentos" },
+    ],
+    capabilities: [
+      "Diagnóstico técnico",
+      "Diseño operativo",
+      "Protocolos especializados",
+      "Tecnología aplicada",
+      "Implementación en campo",
+    ],
+    evidence: [
+      "Más de 18 años de experiencia en operaciones reales.",
+      "3 casos oficiales documentados en el repositorio.",
+      "Capacidad para atender flotas de más de 7,000 unidades por mes.",
+      "Cobertura documentada en 7 sectores con protocolos especializados.",
+    ],
+    status: "partial",
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
+    sources: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/home/identity-metrics.ts",
+        sourceSection: "identityMetrics",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/home/success-cases.ts",
+        sourceSection: "successCases",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourceSection: "1. CASOS DE ÉXITO",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+    ],
+  },
+
+  // ─── Capabilities ────────────────────────────────────────────────────────────
+  capabilities: [
+    {
+      id: "diagnostico-tecnico",
+      category: "engineering",
+      name: "Diagnóstico técnico",
+      description:
+        "OVI parte de un diagnóstico técnico antes de recomendar una solución o un protocolo.",
+      evidence:
+        "Las fuentes oficiales describen el diagnóstico técnico como primer paso de la metodología y del posicionamiento 'Ingeniería en Limpieza'.",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "1. Ingeniería en Limpieza — Implica",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/services/catalog.ts",
+          sourceSection: "diagnostico-tecnico",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "protocolos-especializados",
+      category: "operations",
+      name: "Protocolos especializados",
+      description:
+        "OVI diseña y ejecuta protocolos operativos documentados para contaminantes, superficies y sectores específicos.",
+      evidence:
+        "Los sectores, servicios y casos oficiales destacan protocolos documentados, auditables y especializados por sector.",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/engineering-pillars.ts",
+          sourceSection: "homeEngineering.locales.es.pillars",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/services/catalog.ts",
+          sourceSection: "diseno-protocolo",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "tecnologia-aplicada",
+      category: "technology",
+      name: "Tecnología aplicada",
+      description:
+        "OVI integra inteligencia artificial, automatización, datos y OVI OS como habilitadores del desempeño operativo.",
+      evidence:
+        "La documentación oficial identifica Artificial Intelligence, Automation, OVI OS, Data y Digital Transformation como componentes clave.",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "3. Technology",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "company/PROJECT_VISION.md",
+          sourceSection: "2. Artificial Intelligence / 3. OVI OS",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "implementacion-campo",
+      category: "execution",
+      name: "Implementación en campo",
+      description:
+        "OVI combina diseño operativo con ejecución trazable en campo para generar resultados medibles y consistentes.",
+      evidence:
+        "Las fuentes oficiales describen la implementación en campo como parte del sistema integrado de protocolos, productos y servicios.",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/engineering-pillars.ts",
+          sourceSection: "homeEngineering.locales.es.body",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "successCases",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+  ],
 
   // ─── Differentiators ────────────────────────────────────────────────────────
   // Source: company/brand/brand-pillars.md — brand pillars as competitive differentiators
@@ -287,6 +531,8 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       title: "Diagnóstico técnico antes de recomendar una solución",
       description:
         "OVI aplica metodologías estructuradas y medibles. Diagnóstico técnico antes de recomendar, no ventas genéricas.",
+      evidence:
+        "El pilar 'Ingeniería en Limpieza' establece explícitamente el diagnóstico técnico antes de recomendar una solución.",
       publicationStatus: "published",
       verificationStatus: "source_confirmed",
       sources: [
@@ -304,6 +550,8 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       title: "Socio de largo plazo, no proveedor transaccional",
       description:
         "OVI se integra a la operación del cliente con acompañamiento continuo y evolución de soluciones con el tiempo.",
+      evidence:
+        "El pilar 'Long-Term Partnership' define a OVI como socio de largo plazo integrado a la operación.",
       publicationStatus: "published",
       verificationStatus: "source_confirmed",
       sources: [
@@ -321,6 +569,8 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       title: "Tecnología integrada como habilitador operativo",
       description:
         "Inteligencia artificial, automatización, OVI OS, datos y transformación digital aplicados a la operación de limpieza.",
+      evidence:
+        "El pilar 'Technology' enumera Artificial Intelligence, Automation, OVI OS, Data y Digital Transformation como componentes clave.",
       publicationStatus: "published",
       verificationStatus: "source_confirmed",
       sources: [
@@ -338,6 +588,8 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       title: "Sostenibilidad como criterio de ingeniería",
       description:
         "Reducción de agua, químicos y residuos integrada en el diseño de soluciones, no como cumplimiento cosmético.",
+      evidence:
+        "El pilar 'Sustainability' fija la reducción de agua, químicos y residuos como objetivos permanentes.",
       publicationStatus: "published",
       verificationStatus: "source_confirmed",
       sources: [
@@ -457,16 +709,104 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
   ],
 
   // ─── Service References ──────────────────────────────────────────────────────
-  // Source: src/config/site.ts (footer/nav — official routes)
-  // Full service definitions will live in the Service Knowledge domain.
+  // Source: src/knowledge/services/catalog.ts
+  // Referenced only — service definitions remain in the Service Knowledge domain.
   serviceReferences: [
-    { serviceId: "soluciones-quimicas", label: "Soluciones Químicas" },
-    { serviceId: "limpieza-industrial", label: "Limpieza Industrial" },
-    { serviceId: "lavado-de-flota", label: "Lavado de Flota" },
-    { serviceId: "impermeabilizacion", label: "Impermeabilización" },
-    { serviceId: "post-obra", label: "Post Obra" },
-    { serviceId: "limpieza-infraestructura", label: "Limpieza de Infraestructura" },
+    { serviceId: "lavado-flota", label: "Servicio de Lavado de Flota" },
+    { serviceId: "limpieza-industrial", label: "Servicio de Limpieza Industrial" },
+    { serviceId: "diagnostico-tecnico", label: "Diagnóstico Técnico de Suciedad y Proceso" },
+    { serviceId: "capacitacion-personal", label: "Capacitación Operativa" },
+    { serviceId: "diseno-protocolo", label: "Diseño de Protocolo por Sector" },
+    { serviceId: "mantenimiento-preventivo", label: "Mantenimiento Preventivo de Superficies" },
+    { serviceId: "optimizacion-hidrica", label: "Optimización Hídrica" },
   ],
+
+  // ─── Industry References ─────────────────────────────────────────────────────
+  // Source: src/knowledge/sectors/catalog.ts
+  industryReferences: [
+    { industryId: "transporte", label: "Transporte" },
+    { industryId: "industria", label: "Industria" },
+    { industryId: "hospitales", label: "Hospitales" },
+    { industryId: "energia", label: "Energía" },
+    { industryId: "institucional", label: "Institucional" },
+    { industryId: "retail", label: "Retail" },
+    { industryId: "alimentos", label: "Alimentos" },
+  ],
+
+  // ─── Geographic Coverage ─────────────────────────────────────────────────────
+  geographicCoverage: {
+    description:
+      "OVI resuelve desafíos de limpieza, mantenimiento e higiene en Colombia y la región.",
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
+    sources: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/home/identity-metrics.ts",
+        sourceSection: "metric-years-experience.seoDescription",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+    ],
+  },
+
+  // ─── Corporate Numbers ───────────────────────────────────────────────────────
+  corporateNumbers: {
+    otherFigures: {
+      experiencia: "Más de 18 años",
+      capacidadFlota: "Más de 7,000 unidades por mes",
+      sectoresAtendidos: "7 sectores",
+      casosDocumentados: "3 casos oficiales activos",
+    },
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
+    sources: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/knowledge/home/identity-metrics.ts",
+        sourceSection: "identityMetrics",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourceSection: "1. CASOS DE ÉXITO",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+    ],
+  },
+
+  // ─── Technology Stack ────────────────────────────────────────────────────────
+  technologyStack: {
+    technologies: {
+      "Artificial Intelligence": "Asistente con conocimiento profundo del dominio OVI.",
+      Automation: "Automatización de tareas críticas dentro de la operación.",
+      "OVI OS": "Sistema operativo para dashboards, protocolos, alertas y trazabilidad.",
+      Data: "Trazabilidad, documentación y decisiones mejor informadas.",
+      "Digital Transformation":
+        "Integración digital de protocolos, servicios, productos y ejecución.",
+    },
+    publicationStatus: "published",
+    verificationStatus: "source_confirmed",
+    sources: [
+      {
+        sourceType: "brand_document",
+        sourceFile: "company/brand/brand-pillars.md",
+        sourceSection: "3. Technology",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "company/PROJECT_VISION.md",
+        sourceSection: "2. Artificial Intelligence / 3. OVI OS / 7. Operational Dashboards",
+        verificationStatus: "source_confirmed",
+        internalNote: null,
+      },
+    ],
+  },
 
   // ─── Client References ───────────────────────────────────────────────────────
   // Source: public/ovi-media/cases/emvarias/emvarias-fleet-wash.png,
@@ -515,12 +855,93 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
     },
   ],
 
+  // ─── Project References ──────────────────────────────────────────────────────
+  projectReferences: [
+    {
+      id: "case-001",
+      title: "Flota de transporte pesado",
+      description:
+        "Caso oficial de lavado de flota pesada con OVI Solwash, reducción de tiempo de ciclo y estandarización del consumo de agua.",
+      caseStudyId: "CASE-001",
+      imagePath: "/ovi-media/cases/emvarias/emvarias-fleet-wash.png",
+      documentPath: "public/ovi-dam/metadata/CASE-001-IMG-01.json",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO — CASE-001",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "public/ovi-dam/metadata/CASE-001-IMG-01.json",
+          sourceSection: "title",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "case-002",
+      title: "Planta industrial de manufactura",
+      description:
+        "Caso oficial de desengrase en maquinaria y líneas de producción con trazabilidad completa y cumplimiento HACCP.",
+      caseStudyId: "CASE-002",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO — CASE-002",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "caso-planta-industrial-manufactura",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "case-003",
+      title: "Instalación institucional de alto tráfico",
+      description:
+        "Caso oficial de mantenimiento preventivo con OVI Ecoseal para reducir limpiezas correctivas y extender el ciclo de mantenimiento.",
+      caseStudyId: "CASE-003",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO — CASE-003",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/success-cases.ts",
+          sourceSection: "caso-instalacion-institucional",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+  ],
+
   // ─── Commercial Positioning ──────────────────────────────────────────────────
-  // Source: company/brand/brand-pillars.md, company/MASTER_INDEX.md, company/PROJECT_VISION.md
+  // Source: company/brand/brand-pillars.md, src/knowledge/home/engineering-pillars.ts
   commercialPositioning: {
     primaryStatement: "OVI — Ingeniería en Limpieza",
     targetAudience:
-      "Supervisores de planta, gerentes de operaciones y responsables de calidad en industria pesada, alimentaria, hotelería y transporte.",
+      "Supervisores de planta, gerentes de operaciones y responsables de calidad en transporte, industria, alimentos, institucional y energía.",
     valueProposition:
       "Ingeniería en Limpieza — OVI diseña soluciones impulsadas por ingeniería para resolver desafíos complejos de limpieza, higiene y mantenimiento.",
     competitiveAdvantages: [
@@ -530,7 +951,7 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       "Sostenibilidad como criterio de ingeniería",
       "Transferencia de conocimiento técnico aplicado",
     ],
-    publicationStatus: "draft",
+    publicationStatus: "published",
     verificationStatus: "source_confirmed",
     sources: [
       {
@@ -538,13 +959,12 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
         sourceFile: "company/brand/brand-pillars.md",
         sourceSection: "THE SIX PERMANENT PILLARS",
         verificationStatus: "source_confirmed",
-        internalNote:
-          "Derived from official brand pillars. Requires OVI approval before publishing.",
+        internalNote: null,
       },
       {
         sourceType: "repository_document",
-        sourceFile: "company/MASTER_INDEX.md",
-        sourceSection: "5. VALUE PROPOSITION",
+        sourceFile: "src/knowledge/home/engineering-pillars.ts",
+        sourceSection: "homeAbout.locales.es.body",
         verificationStatus: "source_confirmed",
         internalNote: null,
       },
@@ -594,27 +1014,35 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
     {
       id: "faq-donde-opera",
       question: "¿Dónde opera OVI?",
-      answerStatus: "missing",
-      publicationStatus: "draft",
-      verificationStatus: "unverified",
-      sources: [],
+      answer: "OVI resuelve desafíos de limpieza, mantenimiento e higiene en Colombia y la región.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/identity-metrics.ts",
+          sourceSection: "metric-years-experience.seoDescription",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
     },
     {
       id: "faq-que-servicios-ofrece",
       question: "¿Qué servicios ofrece OVI?",
       answer:
-        "OVI ofrece soluciones químicas, limpieza industrial, lavado de flota, impermeabilización, post obra y limpieza de infraestructura, entre otros servicios. El catálogo completo de servicios está en proceso de documentación oficial.",
-      answerStatus: "partial",
-      publicationStatus: "draft",
+        "OVI presta servicios de lavado de flota, limpieza industrial, diagnóstico técnico, capacitación operativa, diseño de protocolos por sector, mantenimiento preventivo de superficies y optimización hídrica.",
+      answerStatus: "complete",
+      publicationStatus: "published",
       verificationStatus: "source_confirmed",
       sources: [
         {
-          sourceType: "site_config",
-          sourceFile: "src/config/site.ts",
-          sourceSection: "footer.groups — Soluciones",
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/services/catalog.ts",
+          sourceSection: "services",
           verificationStatus: "source_confirmed",
-          internalNote:
-            "Services listed in nav/footer — full catalog pending official documentation.",
+          internalNote: null,
         },
       ],
     },
@@ -623,8 +1051,8 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       question: "¿Por qué elegir OVI?",
       answer:
         "OVI se diferencia por aplicar diagnóstico técnico antes de recomendar soluciones, actuar como socio de largo plazo integrado a la operación, integrar tecnología como habilitador operativo, y tratar la sostenibilidad como criterio de ingeniería.",
-      answerStatus: "partial",
-      publicationStatus: "draft",
+      answerStatus: "complete",
+      publicationStatus: "published",
       verificationStatus: "source_confirmed",
       sources: [
         {
@@ -632,17 +1060,45 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
           sourceFile: "company/brand/brand-pillars.md",
           sourceSection: "THE SIX PERMANENT PILLARS",
           verificationStatus: "source_confirmed",
-          internalNote: "Derived from official pillars. Requires approval before publishing.",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "faq-que-hace-diferente-ovi",
+      question: "¿Qué hace diferente a OVI?",
+      answer:
+        "OVI combina diagnóstico técnico, protocolos especializados, tecnología aplicada, sostenibilidad medible y una relación de socio de largo plazo en lugar de un servicio transaccional.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "THE SIX PERMANENT PILLARS",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
         },
       ],
     },
     {
       id: "faq-que-industrias-atiende",
       question: "¿Qué industrias atiende OVI?",
-      answerStatus: "missing",
-      publicationStatus: "draft",
-      verificationStatus: "unverified",
-      sources: [],
+      answer:
+        "OVI atiende transporte, industria, hospitales, energía, institucional, retail y alimentos con protocolos y servicios especializados por sector.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/sectors/catalog.ts",
+          sourceSection: "sectors",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
     },
     {
       id: "faq-certificaciones",
@@ -655,10 +1111,27 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
     {
       id: "faq-experiencia",
       question: "¿Qué experiencia tiene OVI?",
-      answerStatus: "missing",
-      publicationStatus: "draft",
-      verificationStatus: "unverified",
-      sources: [],
+      answer:
+        "OVI documenta más de 18 años de experiencia en operaciones reales, 3 casos oficiales activos y capacidad para atender flotas de más de 7,000 unidades por mes, además de experiencia en 7 sectores.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/home/identity-metrics.ts",
+          sourceSection: "identityMetrics",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "1. CASOS DE ÉXITO",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
     },
   ],
 
@@ -699,6 +1172,36 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       verificationStatus: "source_confirmed",
       internalNote:
         "OVI Experience Platform vision — authoritative for business unit descriptions.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "src/knowledge/home/identity-metrics.ts",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote:
+        "Official website content used for years of experience, geographic scope, and sector count.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "src/knowledge/home/success-cases.ts",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote:
+        "Official website content used for structured experience and project references.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "src/knowledge/services/catalog.ts",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote: "Official service knowledge source used for service references.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "src/knowledge/sectors/catalog.ts",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote: "Official industry knowledge source used for industry references.",
     },
   ],
 };

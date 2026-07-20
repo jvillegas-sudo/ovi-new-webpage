@@ -23,6 +23,14 @@ import type {
 } from "../types/company-profile";
 import { getCompanyProfile } from "../repositories/company-knowledge.repository";
 
+function joinLabels(labels: string[]): string | null {
+  if (labels.length === 0) return null;
+  if (labels.length === 1) return labels[0];
+  if (labels.length === 2) return `${labels[0]} y ${labels[1]}`;
+
+  return `${labels.slice(0, -1).join(", ")} y ${labels[labels.length - 1]}`;
+}
+
 // ─── Public Profile Resolver ──────────────────────────────────────────────────
 
 /**
@@ -69,6 +77,45 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
         }
       : null;
 
+  // ─── History ────────────────────────────────────────────────────────────────
+  const history =
+    p.history?.publicationStatus === "published"
+      ? {
+          foundingYear: p.history.foundingYear,
+          foundingLocation: p.history.foundingLocation,
+          narrative: p.history.narrative,
+          timeline: (p.history.timeline ?? [])
+            .filter((event) => event.publicationStatus === "published")
+            .map((event) => ({
+              date: event.date,
+              year: event.year,
+              event: event.event,
+              description: event.description,
+              sourceReference: event.sourceReference,
+            })),
+        }
+      : null;
+
+  // ─── Experience ─────────────────────────────────────────────────────────────
+  const experience =
+    p.experience?.publicationStatus === "published"
+      ? {
+          years: p.experience.years,
+          projects: (p.experience.projects ?? []).map((project) => ({
+            id: project.id,
+            title: project.title,
+            caseStudyId: project.caseStudyId,
+            description: project.description,
+            evidence: project.evidence,
+            status: project.status,
+          })),
+          industries: p.experience.industries ?? [],
+          capabilities: p.experience.capabilities ?? [],
+          evidence: p.experience.evidence ?? [],
+          status: p.experience.status,
+        }
+      : null;
+
   // ─── Core Values ────────────────────────────────────────────────────────────
   const coreValues = (p.coreValues ?? [])
     .filter((v) => v.publicationStatus === "published")
@@ -105,6 +152,19 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
         }
       : null;
 
+  // ─── Corporate Numbers ─────────────────────────────────────────────────────
+  const corporateNumbers =
+    p.corporateNumbers?.publicationStatus === "published"
+      ? {
+          yearsInOperation: p.corporateNumbers.yearsInOperation,
+          clientsServed: p.corporateNumbers.clientsServed,
+          teamSize: p.corporateNumbers.teamSize,
+          productCount: p.corporateNumbers.productCount,
+          certificationCount: p.corporateNumbers.certificationCount,
+          otherFigures: p.corporateNumbers.otherFigures,
+        }
+      : null;
+
   // ─── Certifications ──────────────────────────────────────────────────────
   const certifications = (p.certifications ?? [])
     .filter((c) => c.publicationStatus === "published")
@@ -115,10 +175,31 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
       expirationDate: c.expirationDate,
     }));
 
+  // ─── Technology Stack ───────────────────────────────────────────────────────
+  const technologyStack =
+    p.technologyStack?.publicationStatus === "published"
+      ? {
+          technologies: p.technologyStack.technologies,
+        }
+      : null;
+
   // ─── Brand Assets ────────────────────────────────────────────────────────
   const brandAssets = (p.brandAssets ?? [])
     .filter((a) => a.publicationStatus === "published")
     .map((a) => ({ id: a.id, title: a.title, path: a.path, type: a.type }));
+
+  // ─── Project References ────────────────────────────────────────────────────
+  const projectReferences = (p.projectReferences ?? [])
+    .filter((project) => project.publicationStatus === "published")
+    .map((project) => ({
+      id: project.id,
+      title: project.title,
+      description: project.description,
+      caseStudyId: project.caseStudyId,
+      imagePath: project.imagePath,
+      documentPath: project.documentPath,
+      testimonial: project.testimonial,
+    }));
 
   // ─── Commercial Positioning ──────────────────────────────────────────────
   const commercialPositioning =
@@ -148,6 +229,8 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
     mission,
     vision,
     purpose,
+    history,
+    experience,
     coreValues,
     differentiators,
     capabilities,
@@ -155,8 +238,11 @@ export function resolveCompanyProfile(profile?: CompanyProfile): PublicCompanyPr
     serviceReferences,
     industryReferences,
     geographicCoverage,
+    corporateNumbers,
     certifications,
+    technologyStack,
     brandAssets,
+    projectReferences,
     commercialPositioning,
     faqs,
   };
@@ -185,12 +271,19 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
   const vision =
     p.vision?.publicationStatus === "published" ? (p.vision.description ?? null) : null;
 
+  const history =
+    p.history?.publicationStatus === "published" ? (p.history.narrative ?? null) : null;
+
   const coreValueNames = (p.coreValues ?? [])
     .filter((v) => v.publicationStatus === "published")
     .map((v) => v.name);
 
   // Brand pillars are modeled as differentiators; we also include core values as pillars
   const brandPillarNames = coreValueNames;
+
+  const capabilityNames = (p.capabilities ?? [])
+    .filter((capability) => capability.publicationStatus === "published")
+    .map((capability) => capability.name);
 
   const industryLabels = (p.industryReferences ?? []).map((i) => i.label);
 
@@ -209,6 +302,30 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
     .filter((c) => c.publicationStatus === "published")
     .map((c) => c.name);
 
+  const technologyHighlights =
+    p.technologyStack?.publicationStatus === "published"
+      ? Object.keys(p.technologyStack.technologies ?? {})
+      : [];
+
+  const projectReferenceTitles = (p.projectReferences ?? [])
+    .filter((project) => project.publicationStatus === "published")
+    .map((project) => project.title);
+
+  const publishedExperience = p.experience?.publicationStatus === "published" ? p.experience : null;
+  const experienceSummary = publishedExperience
+    ? [
+        publishedExperience.years,
+        publishedExperience.projects?.length
+          ? `${publishedExperience.projects.length} referencias oficiales documentadas`
+          : null,
+        publishedExperience.industries?.length
+          ? `${publishedExperience.industries.length} industrias referenciadas`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : null;
+
   // ─── Search answers ────────────────────────────────────────────────────────
   const whoIsFaq = (p.faqs ?? []).find((f) => f.id === "faq-quienes-somos");
   const whoIsOvi =
@@ -216,20 +333,39 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
       ? whoIsFaq.answer
       : `${brandName} es una empresa de ${tagline}.`;
 
+  const differentFaq = (p.faqs ?? []).find((f) => f.id === "faq-que-hace-diferente-ovi");
+  const whatMakesOviDifferent =
+    differentFaq?.publicationStatus === "published"
+      ? (differentFaq.answer ?? null)
+      : differentiatorTitles.length > 0
+        ? `${brandName} se diferencia por ${differentiatorTitles.join(", ")}.`
+        : null;
+
   const coverageFaq = (p.faqs ?? []).find((f) => f.id === "faq-donde-opera");
   const whereDoesOviOperate =
-    coverageFaq?.publicationStatus === "published" ? (coverageFaq.answer ?? null) : null;
+    coverageFaq?.publicationStatus === "published"
+      ? (coverageFaq.answer ?? null)
+      : geographicCoverage;
 
   const servicesFaq = (p.faqs ?? []).find((f) => f.id === "faq-que-servicios-ofrece");
   const whatServicesDoesOviProvide =
-    servicesFaq?.publicationStatus === "published" ? (servicesFaq.answer ?? null) : null;
+    servicesFaq?.publicationStatus === "published"
+      ? (servicesFaq.answer ?? null)
+      : serviceLabels.length > 0
+        ? `${brandName} presta servicios como ${joinLabels(serviceLabels)}.`
+        : null;
 
   const whyFaq = (p.faqs ?? []).find((f) => f.id === "faq-por-que-elegir-ovi");
-  const whyChooseOvi = whyFaq?.publicationStatus === "published" ? (whyFaq.answer ?? null) : null;
+  const whyChooseOvi =
+    whyFaq?.publicationStatus === "published" ? (whyFaq.answer ?? null) : whatMakesOviDifferent;
 
   const industriesFaq = (p.faqs ?? []).find((f) => f.id === "faq-que-industrias-atiende");
   const whatIndustriesDoesOviServe =
-    industriesFaq?.publicationStatus === "published" ? (industriesFaq.answer ?? null) : null;
+    industriesFaq?.publicationStatus === "published"
+      ? (industriesFaq.answer ?? null)
+      : industryLabels.length > 0
+        ? `${brandName} atiende ${joinLabels(industryLabels)}.`
+        : null;
 
   const certFaq = (p.faqs ?? []).find((f) => f.id === "faq-certificaciones");
   const whatCertificationsDoesOviHave =
@@ -237,7 +373,7 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
 
   const expFaq = (p.faqs ?? []).find((f) => f.id === "faq-experiencia");
   const whatExperienceDoesOviHave =
-    expFaq?.publicationStatus === "published" ? (expFaq.answer ?? null) : null;
+    expFaq?.publicationStatus === "published" ? (expFaq.answer ?? null) : experienceSummary;
 
   return {
     brandName,
@@ -245,15 +381,21 @@ export function resolveCompanyAIContext(profile?: CompanyProfile): CompanyAICont
     shortDescription,
     mission,
     vision,
+    history,
     coreValueNames,
     brandPillarNames,
+    capabilityNames,
     industryLabels,
     serviceLabels,
     geographicCoverage,
     differentiatorTitles,
     certificationNames,
+    technologyHighlights,
+    projectReferenceTitles,
+    experienceSummary,
     searchAnswers: {
       whoIsOvi,
+      whatMakesOviDifferent,
       whereDoesOviOperate,
       whatServicesDoesOviProvide,
       whyChooseOvi,
@@ -285,15 +427,35 @@ export function resolveCompanySearchDocument(profile?: CompanyProfile): CompanyS
     tagline: pub.tagline,
     description: pub.description,
     keywords: pub.keywords,
+    purposeText: pub.purpose?.description ?? pub.purpose?.brandPromise ?? null,
     missionText: pub.mission?.description ?? null,
     visionText: pub.vision?.description ?? null,
+    historyText: pub.history?.narrative ?? null,
+    experienceText:
+      pub.experience != null
+        ? [pub.experience.years, ...pub.experience.evidence].filter(Boolean).join(" · ")
+        : null,
     coreValueNames: pub.coreValues.map((v) => v.name),
+    capabilityNames: pub.capabilities.map((capability) => capability.name),
     differentiatorTitles: pub.differentiators.map((d) => d.title),
     industryLabels: pub.industryReferences.map((i) => i.label),
     serviceLabels: pub.serviceReferences.map((s) => s.label),
     certificationNames: pub.certifications.map((c) => c.name),
+    technologyHighlights: Object.keys(pub.technologyStack?.technologies ?? {}),
+    projectReferenceTitles: pub.projectReferences.map((project) => project.title),
+    projectReferenceDescriptions: pub.projectReferences.map((project) => project.description ?? ""),
     coverageText: pub.geographicCoverage?.description ?? null,
     faqQuestions,
     faqAnswers,
+    answerSnippets: [
+      pub.description,
+      pub.mission?.description ?? null,
+      pub.history?.narrative ?? null,
+      pub.experience?.years ?? null,
+      ...(pub.experience?.evidence ?? []),
+      ...pub.differentiators.map((d) => d.description ?? d.title),
+      ...pub.projectReferences.map((project) => project.description ?? project.title),
+      ...faqAnswers,
+    ].filter(Boolean),
   };
 }
