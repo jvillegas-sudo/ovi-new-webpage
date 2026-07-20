@@ -78,3 +78,5 @@ La estructura permite enriquecer sin romper compatibilidad:
 - activar `futureTrainingIds` y `futureRegulatoryIds` cuando existan dominios oficiales
 
 No se inventó contenido nuevo: los datos poblados provienen de componentes ya aprobados del repositorio y los campos sin respaldo oficial permanecen vacíos.
+
+Commit de implementación: `feat(ovi-knowledge): introduce governed services domain`.
