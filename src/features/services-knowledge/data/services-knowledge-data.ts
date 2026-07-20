@@ -134,8 +134,11 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
           "Entrega informe de diagnóstico operacional, mapa de flujo actual y plan de mejora con prioridades.",
       },
     ],
-    relatedProjects: [],
-    relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#3-servicios"],
+    relatedProjects: ["case-001"],
+    relatedDocuments: [
+      "docs/content/OVI_CONTENT_MASTER.md#3-servicios",
+      "docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito",
+    ],
     operationalNotes:
       "Servicio de diagnóstico para preparar iniciativas de optimización hídrica y protocolo.",
   },
@@ -250,8 +253,11 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
           "Incluye manejo seguro de productos, uso de equipos, ejecución de protocolos y evaluación de competencias.",
       },
     ],
-    relatedProjects: [],
-    relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#3-servicios"],
+    relatedProjects: ["case-001", "case-002"],
+    relatedDocuments: [
+      "docs/content/OVI_CONTENT_MASTER.md#3-servicios",
+      "src/knowledge/home/success-cases.ts",
+    ],
     operationalNotes: "Servicio orientado a estandarización operativa y reducción de reprocesos.",
   },
   "diseno-protocolo": {
@@ -404,8 +410,11 @@ const SERVICES_ENRICHMENT: Record<string, ServiceKnowledgeEnrichment> = {
           "Entrega inventario técnico, mapa de criticidad y propuesta priorizada de mantenimiento.",
       },
     ],
-    relatedProjects: [],
-    relatedDocuments: ["docs/content/OVI_CONTENT_MASTER.md#3-servicios"],
+    relatedProjects: ["case-002", "case-003"],
+    relatedDocuments: [
+      "docs/content/OVI_CONTENT_MASTER.md#3-servicios",
+      "docs/content/OVI_CONTENT_MASTER.md#1-casos-de-exito",
+    ],
     operationalNotes:
       "Servicio base para programas de mantenimiento preventivo en energía e industria.",
   },

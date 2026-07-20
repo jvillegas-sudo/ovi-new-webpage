@@ -57,7 +57,7 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
   schemaVersion: "1.0.0",
   informationStatus: "partial",
   publicationStatus: "draft",
-  lastUpdated: "2026-07-20T21:21:50.300Z",
+  lastUpdated: "2026-07-20T22:08:51.000Z",
 
   // ─── Identity ───────────────────────────────────────────────────────────────
   // Source: src/config/site.ts, company/brand/brand-pillars.md
@@ -602,6 +602,44 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
         },
       ],
     },
+    {
+      id: "excelencia-operativa",
+      title: "Excelencia operativa como objetivo continuo",
+      description:
+        "OVI mejora productividad, calidad y eficiencia a través de soluciones diseñadas para reducir fricción, retrabajo y variabilidad.",
+      evidence:
+        "El pilar 'Operational Excellence' establece explícitamente la optimización de procesos y la reducción de variabilidad como objetivos permanentes.",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "2. Operational Excellence",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "conocimiento-tecnico-aplicado",
+      title: "Conocimiento técnico convertido en soluciones aplicables",
+      description:
+        "OVI convierte conocimiento técnico en protocolos, mejores prácticas, capacitación y consultoría que los clientes pueden aplicar y repetir.",
+      evidence:
+        "El pilar 'Knowledge' define la transferencia de conocimiento útil, estandarización de mejores prácticas y formación como parte del valor entregado.",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "5. Knowledge",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
   ],
 
   // ─── Business Units ──────────────────────────────────────────────────────────
@@ -714,11 +752,14 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
   serviceReferences: [
     { serviceId: "lavado-flota", label: "Servicio de Lavado de Flota" },
     { serviceId: "limpieza-industrial", label: "Servicio de Limpieza Industrial" },
+    { serviceId: "auditoria-patio", label: "Auditoría de Patio" },
+    { serviceId: "optimizacion-hidrica", label: "Optimización Hídrica" },
     { serviceId: "diagnostico-tecnico", label: "Diagnóstico Técnico de Suciedad y Proceso" },
     { serviceId: "capacitacion-personal", label: "Capacitación Operativa" },
     { serviceId: "diseno-protocolo", label: "Diseño de Protocolo por Sector" },
     { serviceId: "mantenimiento-preventivo", label: "Mantenimiento Preventivo de Superficies" },
-    { serviceId: "optimizacion-hidrica", label: "Optimización Hídrica" },
+    { serviceId: "implementacion-protocolo", label: "Implementación de Protocolo" },
+    { serviceId: "levantamiento-activos", label: "Levantamiento de Activos" },
   ],
 
   // ─── Industry References ─────────────────────────────────────────────────────
@@ -752,11 +793,14 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
 
   // ─── Corporate Numbers ───────────────────────────────────────────────────────
   corporateNumbers: {
+    productCount: 56,
     otherFigures: {
       experiencia: "Más de 18 años",
       capacidadFlota: "Más de 7,000 unidades por mes",
       sectoresAtendidos: "7 sectores",
       casosDocumentados: "3 casos oficiales activos",
+      productosQuimicos: "56 productos",
+      servicios: "10 servicios",
     },
     publicationStatus: "published",
     verificationStatus: "source_confirmed",
@@ -774,6 +818,13 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
         sourceSection: "1. CASOS DE ÉXITO",
         verificationStatus: "source_confirmed",
         internalNote: null,
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "src/features/products/chemical-lines-data.ts",
+        sourceSection: "TOTAL_PRODUCTS",
+        verificationStatus: "source_confirmed",
+        internalNote: "56 official products confirmed from chemical-lines-data.ts TOTAL_PRODUCTS.",
       },
     ],
   },
@@ -1133,6 +1184,82 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
         },
       ],
     },
+    {
+      id: "faq-que-productos-ofrece",
+      question: "¿Qué productos químicos tiene OVI?",
+      answer:
+        "OVI tiene 56 productos químicos distribuidos en 7 líneas: industrial (17 productos), alimentos (16), institucional (11), lavandería (6), cuidado personal (4), biotecnología (2) y hotelería (pendiente). Las líneas clave son desengrasantes biodegradables, selladores de pisos, detergentes para flota, desinfectantes y productos de biotecnología.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/features/products/chemical-lines-data.ts",
+          sourceSection: "OVI_SECTORS / TOTAL_PRODUCTS",
+          verificationStatus: "source_confirmed",
+          internalNote: "56 official products confirmed from product catalog.",
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+          sourceSection: "2. PRODUCTOS",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+      ],
+    },
+    {
+      id: "faq-sostenibilidad",
+      question: "¿Cómo incorpora OVI la sostenibilidad?",
+      answer:
+        "OVI trata la sostenibilidad como criterio de ingeniería: diseña soluciones para reducir consumo de agua, químicos y residuos de proceso. Sus formulaciones son biodegradables y sus protocolos están diseñados para minimizar el impacto ambiental sin sacrificar eficiencia operativa.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "4. Sustainability",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/sectors/catalog.ts",
+          sourceSection: "sector transporte — desafios",
+          verificationStatus: "source_confirmed",
+          internalNote:
+            "Official sector challenges describe water reduction and process efficiency.",
+        },
+      ],
+    },
+    {
+      id: "faq-metodologia",
+      question: "¿Cuál es la metodología de trabajo de OVI?",
+      answer:
+        "La metodología OVI parte de diagnóstico técnico, luego diseña protocolos específicos por contaminante y sector, ejecuta con personal especializado y cierra con evidencia, KPIs y acompañamiento continuo. No recomienda soluciones sin diagnóstico previo.",
+      answerStatus: "complete",
+      publicationStatus: "published",
+      verificationStatus: "source_confirmed",
+      sources: [
+        {
+          sourceType: "brand_document",
+          sourceFile: "company/brand/brand-pillars.md",
+          sourceSection: "1. Ingeniería en Limpieza — Implica",
+          verificationStatus: "source_confirmed",
+          internalNote: null,
+        },
+        {
+          sourceType: "repository_document",
+          sourceFile: "src/knowledge/services/catalog.ts",
+          sourceSection: "diagnostico-tecnico / diseno-protocolo / implementacion-protocolo",
+          verificationStatus: "source_confirmed",
+          internalNote: "Official service sequence confirms methodology.",
+        },
+      ],
+    },
   ],
 
   // ─── Global Sources ──────────────────────────────────────────────────────────
@@ -1202,6 +1329,21 @@ export const OVI_COMPANY_PROFILE: CompanyProfile = {
       sourceSection: null,
       verificationStatus: "source_confirmed",
       internalNote: "Official industry knowledge source used for industry references.",
+    },
+    {
+      sourceType: "repository_document",
+      sourceFile: "src/features/products/chemical-lines-data.ts",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote:
+        "WO-004: Official product catalog — authoritative for 56 products across 7 sectors.",
+    },
+    {
+      sourceType: "brand_document",
+      sourceFile: "company/brand/tone-of-voice.md",
+      sourceSection: null,
+      verificationStatus: "source_confirmed",
+      internalNote: "WO-004: Official tone of voice — governs communication style and AI language.",
     },
   ],
 };

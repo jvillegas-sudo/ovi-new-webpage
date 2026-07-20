@@ -347,6 +347,404 @@ const OFFICIAL_PRODUCT_KNOWLEDGE_OVERRIDES: Record<string, ProductKnowledgeOverr
       },
     ],
   },
+
+  // ─── WO-004 Phase II enrichments ─────────────────────────────────────────────
+
+  "industrial-handsol": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Limpiador industrial en seco para manos. Remueve grasa, aceites y suciedad severa sin necesidad de agua.",
+    aliases: ["OVI Handsol"],
+    keywords: ["limpiador de manos", "handsol", "limpieza en seco", "operador industrial"],
+    customerLanguageTerms: ["limpiador para manos sin agua", "jabón industrial en seco"],
+    officialBenefits: [
+      "Sin necesidad de agua — uso directo en seco",
+      "Humecta y cuida la piel del operador",
+      "Formulación ecológica segura para uso continuado",
+      "Reduce riesgo por cambios bruscos de temperatura",
+    ],
+    differentiators: [
+      "Limpieza profunda de manos sin enjuague con agua",
+      "Cuida la piel del operador en condiciones de trabajo exigentes",
+    ],
+    relatedServices: ["capacitacion-personal"],
+    relatedProducts: ["industrial-biodex"],
+    usageInstructions:
+      "Aplicar directamente sobre manos sucias. Frotar hasta remover la suciedad. No requiere enjuague.",
+    internalNotes:
+      "WO-004 Phase II enrichment from official product catalog (src/knowledge/products/catalog.ts: ovi-handsol). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-handsol",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Handsol description, usage instructions, and benefits.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.2 Línea Industrial — PROD-010",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for product positioning in industrial line.",
+      },
+    ],
+  },
+
+  "industrial-cr-30": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Desengrasante solvente de alto poder penetrante para grasa pesada incrustada en maquinaria, motores y equipos.",
+    aliases: ["OVI CR 30"],
+    keywords: ["cr 30", "desengrasante solvente", "grasa incrustada", "maquinaria pesada"],
+    customerLanguageTerms: [
+      "solvente para grasa incrustada",
+      "limpiador de motores",
+      "desengrasante para grúas",
+    ],
+    officialBenefits: [
+      "Alta penetración sobre grasa vieja e incrustada",
+      "Fórmula solvente de acción rápida",
+      "Disponible en versión aromática (CR 30) y desodorizada (CR 30S)",
+    ],
+    differentiators: [
+      "Fórmula solvente de penetración rápida para grasa de alta compactación",
+      "Versatilidad entre versión aromática y desodorizada según requerimiento operativo",
+    ],
+    relatedServices: ["diagnostico-tecnico", "limpieza-industrial"],
+    relatedProducts: ["industrial-biodex", "industrial-jp-35"],
+    complementaryProducts: ["industrial-cr-30-s"],
+    usageInstructions:
+      "Aplicación directa o por aspersión. Usar en ambientes ventilados con EPP completo.",
+    precautions: [
+      "Usar EPP completo — guantes, gafas y protección respiratoria",
+      "Ventilación obligatoria durante la aplicación",
+      "Revisar MSDS antes de aplicar",
+    ],
+    internalNotes:
+      "WO-004 Phase II enrichment from official product catalog (src/knowledge/products/catalog.ts: ovi-cr30). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-cr30",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official CR 30 description, applications, and safety information.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.1 Químicos — PROD-007 / 2.2 Línea Industrial — PROD-017",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for CR 30 product positioning and industrial line.",
+      },
+    ],
+  },
+
+  "industrial-cr-30-s": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Desengrasante solvente de alto poder penetrante, versión desodorizada, para grasa pesada incrustada en ambientes sensibles.",
+    aliases: ["OVI CR 30S", "CR 30 S"],
+    keywords: ["cr 30s", "desengrasante solvente", "desodorizado", "grasa incrustada"],
+    customerLanguageTerms: ["solvente desodorizado para grasa", "cr 30 sin olor"],
+    officialBenefits: [
+      "Alta penetración sobre grasa vieja e incrustada",
+      "Fórmula desodorizada para ambientes sensibles a olores",
+      "Acción rápida y eficiente",
+    ],
+    differentiators: [
+      "Versión desodorizada del CR 30 para entornos donde el olor es una restricción operativa",
+    ],
+    relatedServices: ["diagnostico-tecnico", "limpieza-industrial"],
+    relatedProducts: ["industrial-cr-30", "industrial-biodex"],
+    alternativeProducts: ["industrial-cr-30"],
+    usageInstructions:
+      "Aplicación directa o por aspersión. Usar en ambientes ventilados con EPP completo.",
+    precautions: [
+      "Usar EPP completo — guantes, gafas y protección respiratoria",
+      "Ventilación obligatoria durante la aplicación",
+    ],
+    internalNotes:
+      "WO-004 Phase II enrichment. CR 30 S is the deodorized variant of CR 30 (ovi-cr30 in catalog.ts). Source: docs/content/OVI_CONTENT_MASTER.md PROD-018. Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-cr30 (desodorized variant CR 30S)",
+        verificationStatus: "source_confirmed",
+        internalNote: "CR 30 S is explicitly described as the deodorized version of ovi-cr30.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.2 Línea Industrial — PROD-018",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for CR 30 S product positioning in industrial line.",
+      },
+    ],
+  },
+
+  "institucional-ecowax": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Cera ecológica para pisos que brinda lustre y protección superficial en entornos institucionales e industriales.",
+    aliases: ["OVI Eco Wax"],
+    keywords: ["eco wax", "cera de pisos", "lustre", "protección de pisos", "institucional"],
+    customerLanguageTerms: [
+      "cera para pisos institucionales",
+      "encerador de pisos",
+      "protector de pisos",
+    ],
+    officialBenefits: [
+      "Protección y lustre duradero en pisos de alto tráfico",
+      "Facilita la limpieza diaria al crear barrera protectora",
+      "Formulación ecológica compatible con estándares ambientales",
+      "Complementa el sistema OVI Ecoseal para protección integral",
+    ],
+    differentiators: [
+      "Componente complementario del sistema OVI Ecoseal para protección de pisos",
+      "Formulación ecológica que reduce el impacto ambiental del mantenimiento de pisos",
+    ],
+    relatedServices: ["mantenimiento-preventivo"],
+    relatedProducts: ["institucional-ecoseal"],
+    complementaryProducts: ["institucional-ecoseal"],
+    usageInstructions:
+      "Aplicar con mopa o aplicador de microfibra sobre superficie limpia y seca, siguiendo protocolo OVI.",
+    internalNotes:
+      "WO-004 Phase II enrichment from official product catalog (src/knowledge/products/catalog.ts: ovi-eco-wax). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "knowledge_base_file",
+        sourceFile: "src/knowledge/products/catalog.ts",
+        sourcePage: null,
+        sourceSection: "ovi-eco-wax",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Eco Wax description, applications, and benefits.",
+      },
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.1 Químicos — PROD-006 / 2.4 Línea Institucional — PROD-051",
+        verificationStatus: "source_confirmed",
+        internalNote: "Cross-reference for Eco Wax product positioning and institutional line.",
+      },
+    ],
+  },
+
+  "biotecnologia-eco-zyme": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription: "Digestor natural biotecnológico para tratamiento de efluentes orgánicos.",
+    aliases: ["OVI Eco-Zyme"],
+    keywords: [
+      "eco-zyme",
+      "biotecnología",
+      "digestor natural",
+      "efluentes",
+      "tratamiento biológico",
+    ],
+    customerLanguageTerms: ["digestor de efluentes", "tratamiento biológico de aguas"],
+    officialBenefits: [
+      "Digestión natural de efluentes orgánicos",
+      "Reducción de carga contaminante en aguas de proceso",
+      "Formulación biotecnológica de origen natural",
+    ],
+    differentiators: [
+      "Tecnología biotecnológica aplicada al tratamiento de efluentes de proceso de limpieza",
+    ],
+    internalNotes:
+      "WO-004 Phase II enrichment from OVI_CONTENT_MASTER.md (PROD-064). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.7 Línea Biotecnología — PROD-064",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Eco-Zyme description from content master inventory.",
+      },
+    ],
+  },
+
+  "biotecnologia-eco-zyme-solid": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Tratamiento biológico sólido para grasas. Protección y restauración ambiental.",
+    aliases: ["OVI Eco-Zyme Solid"],
+    keywords: [
+      "eco-zyme solid",
+      "biotecnología",
+      "tratamiento sólido",
+      "grasas",
+      "restauración ambiental",
+    ],
+    customerLanguageTerms: ["tratamiento biológico para grasas", "digestor sólido"],
+    officialBenefits: [
+      "Tratamiento biológico sólido para remoción de grasas",
+      "Protección y restauración ambiental",
+      "Formato sólido para mayor facilidad de manejo y dosificación",
+    ],
+    differentiators: [
+      "Presentación sólida diferenciada del Eco-Zyme líquido para grasas específicas",
+    ],
+    relatedProducts: ["biotecnologia-eco-zyme"],
+    internalNotes:
+      "WO-004 Phase II enrichment from OVI_CONTENT_MASTER.md (PROD-065). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.7 Línea Biotecnología — PROD-065",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Eco-Zyme Solid description from content master inventory.",
+      },
+    ],
+  },
+
+  "cuidado-personal-biohand": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Jabón líquido desinfectante y antibacterial para higiene personal en entornos industriales e institucionales.",
+    aliases: ["OVI Biohand"],
+    keywords: ["biohand", "jabón antibacterial", "desinfectante de manos", "higiene personal"],
+    customerLanguageTerms: ["jabón desinfectante para manos", "jabón antibacterial industrial"],
+    officialBenefits: [
+      "Acción desinfectante y antibacterial en una sola aplicación",
+      "Formulación líquida para dispensadores estándar",
+      "Adecuado para uso continuo en entornos industriales e institucionales",
+    ],
+    differentiators: ["Combinación de limpieza y desinfección antibacterial en formato líquido"],
+    relatedProducts: ["cuidado-personal-biosan", "cuidado-personal-quaterhand"],
+    internalNotes:
+      "WO-004 Phase II enrichment from OVI_CONTENT_MASTER.md (PROD-054). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.5 Línea Cuidado Personal — PROD-054",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Biohand description from content master inventory.",
+      },
+    ],
+  },
+
+  "cuidado-personal-biosan": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription: "Gel sanitizante antibacterial para manos y antebrazos. Uso sin agua.",
+    aliases: ["OVI Biosan"],
+    keywords: ["biosan", "gel sanitizante", "antibacterial", "sanitizante sin agua"],
+    customerLanguageTerms: ["gel antibacterial", "sanitizante de manos sin agua"],
+    officialBenefits: [
+      "Gel sanitizante sin enjuague para uso rápido",
+      "Acción antibacterial en manos y antebrazos",
+      "Formulación de uso sin agua para puntos de control de higiene",
+    ],
+    differentiators: ["Formato gel de uso sin agua diferenciado del Biohand líquido"],
+    relatedProducts: ["cuidado-personal-biohand", "cuidado-personal-quaterhand"],
+    internalNotes:
+      "WO-004 Phase II enrichment from OVI_CONTENT_MASTER.md (PROD-055). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.5 Línea Cuidado Personal — PROD-055",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Biosan description from content master inventory.",
+      },
+    ],
+  },
+
+  "cuidado-personal-quaterhand": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription:
+      "Jabón líquido desinfectante y antibacterial con amonio cuaternario para higiene de alto nivel.",
+    aliases: ["OVI Quaterhand"],
+    keywords: ["quaterhand", "amonio cuaternario", "desinfectante de manos", "antibacterial"],
+    customerLanguageTerms: [
+      "jabón con amonio cuaternario",
+      "desinfectante de alto nivel para manos",
+    ],
+    officialBenefits: [
+      "Desinfección de alto nivel por amonio cuaternario",
+      "Acción antibacterial potenciada",
+      "Adecuado para entornos de alto requerimiento sanitario",
+    ],
+    differentiators: [
+      "Formulación con amonio cuaternario para mayor poder desinfectante frente al Biohand estándar",
+    ],
+    relatedProducts: ["cuidado-personal-biohand", "cuidado-personal-biosan"],
+    internalNotes:
+      "WO-004 Phase II enrichment from OVI_CONTENT_MASTER.md (PROD-057). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.5 Línea Cuidado Personal — PROD-057",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Quaterhand description from content master inventory.",
+      },
+    ],
+  },
+
+  "cuidado-personal-biosoap": {
+    informationStatus: "partial",
+    verificationStatus: "source_confirmed",
+    publicationStatus: "pending_review",
+    shortDescription: "Jabón líquido antibacterial con aroma para higiene personal.",
+    aliases: ["OVI Biosoap"],
+    keywords: ["biosoap", "jabón con aroma", "antibacterial", "higiene personal"],
+    customerLanguageTerms: ["jabón antibacterial aromático", "jabón de manos con fragancia"],
+    officialBenefits: [
+      "Acción antibacterial con fragancia agradable",
+      "Formulación líquida para dispensadores estándar",
+      "Adecuado para instalaciones institucionales con atención al usuario",
+    ],
+    differentiators: [
+      "Incorpora aroma para mejorar la experiencia del usuario en espacios institucionales",
+    ],
+    relatedProducts: ["cuidado-personal-biohand"],
+    internalNotes:
+      "WO-004 Phase II enrichment from OVI_CONTENT_MASTER.md (PROD-056). Pending editorial publication.",
+    sourceReferences: [
+      {
+        sourceType: "repository_document",
+        sourceFile: "docs/content/OVI_CONTENT_MASTER.md",
+        sourcePage: null,
+        sourceSection: "2.5 Línea Cuidado Personal — PROD-056",
+        verificationStatus: "source_confirmed",
+        internalNote: "Official Biosoap description from content master inventory.",
+      },
+    ],
+  },
 };
 
 function applyProductKnowledgeOverride(record: ProductKnowledge): ProductKnowledge {
